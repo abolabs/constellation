@@ -34,3 +34,6 @@ Route::resource('hosting_types', App\Http\Controllers\API\HostingTypeAPIControll
 
 
 Route::resource('hostings', App\Http\Controllers\API\HostingAPIController::class);
+
+
+Route::resource('teams', App\Http\Controllers\API\TeamAPIController::class);

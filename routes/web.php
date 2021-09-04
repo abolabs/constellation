@@ -60,3 +60,6 @@ Route::resource('hostingTypes', App\Http\Controllers\HostingTypeController::clas
 
 
 Route::resource('hostings', App\Http\Controllers\HostingController::class);
+
+
+Route::resource('teams', App\Http\Controllers\TeamController::class);

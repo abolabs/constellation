@@ -1,5 +1,7 @@
-* text=auto
+* text=auto eol=lf
 *.css linguist-vendored
 *.scss linguist-vendored
 *.js linguist-vendored
+*.sh eol=lf
+*.php eol=lf
 CHANGELOG.md export-ignore

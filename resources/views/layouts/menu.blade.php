@@ -20,3 +20,9 @@
         <span>Hostings</span>
     </a>
 </li>
+<li class="nav-item {{ Request::is('teams*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('teams.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Teams</span>
+    </a>
+</li>

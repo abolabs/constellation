@@ -24,6 +24,18 @@
         "inView": true
     },
     {
+        "name": "manager",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "created_at",
         "dbType": "timestamp",
         "htmlType": "date",
@@ -47,3 +59,4 @@
         "inIndex": false,
         "inView": true
     }
+]
