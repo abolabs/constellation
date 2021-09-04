@@ -33,3 +33,9 @@
         <span>Applications</span>
     </a>
 </li>
+<li class="nav-item {{ Request::is('services*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('services.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Services</span>
+    </a>
+</li>

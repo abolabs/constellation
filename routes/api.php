@@ -42,3 +42,6 @@ Route::resource('teams', App\Http\Controllers\API\TeamAPIController::class);
 
 
 Route::resource('applications', App\Http\Controllers\API\ApplicationAPIController::class);
+
+
+Route::resource('services', App\Http\Controllers\API\ServiceAPIController::class);

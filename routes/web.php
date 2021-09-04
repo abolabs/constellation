@@ -68,3 +68,6 @@ Route::resource('teams', App\Http\Controllers\TeamController::class);
 
 
 Route::resource('applications', App\Http\Controllers\ApplicationController::class);
+
+
+Route::resource('services', App\Http\Controllers\ServiceController::class);
