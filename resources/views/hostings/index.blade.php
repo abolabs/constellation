@@ -2,7 +2,7 @@
 
 @section('content')
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">Hosting Types</li>
+        <li class="breadcrumb-item">Hostings</li>
     </ol>
     <div class="container-fluid">
         <div class="animated fadeIn">
@@ -12,11 +12,11 @@
                      <div class="card">
                          <div class="card-header">
                              <i class="fa fa-align-justify"></i>
-                             HostingTypes
-                             <a class="pull-right" href="{{ route('hostingTypes.create') }}"><i class="fa fa-plus-square fa-lg"></i></a>
+                             Hostings
+                             <a class="pull-right" href="{{ route('hostings.create') }}"><i class="fa fa-plus-square fa-lg"></i></a>
                          </div>
                          <div class="card-body">
-                             @include('hosting_types.table')
+                             @include('hostings.table')
                               <div class="pull-right mr-3">
                                      
                               </div>

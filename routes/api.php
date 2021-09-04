@@ -19,7 +19,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::resource('environnements', App\Http\Controllers\API\environnementAPIController::class);
 
 
-Route::resource('hosting_types', App\Http\Controllers\API\hosting_typeAPIController::class);
+
+
+Route::resource('environnements', App\Http\Controllers\API\EnvironnementAPIController::class);
+
+
+Route::resource('hosting_types', App\Http\Controllers\API\HostingTypeAPIController::class);
+
+
+
+
+
+
+Route::resource('hostings', App\Http\Controllers\API\HostingAPIController::class);

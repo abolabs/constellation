@@ -37,19 +37,26 @@ Route::post(
     '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generateFromFile'
 )->name('io_generator_builder_generate_from_file');
 
-Route::resource('environnements', App\Http\Controllers\environnementController::class);
 
 
-Route::resource('hostingTypes', App\Http\Controllers\hosting_typeController::class);
 
 
-Route::resource('hostingTypes', App\Http\Controllers\hosting_typeController::class);
 
 
-Route::resource('hostingTypes', App\Http\Controllers\hosting_typeController::class);
 
 
-Route::resource('hostingTypes', App\Http\Controllers\hosting_typeController::class);
 
 
-Route::resource('hostingTypes', App\Http\Controllers\hosting_typeController::class);
+
+
+Route::resource('environnements', App\Http\Controllers\EnvironnementController::class);
+
+
+Route::resource('hostingTypes', App\Http\Controllers\HostingTypeController::class);
+
+
+
+
+
+
+Route::resource('hostings', App\Http\Controllers\HostingController::class);
