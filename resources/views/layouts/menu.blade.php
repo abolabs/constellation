@@ -61,3 +61,9 @@
         <span>App Instances</span>
     </a>
 </li>
+<li class="nav-item {{ Request::is('appInstanceDependencies*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('appInstanceDependencies.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>App Instance Dependencies</span>
+    </a>
+</li>

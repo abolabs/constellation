@@ -26,7 +26,7 @@ class AppInstance extends Model
 
     use HasFactory;
 
-    public $table = 'app_instances';
+    public $table = 'app_instance';
     
 
     protected $dates = ['deleted_at'];

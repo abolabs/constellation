@@ -90,3 +90,6 @@ Route::resource('serviceVersionDependencies', App\Http\Controllers\ServiceVersio
 
 
 Route::resource('appInstances', App\Http\Controllers\AppInstanceController::class);
+
+
+Route::resource('appInstanceDependencies', App\Http\Controllers\AppInstanceDependenciesController::class);

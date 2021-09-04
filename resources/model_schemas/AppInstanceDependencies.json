@@ -1,0 +1,70 @@
+[
+    {
+        "name": "id",
+        "dbType": "increments",
+        "htmlType": "number",
+        "validations": "",
+        "searchable": true,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "instance_id",
+        "dbType": "integer:unsigned:foreign,app_instance,id",
+        "htmlType": "select,1,2,3",
+        "validations": "",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "instance_dep_id",
+        "dbType": "integer:unsigned:foreign,app_instance,id",
+        "htmlType": "select,1,2,3",
+        "validations": "",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "created_at",
+        "dbType": "timestamp",
+        "htmlType": "date",
+        "validations": "",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": true
+    },
+    {
+        "name": "updated_at",
+        "dbType": "timestamp",
+        "htmlType": "date",
+        "validations": "",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,AppInstance,id,instance_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,AppInstance,id,instance_dep_id"
+    }
+]

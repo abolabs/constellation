@@ -62,3 +62,6 @@ Route::resource('service_version_dependencies', App\Http\Controllers\API\Service
 
 
 Route::resource('app_instances', App\Http\Controllers\API\AppInstanceAPIController::class);
+
+
+Route::resource('app_instance_dependencies', App\Http\Controllers\API\AppInstanceDependenciesAPIController::class);
