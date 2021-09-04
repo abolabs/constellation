@@ -74,3 +74,14 @@ Route::resource('services', App\Http\Controllers\ServiceController::class);
 
 
 Route::resource('serviceVersions', App\Http\Controllers\ServiceVersionController::class);
+
+
+
+
+
+
+
+
+
+
+Route::resource('serviceVersionDependencies', App\Http\Controllers\ServiceVersionDependenciesController::class);

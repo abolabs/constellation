@@ -48,3 +48,12 @@ Route::resource('services', App\Http\Controllers\API\ServiceAPIController::class
 
 
 Route::resource('service_versions', App\Http\Controllers\API\ServiceVersionAPIController::class);
+
+
+
+
+
+
+
+
+Route::resource('service_version_dependencies', App\Http\Controllers\API\ServiceVersionDependenciesAPIController::class);

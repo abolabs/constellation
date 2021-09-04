@@ -2,24 +2,24 @@
 
 namespace App\Repositories;
 
-use App\Models\Team;
+use App\Models\ServiceVersionDependencies;
 use App\Repositories\BaseRepository;
 
 /**
- * Class TeamRepository
+ * Class ServiceVersionDependenciesRepository
  * @package App\Repositories
- * @version September 4, 2021, 4:07 pm UTC
+ * @version September 4, 2021, 4:37 pm UTC
 */
 
-class TeamRepository extends BaseRepository
+class ServiceVersionDependenciesRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
         'id',
-        'name',
-        'manager'
+        'service_version_id',
+        'service_version_dependency_id'
     ];
 
     /**
@@ -37,6 +37,6 @@ class TeamRepository extends BaseRepository
      **/
     public function model()
     {
-        return Team::class;
+        return ServiceVersionDependencies::class;
     }
 }

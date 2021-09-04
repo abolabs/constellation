@@ -45,3 +45,12 @@
         <span>Service Versions</span>
     </a>
 </li>
+
+
+
+<li class="nav-item {{ Request::is('serviceVersionDependencies*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('serviceVersionDependencies.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Service Version Dependencies</span>
+    </a>
+</li>
