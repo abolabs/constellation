@@ -19,49 +19,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-
-
-
-
-Route::resource('environnements', App\Http\Controllers\API\EnvironnementAPIController::class);
-
-
-Route::resource('hosting_types', App\Http\Controllers\API\HostingTypeAPIController::class);
-
-
-
-
-
-
-Route::resource('hostings', App\Http\Controllers\API\HostingAPIController::class);
-
-
-Route::resource('teams', App\Http\Controllers\API\TeamAPIController::class);
-
-
-
-
-Route::resource('applications', App\Http\Controllers\API\ApplicationAPIController::class);
-
-
-Route::resource('services', App\Http\Controllers\API\ServiceAPIController::class);
-
-
-Route::resource('service_versions', App\Http\Controllers\API\ServiceVersionAPIController::class);
-
-
-
-
-
-
-
-
-Route::resource('service_version_dependencies', App\Http\Controllers\API\ServiceVersionDependenciesAPIController::class);
-
-
-
-
-Route::resource('app_instances', App\Http\Controllers\API\AppInstanceAPIController::class);
-
-
-Route::resource('app_instance_dependencies', App\Http\Controllers\API\AppInstanceDependenciesAPIController::class);
+Route::resource('environnements',  EnvironnementAPIController::class);
+Route::resource('hostingTypes', HostingTypeAPIController::class);
+Route::resource('hostings', HostingAPIController::class);
+Route::resource('teams', TeamAPIController::class);
+Route::resource('applications', ApplicationAPIController::class);
+Route::resource('services', ServiceAPIController::class);
+Route::resource('serviceVersions', ServiceVersionAPIController::class);
+Route::resource('service_version_dependencies', ServiceVersionDependenciesAPIController::class);
+Route::resource('app_instances', AppInstanceAPIController::class);
+Route::resource('appInstanceDependencies', AppInstanceDependenciesAPIController::class);

@@ -22,7 +22,9 @@
         "laravel/ui": "3.0",
         "laravelcollective/html": "^6.2",
         "predis/predis": "1.1.7",
-        "yajra/laravel-datatables": "^1.5"
+        "swagger-api/swagger-ui": "^3.52",
+        "yajra/laravel-datatables": "^1.5",
+        "zircote/swagger-php": "2.*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
