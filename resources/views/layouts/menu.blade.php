@@ -54,3 +54,10 @@
         <span>Service Version Dependencies</span>
     </a>
 </li>
+
+<li class="nav-item {{ Request::is('appInstances*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('appInstances.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>App Instances</span>
+    </a>
+</li>
