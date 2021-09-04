@@ -53,7 +53,7 @@ class Team extends Model
 
 
 
-    public $fillable = [
+    public $fillable = [        
         'name',
         'manager'
     ];

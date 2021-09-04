@@ -8,7 +8,7 @@
         "fillable": false,
         "primary": true,
         "inForm": false,
-        "inIndex": false,
+        "inIndex": true,
         "inView": true
     },
     {

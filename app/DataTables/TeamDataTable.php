@@ -65,6 +65,7 @@ class TeamDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id',
             'name',
             'manager'
         ];

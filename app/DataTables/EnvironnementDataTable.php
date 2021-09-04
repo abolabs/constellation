@@ -65,6 +65,7 @@ class EnvironnementDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id',
             'name'
         ];
     }

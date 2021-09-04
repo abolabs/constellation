@@ -4,7 +4,7 @@
         "dbType": "increments",
         "htmlType": "number",
         "validations": "",
-        "searchable": true,
+        "searchable": false,
         "fillable": false,
         "primary": true,
         "inForm": false,

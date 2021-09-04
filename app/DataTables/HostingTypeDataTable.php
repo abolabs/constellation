@@ -65,6 +65,7 @@ class HostingTypeDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id',
             'name',
             'description'
         ];
