@@ -1,0 +1,12 @@
+<li class="nav-item {{ Request::is('environnements*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('environnements.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Environnements</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('hostingTypes*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('hostingTypes.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Hosting Types</span>
+    </a>
+</li>
