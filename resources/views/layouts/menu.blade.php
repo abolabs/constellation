@@ -26,3 +26,10 @@
         <span>Teams</span>
     </a>
 </li>
+
+<li class="nav-item {{ Request::is('applications*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('applications.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Applications</span>
+    </a>
+</li>
