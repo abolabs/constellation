@@ -39,3 +39,9 @@
         <span>Services</span>
     </a>
 </li>
+<li class="nav-item {{ Request::is('serviceVersions*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('serviceVersions.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Service Versions</span>
+    </a>
+</li>
