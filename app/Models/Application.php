@@ -76,7 +76,8 @@ class Application extends Model
      * @var array
      */
     public static $rules = [
-        
+        'name' => 'required',
+        'team_id' => 'required|exists:team,id',
     ];
 
     

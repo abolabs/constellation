@@ -83,7 +83,8 @@ class Hosting extends Model
      * @var array
      */
     public static $rules = [
-        
+        'name' => 'required',
+        'hosting_type_id' => 'required|exists:hosting_type,id',
     ];
 
     /**

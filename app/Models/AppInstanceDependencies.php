@@ -77,7 +77,8 @@ class AppInstanceDependencies extends Model
      * @var array
      */
     public static $rules = [
-        
+        'instance_id' => 'required|exists:instance,id',
+        'instance_dep_id' => 'required|exists:instance,id',
     ];
 
     /**

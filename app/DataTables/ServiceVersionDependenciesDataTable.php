@@ -66,8 +66,8 @@ class ServiceVersionDependenciesDataTable extends DataTable
     {
         return [
             'id',
-            'id_service_version',
-            'id_service_version_dependency'
+            'service_version_id',
+            'service_version_dependency_id'
         ];
     }
 

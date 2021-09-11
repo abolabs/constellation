@@ -75,7 +75,8 @@ class Team extends Model
      * @var array
      */
     public static $rules = [
-        
+        'name' => 'required',
+        'manager' => 'required',
     ];
 
     

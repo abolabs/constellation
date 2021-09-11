@@ -12,84 +12,40 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+/**
+ * Administration
+ */
 Route::get('generator_builder', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@builder')->name('io_generator_builder');
-
 Route::get('field_template', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@fieldTemplate')->name('io_field_template');
-
 Route::get('relation_field_template', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@relationFieldTemplate')->name('io_relation_field_template');
-
 Route::post('generator_builder/generate', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generate')->name('io_generator_builder_generate');
-
 Route::post('generator_builder/rollback', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@rollback')->name('io_generator_builder_rollback');
-
 Route::post(
     'generator_builder/generate-from-file',
     '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generateFromFile'
 )->name('io_generator_builder_generate_from_file');
 
 
+Route::group(['middleware' => 'auth'], function () {
 
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);    
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');    
 
+    /**
+     * Ressource
+     */
+    Route::resource('environnements', App\Http\Controllers\EnvironnementController::class);
+    Route::resource('hostingTypes', App\Http\Controllers\HostingTypeController::class);
+    Route::resource('hostings', App\Http\Controllers\HostingController::class);
+    Route::resource('teams', App\Http\Controllers\TeamController::class);
+    Route::resource('applications', App\Http\Controllers\ApplicationController::class);
+    Route::resource('services', App\Http\Controllers\ServiceController::class);
+    Route::resource('serviceVersions', App\Http\Controllers\ServiceVersionController::class);
+    Route::resource('serviceVersionDependencies', App\Http\Controllers\ServiceVersionDependenciesController::class);
+    Route::resource('appInstances', App\Http\Controllers\AppInstanceController::class);
+    Route::resource('appInstanceDependencies', App\Http\Controllers\AppInstanceDependenciesController::class);
 
-
-
-
-
-
-
-
-
-Route::resource('environnements', App\Http\Controllers\EnvironnementController::class);
-
-
-Route::resource('hostingTypes', App\Http\Controllers\HostingTypeController::class);
-
-
-
-
-
-
-Route::resource('hostings', App\Http\Controllers\HostingController::class);
-
-
-Route::resource('teams', App\Http\Controllers\TeamController::class);
-
-
-
-
-Route::resource('applications', App\Http\Controllers\ApplicationController::class);
-
-
-Route::resource('services', App\Http\Controllers\ServiceController::class);
-
-
-Route::resource('serviceVersions', App\Http\Controllers\ServiceVersionController::class);
-
-
-
-
-
-
-
-
-
-
-Route::resource('serviceVersionDependencies', App\Http\Controllers\ServiceVersionDependenciesController::class);
-
-
-
-
-Route::resource('appInstances', App\Http\Controllers\AppInstanceController::class);
-
-
-Route::resource('appInstanceDependencies', App\Http\Controllers\AppInstanceDependenciesController::class);
+});

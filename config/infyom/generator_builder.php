@@ -4,7 +4,7 @@ return [
 
     'views' => [
 
-        'builder' => 'generator-builder::builder',
+        'builder' => 'infyom.generator-builder.builder',
 
         'field-template' => 'generator-builder::field-template',
 

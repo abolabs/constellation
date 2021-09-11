@@ -37319,6 +37319,45 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
+window.selector = __webpack_require__(/*! ./selector */ "./resources/js/selector.js");
+
+/***/ }),
+
+/***/ "./resources/js/selector.js":
+/*!**********************************!*\
+  !*** ./resources/js/selector.js ***!
+  \**********************************/
+/*! exports provided: make */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "make", function() { return make; });
+function make(select, url, id_key, text_key) {
+  $(document).ready(function () {
+    $(select).select2({
+      ajax: {
+        url: url,
+        dataType: 'json',
+        // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+        processResults: function processResults(response) {
+          var data = [];
+          response.data.forEach(function (value) {
+            data.push({
+              id: value[id_key],
+              text: value[text_key]
+            });
+          }); // Transforms the top-level key of the response object from 'items' to 'results'
+
+          return {
+            results: data
+          };
+        }
+      }
+    });
+  });
+}
+
 /***/ }),
 
 /***/ "./resources/sass/app.scss":

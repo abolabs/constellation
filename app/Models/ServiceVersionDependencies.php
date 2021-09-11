@@ -51,7 +51,8 @@ class ServiceVersionDependencies extends Model
      * @var array
      */
     public static $rules = [
-        
+        'service_version_id' => 'required|exists:service_version,id',
+        'service_version_dependency_id' => 'required|exists:service_version,id',
     ];
 
     /**

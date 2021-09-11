@@ -20,7 +20,7 @@ class CreateAppInstanceTable extends Migration
             $table->integer('service_version_id')->unsigned();
             $table->integer('environnement_id')->unsigned();
             $table->string('url');
-            $table->boolean('statut');
+            $table->boolean('statut')->default(0);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('application_id')->references('id')->on('application');

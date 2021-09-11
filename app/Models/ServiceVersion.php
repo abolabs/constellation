@@ -76,7 +76,7 @@ class ServiceVersion extends Model
      * @var array
      */
     public static $rules = [
-        
+        'service_id' => 'required|exists:service,id',
     ];
 
     

@@ -6,3 +6,15 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.table-bordered{
+  margin-top: 0.5em;
+}
+
+.app-header .navbar-brand{
+  height: auto;
+}
+
+.card-body label {
+  font-weight: bold;
+}

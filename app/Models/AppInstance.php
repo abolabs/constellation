@@ -28,10 +28,7 @@ class AppInstance extends Model
 
     public $table = 'app_instance';
     
-
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'application_id',
@@ -61,7 +58,10 @@ class AppInstance extends Model
      * @var array
      */
     public static $rules = [
-        
+        'application_id' => 'required|exists:application,id',
+        'service_version_id' => 'required|exists:service_version,id',
+        'environnement_id' => 'required|exists:environnement,id',
+        'url' => 'url',
     ];
 
     /**
