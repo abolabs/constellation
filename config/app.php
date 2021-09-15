@@ -166,7 +166,8 @@ return [
          * Package Service Providers...
          */
         InfyOm\GeneratorBuilder\GeneratorBuilderServiceProvider::class,
-        InfyOm\RoutesExplorer\RoutesExplorerServiceProvider::class,                
+        InfyOm\RoutesExplorer\RoutesExplorerServiceProvider::class,       
+        Spatie\Permission\PermissionServiceProvider::class,         
         /*
          * Application Service Providers...
          */

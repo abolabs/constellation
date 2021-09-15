@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);    
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');    
+
+    /**
+     * Users & permissions
+     */
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
 
     /**
      * Ressource
