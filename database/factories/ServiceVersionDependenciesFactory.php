@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\ServiceVersion;
 use App\Models\ServiceVersionDependencies;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,10 +23,10 @@ class ServiceVersionDependenciesFactory extends Factory
     public function definition()
     {
         return [
-            'service_version_id' => $this->faker->randomDigitNotNull,
-        'service_version_dependency_id' => $this->faker->randomDigitNotNull,
-        'created_at' => $this->faker->date('Y-m-d H:i:s'),
-        'updated_at' => $this->faker->date('Y-m-d H:i:s')
+            'service_version_id' => ServiceVersion::factory()->create()->id,
+            'service_version_dependency_id' => ServiceVersion::factory()->create()->id,
+            'created_at' => $this->faker->date('Y-m-d H:i:s'),
+            'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }

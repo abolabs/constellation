@@ -2,6 +2,8 @@
 
 return [
 
+    'super-admin-role' => 'Admin',
+
     'models' => [
 
         /*
