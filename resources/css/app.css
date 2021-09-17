@@ -1,3 +1,9 @@
 .table-bordered{
   margin-top: 0.5em;
 }
+
+@media all and (-ms-high-contrast: none) {
+  .app-body{
+    margin-top: 0 !important;
+  }
+}

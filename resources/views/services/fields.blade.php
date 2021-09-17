@@ -1,7 +1,14 @@
 <!-- Team Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('team_id', 'Team Id:') !!}
-    {!! Form::select('team_id', ['1' => '1', '2' => '2', '3' => '3'], null, ['class' => 'form-control']) !!}
+    <select name="team_id" id="team_id" class="form-control">
+    @if (isset($service->team->id))
+        <option value="{{$service->team->id}}">[{{$service->team->id}}] {{$service->team->name}}</option>
+    @endif
+    </select>
+    <script>
+        window.selector.make("#team_id", "/api/teams", "id", "name")    
+    </script> 
 </div>
 
 <!-- Name Field -->

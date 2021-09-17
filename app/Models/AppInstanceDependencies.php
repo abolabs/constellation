@@ -77,22 +77,30 @@ class AppInstanceDependencies extends Model
      * @var array
      */
     public static $rules = [
-        'instance_id' => 'required|exists:instance,id',
-        'instance_dep_id' => 'required|exists:instance,id',
+        'instance_id' => 'required|exists:app_instance,id',
+        'instance_dep_id' => 'required|exists:app_instance,id',
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      **/
-    public function appInstances()
+    public function appInstance()
     {
-        return $this->hasMany(\App\Models\AppInstance::class, 'id', 'instance_id');
+        return $this->hasOne(\App\Models\AppInstance::class, 'id', 'instance_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     **/
+    public function appInstanceDep()
+    {
+        return $this->hasOne(\App\Models\AppInstance::class, 'id', 'instance_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function appInstance1s()
+    public function appInstanceDeps()
     {
         return $this->hasMany(\App\Models\AppInstance::class, 'id', 'instance_dep_id');
     }

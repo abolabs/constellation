@@ -56,6 +56,21 @@ class ServiceVersionDependencies extends Model
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     **/
+    public function serviceVersion()
+    {
+        return $this->hasOne(\App\Models\ServiceVersion::class, 'id', 'service_version_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     **/
+    public function serviceVersionDep()
+    {
+        return $this->hasOne(\App\Models\ServiceVersion::class, 'id', 'service_version_dependency_id');
+    }
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function serviceVersions()
@@ -66,7 +81,7 @@ class ServiceVersionDependencies extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function serviceVersion1s()
+    public function serviceVersionDeps()
     {
         return $this->hasMany(\App\Models\ServiceVersion::class, 'id', 'service_version_dependency_id');
     }

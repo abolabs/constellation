@@ -87,5 +87,11 @@ class Service extends Model
         'git_repo' => ['required', 'regex:/((git|ssh|http(s)?)|(git@[\w\.]+))(:(\/\/)?)([\w\.@\:\/\-~]+)(\.git)( \/)?/']
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function team()
+    {
+        return $this->hasOne(\App\Models\Team::class, 'id', 'team_id');
+    }
 }

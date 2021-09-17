@@ -1,7 +1,11 @@
 <!-- Service Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('service_id', 'Service:') !!}    
-    <select name="service_id" id="service_id" class="form-control"></select>
+    <select name="service_id" id="service_id" class="form-control">
+    @if (isset($serviceVersion->service->id))
+        <option value="{{$serviceVersion->service->id}}">[{{$serviceVersion->service->id}}] {{$serviceVersion->service->name}}</option>
+    @endif
+    </select>
     <script>
         window.selector.make("#service_id", "/api/services", "id", "name")    
     </script>       

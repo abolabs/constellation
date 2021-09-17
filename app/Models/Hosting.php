@@ -90,8 +90,8 @@ class Hosting extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function hostingTypes()
+    public function hostingType()
     {
-        return $this->hasMany(\App\Models\HostingType::class, 'id', 'hosting_type_id');
+        return $this->hasOne(\App\Models\HostingType::class, 'id', 'hosting_type_id');
     }
 }

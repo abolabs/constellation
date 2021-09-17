@@ -80,5 +80,11 @@ class Application extends Model
         'team_id' => 'required|exists:team,id',
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function team()
+    {
+        return $this->hasOne(\App\Models\Team::class, 'id', 'team_id');
+    }
 }

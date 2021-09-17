@@ -79,5 +79,11 @@ class ServiceVersion extends Model
         'service_id' => 'required|exists:service,id',
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function service()
+    {
+        return $this->hasOne(\App\Models\Service::class, 'id', 'service_id');
+    }
 }
