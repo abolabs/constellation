@@ -50,10 +50,7 @@ class AppInstanceDependencies extends Model
 
     public $table = 'app_instance_dep';
     
-
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'instance_id',

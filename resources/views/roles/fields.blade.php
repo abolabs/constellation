@@ -5,16 +5,13 @@
 </div>
 
 <!-- Permission Field -->
-<div class="col-xs-12 col-sm-12 col-md-12">
-    <div class="form-group">
-        {!! Form::label('permission', 'Permission:') !!}
-        <br />
-        @foreach($permission as $value)
-            <label>{{ Form::checkbox('permission[]', $value->id, isset($rolePermissions) && in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-            {{ $value->name }}</label>
-        <br/>
-        @endforeach
-    </div>
+<div class="col-xs-12 col-sm-12 col-md-12 form-group">    
+    {!! Form::label('permission', 'Permission:') !!}
+    <br />
+    @foreach($permission as $value)
+        <p>{{ Form::checkbox('permission[]', $value->id, isset($rolePermissions) && in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
+        {{ $value->name }}</p>    
+    @endforeach    
 </div>
 
 <!-- Submit Field -->
