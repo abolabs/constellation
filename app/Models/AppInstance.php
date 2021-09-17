@@ -67,24 +67,24 @@ class AppInstance extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function serviceVersions()
+    public function serviceVersion()
     {
-        return $this->hasMany(\App\Models\ServiceVersion::class, 'id', 'service_version_id');
+        return $this->hasOne(\App\Models\ServiceVersion::class, 'id', 'service_version_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function environnements()
+    public function environnement()
     {
-        return $this->hasMany(\App\Models\Environnement::class, 'id', 'environnement_id');
+        return $this->hasOne(\App\Models\Environnement::class, 'id', 'environnement_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function applications()
+    public function application()
     {
-        return $this->hasMany(\App\Models\Application::class, 'id', 'application_id');
+        return $this->hasOne(\App\Models\Application::class, 'id', 'application_id');
     }
 }
