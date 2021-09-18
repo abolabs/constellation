@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class AppInstance
@@ -20,8 +21,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $url
  * @property boolean $statut
  */
-class AppInstance extends Model
+class AppInstance extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     use SoftDeletes;
 
     use HasFactory;

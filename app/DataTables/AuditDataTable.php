@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
-use App\Models\Service;
+use App\Models\Audit;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class ServiceDataTable extends DataTable
+class AuditDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -18,16 +18,16 @@ class ServiceDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'services.datatables_actions');
+        return $dataTable->addColumn('action', 'audits.datatables_actions');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Service $model
+     * @param \App\Models\Audit $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Service $model)
+    public function query(Audit $model)
     {
         return $model->newQuery();
     }
@@ -48,7 +48,7 @@ class ServiceDataTable extends DataTable
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
                 'buttons'   => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
+//                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
                     ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
                     ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
                     ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
@@ -65,7 +65,7 @@ class ServiceDataTable extends DataTable
                             });
                         });
                     }
-                ' 
+                '                
             ]);
     }
 
@@ -77,10 +77,17 @@ class ServiceDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'id',
-            'team_id',
-            'name',
-            'git_repo'
+            //'user_type',
+            'user_id',
+            'event',
+            'auditable_type',
+            'auditable_id',
+            'old_values',
+            'new_values',
+            //'url',
+            'ip_address',
+            //'user_agent',
+            //'tags'
         ];
     }
 
@@ -91,6 +98,6 @@ class ServiceDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'services_datatable_' . time();
+        return 'audits_datatable_' . time();
     }
 }

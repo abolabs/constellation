@@ -57,3 +57,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('appInstanceDependencies', App\Http\Controllers\AppInstanceDependenciesController::class);
 
 });
+
+Route::resource('audits', App\Http\Controllers\AuditController::class);

@@ -67,6 +67,13 @@
             </a>
         </li>
 
+        <li class="nav-item {{ Request::is('audits*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('audits.index') }}">
+                <i class="nav-icon fa fa-history"></i>
+                <span>Audits</span>
+            </a>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" href="{{ route('io_generator_builder') }}" target="_blank">
                 <i class="nav-icon fa fa-external-link"></i>Generateur

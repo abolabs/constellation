@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class ServiceVersionDependencies
@@ -16,8 +17,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer $service_version_id
  * @property integer $service_version_dependency_id
  */
-class ServiceVersionDependencies extends Model
+class ServiceVersionDependencies extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    
     use SoftDeletes;
 
     use HasFactory;

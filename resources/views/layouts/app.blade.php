@@ -87,8 +87,8 @@
 </div>
 <footer class="app-footer">
     <div>
-        <a href="https://infyom.com">InfyOm </a>
-        <span>&copy; 2019 InfyOmLabs.</span>
+        <a href="https://gitlab.com/abolabs">Abolabs </a>
+        <span>&copy; 2021 </span>
     </div>
     <div class="ml-auto">
         <span>Powered by</span>

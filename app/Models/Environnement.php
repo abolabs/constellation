@@ -5,7 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @SWG\Definition(
  *      definition="Environnement",
@@ -35,8 +35,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *      )
  * )
  */
-class Environnement extends Model
+class Environnement extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     use SoftDeletes;
 
     use HasFactory;

@@ -168,6 +168,8 @@ return [
         InfyOm\GeneratorBuilder\GeneratorBuilderServiceProvider::class,
         InfyOm\RoutesExplorer\RoutesExplorerServiceProvider::class,       
         Spatie\Permission\PermissionServiceProvider::class,         
+        OwenIt\Auditing\AuditingServiceProvider::class,
+        
         /*
          * Application Service Providers...
          */

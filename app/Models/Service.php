@@ -5,7 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @SWG\Definition(
  *      definition="Service",
@@ -46,8 +46,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *      )
  * )
  */
-class Service extends Model
+class Service extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+    
     use SoftDeletes;
 
     use HasFactory;
