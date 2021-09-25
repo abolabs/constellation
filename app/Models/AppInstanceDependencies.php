@@ -52,7 +52,7 @@ class AppInstanceDependencies extends Model implements Auditable
     use HasFactory;
 
     public $table = 'app_instance_dep';
-    
+
     protected $dates = ['deleted_at'];
 
     public $fillable = [
@@ -86,7 +86,7 @@ class AppInstanceDependencies extends Model implements Auditable
      **/
     public function appInstance()
     {
-        return $this->hasOne(\App\Models\AppInstance::class, 'id', 'instance_id');
+        return $this->belongsTo(\App\Models\AppInstance::class, 'instance_id');
     }
 
     /**
@@ -94,7 +94,7 @@ class AppInstanceDependencies extends Model implements Auditable
      **/
     public function appInstanceDep()
     {
-        return $this->hasOne(\App\Models\AppInstance::class, 'id', 'instance_id');
+        return $this->belongsTo(\App\Models\AppInstance::class, 'instance_dep_id');
     }
 
     /**
