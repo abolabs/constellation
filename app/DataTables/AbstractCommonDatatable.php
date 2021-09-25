@@ -27,7 +27,6 @@ abstract class AbstractCommonDatatable extends DataTable
                     function () {
                         this.api().columns().every(function () {
                             var column = this;
-                            console.log("hello");
                             var input = document.createElement("input");
                             $(input).appendTo($(column.footer()).empty())
                             .on("change", function () {

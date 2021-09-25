@@ -30,7 +30,7 @@ class AppInstance extends Model implements Auditable
     use HasFactory;
 
     public $table = 'app_instance';
-    
+
     protected $dates = ['deleted_at'];
 
     public $fillable = [
@@ -72,7 +72,7 @@ class AppInstance extends Model implements Auditable
      **/
     public function serviceVersion()
     {
-        return $this->hasOne(\App\Models\ServiceVersion::class, 'id', 'service_version_id');
+        return $this->belongsTo(\App\Models\ServiceVersion::class, 'service_version_id');
     }
 
     /**
@@ -80,7 +80,7 @@ class AppInstance extends Model implements Auditable
      **/
     public function environnement()
     {
-        return $this->hasOne(\App\Models\Environnement::class, 'id', 'environnement_id');
+        return $this->belongsTo(\App\Models\Environnement::class, 'environnement_id');
     }
 
     /**
@@ -88,6 +88,6 @@ class AppInstance extends Model implements Auditable
      **/
     public function application()
     {
-        return $this->hasOne(\App\Models\Application::class, 'id', 'application_id');
+        return $this->belongsTo(\App\Models\Application::class, 'application_id');
     }
 }

@@ -28,18 +28,7 @@ class AppInstanceDataTable extends AbstractCommonDatatable
      */
     public function query(AppInstance $model)
     {
-        return $model->query()
-        ->select([
-            'app_instance.id as id',
-            'app_instance.url as url',
-            'app_instance.statut as statut',
-            'application.name as application',
-            'service_version.version as service_version',
-            'environnement.name as environnement'
-        ])
-        ->leftJoin('application','app_instance.application_id','=','application.id')
-        ->leftJoin('service_version','app_instance.service_version_id','=','service_version.id')
-        ->leftJoin('environnement','app_instance.environnement_id','=','environnement.id');
+        return $model->newQuery()->with(['serviceVersion','environnement','application']);
     }
 
     /**
@@ -50,10 +39,26 @@ class AppInstanceDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'id',
-            'application',
-            'service_version',
-            'environnement',
+            'app_instance_id' =>  new \Yajra\DataTables\Html\Column([
+                'title' => 'Id',
+                'data'  => 'id',
+                'name'  => 'app_instance.id',
+            ]),
+            'application_name' => new \Yajra\DataTables\Html\Column([
+                'title' => 'Application',
+                'data'  => 'application.name',
+                'name'  => 'application.name',
+            ]),
+            'service_version' => new \Yajra\DataTables\Html\Column([
+                'title' => 'Service version',
+                'data'  => 'service_version.version',
+                'name'  => 'serviceVersion.version',
+            ]),
+            'environnement_name' => new \Yajra\DataTables\Html\Column([
+                'title' => 'Environnement',
+                'data'  => 'environnement.name',
+                'name'  => 'environnement.name',
+            ]),
             'url',
             'statut'
         ];
