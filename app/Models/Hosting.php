@@ -49,13 +49,13 @@ use OwenIt\Auditing\Contracts\Auditable;
 class Hosting extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-    
+
     use SoftDeletes;
 
     use HasFactory;
 
     public $table = 'hosting';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -94,6 +94,6 @@ class Hosting extends Model implements Auditable
      **/
     public function hostingType()
     {
-        return $this->hasOne(\App\Models\HostingType::class, 'id', 'hosting_type_id');
+        return $this->belongsTo(\App\Models\HostingType::class, 'hosting_type_id');
     }
 }
