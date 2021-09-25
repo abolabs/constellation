@@ -20,12 +20,19 @@ abstract class AbstractCommonDatatable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'responsive'=> true,
+                'colReorder' => true,
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
                 'buttons'   => $this->getHtmlButtons(),
                 'initComplete' => '
                     function () {
+                        const maxCols = this.api().columns()[0].length;
+                        let nbCol = 0;
                         this.api().columns().every(function () {
+                            nbCol++;
+                            if(maxCols == nbCol){
+                                return ;
+                            }
                             var column = this;
                             var input = document.createElement("input");
                             $(input).appendTo($(column.footer()).empty())
@@ -45,11 +52,19 @@ abstract class AbstractCommonDatatable extends DataTable
     protected function getHtmlButtons() : array
     {
         return [
-            ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-            ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-            ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-            ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-            ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
+            'dom' => [
+                'button' => [
+                    'tag' => 'button',
+                    'className' => ''
+                ]
+            ],
+            'buttons' => [
+                ['extend' => 'create', 'className' => 'btn btn-primary btn-sm no-corner',],
+                ['extend' => 'excel', 'className' => 'btn btn-secondary btn-sm no-corner',],
+                ['extend' => 'print', 'className' => 'btn btn-secondary btn-sm no-corner',],
+                ['extend' => 'reset', 'className' => 'btn btn-secondary btn-sm no-corner',],
+                ['extend' => 'reload', 'className' => 'btn btn-secondary btn-sm no-corner',],
+            ]
         ];
     }
 }

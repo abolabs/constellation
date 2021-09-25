@@ -44,12 +44,16 @@ class ApplicationDataTable extends AbstractCommonDatatable
                 'data'  => 'id',
                 'name'  => 'application.id',
             ]),
+            'application_name' =>  new \Yajra\DataTables\Html\Column([
+                'title' => 'Name',
+                'data'  => 'name',
+                'name'  => 'application.name',
+            ]),
             'team' =>  new \Yajra\DataTables\Html\Column([
                 'title' => 'Team',
                 'data'  => 'team.name',
                 'name'  => 'team.name',
             ]),
-            'name',
         ];
     }
 

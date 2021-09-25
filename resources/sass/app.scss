@@ -22,6 +22,17 @@
   font-weight: bold;
 }
 
+// Datatable
 table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control::before {
     background-color: $blue !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background-color: $blue !important;
+    background: $blue !important;
+    border: 1px solid $grey !important;
+    color: $white !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+    background: $grey;
 }
