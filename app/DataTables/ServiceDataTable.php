@@ -3,10 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\Service;
-use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class ServiceDataTable extends DataTable
+class ServiceDataTable extends AbstractCommonDatatable
 {
     /**
      * Build DataTable class.
@@ -29,44 +28,9 @@ class ServiceDataTable extends DataTable
      */
     public function query(Service $model)
     {
-        return $model->newQuery();
-    }
-
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-    public function html()
-    {
-        return $this->builder()
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
-            ->parameters([
-                'dom'       => 'Bfrtip',
-                'stateSave' => true,
-                'order'     => [[0, 'desc']],
-                'buttons'   => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
-                ],
-                'initComplete' => '
-                    function () {
-                        this.api().columns().every(function () {
-                            var column = this;
-                            var input = document.createElement("input");
-                            $(input).appendTo($(column.footer()).empty())
-                            .on("change", function () {
-                                column.search($(this).val(), false, false, true).draw();
-                            });
-                        });
-                    }
-                ' 
-            ]);
+        return $model->query()
+            ->select(['service.id as id', 'service.name as name', 'team.name as team','git_repo'])
+            ->join('team','service.team_id','=','team.id');
     }
 
     /**
@@ -78,7 +42,7 @@ class ServiceDataTable extends DataTable
     {
         return [
             'id',
-            'team_id',
+            'team',
             'name',
             'git_repo'
         ];
