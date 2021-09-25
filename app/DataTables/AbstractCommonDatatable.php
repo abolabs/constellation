@@ -35,6 +35,7 @@ abstract class AbstractCommonDatatable extends DataTable
                             }
                             var column = this;
                             var input = document.createElement("input");
+                            $(input).addClass("form-control");
                             $(input).appendTo($(column.footer()).empty())
                             .on("change", function () {
                                 column.search($(this).val(), false, false, true).draw();
