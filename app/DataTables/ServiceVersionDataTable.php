@@ -2,9 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Service;
 use App\Models\ServiceVersion;
-use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
 class ServiceVersionDataTable extends AbstractCommonDatatable

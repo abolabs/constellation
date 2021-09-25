@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Models\ServiceVersionDependencies;
-use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
 class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
