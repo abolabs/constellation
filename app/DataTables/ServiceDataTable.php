@@ -28,9 +28,7 @@ class ServiceDataTable extends AbstractCommonDatatable
      */
     public function query(Service $model)
     {
-        return $model->query()
-            ->select(['service.id as id', 'service.name as name', 'team.name as team','git_repo'])
-            ->join('team','service.team_id','=','team.id');
+        return $model->newQuery()->with(['team']);
     }
 
     /**
@@ -41,8 +39,16 @@ class ServiceDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'id',
-            'team',
+            'service_id' =>  new \Yajra\DataTables\Html\Column([
+                'title' => 'Id',
+                'data'  => 'id',
+                'name'  => 'service.id',
+            ]),
+            'team' =>  new \Yajra\DataTables\Html\Column([
+                'title' => 'Team',
+                'data'  => 'team.name',
+                'name'  => 'team.name',
+            ]),
             'name',
             'git_repo'
         ];

@@ -49,13 +49,13 @@ use OwenIt\Auditing\Contracts\Auditable;
 class Service extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-    
+
     use SoftDeletes;
 
     use HasFactory;
 
     public $table = 'service';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -94,6 +94,6 @@ class Service extends Model implements Auditable
      **/
     public function team()
     {
-        return $this->hasOne(\App\Models\Team::class, 'id', 'team_id');
+        return $this->belongsTo(\App\Models\Team::class,'team_id');
     }
 }

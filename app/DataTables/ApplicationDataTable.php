@@ -28,9 +28,7 @@ class ApplicationDataTable extends AbstractCommonDatatable
      */
     public function query(Application $model)
     {
-        return $model->query()
-            ->select(['application.id as id', 'application.name as name', 'team.name as team'])
-            ->join('team','application.team_id','=','team.id');
+        return $model->newQuery()->with(['team']);
     }
 
     /**
@@ -41,9 +39,17 @@ class ApplicationDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'id',
+            'application' =>  new \Yajra\DataTables\Html\Column([
+                'title' => 'Id',
+                'data'  => 'id',
+                'name'  => 'application.id',
+            ]),
+            'team' =>  new \Yajra\DataTables\Html\Column([
+                'title' => 'Team',
+                'data'  => 'team.name',
+                'name'  => 'team.name',
+            ]),
             'name',
-            'team'
         ];
     }
 

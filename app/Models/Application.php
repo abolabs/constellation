@@ -50,7 +50,7 @@ class Application extends Model implements Auditable
     use HasFactory;
 
     public $table = 'application';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -87,6 +87,6 @@ class Application extends Model implements Auditable
      **/
     public function team()
     {
-        return $this->hasOne(\App\Models\Team::class, 'id', 'team_id');
+        return $this->belongsTo(\App\Models\Team::class,'team_id');
     }
 }
