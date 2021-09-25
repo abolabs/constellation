@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\AuditDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateAuditRequest;
 use App\Http\Requests\UpdateAuditRequest;
 use App\Repositories\AuditRepository;

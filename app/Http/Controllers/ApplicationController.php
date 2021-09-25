@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ApplicationDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Repositories\ApplicationRepository;
