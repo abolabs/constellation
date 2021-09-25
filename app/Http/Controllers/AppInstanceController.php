@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\AppInstanceDataTable;
 use App\Http\Requests\CreateAppInstanceRequest;
 use App\Http\Requests\UpdateAppInstanceRequest;
 use App\Repositories\AppInstanceRepository;
@@ -27,12 +28,9 @@ class AppInstanceController extends AppBaseController
      *
      * @return Response
      */
-    public function index(Request $request)
+    public function index(AppInstanceDataTable $appInstanceDataTable)
     {
-        $appInstances = $this->appInstanceRepository->all();
-
-        return view('app_instances.index')
-            ->with('appInstances', $appInstances);
+        return $appInstanceDataTable->render('app_instances.index');
     }
 
     /**

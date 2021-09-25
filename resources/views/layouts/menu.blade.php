@@ -5,6 +5,13 @@
     </a>
 </li>
 
+<li class="nav-item {{ Request::is('appInstances*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('appInstances.index') }}">
+        <i class="nav-icon cil-apps"></i>
+        <span>App Instances</span>
+    </a>
+</li>
+
 <li class="nav-item {{ Request::is('services*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('services.index') }}">
          <i class="nav-icon cib-codesandbox"></i>

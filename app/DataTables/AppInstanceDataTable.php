@@ -3,10 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\AppInstance;
-use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class AppInstanceDataTable extends DataTable
+class AppInstanceDataTable extends AbstractCommonDatatable
 {
     /**
      * Build DataTable class.
@@ -29,32 +28,18 @@ class AppInstanceDataTable extends DataTable
      */
     public function query(AppInstance $model)
     {
-        return $model->newQuery();
-    }
-
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-    public function html()
-    {
-        return $this->builder()
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
-            ->parameters([
-                'dom'       => 'Bfrtip',
-                'stateSave' => true,
-                'order'     => [[0, 'desc']],
-                'buttons'   => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
-                ],
-            ]);
+        return $model->query()
+        ->select([
+            'app_instance.id as id',
+            'app_instance.url as url',
+            'app_instance.statut as statut',
+            'application.name as application',
+            'service_version.version as service_version',
+            'environnement.name as environnement'
+        ])
+        ->leftJoin('application','app_instance.application_id','=','application.id')
+        ->leftJoin('service_version','app_instance.service_version_id','=','service_version.id')
+        ->leftJoin('environnement','app_instance.environnement_id','=','environnement.id');
     }
 
     /**
@@ -66,9 +51,9 @@ class AppInstanceDataTable extends DataTable
     {
         return [
             'id',
-            'application_id',
-            'service_version_id',
-            'environnement_id',
+            'application',
+            'service_version',
+            'environnement',
             'url',
             'statut'
         ];

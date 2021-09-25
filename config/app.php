@@ -166,10 +166,10 @@ return [
          * Package Service Providers...
          */
         InfyOm\GeneratorBuilder\GeneratorBuilderServiceProvider::class,
-        InfyOm\RoutesExplorer\RoutesExplorerServiceProvider::class,       
-        Spatie\Permission\PermissionServiceProvider::class,         
+        InfyOm\RoutesExplorer\RoutesExplorerServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
         OwenIt\Auditing\AuditingServiceProvider::class,
-        
+
         /*
          * Application Service Providers...
          */
@@ -204,7 +204,7 @@ return [
         'Cache' => Illuminate\Support\Facades\Cache::class,
         'Config' => Illuminate\Support\Facades\Config::class,
         'Cookie' => Illuminate\Support\Facades\Cookie::class,
-        'Crypt' => Illuminate\Support\Facades\Crypt::class,        
+        'Crypt' => Illuminate\Support\Facades\Crypt::class,
         'DB' => Illuminate\Support\Facades\DB::class,
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
         'Event' => Illuminate\Support\Facades\Event::class,

@@ -2,22 +2,15 @@
     <a class="nav-link nav-dropdown-toggle" href="#">
         <i class="nav-icon icon-settings"></i> Administration
     </a>
-    <ul class="nav-dropdown-items">        
-        
-        <li class="nav-item {{ Request::is('appInstances*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('appInstances.index') }}">
-                <i class="nav-icon cil-apps"></i>
-                <span>App Instances</span>
-            </a>
-        </li>        
-        
+    <ul class="nav-dropdown-items">
+
         <li class="nav-item {{ Request::is('appInstanceDependencies*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('appInstanceDependencies.index') }}">
                 <i class="nav-icon cil-apps-settings"></i>
                 <span>App Instance Dependencies</span>
             </a>
         </li>
-        
+
         <li class="nav-item {{ Request::is('environnements*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('environnements.index') }}">
                 <i class="nav-icon cib-delicious"></i>
@@ -79,6 +72,6 @@
                 <i class="nav-icon fa fa-external-link"></i>Generateur
             </a>
         </li>
-        
+
     </ul>
 </li>

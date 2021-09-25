@@ -13,12 +13,11 @@
                          <div class="card-header">
                              <i class="fa fa-align-justify"></i>
                              Audits
-                             <a class="pull-right" href="{{ route('audits.create') }}"><i class="fa fa-plus-square fa-lg"></i></a>
                          </div>
                          <div class="card-body">
                              @include('audits.table')
                               <div class="pull-right mr-3">
-                                     
+
                               </div>
                          </div>
                      </div>

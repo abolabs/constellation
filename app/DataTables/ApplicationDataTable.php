@@ -29,12 +29,9 @@ class ApplicationDataTable extends DataTable
      */
     public function query(Application $model)
     {
-        $query = $model->query()
+        return $model->query()
             ->select(['application.id as id', 'application.name as name', 'team.name as team'])
             ->join('team','application.team_id','=','team.id');
-
-        return $query;
-
     }
 
     /**
