@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ServiceVersionDependenciesDataTable;
 use App\Http\Requests\CreateServiceVersionDependenciesRequest;
 use App\Http\Requests\UpdateServiceVersionDependenciesRequest;
 use App\Repositories\ServiceVersionDependenciesRepository;
@@ -27,12 +28,9 @@ class ServiceVersionDependenciesController extends AppBaseController
      *
      * @return Response
      */
-    public function index(Request $request)
+    public function index(ServiceVersionDependenciesDataTable $serviceVersionDep)
     {
-        $serviceVersionDependencies = $this->serviceVersionDependenciesRepository->all();
-
-        return view('service_version_dependencies.index')
-            ->with('serviceVersionDependencies', $serviceVersionDependencies);
+        return $serviceVersionDep->render('service_version_dependencies.index');
     }
 
     /**
