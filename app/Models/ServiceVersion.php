@@ -51,7 +51,7 @@ class ServiceVersion extends Model implements Auditable
     use HasFactory;
 
     public $table = 'service_version';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -87,6 +87,6 @@ class ServiceVersion extends Model implements Auditable
      **/
     public function service()
     {
-        return $this->hasOne(\App\Models\Service::class, 'id', 'service_id');
+        return $this->belongsTo(\App\Models\Service::class, 'service_id');
     }
 }
