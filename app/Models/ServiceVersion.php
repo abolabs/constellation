@@ -52,10 +52,7 @@ class ServiceVersion extends Model implements Auditable
 
     public $table = 'service_version';
 
-
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'service_id',

@@ -1,14 +1,14 @@
 <!-- Application Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('application_id', 'Application :') !!}    
+    {!! Form::label('application_id', 'Application :') !!}
     <select name="application_id" id="application_id" class="form-control">
     @if (isset($appInstance->application->id))
         <option value="{{$appInstance->application->id}}">[{{$appInstance->application->id}}] {{$appInstance->application->name}}</option>
     @endif
     </select>
     <script>
-        window.selector.make("#application_id", "/api/applications", "id", "name")    
-    </script>         
+        window.selector.make("#application_id", "/api/applications", "id", "name")
+    </script>
 </div>
 
 <!-- Service Version Id Field -->
@@ -18,10 +18,10 @@
     @if (isset($appInstance->serviceVersion->id))
         <option value="{{$appInstance->serviceVersion->id}}">[{{$appInstance->serviceVersion->id}}] {{$appInstance->serviceVersion->version}}</option>
     @endif
-    </select>    
+    </select>
     <script>
-        window.selector.make("#service_version_id", "/api/serviceVersions", "id", "version")    
-    </script>     
+        window.selector.make("#service_version_id", "/api/serviceVersions", "id", ["version", "service_name"])
+    </script>
 </div>
 
 <!-- Environnement Id Field -->
@@ -33,8 +33,8 @@
     @endif
     </select>
     <script>
-        window.selector.make("#environnement_id", "/api/environnements", "id", "name")    
-    </script>        
+        window.selector.make("#environnement_id", "/api/environnements", "id", "name")
+    </script>
 </div>
 
 <!-- Url Field -->

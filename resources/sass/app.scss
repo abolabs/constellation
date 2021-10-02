@@ -14,10 +14,19 @@
   margin-top: 0.5em;
 }
 
+// Layout
 .app-header .navbar-brand{
   height: auto;
 }
 
+// Sidebar
+.sidebar .nav-link:hover{
+    background: $primary;
+}
+.sidebar .nav-link.active .nav-icon{
+    color: $primary !important;
+}
+// Components
 .card-body label {
   font-weight: bold;
 }
@@ -35,4 +44,21 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, tabl
 
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
     background: $grey;
+}
+
+// Graph
+#cy-container{
+    min-height: 50rem;
+}
+#cy {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 999;
+}
+
+.cxtmenu-disabled {
+    opacity: 0.333;
 }

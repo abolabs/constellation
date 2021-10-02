@@ -29,7 +29,7 @@ class AppInstanceDependenciesDataTable extends AbstractCommonDatatable
      */
     public function query(AppInstanceDependencies $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['appInstance','appInstanceDep','appInstance.serviceVersion.service','appInstanceDep.serviceVersion.service']);
     }
 
     /**
@@ -42,7 +42,17 @@ class AppInstanceDependenciesDataTable extends AbstractCommonDatatable
         return [
             'id',
             'instance_id',
-            'instance_dep_id'
+            'service_name' => new \Yajra\DataTables\Html\Column([
+                'title' => 'Service Name',
+                'data'  => 'app_instance.service_version.service.name',
+                'name'  => 'appInstance.serviceVersion.service.name',
+            ]),
+            'instance_dep_id',
+            'dep_service_name' => new \Yajra\DataTables\Html\Column([
+                'title' => 'Dependency Service Name',
+                'data'  => 'app_instance_dep.service_version.service.name',
+                'name'  => 'appInstanceDep.serviceVersion.service.name',
+            ]),
         ];
     }
 

@@ -33,14 +33,20 @@ Route::post(
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);    
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');    
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     /**
      * Users & permissions
      */
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
+
+    /**
+     * Dashboard
+     */
+    Route::get('/dashboard', [App\Http\Controllers\InfraController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard/graphNodes', [App\Http\Controllers\InfraController::class, 'getGraphNodes'])->name('dashboard.graphNodes');
 
     /**
      * Ressource

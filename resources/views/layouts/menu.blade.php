@@ -1,3 +1,10 @@
+<li class="nav-item {{ Request::is('dashboard*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('dashboard.index') }}">
+        <i class="nav-icon icon-speedometer"></i>
+        <span>Dashboard</span>
+    </a>
+</li>
+
 <li class="nav-item {{ Request::is('applications*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('applications.index') }}">
         <i class="nav-icon fa fa-window-maximize"></i>

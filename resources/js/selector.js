@@ -1,6 +1,6 @@
 
 export function make(select, url, id_key, text_key) {
-  $(document).ready(() => { 
+  $(document).ready(() => {
     $(select).select2({
         ajax: {
             url: url,
@@ -10,17 +10,26 @@ export function make(select, url, id_key, text_key) {
             processResults: function (response) {
                 let data = []
                 response.data.forEach((value) => {
+                    let label  = "";
+                    if(typeof text_key == "object"){
+                        for(const single_label in text_key){
+                            label +=  value[text_key[single_label]]+" ";
+                        }
+                    }else{
+                        label = value[text_key];
+                    }
+
                     data.push({
                         id: value[id_key],
-                        text: "["+value[id_key]+"] "+value[text_key]
+                        text: "["+value[id_key]+"] "+label
                     })
-                })                     
+                })
                 // Transforms the top-level key of the response object from 'items' to 'results'
                 return {
-                    results: data                            
-                }                        
+                    results: data
+                }
             }
         },
-    });    
-  });    
+    });
+  });
 }

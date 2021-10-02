@@ -18,6 +18,7 @@ class AppInstanceResource extends JsonResource
             'id' => $this->id,
             'application_id' => $this->application_id,
             'service_version_id' => $this->service_version_id,
+            'service_version_name' => $this->serviceVersion->service->name,
             'environnement_id' => $this->environnement_id,
             'url' => $this->url,
             'statut' => $this->statut,
