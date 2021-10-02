@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between">
-                <div>
+                <div class="transparent-title">
                     <h4 class="card-title mb-0">Mapping</h4>
                     <div class="small text-muted">Affichage des dépendances applicatives</div>
                 </div>
@@ -62,7 +62,7 @@
                 }).run();
             },
             zoom: 0.75,
-            minZoom: 0.75,
+            minZoom: 0.750,
             maxZoom: 1.25,
             style: [
                 {
@@ -74,8 +74,14 @@
                 {
                     selector: 'node:selected',
                     style: {
-                        'background-color': '#F08080',
-                        'border-color': 'red'
+                        'background-color': '#343a40',
+                        'border-color': '#FDFFFC',
+                    }
+                },
+                {
+                    selector: 'node:selected *',
+                    style: {
+                        'color': 'white'
                     }
                 },
                 {

@@ -47,6 +47,11 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, tabl
 }
 
 // Graph
+.transparent-title *{
+    background: rgba(255,255,255,0.8);
+    z-index: 1;
+    position: relative;
+}
 #cy-container{
     min-height: 50rem;
 }
@@ -56,7 +61,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, tabl
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 999;
+    //z-index: 1;
 }
 
 .cxtmenu-disabled {
