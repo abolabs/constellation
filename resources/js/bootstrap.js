@@ -11,7 +11,9 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-} catch (e) {}
+} catch (e) {
+    console.log(e);
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -41,3 +43,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // });
 
 window.selector = require('./selector');
+
+/**
+ * Cytoscape
+ */
+window.cytoscape = require('cytoscape');
+require('cytoscape-cxtmenu');
+require('cytoscape-layout-utilities');
+require('cytoscape-fcose');

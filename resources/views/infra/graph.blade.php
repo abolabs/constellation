@@ -3,8 +3,10 @@
         <div class="card-body">
             <div class="d-flex justify-content-between">
                 <div class="transparent-title">
-                    <h4 class="card-title mb-0">Mapping</h4>
-                    <div class="small text-muted">Affichage des dépendances applicatives</div>
+                    <h4 class="card-title mb-0">Mapping instances par application</h4>
+                    <div class="small text-muted">
+                        <p>Utilisez le menu contextuel pour accéder au détail de chaque noeud <br/>(Clic gauche 2s ou clic droit)</p>
+                    </div>
                 </div>
                 <div id="cy-container">
                     <div id="cy"></div>
@@ -13,13 +15,7 @@
         </div>
     </div>
 </div>
-<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
-<script src="https://unpkg.com/layout-base/layout-base.js"></script>
-<script src="https://unpkg.com/cose-base/cose-base.js"></script>
-<script src="https://unpkg.com/cytoscape-layout-utilities/cytoscape-layout-utilities.js"></script>
 
-<script src="https://cytoscape.org/cytoscape.js-cxtmenu/cytoscape-cxtmenu.js"></script>
-<script src="https://ivis-at-bilkent.github.io/cytoscape.js-fcose/cytoscape-fcose.js"></script>
 <script>
 
 
@@ -40,7 +36,7 @@
 
     window.addEventListener('DOMContentLoaded', function()
     {
-        var cy = window.cy = cytoscape({
+        var cy = window.cy = window.cytoscape({
             container: document.getElementById('cy'),
 
             ready: function(){
@@ -48,7 +44,7 @@
                     desiredAspectRatio: this.width()/this.height()
                 });
                 this.nodes().forEach(function(node){
-                    let size = 100;
+                    let size = 25;
                     node.css("width", size);
                     node.css("height", size);
                 });
@@ -57,13 +53,14 @@
                     name: 'fcose',
                     animationEasing: 'ease-out',
                     nodeRepulsion: 4500,
-                    idealEdgeLength: 150,
+                    idealEdgeLength: 200,
                     edgeElasticity: 0.45,
                 }).run();
             },
             zoom: 0.75,
             minZoom: 0.750,
             maxZoom: 1.25,
+            wheelSensitivity: 0.25,
             style: [
                 {
                     selector: 'node',
@@ -112,15 +109,16 @@
             selector: 'node, edge',
             commands: [
                 {
-                    content: '<span class="fa fa-flash fa-2x"></span>',
+                    content: '<span><i class="fa fa-flash"></i> Détail</span>',
                     select: function(ele){
-                        console.log( ele.id() );
+                        const eltData = ele.id().split("_");
+                        window.location.href = '/'+eltData[0]+"s/"+eltData[1];
                     }
                 },
                 {
-                    content: '<span class="fa fa-star fa-2x"></span>',
+                    content: '<span class="fa fa-ban fa-2x"></span>',
                     select: function(ele){
-                        console.log( ele.data('name') );
+                        //console.log( ele.data('name') );
                     },
                     enabled: false
                 },
@@ -137,15 +135,15 @@
             selector: 'core',
             commands: [
                 {
-                    content: 'bg1',
+                    content: 'Light',
                     select: function(){
-                        console.log( 'bg1' );
+                        $("#cy").css('background',"#FDFFFC");
                     }
                 },
                 {
-                    content: 'bg2',
+                    content: 'Dark',
                     select: function(){
-                        console.log( 'bg2' );
+                        $("#cy").css('background',"#343a40");
                     }
                 }
             ]
