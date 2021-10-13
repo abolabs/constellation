@@ -24,19 +24,20 @@
                                         {!! Form::label('name', 'Name:') !!}
                                         <p>{{ $role->name }}</p>
                                     </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">                                        
+                                    <hr class="my-2">
+                                    <div class="form-group">
                                         {!! Form::label('Permissions', 'Permissions:') !!}
+                                        <div class="row">
                                         @if(!empty($rolePermissions))
-                                            @foreach($rolePermissions as $v)                                                
-                                                <p>{{ $v->name }},</p>
+                                            @foreach($rolePermissions as $v)
+                                                <div class="col-2">{{ $v->name }}</div>
                                             @endforeach
                                         @endif
+                                        </div>
                                 </div>
                             </div>
-                        </div>   
-                    </div>    
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

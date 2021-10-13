@@ -22,17 +22,19 @@
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
                                         {!! Form::label('name', 'Name:') !!}
-                                        {{ $user->name }}
+                                        <p>{{ $user->name }}</p>
                                     </div>
                                 </div>
+                                <hr class="my-2">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">                                        
+                                    <div class="form-group">
                                         {!! Form::label('email', 'Email:') !!}
-                                        {{ $user->email }}
+                                        <p>{{ $user->email }}</p>
                                     </div>
                                 </div>
+                                <hr class="my-2">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">                                        
+                                    <div class="form-group">
                                         {!! Form::label('roles', 'Roles:') !!}
                                         @if(!empty($user->getRoleNames()))
                                             @foreach($user->getRoleNames() as $v)
@@ -40,12 +42,12 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                </div>        
-                            </div>    
+                                </div>
+                            </div>
                         </div>
-                    </div>            
-                </div>    
+                    </div>
+                </div>
             </div>
         </div>
-    </div>    
+    </div>
 @endsection

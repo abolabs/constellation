@@ -1,36 +1,41 @@
 <!-- Id Field -->
 <div class="form-group">
-    {!! Form::label('id', 'Id:') !!}
+    {!! Form::label('id', 'Id') !!}
     <p>{{ $service->id }}</p>
 </div>
+<hr class="my-2">
 
 <!-- Team Id Field -->
 <div class="form-group">
-    {!! Form::label('team_id', 'Team Id:') !!}
+    {!! Form::label('team_id', 'Team Id') !!}
     <p>{{ $service->team_id }}</p>
 </div>
+<hr class="my-2">
 
 <!-- Name Field -->
 <div class="form-group">
-    {!! Form::label('name', 'Name:') !!}
+    {!! Form::label('name', 'Name') !!}
     <p>{{ $service->name }}</p>
 </div>
+<hr class="my-2">
 
 <!-- Git Repo Field -->
 <div class="form-group">
-    {!! Form::label('git_repo', 'Git Repo:') !!}
+    {!! Form::label('git_repo', 'Git Repo') !!}
     <p>{{ $service->git_repo }}</p>
 </div>
+<hr class="my-2">
 
 <!-- Created At Field -->
 <div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
+    {!! Form::label('created_at', 'Created At') !!}
     <p>{{ $service->created_at }}</p>
 </div>
+<hr class="my-2">
 
 <!-- Updated At Field -->
 <div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
+    {!! Form::label('updated_at', 'Updated At') !!}
     <p>{{ $service->updated_at }}</p>
 </div>
 
