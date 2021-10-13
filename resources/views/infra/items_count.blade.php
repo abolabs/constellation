@@ -49,7 +49,7 @@
             <div class="h1 text-muted text-right mb-2">
                 <i class="cib-ghost"></i>
             </div>
-            <div class="h4 mb-0">1238</div>
+            <div class="h4 mb-0">{{$nbHostings}}</div>
             <small class="text-muted text-uppercase font-weight-bold">Hébergements</small>
         </div>
         <div class="card-footer p-x-1 py-h">

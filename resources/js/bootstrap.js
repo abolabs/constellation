@@ -42,7 +42,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
-window.selector = require('./selector');
+/**
+ * selector utils
+ */
+window.selector = require('./utils/selector');
 
 /**
  * Cytoscape
@@ -51,3 +54,12 @@ window.cytoscape = require('cytoscape');
 require('cytoscape-cxtmenu');
 require('cytoscape-layout-utilities');
 require('cytoscape-fcose');
+
+/**
+ * Graph
+ */
+ import('./utils/graph').then((Graph) => {
+    window.Graph = Graph.default;
+ });
+
+
