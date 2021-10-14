@@ -7,7 +7,7 @@
             <a href="{!! route('roles.index') !!}">Roles</a>
         </li>
         <li class="breadcrumb-item active">Edit</li>
-    </ol>    
+    </ol>
 
     <div class="container-fluid">
         <div class="animated fadeIn">
@@ -15,15 +15,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header text-white bg-secondary">
                             <i class="fa fa-edit fa-lg"></i>
                             <strong>Edit Role</strong>
                         </div>
                         <div class="card-body">
                             {!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
                             @include('roles.fields')
-                            {!! Form::close() !!}    
-                        </div>                    
+                            {!! Form::close() !!}
+                        </div>
                     </div>
                 </div>
             </div>

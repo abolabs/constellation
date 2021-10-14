@@ -37,12 +37,22 @@ class AuditDataTable extends AbstractCommonDatatable
     protected function getHtmlButtons() : array
     {
         return [
-            ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-            ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-            ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-            ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
+            'dom' => [
+                'button' => [
+                    'tag' => 'button',
+                    'className' => ''
+                ]
+            ],
+            'buttons' => [
+                ['extend' => 'export', 'className' => 'btn btn-secondary btn-sm no-corner',],
+                ['extend' => 'print', 'className' => 'btn btn-secondary btn-sm no-corner',],
+                ['extend' => 'reset', 'className' => 'btn btn-secondary btn-sm no-corner',],
+                ['extend' => 'reload', 'className' => 'btn btn-secondary btn-sm no-corner',],
+            ]
         ];
     }
+
+
 
     /**
      * Get columns.

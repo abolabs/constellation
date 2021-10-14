@@ -9,10 +9,10 @@
     <div class="container-fluid">
         <div class="animated fadeIn">
              @include('flash::message')
-             <div class="row">            
+             <div class="row">
                  <div class="col-lg-12">
                      <div class="card">
-                         <div class="card-header">
+                         <div class="card-header text-white bg-secondary">
                              <i class="fa fa-align-justify"></i>
                              Roles
                              <a class="pull-right" href="{{ route('roles.create') }}"><i class="fa fa-plus-square fa-lg"></i></a>

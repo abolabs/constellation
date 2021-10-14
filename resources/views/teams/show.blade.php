@@ -13,7 +13,7 @@
                  <div class="row">
                      <div class="col-lg-12">
                          <div class="card">
-                             <div class="card-header">
+                             <div class="card-header text-white bg-secondary">
                                  <strong>Details</strong>
                                   <a href="{{ route('teams.index') }}" class="btn btn-light">Back</a>
                              </div>

@@ -15,13 +15,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header text-white bg-secondary">
                             <i class="fa fa-plus-square-o fa-lg"></i>
                             <strong>Create User</strong>
                         </div>
                         <div class="card-body">
                         {!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
-                            @include('users.fields')      
+                            @include('users.fields')
                         {!! Form::close() !!}
                         </div>
                     </div>

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateApplicationRequest;
 use App\Repositories\ApplicationRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\AppInstance;
 use Response;
 
 class ApplicationController extends AppBaseController
@@ -70,13 +71,15 @@ class ApplicationController extends AppBaseController
     {
         $application = $this->applicationRepository->find($id);
 
+        $appInstances = AppInstance::where("application_id",$id)->with(['serviceVersion','serviceVersion.service','environnement'])->get();
+
         if (empty($application)) {
             Flash::error('Application not found');
 
             return redirect(route('applications.index'));
         }
 
-        return view('applications.show')->with('application', $application);
+        return view('applications.show')->with('application', $application)->with('appInstances',$appInstances);
     }
 
     /**

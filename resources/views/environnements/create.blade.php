@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header text-white bg-secondary">
                                 <i class="fa fa-plus-square-o fa-lg"></i>
                                 <strong>Create Environnement</strong>
                             </div>
