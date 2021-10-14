@@ -6,6 +6,18 @@ export function make(select, url, id_key, text_key) {
             url: url,
             dataType: 'json',
             allowClear: true,
+            data: function(params){
+
+                if(typeof params.term == "undefined" || !params.term || /^\s*$/.test(params.term)){
+                    return;
+                }
+
+                let query = {
+                };
+                query[text_key] = params.term;
+
+                return query;
+            },
             // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
             processResults: function (response) {
                 let data = []
