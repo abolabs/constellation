@@ -71,6 +71,7 @@ class AppInstanceController extends AppBaseController
     public function show($id)
     {
         $appInstance = $this->appInstanceRepository->find($id);
+        $appInstance->load(['application','environnement','serviceVersion','serviceVersion.service']);
 
         if (empty($appInstance)) {
             Flash::error('App Instance not found');

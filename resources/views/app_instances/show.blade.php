@@ -14,8 +14,8 @@
                      <div class="col-lg-12">
                          <div class="card">
                              <div class="card-header text-white bg-secondary">
-                                 <strong>Details</strong>
-                                  <a href="{{ route('appInstances.index') }}" class="btn btn-light">Back</a>
+                                <strong>Details</strong>
+                                <a href="{{ route('appInstances.index') }}" class="btn btn-light">Back</a>
                              </div>
                              <div class="card-body">
                                  @include('app_instances.show_fields')

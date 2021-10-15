@@ -5,31 +5,31 @@
 </div>
 <hr class="my-2">
 
-<!-- Application Id Field -->
+<!-- Application Field -->
 <div class="form-group">
-    {!! Form::label('application_id', 'Application Id') !!}
-    <p>{{ $appInstance->application_id }}</p>
+    {!! Form::label('application', 'Application') !!}
+    <p><a href="/applications/{{ $appInstance->application_id }}">{{ $appInstance->application->name }}</a></p>
 </div>
 <hr class="my-2">
 
-<!-- Service Version Id Field -->
+<!-- Service Version Field -->
 <div class="form-group">
     {!! Form::label('service_version_id', 'Service Version Id') !!}
-    <p>{{ $appInstance->service_version_id }}</p>
+    <p><a href="/services/{{ $appInstance->serviceVersion->service->id }}">{{ $appInstance->serviceVersion->service->name }} </a></p>
 </div>
 <hr class="my-2">
 
 <!-- Environnement Id Field -->
 <div class="form-group">
     {!! Form::label('environnement_id', 'Environnement Id') !!}
-    <p>{{ $appInstance->environnement_id }}</p>
+    <p><a href="/environnements/{{ $appInstance->environnement_id }}">{{ $appInstance->environnement->name }}</a></p>
 </div>
 <hr class="my-2">
 
 <!-- Url Field -->
 <div class="form-group">
     {!! Form::label('url', 'Url') !!}
-    <p>{{ $appInstance->url }}</p>
+    <p><a href="{{ $appInstance->url }}">{{ $appInstance->url }}</a></p>
 </div>
 <hr class="my-2">
 
@@ -37,7 +37,9 @@
 <div class="form-group">
     {!! Form::label('statut', 'Statut') !!}
     <p>{{ $appInstance->statut }}</p>
+
 </div>
+
 <hr class="my-2">
 
 <!-- Created At Field -->
