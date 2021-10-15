@@ -46,14 +46,12 @@
 <!-- Statut Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('statut', 'Statut:') !!}
-    <label class="radio-inline">
-        {!! Form::radio('statut', "0", null) !!} 0
-    </label>
-
-    <label class="radio-inline">
-        {!! Form::radio('statut', "1", null) !!} 1
-    </label>
-
+    <p>
+        <label class="switch switch-label switch-success">
+            <input type="checkbox" class="switch-input" name="statut" value="1" @if ( isset($appInstance->application->id) && $appInstance->statut ); checked @endif>
+            <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+        </label>
+    </p>
 </div>
 
 <!-- Submit Field -->

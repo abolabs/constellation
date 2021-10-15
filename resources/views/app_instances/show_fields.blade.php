@@ -36,8 +36,12 @@
 <!-- Statut Field -->
 <div class="form-group">
     {!! Form::label('statut', 'Statut') !!}
-    <p>{{ $appInstance->statut }}</p>
-
+    <p>
+        <label class="switch switch-label switch-success">
+            <input type="checkbox" class="switch-input" disabled @if ( $appInstance->statut ); checked @endif>
+            <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+        </label>
+    </p>
 </div>
 
 <hr class="my-2">

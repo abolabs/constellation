@@ -119,8 +119,11 @@ class AppInstanceController extends AppBaseController
 
             return redirect(route('appInstances.index'));
         }
+        $defaultInputs = [
+            "statut" => false
+        ];
 
-        $appInstance = $this->appInstanceRepository->update($request->all(), $id);
+        $appInstance = $this->appInstanceRepository->update(array_merge($defaultInputs,$request->all()), $id);
 
         Flash::success('App Instance updated successfully.');
 

@@ -63,16 +63,17 @@ class AuditDataTable extends AbstractCommonDatatable
     {
         return [
             //'user_type',
-            'user_id',
-            'event',
-            'auditable_type',
+            //'user_id',
             'auditable_id',
+            'auditable_type',
+            'event',
             'old_values',
             'new_values',
             //'url',
             'ip_address',
             //'user_agent',
-            //'tags'
+            //'tags',
+            'created_at'
         ];
     }
 

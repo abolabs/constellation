@@ -15,7 +15,8 @@
                     <div class="card">
                         <div class="card-header text-white bg-secondary">
                             <strong>Details</strong>
-                            <a href="{{ route('applications.index') }}" class="btn btn-light">Back</a>
+                            <a href="{{ route('applications.edit', $application->id ) }}" class="btn btn-light">Edit</a>
+                            <a href="{{ route('applications.index') }}" class="btn btn-light pull-right">Back</a>
                         </div>
                         <div class="card-body">
                             @include('applications.show_fields')

@@ -42,7 +42,7 @@ class AppInstanceDataTable extends AbstractCommonDatatable
             'app_instance_id' =>  new \Yajra\DataTables\Html\Column([
                 'title' => 'Id',
                 'data'  => 'id',
-                'name'  => 'app_instance.id',
+                'name'  => 'app_instance.id'
             ]),
             'application_name' => new \Yajra\DataTables\Html\Column([
                 'title' => 'Application',
@@ -65,7 +65,12 @@ class AppInstanceDataTable extends AbstractCommonDatatable
                 'name'  => 'environnement.name',
             ]),
             'url',
-            'statut'
+            'statut' => new \Yajra\DataTables\Html\Column([
+                'title' => 'Statut',
+                'data'  => 'statut',
+                'name'  => 'app_instance.statut',
+                'render' => 'window.DataTableRenderer.boolean("statut")'
+            ])
         ];
     }
 
