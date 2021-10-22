@@ -28,7 +28,7 @@ class HostingDataTable extends AbstractCommonDatatable
      */
     public function query(Hosting $model)
     {
-        return $model->newQuery()->with(['hostingType']);
+        return $model->newQuery()->with(['hostingType'])->select(['hosting.*']);
     }
 
     /**
