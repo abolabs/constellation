@@ -14,14 +14,14 @@
 
 <!-- Service Version Field -->
 <div class="form-group">
-    {!! Form::label('service_version_id', 'Service Version Id') !!}
-    <p><a href="/services/{{ $appInstance->serviceVersion->service->id }}">{{ $appInstance->serviceVersion->service->name }} </a></p>
+    {!! Form::label('service_version_id', 'Service Version') !!}
+    <p><a href="/services/{{ $appInstance->serviceVersion->service->id }}">{{ $appInstance->serviceVersion->service->name }} <span class="badge badge-pill badge-secondary">version {{ $appInstance->serviceVersion->version }}</span></a></p>
 </div>
 <hr class="my-2">
 
 <!-- Environnement Id Field -->
 <div class="form-group">
-    {!! Form::label('environnement_id', 'Environnement Id') !!}
+    {!! Form::label('environnement_id', 'Environnement') !!}
     <p><a href="/environnements/{{ $appInstance->environnement_id }}">{{ $appInstance->environnement->name }}</a></p>
 </div>
 <hr class="my-2">

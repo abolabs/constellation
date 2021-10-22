@@ -28,7 +28,7 @@ class ServiceDataTable extends AbstractCommonDatatable
      */
     public function query(Service $model)
     {
-        return $model->newQuery()->with(['team']);
+        return $model->newQuery()->with(['team'])->select(['service.*']);
     }
 
     /**
@@ -44,13 +44,13 @@ class ServiceDataTable extends AbstractCommonDatatable
                 'data'  => 'id',
                 'name'  => 'service.id',
             ]),
+            'name',
+            'git_repo',
             'team' =>  new \Yajra\DataTables\Html\Column([
                 'title' => 'Team',
                 'data'  => 'team.name',
                 'name'  => 'team.name',
             ]),
-            'name',
-            'git_repo'
         ];
     }
 

@@ -33,7 +33,7 @@ class InfraController extends Controller
             $nodesData[] = (object)[
                 "group" => "nodes",
                 "data" =>(object)[
-                    "id" =>  'app_'.$app->id ,
+                    "id" =>  'application_'.$app->id ,
                     "name" => $app->name
                 ]
             ];
@@ -47,7 +47,7 @@ class InfraController extends Controller
                 "data" =>(object)[
                     "id" =>  'appInstance_'.$appInstance->id ,
                     "name" => $appInstance->serviceVersion->service->name." - v".$appInstance->serviceVersion->version,
-                    "parent" => 'app_'.$appInstance->application->id ,
+                    "parent" => 'application_'.$appInstance->application->id ,
                 ],
                 "classes" => "appInstance",
             ];

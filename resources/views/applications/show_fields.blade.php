@@ -14,8 +14,8 @@
 
 <!-- Team Id Field -->
 <div class="form-group">
-    {!! Form::label('team_id', 'Team Id') !!}
-    <p>{{ $application->team_id }}</p>
+    {!! Form::label('team_name', 'Team') !!}
+    <p>{{ $application->team->name }}</p>
 </div>
 <hr class="my-2">
 

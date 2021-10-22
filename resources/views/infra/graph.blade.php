@@ -21,6 +21,4 @@
         var graph = new window.Graph();
         graph.load("#cy",window.Graph.getNodesByApplication());
     });
-
-    //graph.init(graph.getNodesByApplication());
 </script>

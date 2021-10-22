@@ -28,7 +28,7 @@ class ApplicationDataTable extends AbstractCommonDatatable
      */
     public function query(Application $model)
     {
-        return $model->newQuery()->with(['team:id,name as team_name']);
+        return $model->newQuery()->with(['team'])->select(['application.*']);
     }
 
     /**
@@ -51,7 +51,7 @@ class ApplicationDataTable extends AbstractCommonDatatable
             ]),
             'team_name' =>  new \Yajra\DataTables\Html\Column([
                 'title' => 'Team',
-                'data'  => 'team.team_name',
+                'data'  => 'team.name',
                 'name'  => 'team.name',
             ]),
         ];

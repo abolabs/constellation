@@ -14,8 +14,9 @@
                      <div class="col-lg-12">
                          <div class="card">
                              <div class="card-header text-white bg-secondary">
-                                 <strong>Details</strong>
-                                  <a href="{{ route('hostings.index') }}" class="btn btn-light">Back</a>
+                                <strong>Details</strong>
+                                <a href="{{ route('hostings.edit', $hosting->id ) }}" class="btn btn-light">Edit</a>
+                                <a href="{{ route('hostings.index') }}" class="btn btn-light pull-right">Back</a>
                              </div>
                              <div class="card-body">
                                  @include('hostings.show_fields')

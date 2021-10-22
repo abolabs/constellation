@@ -28,7 +28,7 @@ class AppInstanceDataTable extends AbstractCommonDatatable
      */
     public function query(AppInstance $model)
     {
-        return $model->newQuery()->with(['serviceVersion','serviceVersion.service','environnement','application']);
+        return $model->newQuery()->with(['serviceVersion','serviceVersion.service','environnement','application'])->select(['app_instance.*']);
     }
 
     /**

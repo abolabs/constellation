@@ -7,8 +7,8 @@
 
 <!-- Team Id Field -->
 <div class="form-group">
-    {!! Form::label('team_id', 'Team Id') !!}
-    <p>{{ $service->team_id }}</p>
+    {!! Form::label('team_name', 'Team') !!}
+    <p>{{ $service->team->name }}</p>
 </div>
 <hr class="my-2">
 

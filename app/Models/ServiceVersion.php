@@ -86,4 +86,11 @@ class ServiceVersion extends Model implements Auditable
     {
         return $this->belongsTo(\App\Models\Service::class, 'service_id');
     }
+
+    public function newQuery()
+    {
+        $query = parent::newQuery()->with(['service']);
+        return $query;
+    }
+
 }

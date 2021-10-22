@@ -14,7 +14,14 @@ export function make(select, url, id_key, text_key) {
 
                 let query = {
                 };
-                query[text_key] = params.term;
+
+                if(typeof text_key == "object"){
+                    for(const single_label in text_key){
+                        query[text_key[single_label]] = params.term;
+                    }
+                }else{
+                    query[text_key] = params.term;
+                }
 
                 return query;
             },

@@ -14,8 +14,8 @@
 
 <!-- Hosting Type Id Field -->
 <div class="form-group">
-    {!! Form::label('hosting_type_id', 'Hosting Type Id') !!}
-    <p>{{ $hosting->hosting_type_id }}</p>
+    {!! Form::label('hosting_type', 'Hosting Type') !!}
+    <p>{{ $hosting->hostingType->name }}</p>
 </div>
 <hr class="my-2">
 
