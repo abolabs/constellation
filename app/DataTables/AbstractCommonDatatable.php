@@ -24,6 +24,9 @@ abstract class AbstractCommonDatatable extends DataTable
                 'stateSave' => true,
                 'order'     => [[0, 'desc']],
                 'buttons'   => $this->getHtmlButtons(),
+                'language'  =>  [
+                    'processing' => '<div class="lds-dual-ring"></div>'
+                ],
                 'initComplete' => '
                     function () {
                         const maxCols = this.api().columns()[0].length;
