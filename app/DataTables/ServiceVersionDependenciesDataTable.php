@@ -28,7 +28,7 @@ class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
      */
     public function query(ServiceVersionDependencies $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['serviceVersion.service','serviceVersionDep.service'])->select(['service_version_dependencies.*']);
     }
 
     /**
@@ -41,7 +41,17 @@ class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
         return [
             'id',
             'service_version_id',
-            'service_version_dependency_id'
+            'service_version' => new \Yajra\DataTables\Html\Column([
+                'title' => 'Service',
+                'data'  => 'service_version.service.name',
+                'name'  => 'serviceVersion.service.name',
+            ]),
+            'service_version_dependency_id',
+            'service_version_dependency' => new \Yajra\DataTables\Html\Column([
+                'title' => 'Dépendance',
+                'data'  => 'service_version_dep.service.name',
+                'name'  => 'serviceVersionDep.service.name',
+            ]),
         ];
     }
 
