@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetGraphServicesByAppRequest;
 use App\Models\{Application, Service, AppInstance, AppInstanceDependencies, Hosting};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use League\CommonMark\Environment\Environment;
 
 class InfraController extends Controller
 {
@@ -17,14 +21,15 @@ class InfraController extends Controller
         $nbInstances = AppInstance::count();
         $nbServices = Service::count();
         $nbHostings = Hosting::count();
+        $mainEnvironnement = AppInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
 
-        return view('infra.index', compact('nbApp','nbInstances','nbServices','nbHostings'));
+        return view('infra.index', compact('nbApp','nbInstances','nbServices','nbHostings','mainEnvironnement'));
     }
 
     /**
      * Get nodes informations for the graph
      */
-    public function getGraphNodes()
+    public function getGraphServicesByApp(GetGraphServicesByAppRequest $request)
     {
 
         $nodesData = [];
@@ -38,6 +43,7 @@ class InfraController extends Controller
                 ]
             ];
         }
+
         foreach( AppInstance::with("serviceVersion","application")->get() as $appInstance)
         {
             $appInstance->serviceVersion->load("service");

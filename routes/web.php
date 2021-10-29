@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
      * Dashboard
      */
     Route::get('/dashboard', [App\Http\Controllers\InfraController::class, 'index'])->name('dashboard.index');
-    Route::get('/dashboard/graphNodes', [App\Http\Controllers\InfraController::class, 'getGraphNodes'])->name('dashboard.graphNodes');
+    Route::get('/dashboard/graphNodes', [App\Http\Controllers\InfraController::class, 'getGraphServicesByApp'])->name('dashboard.graphNodes');
 
     /**
      * Ressource
