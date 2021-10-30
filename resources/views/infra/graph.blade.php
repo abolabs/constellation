@@ -1,16 +1,26 @@
 <div class="col-sm-12">
     <div class="card">
-        <div class="card-body">
-            <div class="d-flex justify-content-between">
-                <div class="transparent-title">
-                    <h4 class="card-title mb-0">Mapping instances par application</h4>
-                    <div class="small text-muted">
-                        <p>Utilisez le menu contextuel pour accéder au détail de chaque noeud <br/>(Clic gauche 2s ou clic droit)</p>
+        <div class="card-header transparent-title">
+            <div class="row">
+                <div class="col-md-9 col-sm-12 d-flex justify-content-between">
+                    <div>
+                        <h4 class="card-title mb-0">Instances par application</h4>
+                        <div class="small text-muted">
+                            <p>Utilisez le menu contextuel pour accéder au détail de chaque noeud <br/>(Clic gauche 2s ou clic droit)</p>
+                        </div>
                     </div>
                 </div>
-                <div id="cy-container">
-                    <div id="cy"></div>
+                <div class="col-md-3 col-sm-12 form-group text-right">
+                    <label>Environnement</label>
+                    <select class="form-select" id="env" aria-label="Sélectionner un environnement">
+                        <option selected value="{{ $mainEnvironnement['environnement']['id'] }}">{{ $mainEnvironnement['environnement']['name'] }}</option>
+                    </select>
                 </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="cy-container">
+                <div id="cy"></div>
             </div>
         </div>
     </div>
@@ -18,7 +28,49 @@
 
 <script>
     $(document).ready(() => {
-        var graph = new window.Graph();
-        graph.load("#cy",window.Graph.getNodesByApplication());
+
+        const defaultEnv = {
+            id: {{ $mainEnvironnement['environnement']['id'] }},
+            label: "{{ $mainEnvironnement['environnement']['name'] }}"
+        }
+        const graph = new window.Graph();
+
+        window.Environnement.getAll().then((result) => {
+            const envData = result.data.data;
+            for(const envIndex in envData ){
+                if(envData[envIndex].id != defaultEnv.id){
+                    $('#env').append($('<option value="'+envData[envIndex].id+'">'+envData[envIndex].name+'</option>'));
+                }
+            }
+            drawGraph(defaultEnv.id);
+
+        }).catch((exception) => {
+            console.log(exception);
+        });
+
+        $('#env').change((e) => {
+            window.Graph.getNodesByApplication($('#env').val()).then((graphData) => {
+                if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
+                    console.log("no data");
+                }
+                graph.replaceData(graphData.data);
+            }).catch((exception) => {
+                console.log(exception);
+            });
+        });
+
+        function drawGraph(env_id)
+        {
+            console.log("DEBUG ");
+            window.Graph.getNodesByApplication(env_id).then((graphData) => {
+                if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
+                    console.log("no data");
+                }
+                graph.load("cy",graphData.data);
+            }).catch((exception) => {
+                console.log(exception);
+            });
+        }
+
     });
 </script>

@@ -47,7 +47,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, tabl
 }
 
 // Graph
-.transparent-title *{
+.transparent-title {
     background: rgba(255,255,255,0.8);
     z-index: 1;
     position: relative;

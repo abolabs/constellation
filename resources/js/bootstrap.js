@@ -58,11 +58,21 @@ require('cytoscape-fcose');
 /**
  * Graph
  */
- import('./utils/graph').then((Graph) => {
+ import('./utils/Graph').then((Graph) => {
     window.Graph = Graph.default;
  });
 
+/**
+ * Environnement
+ */
+ import('./utils/Environnement').then((Environnement) => {
+    window.Environnement = Environnement.default;
+    console.log("ICI ");
+ });
 
+/**
+ * Datatable
+ */
  var DataTable = require('datatables.net');
  require( 'datatables.net-buttons' );
  require( 'datatables.net-responsive' );

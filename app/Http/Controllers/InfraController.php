@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GetGraphServicesByAppRequest;
 use App\Models\{Application, Service, AppInstance, AppInstanceDependencies, Hosting};
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use League\CommonMark\Environment\Environment;
 
 class InfraController extends Controller
 {
@@ -33,18 +31,26 @@ class InfraController extends Controller
     {
 
         $nodesData = [];
-        foreach(Application::get() as $app)
+        //$applications = Application::get();
+        $instanceByApplications = AppInstance::select('application_id')->with('application')
+                            ->where('environnement_id', $request->environnement_id)
+                            ->groupBy('application_id')->get();
+
+        foreach($instanceByApplications as $instanceByApplication)
         {
             $nodesData[] = (object)[
                 "group" => "nodes",
                 "data" =>(object)[
-                    "id" =>  'application_'.$app->id ,
-                    "name" => $app->name
+                    "id" =>  'application_'.$instanceByApplication->application->id ,
+                    "name" => $instanceByApplication->application->name
                 ]
             ];
         }
+        $instances = AppInstance::with("serviceVersion","application")
+                        ->where('environnement_id', $request->environnement_id)
+                        ->get() ;
 
-        foreach( AppInstance::with("serviceVersion","application")->get() as $appInstance)
+        foreach($instances as $appInstance)
         {
             $appInstance->serviceVersion->load("service");
             // add service instance
@@ -58,7 +64,16 @@ class InfraController extends Controller
                 "classes" => "appInstance",
             ];
 
-            foreach( AppInstanceDependencies::where("instance_id", $appInstance->id)->get() as $appDep)
+            $appDependencies = AppInstanceDependencies::with(['appInstance' => function($query) use ($request){
+                                    $query->where('environnement_id', $request->environnement_id);
+                                }])
+                                ->with(['appInstanceDep' => function($query) use ($request){
+                                    $query->where('environnement_id', $request->environnement_id);
+                                }])
+                                ->where("instance_id", $appInstance->id)
+                                ->get();
+
+            foreach($appDependencies  as $appDep)
             {
                 // add dependencies
                 $nodesData[] = (object)[
