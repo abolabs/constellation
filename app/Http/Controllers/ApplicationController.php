@@ -71,7 +71,7 @@ class ApplicationController extends AppBaseController
     {
         $application = $this->applicationRepository->find($id);
 
-        $appInstances = AppInstance::where("application_id",$id)->with(['serviceVersion','serviceVersion.service','environnement'])->get();
+        $appInstances = AppInstance::where("application_id",$id)->with(['serviceVersion','serviceVersion.service','environnement'])->orderBy('environnement_id')->get();
 
         if (empty($application)) {
             Flash::error('Application not found');
