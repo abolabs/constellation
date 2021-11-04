@@ -21,15 +21,18 @@
         "vue-template-compiler": "^2.6.14"
     },
     "dependencies": {
+        "@popperjs/core": "^2.10.2",
         "cose-base": "^2.1.0",
         "cytoscape": "^3.20.0",
         "cytoscape-cxtmenu": "^3.4.0",
         "cytoscape-fcose": "^2.1.0",
         "cytoscape-layout-utilities": "^1.1.1",
+        "cytoscape-popper": "^2.0.0",
         "datatables.net": "^1.11.3",
         "datatables.net-buttons": "^2.0.1",
         "datatables.net-responsive": "^2.2.9",
         "laravel-datatables-assets": "git+https://github.com/yajra/laravel-datatables-assets.git",
-        "layout-base": "^2.0.1"
+        "layout-base": "^2.0.1",
+        "tippy.js": "^6.3.4"
     }
 }

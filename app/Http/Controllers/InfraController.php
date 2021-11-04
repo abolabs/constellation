@@ -43,7 +43,8 @@ class InfraController extends Controller
                 "data" =>(object)[
                     "id" =>  'application_'.$instanceByApplication->application->id ,
                     "name" => $instanceByApplication->application->name
-                ]
+                ],
+                "classes" => "application"
             ];
         }
         $instances = AppInstance::with("serviceVersion","application")
@@ -58,7 +59,8 @@ class InfraController extends Controller
                 "group" => "nodes",
                 "data" =>(object)[
                     "id" =>  'appInstance_'.$appInstance->id ,
-                    "name" => $appInstance->serviceVersion->service->name." - v".$appInstance->serviceVersion->version,
+                    "name" => $appInstance->serviceVersion->service->name,
+                    "version" => "v".$appInstance->serviceVersion->version,
                     "parent" => 'application_'.$appInstance->application->id ,
                 ],
                 "classes" => "appInstance",

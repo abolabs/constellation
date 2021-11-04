@@ -99,3 +99,11 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, tabl
   .dataTables_wrapper .dataTables_processing{
       background: none;
   }
+
+// tippy
+@import 'tippy.js/dist/tippy.css'; // optional for styling
+@import 'tippy.js/themes/light.css';
+@import 'tippy.js/themes/material.css';
+.tippy-content{
+    font-size: 0.6em;
+}

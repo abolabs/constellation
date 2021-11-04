@@ -13,15 +13,9 @@ class Graph {
     }
 
     refreshLayout(){
-        this.cy.nodes().forEach(function (node) {
-            let size = 25;
-            node.css("width", size);
-            node.css("height", size);
-        });
-
         this.cy.layout({
             name: 'fcose',
-            animationEasing: 'ease-out',
+            animate: false,
             nodeRepulsion: 4500,
             idealEdgeLength: 200,
             edgeElasticity: 0.45,
@@ -39,16 +33,11 @@ class Graph {
                 let layoutUtilities = this.layoutUtilities({
                     desiredAspectRatio: this.width() / this.height()
                 });
-                this.nodes().forEach(function (node) {
-                    let size = 25;
-                    node.css("width", size);
-                    node.css("height", size);
-                });
 
                 this.layout({
                     name: 'fcose',
-                    animationEasing: 'ease-out',
-                    nodeRepulsion: 4500,
+                    animate: false,
+                    nodeRepulsion: 5500,
                     idealEdgeLength: 200,
                     edgeElasticity: 0.45,
                 }).run();
@@ -57,11 +46,18 @@ class Graph {
             minZoom: 0.750,
             maxZoom: 1.25,
             wheelSensitivity: 0.25,
+            refresh: 20,
+            padding:150,
             style: [
                 {
                     selector: 'node',
                     css: {
                         'content': 'data(name)',
+                        "shape": "roundrectangle",
+                        "text-halign": "center",
+                        "text-valign": "top",
+                        "opacity": "1",
+                        "border-color": "#555555",
                     },
                 },
                 {
@@ -93,19 +89,51 @@ class Graph {
                         'background-color': '#084C61',
                         'border-width': '2',
                         'border-color': '#177E89',
+                        'text-wrap': 'wrap',
+                        'text-valign': 'center',
+                        'text-halign': 'center',
+                        'text-max-width': '100px',
+                        'label': 'data(name)',
+                        'width': 'label',
+                        'height': 'label',
+                        'color':  '#FDFFFC',
+                        'padding': 10,
                     }
                 },
                 {
-                    selector: '#n0',
-                    css: {
-                        'background-fit': 'contain',
-                        'background-image': 'https://live.staticflickr.com/7272/7633179468_3e19e45a0c_b.jpg',
+                    selector: '.application',
+                    style: {
+                        "text-valign": "top",
+                        "shape": "roundrectangle",
+                        "text-margin-y": "0px",
+                        "font-weight" : "bold",
+                        "border-color": "#084C61",
+                        "padding": 30,
                     }
                 }
             ],
-            elements: loadNodesCallback
+           elements: loadNodesCallback
         });
 
+        cy.on('layoutstart', ( (event) => {
+            $('div[id^="tippy-"]').remove();
+        }))
+
+        cy.on('layoutready',( (event) => {
+            const appInstances =  cy.nodes(`.appInstance`);
+            appInstances.map((elt) => {
+                Graph.generateTag(elt, elt.data('version')).show();
+            });
+        }))
+
+        cy.ready(function() {
+            const appInstances =  cy.nodes(`.appInstance`);
+            appInstances.map((elt) => {
+                Graph.generateTag(elt, elt.data('version')).show();
+            });
+        })
+
+        // Menu contextuel
         cy.cxtmenu({
             selector: 'node, edge',
             commands: [
@@ -152,6 +180,33 @@ class Graph {
 
     }
 
+    static generateTag(ele, text, placement='bottom', theme='material'){
+        var ref = ele.popperRef();
+
+        // Since tippy constructor requires DOM element/elements, create a placeholder
+        var dummyDomEle = document.createElement('div');
+
+        var tip = tippy( dummyDomEle, {
+            getReferenceClientRect: ref.getBoundingClientRect,
+            trigger: 'manual', // mandatory
+            // dom element inside the tippy:
+            content: text,
+            // your own preferences:
+            theme: theme,
+            arrow: false,
+            placement: placement,
+            hideOnClick: false,
+            plugins: [window.tippyPluginSticky],
+            sticky: "reference",
+            // if interactive:
+            interactive: true,
+            appendTo: document.body // or append dummyDomEle to document.body
+        } );
+
+        return tip;
+    };
+
+    // Chargement des données
     static getNodesByApplication(environnement_id) {
         console.log(">>> getNodesByApplication" , environnement_id);
 

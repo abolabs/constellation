@@ -7,7 +7,7 @@ window._ = require('lodash');
  */
 
 try {
-    window.Popper = require('popper.js').default;
+    window.Popper = require('@popperjs/core').createPopper;
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
@@ -54,6 +54,7 @@ window.cytoscape = require('cytoscape');
 require('cytoscape-cxtmenu');
 require('cytoscape-layout-utilities');
 require('cytoscape-fcose');
+require('cytoscape-popper');
 
 /**
  * Graph
@@ -86,5 +87,7 @@ require('cytoscape-fcose');
     window.DataTableRenderer = DataTableRenderer.default;
  });
 
-
+ import tippy, {sticky} from 'tippy.js';
+ window.tippy = tippy
+ window.tippyPluginSticky = sticky
 
