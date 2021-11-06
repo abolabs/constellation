@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\AppInstanceDependencies;
+use App\Rules\AppInstancesDep\AppInstancesHasSameEnv;
 
 class CreateAppInstanceDependenciesRequest extends FormRequest
 {
@@ -25,6 +26,15 @@ class CreateAppInstanceDependenciesRequest extends FormRequest
      */
     public function rules()
     {
-        return AppInstanceDependencies::$rules;
+        return [
+            'instance_id' => [
+                new AppInstancesHasSameEnv($this->all()),
+                ...AppInstanceDependencies::$rules['instance_id']
+            ],
+            'instance_dep_id' => [
+                ...AppInstanceDependencies::$rules['instance_dep_id']
+            ]
+
+        ];
     }
 }

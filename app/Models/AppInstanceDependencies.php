@@ -77,8 +77,15 @@ class AppInstanceDependencies extends Model implements Auditable
      * @var array
      */
     public static $rules = [
-        'instance_id' => 'required|exists:app_instance,id',
-        'instance_dep_id' => 'required|exists:app_instance,id',
+        'instance_id' => [
+            'required',
+            'exists:app_instance,id'
+        ],
+        'instance_dep_id' => [
+            'required',
+            'exists:app_instance,id'
+        ],
+
     ];
 
     /**

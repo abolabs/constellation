@@ -3,6 +3,7 @@
 namespace App\Http\Requests\API;
 
 use App\Models\AppInstanceDependencies;
+use App\Rules\AppInstancesDep\AppInstancesHasSameEnv;
 use InfyOm\Generator\Request\APIRequest;
 
 class CreateAppInstanceDependenciesAPIRequest extends APIRequest
@@ -24,6 +25,14 @@ class CreateAppInstanceDependenciesAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return AppInstanceDependencies::$rules;
+        return [
+            'instance_id' => [
+                new AppInstancesHasSameEnv($this->all()),
+                ...AppInstanceDependencies::$rules['instance_id']
+            ],
+            'instance_dep_id' => [
+                ...AppInstanceDependencies::$rules['instance_dep_id']
+            ]
+        ];
     }
 }

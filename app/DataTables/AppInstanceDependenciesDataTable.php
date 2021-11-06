@@ -29,7 +29,9 @@ class AppInstanceDependenciesDataTable extends AbstractCommonDatatable
      */
     public function query(AppInstanceDependencies $model)
     {
-        return $model->newQuery()->with(['appInstance','appInstanceDep','appInstance.serviceVersion.service','appInstanceDep.serviceVersion.service'])->select(['app_instance_dep.*']);
+        return $model->newQuery()
+                ->with(['appInstance','appInstanceDep','appInstance.serviceVersion.service','appInstanceDep.serviceVersion.service'])
+                ->select(['app_instance_dep.*']);
     }
 
     /**
