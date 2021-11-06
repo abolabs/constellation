@@ -68,9 +68,9 @@
                                                 <div class="card-body">
                                                     <div class="form-group">
                                                         <!-- Environnement Field -->
-                                                        {!! Form::label('environnement', 'Environnement') !!}
-                                                        <p>{{ $appInstance->environnement->name }}</p>
-                                                        <!-- Environnement Field -->
+                                                        {!! Form::label('git_repo', 'Repository') !!}
+                                                        <p><a href="{{ $appInstance->serviceVersion->service->git_repo }}" target="blank">{{ $appInstance->serviceVersion->service->git_repo }}  <i class="cil-external-link"></i> </a></p>
+                                                        <!-- Statut Field -->
                                                         {!! Form::label('statut', 'Statut') !!}
                                                         <p>
                                                             @if ($appInstance->statut == 1)

@@ -26,4 +26,17 @@
                  </div>
           </div>
     </div>
+    @if(count($instanceDependencies) > 0)
+        @include('app_instances.show_dependencies',[
+            'title' => 'Dépendances',
+            'instanceDependencies' => $instanceDependencies
+        ])
+    @endif
+
+    @if(count($instanceDependenciesSource) > 0)
+        @include('app_instances.show_dependencies',[
+            'title' => 'Requis par',
+            'instanceDependencies' => $instanceDependenciesSource
+        ])
+    @endif
 @endsection

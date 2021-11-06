@@ -7,6 +7,7 @@ use App\Http\Requests\CreateAppInstanceRequest;
 use App\Http\Requests\UpdateAppInstanceRequest;
 use App\Repositories\AppInstanceRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Models\AppInstanceDependencies;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -79,7 +80,26 @@ class AppInstanceController extends AppBaseController
             return redirect(route('appInstances.index'));
         }
 
-        return view('app_instances.show')->with('appInstance', $appInstance);
+        $instanceDependencies = AppInstanceDependencies::where('instance_id', $id)
+            ->with(
+                'appInstanceDep',
+                'appInstanceDep.application',
+                'appInstanceDep.serviceVersion',
+                'appInstanceDep.serviceVersion.service',
+            )->get();
+
+        $instanceDependenciesSource = AppInstanceDependencies::where('instance_dep_id', $id)
+            ->with(
+                'appInstanceDep',
+                'appInstanceDep.application',
+                'appInstanceDep.serviceVersion',
+                'appInstanceDep.serviceVersion.service',
+            )->get();
+
+        return view('app_instances.show')
+                    ->with('appInstance', $appInstance)
+                    ->with('instanceDependencies', $instanceDependencies)
+                    ->with('instanceDependenciesSource', $instanceDependenciesSource);
     }
 
     /**
