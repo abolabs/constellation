@@ -96,4 +96,9 @@ class Service extends Model implements Auditable
     {
         return $this->belongsTo(\App\Models\Team::class,'team_id');
     }
+
+    public function versions()
+    {
+        return $this->hasMany(ServiceVersion::class,'service_id');
+    }
 }

@@ -54,8 +54,16 @@ class ServiceVersionController extends AppBaseController
         $input = $request->all();
 
         $serviceVersion = $this->serviceVersionRepository->create($input);
+        if (empty($serviceVersion)) {
+            Flash::error('Error during saving the new version');
 
-        Flash::success('Service Version saved successfully.');
+        }else{
+            Flash::success('Service Version saved successfully.');
+        }
+
+        if(!empty($input['redirect_to_service'])){
+            return back()->withInput();
+        }
 
         return redirect(route('serviceVersions.index'));
     }

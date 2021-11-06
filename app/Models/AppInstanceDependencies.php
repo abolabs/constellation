@@ -47,8 +47,6 @@ class AppInstanceDependencies extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    use SoftDeletes;
-
     use HasFactory;
 
     public $table = 'app_instance_dep';

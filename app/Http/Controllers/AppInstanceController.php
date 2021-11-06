@@ -90,10 +90,10 @@ class AppInstanceController extends AppBaseController
 
         $instanceDependenciesSource = AppInstanceDependencies::where('instance_dep_id', $id)
             ->with(
-                'appInstanceDep',
-                'appInstanceDep.application',
-                'appInstanceDep.serviceVersion',
-                'appInstanceDep.serviceVersion.service',
+                'appInstance',
+                'appInstance.application',
+                'appInstance.serviceVersion',
+                'appInstance.serviceVersion.service',
             )->get();
 
         return view('app_instances.show')

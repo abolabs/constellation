@@ -46,8 +46,6 @@ class ServiceVersion extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    use SoftDeletes;
-
     use HasFactory;
 
     public $table = 'service_version';
@@ -76,15 +74,24 @@ class ServiceVersion extends Model implements Auditable
      * @var array
      */
     public static $rules = [
-        'service_id' => 'required|exists:service,id',
+        'service_id' => ['required','exists:service,id'],
+        'version' => ['required']
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
      **/
     public function service()
     {
         return $this->belongsTo(\App\Models\Service::class, 'service_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function instances()
+    {
+        return $this->hasMany(\App\Models\AppInstance::class, 'service_version_id');
     }
 
     public function newQuery()

@@ -28,9 +28,9 @@ class AppInstancesHasSameEnv implements Rule
     {
         try{
             $sourceInstance = AppInstance::find($value, ['environnement_id']);
-            $depInstance = AppInstance::find($this->data->instance_dep_id, ['environnement_id']);
+            $depInstance = AppInstance::find($this->data->get('instance_dep_id'), ['environnement_id']);
 
-            return ($sourceInstance->environnement_id != $depInstance->environnement_id);
+            return ($sourceInstance->environnement_id == $depInstance->environnement_id);
         }catch(\Exception $exception){
             \Log::warning($exception);
             return false;

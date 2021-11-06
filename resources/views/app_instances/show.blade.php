@@ -18,7 +18,7 @@
                                 <a href="{{ route('appInstances.edit', $appInstance->id ) }}" class="btn btn-light">Edit</a>
                                 <a href="{{ route('appInstances.index') }}" class="btn btn-light pull-right">Back</a>
                              </div>
-                             <div class="card-body">
+                             <div class="card-body row">
                                  @include('app_instances.show_fields')
                              </div>
                          </div>
@@ -29,14 +29,16 @@
     @if(count($instanceDependencies) > 0)
         @include('app_instances.show_dependencies',[
             'title' => 'Dépendances',
-            'instanceDependencies' => $instanceDependencies
+            'instanceDependencies' => $instanceDependencies,
+            'instanceKey' => 'appInstanceDep'
         ])
     @endif
-
+)
     @if(count($instanceDependenciesSource) > 0)
         @include('app_instances.show_dependencies',[
             'title' => 'Requis par',
-            'instanceDependencies' => $instanceDependenciesSource
+            'instanceDependencies' => $instanceDependenciesSource,
+            'instanceKey' => 'appInstance'
         ])
     @endif
 @endsection

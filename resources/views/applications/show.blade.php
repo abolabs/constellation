@@ -18,7 +18,7 @@
                             <a href="{{ route('applications.edit', $application->id ) }}" class="btn btn-light">Edit</a>
                             <a href="{{ route('applications.index') }}" class="btn btn-light pull-right">Back</a>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body row">
                             @include('applications.show_fields')
                         </div>
                     </div>
@@ -67,6 +67,10 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="form-group">
+                                                        <!-- Id Field -->
+                                                        {!! Form::label('appInstance_id', 'Id') !!}
+                                                        <p>{{ $appInstance->id }}</p>
+
                                                         <!-- Environnement Field -->
                                                         {!! Form::label('git_repo', 'Repository') !!}
                                                         <p><a href="{{ $appInstance->serviceVersion->service->git_repo }}" target="blank">{{ $appInstance->serviceVersion->service->git_repo }}  <i class="cil-external-link"></i> </a></p>

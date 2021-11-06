@@ -18,7 +18,7 @@
                                 <a href="{{ route('hostings.edit', $hosting->id ) }}" class="btn btn-light">Edit</a>
                                 <a href="{{ route('hostings.index') }}" class="btn btn-light pull-right">Back</a>
                              </div>
-                             <div class="card-body">
+                             <div class="card-body row">
                                  @include('hostings.show_fields')
                              </div>
                          </div>

@@ -199,7 +199,7 @@ class Graph {
             plugins: [window.tippyPluginSticky],
             sticky: "reference",
             // if interactive:
-            interactive: true,
+            interactive: false,
             appendTo: document.body // or append dummyDomEle to document.body
         } );
 

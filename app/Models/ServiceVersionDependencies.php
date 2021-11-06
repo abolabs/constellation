@@ -20,13 +20,11 @@ use OwenIt\Auditing\Contracts\Auditable;
 class ServiceVersionDependencies extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-    
-    use SoftDeletes;
 
     use HasFactory;
 
     public $table = 'service_version_dependencies';
-    
+
 
     protected $dates = ['deleted_at'];
 

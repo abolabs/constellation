@@ -76,8 +76,23 @@ class ServiceController extends AppBaseController
 
             return redirect(route('services.index'));
         }
+        $service->load('versions', 'versions.instances.application');
 
-        return view('services.show')->with('service', $service);
+        $serviceByApplication = [];
+        foreach($service->versions as $version ){
+            $serviceByApplication[$version->id] = [];
+            foreach($version->instances as $instance){
+                if(!isset($serviceByApplication[$version->id][$instance->application->id])){
+                    $serviceByApplication[$version->id][$instance->application->id] = [
+                        "name" => $instance->application->name,
+                        "total" => 0
+                    ];
+                }
+                $serviceByApplication[$version->id][$instance->application->id]['total']++;
+            }
+        }
+
+        return view('services.show')->with('service', $service)->with('serviceByApplication', $serviceByApplication);
     }
 
     /**
