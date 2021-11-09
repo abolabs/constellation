@@ -36,9 +36,10 @@
                         <div class="card-header text-white bg-secondary">
                             <strong>Instances de services</strong>
                         </div>
+
                         <div class="card-body">
                             <div class="row">
-
+                                @if (count($appInstances) > 0)
                                 <div class="nav flex-column nav-pills col-lg-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                     @foreach($appInstances as $index => $appInstance)
                                         @if(!isset($appInstances[$index-1]) || $appInstances[$index-1]->environnement_id != $appInstance->environnement_id)
@@ -92,6 +93,9 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                @else
+                                <p>{{ __('application.no_service') }}</p>
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -57,7 +57,7 @@ class ApplicationController extends AppBaseController
 
         Flash::success('Application saved successfully.');
 
-        return redirect(route('applications.index'));
+        return redirect(route('applications.show', $application->id));
     }
 
     /**
