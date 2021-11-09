@@ -10,6 +10,18 @@
         window.selector.make("#application_id", "/api/applications", "id", "name")
     </script>
 </div>
+<!-- Service Version Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('service_id', 'Service :') !!}
+    <select name="service_id" id="service_id" class="form-control">
+    @if (isset($appInstance->serviceVersion->service->id))
+        <option value="{{$appInstance->serviceVersion->service->id}}">[{{$appInstance->serviceVersion->service->id}}] {{$appInstance->serviceVersion->service->name}}</option>
+    @endif
+    </select>
+    <script>
+        window.selector.make("#service_id", "/api/services", "id", ["name"])
+    </script>
+</div>
 
 <!-- Service Version Id Field -->
 <div class="form-group col-sm-6">
@@ -20,7 +32,18 @@
     @endif
     </select>
     <script>
-        window.selector.make("#service_version_id", "/api/serviceVersions", "id", ["version", "service_name"])
+        initServiceVersionSelector();
+        function initServiceVersionSelector()
+        {
+            window.selector.make("#service_version_id", "/api/serviceVersions", "id", ["version"], {
+                service_id: $('#service_id').val()
+            })
+        }
+        $('#service_id').change((e) => {
+            console.log("service updated ",  $('#service_id').val());
+            $('#service_version_id').val("");
+            initServiceVersionSelector();
+        });
     </script>
 </div>
 

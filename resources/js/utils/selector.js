@@ -1,5 +1,5 @@
 
-export function make(select, url, id_key, text_key) {
+export function make(select, url, id_key, text_key, default_query={}) {
   $(document).ready(() => {
     $(select).select2({
         ajax: {
@@ -7,13 +7,12 @@ export function make(select, url, id_key, text_key) {
             dataType: 'json',
             allowClear: true,
             data: function(params){
-
+                console.log(default_query);
                 if(typeof params.term == "undefined" || !params.term || /^\s*$/.test(params.term)){
-                    return;
+                    return default_query;
                 }
 
-                let query = {
-                };
+                let query = default_query;
 
                 if(typeof text_key == "object"){
                     for(const single_label in text_key){
@@ -40,7 +39,7 @@ export function make(select, url, id_key, text_key) {
 
                     data.push({
                         id: value[id_key],
-                        text: "["+value[id_key]+"] "+label
+                        text: "[#"+value[id_key]+"] "+label
                     })
                 })
                 // Transforms the top-level key of the response object from 'items' to 'results'

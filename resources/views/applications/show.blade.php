@@ -59,7 +59,7 @@
                                             <div class="tab-pane fade show @if($index == 0) active @endif" id="v-pills-{{$appInstance->environnement_id}}" role="tabpanel" aria-labelledby="v-pills-{{$appInstance->environnement_id}}-tab">
                                                 <div class="row">
                                         @endif
-                                        <div class="col-sm-6 col-md-3">
+                                        <div class="col-sm-12 col-md-6 col-lg-4">
                                             <div class="card">
                                                 <div class="card-header text-white bg-primary">
                                                     {{ $appInstance->serviceVersion->service->name }}
