@@ -1,6 +1,4 @@
-<?php
-
-
+<?php 
 return [
-    'no_service' => 'Aucune service attaché à l\'application',
+  'no_service' => 'Aucun service associé à l&#39;application',
 ];
