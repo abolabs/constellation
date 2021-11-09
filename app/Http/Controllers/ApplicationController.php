@@ -144,6 +144,12 @@ class ApplicationController extends AppBaseController
             return redirect(route('applications.index'));
         }
 
+        if(AppInstance::where('application_id',$id)->whereNull('deleted_at')->count()>0){
+            Flash::error('Impossible de supprimer l\'application, des instances de services sont attachées à l\'application.');
+
+            return redirect(route('applications.index'));
+        }
+
         $this->applicationRepository->delete($id);
 
         Flash::success('Application deleted successfully.');
