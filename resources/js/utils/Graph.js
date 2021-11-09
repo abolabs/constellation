@@ -194,6 +194,7 @@ class Graph {
             // your own preferences:
             theme: theme,
             arrow: false,
+            zIndex:3,
             placement: placement,
             hideOnClick: false,
             plugins: [window.tippyPluginSticky],

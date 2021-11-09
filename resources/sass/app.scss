@@ -107,3 +107,6 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, tabl
 .tippy-content{
     font-size: 0.6em;
 }
+.tippy-box[data-theme~="material"]{
+    background: rgba(80,83,85,0.8);
+}
