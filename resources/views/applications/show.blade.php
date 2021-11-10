@@ -29,12 +29,12 @@
 
     <div class="container-fluid">
         <div class="animated fadeIn">
-            @include('coreui-templates::common.errors')
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header text-white bg-secondary">
                             <strong>Instances de services</strong>
+                            <a class="pull-right" href="#" data-toggle="modal" data-target="#newServiceVersionModal"><i class="fa fa-plus-square fa-lg pull-right"></i></a>
                         </div>
 
                         <div class="card-body">
@@ -101,6 +101,34 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="newServiceVersionModal" tabindex="-1" role="dialog" aria-labelledby="newVersionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="newServiceVersionModalLabel">Ajouter une nouvelle instance de service</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {!! Form::open(['route' => 'appInstances.store']) !!}
+            <div class="modal-body">
+
+                <!-- Application id -->
+                <input type="hidden" name="application_id" value="{{ $application->id }}" />
+                <input type="hidden" name="redirect_to_back" value="1" />
+
+                @include('app_instances.fields', ['noButton' => true, 'ignoreApp' => true])
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+            </div>
+            {!! Form::close() !!}
+        </div>
         </div>
     </div>
 @endsection

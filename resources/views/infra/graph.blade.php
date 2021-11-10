@@ -12,9 +12,11 @@
                 </div>
                 <div class="col-md-3 col-sm-12 form-group text-right">
                     <label>Environnement</label>
-                    <select class="form-select" id="env" aria-label="Sélectionner un environnement">
-                        <option selected value="{{ $mainEnvironnement['environnement']['id'] }}">{{ $mainEnvironnement['environnement']['name'] }}</option>
-                    </select>
+                    <p>
+                        <select class="form-select select-primary" id="env" aria-label="Sélectionner un environnement">
+                            <option selected value="{{ $mainEnvironnement['environnement']['id'] }}">{{ $mainEnvironnement['environnement']['name'] }}</option>
+                        </select>
+                    </p>
                 </div>
             </div>
         </div>

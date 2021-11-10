@@ -43,6 +43,13 @@
     }
 }
 
+// breadcrumb
+.breadcrumb{
+    border-bottom:0;
+    background-color: $body-bg;
+    font-size: 1.5em;
+}
+
 // Sidebar
 .sidebar .nav-link:hover{
     background: $primary;
@@ -50,9 +57,25 @@
 .sidebar .nav-link.active .nav-icon{
     color: $primary !important;
 }
+
+.sidebar-minimized .sidebar .nav-item:hover > .nav-link{
+    background: $primary;
+}
+
+.sidebar-minimized .sidebar .nav-link:hover,.sidebar-minimized .sidebar .nav-item:hover{
+    width: 350px;
+}
+.sidebar-minimized .sidebar .nav-dropdown-items .nav-item .nav-link, .sidebar-minimized .sidebar .nav-dropdown-items .nav-item{
+    width: 300px;
+}
 // Components
+// -- Card
 .card-body label {
-  font-weight: bold;
+    font-weight: bold;
+}
+// --Modal
+.modal-body label{
+    font-weight: bold;
 }
 
 // Datatable
@@ -71,7 +94,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, tabl
 }
 
 table.dataTable thead th, table.dataTable thead td{
-    border-bottom: 1px solid rgba(0,0,0,0.6);
+    border-bottom: 2px solid $secondary;
 }
 .table thead th{
     vertical-align:middle;
@@ -80,6 +103,23 @@ table.dataTable thead th, table.dataTable thead td{
 }
 .table-bordered th, .table-bordered td {
     border:none;
+}
+
+table.dataTable thead th:first-child{
+    border-top-left-radius: 5px;
+}
+
+table.dataTable thead th:last-child{
+    border-top-right-radius: 5px;
+}
+
+// Form
+.select-primary{
+    background: $primary;
+    border: none;
+    color: $white;
+    padding: 0.5em;
+    border-radius: 0.5em;
 }
 
 // Graph

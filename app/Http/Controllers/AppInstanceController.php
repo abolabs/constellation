@@ -59,6 +59,9 @@ class AppInstanceController extends AppBaseController
 
         Flash::success('App Instance saved successfully.');
 
+        if(!empty($input['redirect_to_back'])){
+            return back()->withInput();
+        }
         return redirect(route('appInstances.index'));
     }
 

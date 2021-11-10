@@ -1,7 +1,7 @@
 <div class="col-sm-3">
     <div class="card card-inverse card-primary text-white bg-primary">
         <div class="card-block p-3">
-            <div class="h1 text-muted text-right mb-2">
+            <div class="h4 text-muted text-right mb-2">
                 <i class="fa fa-window-maximize"></i>
             </div>
             <div class="h4 mb-0">{{$nbApp}}</div>
@@ -16,7 +16,7 @@
 <div class="col-sm-3">
     <div class="card card-inverse card-info text-white bg-danger">
         <div class="card-block p-3">
-            <div class="h1 text-muted text-right mb-2">
+            <div class="h4 text-muted text-right mb-2">
                 <i class="cil-apps"></i>
             </div>
             <div class="h4 mb-0">{{$nbInstances}}</div>
@@ -31,7 +31,7 @@
 <div class="col-sm-3">
     <div class="card card-inverse card-success bg-warning">
         <div class="card-block p-3">
-            <div class="h1 text-muted text-right mb-2">
+            <div class="h4 text-muted text-right mb-2">
                 <i class="cib-codesandbox"></i>
             </div>
             <div class="h4 mb-0 text-muted">{{$nbServices}}</div>
@@ -46,7 +46,7 @@
 <div class="col-sm-3">
     <div class="card card-inverse card-warning text-white bg-info">
         <div class="card-block p-3">
-            <div class="h1 text-muted text-right mb-2">
+            <div class="h4 text-muted text-right mb-2">
                 <i class="cib-ghost"></i>
             </div>
             <div class="h4 mb-0">{{$nbHostings}}</div>

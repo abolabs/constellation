@@ -2,6 +2,7 @@
 export function make(select, url, id_key, text_key, default_query={}) {
   $(document).ready(() => {
     $(select).select2({
+        width: '100%',
         ajax: {
             url: url,
             dataType: 'json',

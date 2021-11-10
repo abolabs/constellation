@@ -25,7 +25,9 @@ abstract class AbstractCommonDatatable extends DataTable
                 'order'     => [[0, 'desc']],
                 'buttons'   => $this->getHtmlButtons(),
                 'language'  =>  [
-                    'processing' => '<div class="lds-dual-ring"></div>'
+                    'processing' => '<div class="lds-dual-ring"></div>',
+                    "search"=> "_INPUT_",            // Removes the 'Search' field label
+                    "searchPlaceholder"=> "Search"   // Placeholder for the search box
                 ],
                 'initComplete' => '
                     function () {
@@ -63,11 +65,11 @@ abstract class AbstractCommonDatatable extends DataTable
                 ]
             ],
             'buttons' => [
-                ['extend' => 'create', 'className' => 'btn btn-primary btn-sm no-corner',],
-                ['extend' => 'excel', 'className' => 'btn btn-secondary btn-sm no-corner',],
-                ['extend' => 'print', 'className' => 'btn btn-secondary btn-sm no-corner',],
-                ['extend' => 'reset', 'className' => 'btn btn-secondary btn-sm no-corner',],
-                ['extend' => 'reload', 'className' => 'btn btn-secondary btn-sm no-corner',],
+                ['extend' => 'create', 'className' => 'btn btn-sm no-corner',],
+                ['extend' => 'excel', 'className' => 'btn btn-sm no-corner',],
+                ['extend' => 'print', 'className' => 'btn btn-sm no-corner',],
+                ['extend' => 'reset', 'className' => 'btn btn-sm no-corner',],
+                ['extend' => 'reload', 'className' => 'btn btn-sm no-corner',],
             ]
         ];
     }
