@@ -8,7 +8,7 @@
             <small class="text-muted text-uppercase font-weight-bold">Applications</small>
         </div>
         <div class="card-footer p-x-1 py-h">
-            <a class="font-weight-bold font-xs btn-block text-muted" href="{{ route('applications.index') }}">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></a>
+            <a class="font-weight-bold font-xs btn-block text-muted" href="{{ route('applications.index') }}"><small class="text-muted">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></small></a>
         </div>
     </div>
 </div>
@@ -23,7 +23,7 @@
             <small class="text-muted text-uppercase font-weight-bold">Instances Applicatives</small>
         </div>
         <div class="card-footer p-x-1 py-h">
-            <a class="font-weight-bold font-xs btn-block text-muted" href="{{ route('appInstances.index') }}">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></a>
+            <a class="font-weight-bold font-xs btn-block text-muted" href="{{ route('appInstances.index') }}"><small class="text-muted">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></small></a>
         </div>
     </div>
 </div>
@@ -38,7 +38,7 @@
             <small class="text-muted text-uppercase font-weight-bold">Services</small>
         </div>
         <div class="card-footer p-x-1 py-h">
-            <a class="font-weight-bold font-xs btn-block text-muted" href="{{ route('services.index') }}">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></a>
+            <a class="font-weight-bold font-xs btn-block text-muted" href="{{ route('services.index') }}"><small class="text-muted">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></small></a>
         </div>
     </div>
 </div>
@@ -53,7 +53,7 @@
             <small class="text-muted text-uppercase font-weight-bold">Hébergements</small>
         </div>
         <div class="card-footer p-x-1 py-h">
-            <a class="font-weight-bold font-xs btn-block text-muted" href="{{ route('hostings.index') }}">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></a>
+            <a class="font-weight-bold font-xs btn-block text-muted" href="{{ route('hostings.index') }}"><small class="text-muted">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></small></a>
         </div>
     </div>
 </div>

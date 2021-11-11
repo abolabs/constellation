@@ -68,26 +68,25 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="form-group">
-                                                        <!-- Id Field -->
-                                                        {!! Form::label('appInstance_id', 'Id') !!}
-                                                        <p>{{ $appInstance->id }}</p>
-
+                                                        <p>
+                                                            <!-- Statut Id -->
+                                                            <span class="badge badge-info">Id: {{ $appInstance->id }}</span>
+                                                            <!-- Statut Field -->
+                                                            @if ($appInstance->statut == 1)
+                                                                <span class="badge badge-success">Statut: Active</span>
+                                                            @else
+                                                            <span class="badge badge-warning">Statut: Inactive</span>
+                                                            @endif
+                                                        </p>
                                                         <!-- Environnement Field -->
                                                         {!! Form::label('git_repo', 'Repository') !!}
                                                         <p><a href="{{ $appInstance->serviceVersion->service->git_repo }}" target="blank">{{ $appInstance->serviceVersion->service->git_repo }}  <i class="cil-external-link"></i> </a></p>
-                                                        <!-- Statut Field -->
-                                                        {!! Form::label('statut', 'Statut') !!}
-                                                        <p>
-                                                            @if ($appInstance->statut == 1)
-                                                                <span class="badge badge-success">Active</span>
-                                                            @else
-                                                            <span class="badge badge-warning">Inactive</span>
-                                                            @endif
-                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div class="card-footer p-x-1 py-h">
-                                                    <a class="font-weight-bold font-xs btn-block text-muted" href="/appInstances/{{ $appInstance->id }}">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></a>
+                                                    <a class="font-weight-bold font-xs btn-block text-muted" href="/appInstances/{{ $appInstance->id }}">
+                                                        <small class="text-muted">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></small>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
