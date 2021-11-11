@@ -51,7 +51,10 @@
         });
 
         $('#env').change((e) => {
-            window.Graph.getNodesByApplication($('#env').val()).then((graphData) => {
+            const params = {
+                environnement_id: $('#env').val()
+            }
+            window.Graph.getNodesByApplication(params).then((graphData) => {
                 if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
                     console.log("no data");
                 }
@@ -63,8 +66,10 @@
 
         function drawGraph(env_id)
         {
-            console.log("DEBUG ");
-            window.Graph.getNodesByApplication(env_id).then((graphData) => {
+            const params = {
+                environnement_id: env_id
+            }
+            window.Graph.getNodesByApplication(params).then((graphData) => {
                 if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
                     console.log("no data");
                 }

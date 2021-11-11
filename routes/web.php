@@ -48,6 +48,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard/graphNodes', [App\Http\Controllers\InfraController::class, 'getGraphServicesByApp'])->name('dashboard.graphNodes');
 
     /**
+     * Application Mapping
+     */
+    Route::get('/application-mapping/by-app', [App\Http\Controllers\InfraController::class, 'displayByApp'])->name('applicationMapping.byApp');
+    Route::get('/application-mapping/by-env', [App\Http\Controllers\InfraController::class, 'index'])->name('applicationMapping.byEnv');
+
+    /**
      * Ressource
      */
     Route::resource('environnements', App\Http\Controllers\EnvironnementController::class);

@@ -1,3 +1,4 @@
+import {hideAll} from 'tippy.js';
 class Graph {
 
     constructor(cy){
@@ -58,6 +59,7 @@ class Graph {
                         "text-valign": "top",
                         "opacity": "1",
                         "border-color": "#555555",
+                        'font-family': '"Nunito", sans-serif',
                     },
                 },
                 {
@@ -194,7 +196,7 @@ class Graph {
             // your own preferences:
             theme: theme,
             arrow: false,
-            zIndex:3,
+            zIndex:0,
             placement: placement,
             hideOnClick: false,
             plugins: [window.tippyPluginSticky],
@@ -207,14 +209,16 @@ class Graph {
         return tip;
     };
 
+    static hideAllTag(){
+        hideAll();
+    }
+
     // Chargement des données
-    static getNodesByApplication(environnement_id) {
-        console.log(">>> getNodesByApplication" , environnement_id);
+    static getNodesByApplication(params) {
+        console.log(">>> getNodesByApplication" , params);
 
         return window.axios.get("/dashboard/graphNodes", {
-            params: {
-                environnement_id: environnement_id
-            }
+            params: params
         });
     }
 

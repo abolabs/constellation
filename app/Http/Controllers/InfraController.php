@@ -24,6 +24,19 @@ class InfraController extends Controller
         return view('infra.index', compact('nbApp','nbInstances','nbServices','nbHostings','mainEnvironnement'));
     }
 
+     /**
+     * Display the IT Infrastructure dashboard
+     *
+     * @return Response
+     */
+    public function displayByApp()
+    {
+        $mainEnvironnement = AppInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
+
+        return view('infra.byApp', compact('mainEnvironnement'));
+    }
+
+
     /**
      * Get nodes informations for the graph
      */
