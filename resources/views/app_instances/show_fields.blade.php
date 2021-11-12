@@ -25,6 +25,12 @@
     <p><a href="/environnements/{{ $appInstance->environnement_id }}">{{ $appInstance->environnement->name }}</a></p>
 </div>
 
+<!-- Hosting Id Field -->
+<div class="form-group col-lg-3">
+    {!! Form::label('hosting_id', 'Hosting') !!}
+    <p><a href="/hostings/{{ $appInstance->hosting_id }}">{{ $appInstance->hosting->name }}</a></p>
+</div>
+
 
 <!-- Url Field -->
 <div class="form-group col-lg-3">

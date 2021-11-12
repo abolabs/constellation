@@ -23,8 +23,12 @@ class ServiceVersionDependenciesFactory extends Factory
     public function definition()
     {
         return [
-            'service_version_id' => ServiceVersion::factory()->create()->id,
-            'service_version_dependency_id' => ServiceVersion::factory()->create()->id,
+            'service_version_id' => function(){
+                return ServiceVersion::factory()->create()->id;
+            },
+            'service_version_dependency_id' => function(){
+                return ServiceVersion::factory()->create()->id;
+            },
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

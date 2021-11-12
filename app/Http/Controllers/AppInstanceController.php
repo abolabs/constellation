@@ -75,7 +75,7 @@ class AppInstanceController extends AppBaseController
     public function show($id)
     {
         $appInstance = $this->appInstanceRepository->find($id);
-        $appInstance->load(['application','environnement','serviceVersion','serviceVersion.service']);
+        $appInstance->load(['application','hosting','environnement','serviceVersion','serviceVersion.service']);
 
         if (empty($appInstance)) {
             Flash::error('App Instance not found');
@@ -86,6 +86,7 @@ class AppInstanceController extends AppBaseController
         $instanceDependencies = AppInstanceDependencies::where('instance_id', $id)
             ->with(
                 'appInstanceDep',
+                'appInstanceDep.hosting',
                 'appInstanceDep.application',
                 'appInstanceDep.serviceVersion',
                 'appInstanceDep.serviceVersion.service',
@@ -94,6 +95,7 @@ class AppInstanceController extends AppBaseController
         $instanceDependenciesSource = AppInstanceDependencies::where('instance_dep_id', $id)
             ->with(
                 'appInstance',
+                'appInstanceDep.hosting',
                 'appInstance.application',
                 'appInstance.serviceVersion',
                 'appInstance.serviceVersion.service',

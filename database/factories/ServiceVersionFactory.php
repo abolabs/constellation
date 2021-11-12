@@ -23,7 +23,9 @@ class ServiceVersionFactory extends Factory
     public function definition()
     {
         return [
-            'service_id' => Service::factory()->create()->id,
+            'service_id' => function(){
+                return Service::factory()->create()->id;
+            },
             'version' => $this->faker->randomFloat(1,1,15),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s')

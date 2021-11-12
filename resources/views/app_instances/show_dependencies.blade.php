@@ -27,9 +27,12 @@
                                                 <span class="badge badge-warning">Statut: Inactive</span>
                                                 @endif
                                             </p>
-                                            <!-- Environnement Field -->
+                                            <!-- application Field -->
                                             {!! Form::label('application', 'Application') !!}
                                             <p>{{ $instanceDependencie[$instanceKey]->application->name }}</p>
+                                            <!-- Hosting Field -->
+                                            {!! Form::label('hosting', 'Hosting') !!}
+                                            <p>{{ $instanceDependencie[$instanceKey]->hosting->name }}</p>
                                             <!-- Environnement Field -->
                                             {!! Form::label('git_repo', 'Repository') !!}
                                             <p>

@@ -23,8 +23,12 @@ class AppInstanceDependenciesFactory extends Factory
     public function definition()
     {
         return [
-            'instance_id' => AppInstance::factory()->create()->id,
-            'instance_dep_id' => AppInstance::factory()->create()->id,
+            'instance_id' => function(){
+                return AppInstance::factory()->create()->id;
+            },
+            'instance_dep_id' => function(){
+                return AppInstance::factory()->create()->id;
+            },
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];

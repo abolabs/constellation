@@ -63,6 +63,19 @@
     </script>
 </div>
 
+<!-- Hosting Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('hosting_id', 'Hosting ') !!}
+    <select name="hosting_id" id="hosting_id" class="form-control">
+    @if (isset($appInstance->hosting->id))
+        <option value="{{$appInstance->hosting->id}}">[{{$appInstance->hosting->id}}] {{$appInstance->hosting->name}}</option>
+    @endif
+    </select>
+    <script>
+        window.selector.make("#hosting_id", "/api/hostings", "id", "name")
+    </script>
+</div>
+
 <!-- Url Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('url', 'Url') !!}

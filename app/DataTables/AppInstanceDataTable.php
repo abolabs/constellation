@@ -29,7 +29,7 @@ class AppInstanceDataTable extends AbstractCommonDatatable
     public function query(AppInstance $model)
     {
         return $model->newQuery()
-                ->with(['serviceVersion','serviceVersion.service','environnement','application'])
+                ->with(['serviceVersion','serviceVersion.service','environnement','application','hosting'])
                 ->select(['app_instance.*']);
     }
 
@@ -65,6 +65,11 @@ class AppInstanceDataTable extends AbstractCommonDatatable
                 'title' => 'Environnement',
                 'data'  => 'environnement.name',
                 'name'  => 'environnement.name',
+            ]),
+            'hosting_name' => new \Yajra\DataTables\Html\Column([
+                'title' => 'Hosting',
+                'data'  => 'hosting.name',
+                'name'  => 'hosting.name',
             ]),
             'url',
             'statut' => new \Yajra\DataTables\Html\Column([

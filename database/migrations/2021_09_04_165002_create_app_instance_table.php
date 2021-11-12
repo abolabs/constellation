@@ -19,6 +19,7 @@ class CreateAppInstanceTable extends Migration
             $table->integer('application_id')->unsigned();
             $table->integer('service_version_id')->unsigned();
             $table->integer('environnement_id')->unsigned();
+            $table->integer('hosting_id')->unsigned();
             $table->string('url');
             $table->boolean('statut')->default(0);
             $table->timestamps();
@@ -26,6 +27,7 @@ class CreateAppInstanceTable extends Migration
             $table->foreign('application_id')->references('id')->on('application');
             $table->foreign('service_version_id')->references('id')->on('service_version');
             $table->foreign('environnement_id')->references('id')->on('environnement');
+            $table->foreign('hosting_id')->references('id')->on('hosting');
         });
     }
 

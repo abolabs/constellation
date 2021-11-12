@@ -23,7 +23,9 @@ class ServiceFactory extends Factory
     public function definition()
     {
         return [
-            'team_id' => Team::factory()->create()->id,
+            'team_id' => function(){
+                return Team::factory()->create()->id;
+            },
             'name' => $this->faker->word,
             'git_repo' => $this->faker->url,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),

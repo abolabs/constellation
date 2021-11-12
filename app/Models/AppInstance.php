@@ -37,6 +37,7 @@ class AppInstance extends Model implements Auditable
         'application_id',
         'service_version_id',
         'environnement_id',
+        'hosting_id',
         'url',
         'statut'
     ];
@@ -51,6 +52,7 @@ class AppInstance extends Model implements Auditable
         'application_id' => 'integer',
         'service_version_id' => 'integer',
         'environnement_id' => 'integer',
+        'hosting_id' => 'integer',
         'url' => 'string',
         'statut' => 'boolean'
     ];
@@ -64,11 +66,12 @@ class AppInstance extends Model implements Auditable
         'application_id' => 'required|exists:application,id',
         'service_version_id' => 'required|exists:service_version,id',
         'environnement_id' => 'required|exists:environnement,id',
+        'hosting_id' => 'required|exists:hosting,id',
         'url' => 'url',
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
     public function serviceVersion()
     {
@@ -76,7 +79,7 @@ class AppInstance extends Model implements Auditable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
     public function environnement()
     {
@@ -84,10 +87,18 @@ class AppInstance extends Model implements Auditable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
     public function application()
     {
         return $this->belongsTo(\App\Models\Application::class, 'application_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function hosting()
+    {
+        return $this->belongsTo(\App\Models\Hosting::class, 'hosting_id');
     }
 }
