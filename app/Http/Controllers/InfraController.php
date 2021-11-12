@@ -37,6 +37,13 @@ class InfraController extends Controller
     }
 
 
+    public function displayByHosting()
+    {
+        $mainEnvironnement = AppInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
+
+        return view('infra.byHosting', compact('mainEnvironnement'));
+    }
+
     /**
      * Get nodes informations for the graph
      */
@@ -44,7 +51,7 @@ class InfraController extends Controller
     {
 
         $nodesData = [];
-        //$applications = Application::get();
+
         $instanceByApplications = AppInstance::select('application_id')->with('application')
                             ->where('environnement_id', $request->environnement_id)
                             ->groupBy('application_id')->get();
@@ -73,8 +80,83 @@ class InfraController extends Controller
                 "data" =>(object)[
                     "id" =>  'appInstance_'.$appInstance->id ,
                     "name" => $appInstance->serviceVersion->service->name,
-                    "version" => "v".$appInstance->serviceVersion->version,
+                    "tag" => "v".$appInstance->serviceVersion->version,
                     "parent" => 'application_'.$appInstance->application->id ,
+                ],
+                "classes" => "appInstance",
+            ];
+
+            $appDependencies = AppInstanceDependencies::with(['appInstance' => function($query) use ($request){
+                                    $query->where('environnement_id', $request->environnement_id);
+                                }])
+                                ->with(['appInstanceDep' => function($query) use ($request){
+                                    $query->where('environnement_id', $request->environnement_id);
+                                }])
+                                ->where("instance_id", $appInstance->id)
+                                ->get();
+
+            foreach($appDependencies  as $appDep)
+            {
+                // add dependencies
+                $nodesData[] = (object)[
+                    "group" => "edges",
+                    "data" =>(object)[
+                        "id" =>  'dep_'.$appInstance->id."_".$appDep->id ,
+                        "source" => "appInstance_".$appInstance->id,
+                        "target" => 'appInstance_'.$appDep->instance_dep_id ,
+                    ]
+                ];
+            }
+        }
+
+        return response()->json($nodesData);
+    }
+
+    /**
+     * Get nodes informations for the graph
+     */
+    public function getGraphServicesByHosting(GetGraphServicesByAppRequest $request)
+    {
+
+        $nodesData = [];
+
+        $instanceByHostings = AppInstance::select('hosting_id')->with('hosting')
+                            ->where('environnement_id', $request->environnement_id)
+                            ->groupBy('hosting_id')->get();
+
+        foreach($instanceByHostings as $instanceByHosting)
+        {
+            $nodesData[] = (object)[
+                "group" => "nodes",
+                "data" =>(object)[
+                    "id" =>  'hosting_'.$instanceByHosting->hosting->id ,
+                    "name" => $instanceByHosting->hosting->name
+                ],
+                "classes" => "hosting"
+            ];
+        }
+        $instances = AppInstance::with("serviceVersion","application")
+                        ->where('environnement_id', $request->environnement_id)
+                        ->get() ;
+
+        foreach($instances as $appInstance)
+        {
+            $appInstance->serviceVersion->load("service");
+
+            if($request->tag == 'application'){
+                $tag = $appInstance->application->name;
+            }else{
+                $tag = "v".$appInstance->serviceVersion->version;
+            }
+
+            // add service instance
+            $nodesData[] = (object)[
+                "group" => "nodes",
+                "data" =>(object)[
+                    "id" =>  'appInstance_'.$appInstance->id ,
+                    "name" => $appInstance->serviceVersion->service->name,
+                    "tag" => $tag,
+                    "parent" => 'hosting_'.$appInstance->hosting->id ,
                 ],
                 "classes" => "appInstance",
             ];

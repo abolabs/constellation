@@ -1,3 +1,4 @@
+@if (!empty($mainEnvironnement) && isset($mainEnvironnement['environnement']))
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header transparent-title">
@@ -27,6 +28,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     $(document).ready(() => {
@@ -81,3 +83,4 @@
 
     });
 </script>
+@endif

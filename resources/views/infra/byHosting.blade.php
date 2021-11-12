@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="col-lg-12 d-flex justify-content-between">
                         <div>
-                            <h4 class="card-title mb-0">Instances par application</h4>
+                            <h4 class="card-title mb-0">Instances par hébergement</h4>
                             <div class="small text-muted">
                                 <p>Utilisez le menu contextuel pour accéder au détail de chaque noeud <br/>(Clic gauche 2s ou clic droit)</p>
                             </div>
@@ -34,8 +34,14 @@
                         <label>Tag</label>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="version" checked>
+                            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="application" checked>
                             <label class="form-check-label" for="tagRadio1">
+                                Application
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio2" value="version">
+                            <label class="form-check-label" for="tagRadio2">
                                 Version
                             </label>
                         </div>
@@ -91,13 +97,14 @@
                             environnement_id: $('#env').val(),
                             tag: $(e.currentTarget).val(),
                         }
+                        console.log(params);
                         refreshGraph(params);
 
                     });
 
                     function refreshGraph(params)
                     {
-                        window.Graph.getNodesByApplication(params).then((graphData) => {
+                        window.Graph.getNodesByHosting(params).then((graphData) => {
                             if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
                                 console.log("no data");
                             }
@@ -110,9 +117,10 @@
                     function drawGraph(env_id)
                     {
                         const params = {
-                            environnement_id: env_id
+                            environnement_id: env_id,
+                            tag: 'application'
                         }
-                        window.Graph.getNodesByApplication(params).then((graphData) => {
+                        window.Graph.getNodesByHosting(params).then((graphData) => {
                             if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
                                 console.log("no data");
                             }

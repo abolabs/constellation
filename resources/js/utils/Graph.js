@@ -124,14 +124,14 @@ class Graph {
         cy.on('layoutready',( (event) => {
             const appInstances =  cy.nodes(`.appInstance`);
             appInstances.map((elt) => {
-                Graph.generateTag(elt, elt.data('version')).show();
+                Graph.generateTag(elt, elt.data('tag')).show();
             });
         }))
 
         cy.ready(function() {
             const appInstances =  cy.nodes(`.appInstance`);
             appInstances.map((elt) => {
-                Graph.generateTag(elt, elt.data('version')).show();
+                Graph.generateTag(elt, elt.data('tag')).show();
             });
         })
 
@@ -213,15 +213,19 @@ class Graph {
         hideAll();
     }
 
-    // Chargement des données
+    // Chargement des données par application
     static getNodesByApplication(params) {
-        console.log(">>> getNodesByApplication" , params);
-
-        return window.axios.get("/dashboard/graphNodes", {
+        return window.axios.get("/applicationMapping/graphNodesByApp", {
             params: params
         });
     }
 
+    // Chargement des données par hébergement
+    static getNodesByHosting(params) {
+        return window.axios.get("/applicationMapping/graphNodesByHosting", {
+            params: params
+        });
+    }
 }
 
 export default Graph;

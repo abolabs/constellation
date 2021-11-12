@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
 class GetGraphServicesByAppRequest extends FormRequest
 {
@@ -25,7 +24,8 @@ class GetGraphServicesByAppRequest extends FormRequest
     public function rules()
     {
         return [
-            'environnement_id' => 'exists:environnement,id'
+            'environnement_id' => 'exists:environnement,id',
+            'tag' => 'nullable|string'
         ];
     }
 }

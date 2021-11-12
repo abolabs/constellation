@@ -10,16 +10,16 @@
         <i class="nav-icon icon-settings"></i> App. mapping
     </a>
     <ul class="nav-dropdown-items">
-        <li class="nav-item {{ Request::is('application-mapping/by-app*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('applicationMapping/byApp*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('applicationMapping.byApp') }}">
                 <i class="nav-icon  cil-share-alt "></i>
                 <span>Visualisation par application</span>
             </a>
         </li>
-        <li class="nav-item {{ Request::is('application-mapping/by-env*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('applicationMapping.byEnv') }}">
+        <li class="nav-item {{ Request::is('applicationMapping/byHosting*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('applicationMapping.byHosting') }}">
                 <i class="nav-icon  cil-lan"></i>
-                <span>Visualisation par environnement</span>
+                <span>Visualisation par hébergement</span>
             </a>
         </li>
     </ul>

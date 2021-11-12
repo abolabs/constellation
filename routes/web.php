@@ -45,13 +45,14 @@ Route::group(['middleware' => 'auth'], function () {
      * Dashboard
      */
     Route::get('/dashboard', [App\Http\Controllers\InfraController::class, 'index'])->name('dashboard.index');
-    Route::get('/dashboard/graphNodes', [App\Http\Controllers\InfraController::class, 'getGraphServicesByApp'])->name('dashboard.graphNodes');
 
     /**
      * Application Mapping
      */
-    Route::get('/application-mapping/by-app', [App\Http\Controllers\InfraController::class, 'displayByApp'])->name('applicationMapping.byApp');
-    Route::get('/application-mapping/by-env', [App\Http\Controllers\InfraController::class, 'index'])->name('applicationMapping.byEnv');
+    Route::get('/applicationMapping/byApp', [App\Http\Controllers\InfraController::class, 'displayByApp'])->name('applicationMapping.byApp');
+    Route::get('/applicationMapping/byHosting', [App\Http\Controllers\InfraController::class, 'displayByHosting'])->name('applicationMapping.byHosting');
+    Route::get('/applicationMapping/graphNodesByApp', [App\Http\Controllers\InfraController::class, 'getGraphServicesByApp'])->name('applicationMapping.graphNodesByApp');
+    Route::get('/applicationMapping/graphNodesByHosting', [App\Http\Controllers\InfraController::class, 'getGraphServicesByHosting'])->name('applicationMapping.graphNodesByHosting');
 
     /**
      * Ressource
