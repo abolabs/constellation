@@ -137,7 +137,7 @@ class Graph {
 
         // Menu contextuel
         cy.cxtmenu({
-            selector: 'node, edge',
+            selector: 'node',
             commands: [
                 {
                     content: '<span><i class="fa fa-flash"></i> Détail</span>',
