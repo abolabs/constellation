@@ -112,6 +112,14 @@ class Graph {
                         "border-color": "#084C61",
                         "padding": 30,
                     }
+                },
+                {
+                    selector: '.disabled',
+                    style: {
+                        "background-color": "#FFC857",
+                        "border-color": "#f8d999",
+                        "color": "#6c757d",
+                    }
                 }
             ],
            elements: loadNodesCallback

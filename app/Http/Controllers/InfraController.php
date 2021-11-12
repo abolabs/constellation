@@ -74,6 +74,12 @@ class InfraController extends Controller
         foreach($instances as $appInstance)
         {
             $appInstance->serviceVersion->load("service");
+
+            $classStatut = "";
+            if($appInstance->statut === false){
+                $classStatut = "disabled";
+            }
+
             // add service instance
             $nodesData[] = (object)[
                 "group" => "nodes",
@@ -83,7 +89,7 @@ class InfraController extends Controller
                     "tag" => "v".$appInstance->serviceVersion->version,
                     "parent" => 'application_'.$appInstance->application->id ,
                 ],
-                "classes" => "appInstance",
+                "classes" => "appInstance ".$classStatut,
             ];
 
             $appDependencies = AppInstanceDependencies::with(['appInstance' => function($query) use ($request){
@@ -126,6 +132,9 @@ class InfraController extends Controller
         if(!empty($request->application_id)){
             $instanceByHostingsQuery->where('application_id', $request->application_id );
         }
+        if(!empty($request->hosting_id)){
+            $instanceByHostingsQuery->where('hosting_id', $request->hosting_id );
+        }
         $instanceByHostings =  $instanceByHostingsQuery->groupBy('hosting_id')->get();
 
         foreach($instanceByHostings as $instanceByHosting)
@@ -145,6 +154,9 @@ class InfraController extends Controller
         if(!empty($request->application_id)){
             $instancesQuery->where('application_id', $request->application_id );
         }
+        if(!empty($request->hosting_id)){
+            $instancesQuery->where('hosting_id', $request->hosting_id );
+        }
         $instances = $instancesQuery->get() ;
 
         foreach($instances as $appInstance)
@@ -157,6 +169,11 @@ class InfraController extends Controller
                 $tag = "v".$appInstance->serviceVersion->version;
             }
 
+            $classStatut = "";
+            if($appInstance->statut === false){
+                $classStatut = "disabled";
+            }
+
             // add service instance
             $nodesData[] = (object)[
                 "group" => "nodes",
@@ -166,7 +183,7 @@ class InfraController extends Controller
                     "tag" => $tag,
                     "parent" => 'hosting_'.$appInstance->hosting->id ,
                 ],
-                "classes" => "appInstance",
+                "classes" => "appInstance ".$classStatut,
             ];
 
             $appDependencies = AppInstanceDependencies::with(['appInstance' => function($query) use ($request){
