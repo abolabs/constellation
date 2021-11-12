@@ -120,9 +120,13 @@ class InfraController extends Controller
 
         $nodesData = [];
 
-        $instanceByHostings = AppInstance::select('hosting_id')->with('hosting')
-                            ->where('environnement_id', $request->environnement_id)
-                            ->groupBy('hosting_id')->get();
+        $instanceByHostingsQuery = AppInstance::select('hosting_id')->with('hosting')
+                            ->where('environnement_id', $request->environnement_id);
+        // app filter
+        if(!empty($request->application_id)){
+            $instanceByHostingsQuery->where('application_id', $request->application_id );
+        }
+        $instanceByHostings =  $instanceByHostingsQuery->groupBy('hosting_id')->get();
 
         foreach($instanceByHostings as $instanceByHosting)
         {
@@ -135,9 +139,13 @@ class InfraController extends Controller
                 "classes" => "hosting"
             ];
         }
-        $instances = AppInstance::with("serviceVersion","application")
-                        ->where('environnement_id', $request->environnement_id)
-                        ->get() ;
+        $instancesQuery = AppInstance::with("serviceVersion","application")
+                        ->where('environnement_id', $request->environnement_id);
+        // app filter
+        if(!empty($request->application_id)){
+            $instancesQuery->where('application_id', $request->application_id );
+        }
+        $instances = $instancesQuery->get() ;
 
         foreach($instances as $appInstance)
         {

@@ -25,10 +25,22 @@
                     <div class="col-lg-12 form-group">
                         <label>Environnement</label>
                         <p>
-                            <select class="form-select select-primary" id="env" aria-label="Sélectionner un environnement">
+                            <select class="form-select ol-sm-12 select-primary" id="env" aria-label="Sélectionner un environnement">
                                 <option selected value="{{ $mainEnvironnement['environnement']['id'] }}">{{ $mainEnvironnement['environnement']['name'] }}</option>
                             </select>
                         </p>
+                    </div>
+                    <!-- Application Id Field -->
+                    <div class="form-group col-sm-12">
+                        {!! Form::label('application_id', 'Application ') !!}
+                        <select name="application_id" id="application_id" class="form-control select-primary">
+                        @if (isset($appInstance->application->id))
+                            <option value="{{$appInstance->application->id}}">[{{$appInstance->application->id}}] {{$appInstance->application->name}}</option>
+                        @endif
+                        </select>
+                        <script>
+                            window.selector.make("#application_id", "/api/applications", "id", "name")
+                        </script>
                     </div>
                     <div class="col-lg-12 form-group">
                         <label>Tag</label>
@@ -84,7 +96,16 @@
 
                     $('#env').change((e) => {
                         const params = {
-                            environnement_id: $('#env').val()
+                            environnement_id: $('#env').val(),
+                            tag: $('input[name=tagRadio]').val()
+                        }
+                        refreshGraph(params);
+                    });
+                    $('#application_id').change((e) => {
+                        const params = {
+                            environnement_id: $('#env').val(),
+                            tag: $('input[name=tagRadio]').val(),
+                            application_id: $('#application_id').val()
                         }
                         refreshGraph(params);
                     });
@@ -96,6 +117,7 @@
                         const params = {
                             environnement_id: $('#env').val(),
                             tag: $(e.currentTarget).val(),
+                            application_id: $('#application_id').val()
                         }
                         console.log(params);
                         refreshGraph(params);
@@ -118,7 +140,8 @@
                     {
                         const params = {
                             environnement_id: env_id,
-                            tag: 'application'
+                            tag: $('input[name=tagRadio]').val(),
+                            application_id: $('#application_id').val()
                         }
                         window.Graph.getNodesByHosting(params).then((graphData) => {
                             if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){

@@ -3,6 +3,8 @@ export function make(select, url, id_key, text_key, default_query={}) {
   $(document).ready(() => {
     $(select).select2({
         width: '100%',
+        allowClear: true,
+        placeholder: "Select an option",
         ajax: {
             url: url,
             dataType: 'json',
