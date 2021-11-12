@@ -5,7 +5,7 @@
     <li class="breadcrumb-item">
         Cartographie Applicative
      </li>
-    <li class="breadcrumb-item">Visualisation par application</li>
+    <li class="breadcrumb-item">Visualisation par hébergement</li>
 </ol>
 <div class="container-fluid" id="mappingByApp">
     <div class="animated fadeIn">
