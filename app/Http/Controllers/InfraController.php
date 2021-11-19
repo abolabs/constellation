@@ -130,10 +130,10 @@ class InfraController extends Controller
                             ->where('environnement_id', $request->environnement_id);
         // app filter
         if(!empty($request->application_id)){
-            $instanceByHostingsQuery->where('application_id', $request->application_id );
+            $instanceByHostingsQuery->whereIn('application_id', $request->application_id );
         }
         if(!empty($request->hosting_id)){
-            $instanceByHostingsQuery->where('hosting_id', $request->hosting_id );
+            $instanceByHostingsQuery->whereIn('hosting_id', $request->hosting_id );
         }
         $instanceByHostings =  $instanceByHostingsQuery->groupBy('hosting_id')->get();
 
@@ -152,11 +152,12 @@ class InfraController extends Controller
                         ->where('environnement_id', $request->environnement_id);
         // app filter
         if(!empty($request->application_id)){
-            $instancesQuery->where('application_id', $request->application_id );
+            $instancesQuery->whereIn('application_id', $request->application_id );
         }
         if(!empty($request->hosting_id)){
-            $instancesQuery->where('hosting_id', $request->hosting_id );
+            $instancesQuery->whereIn('hosting_id', $request->hosting_id );
         }
+
         $instances = $instancesQuery->get() ;
 
         foreach($instances as $appInstance)
@@ -186,12 +187,28 @@ class InfraController extends Controller
                 "classes" => "appInstance ".$classStatut,
             ];
 
-            $appDependencies = AppInstanceDependencies::with(['appInstance' => function($query) use ($request){
-                                    $query->where('environnement_id', $request->environnement_id);
-                                }])
-                                ->with(['appInstanceDep' => function($query) use ($request){
-                                    $query->where('environnement_id', $request->environnement_id);
-                                }])
+            $appDependencies = AppInstanceDependencies::join('app_instance as source' , function($query) use ($request){
+                                    $query->on('source.id', '=', 'app_instance_dep.instance_id');
+
+                                    $query->where('source.environnement_id', $request->environnement_id);
+                                    if(!empty($request->application_id)){
+                                        $query->whereIn('source.application_id', $request->application_id );
+                                    }
+                                    if(!empty($request->hosting_id)){
+                                        $query->whereIn('source.hosting_id', $request->hosting_id );
+                                    }
+                                })
+                                ->join('app_instance as target' , function($query) use ($request){
+                                    $query->on('target.id', '=', 'app_instance_dep.instance_dep_id');
+
+                                    $query->where('target.environnement_id', $request->environnement_id);
+                                    if(!empty($request->application_id)){
+                                        $query->whereIn('target.application_id', $request->application_id );
+                                    }
+                                    if(!empty($request->hosting_id)){
+                                        $query->whereIn('target.hosting_id', $request->hosting_id );
+                                    }
+                                })
                                 ->where("instance_id", $appInstance->id)
                                 ->get();
 

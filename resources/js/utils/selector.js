@@ -1,8 +1,9 @@
 
-export function make(select, url, id_key, text_key, default_query={}) {
+export function make(select, url, id_key, text_key, default_query={}, multiple=false) {
   $(document).ready(() => {
     $(select).select2({
         width: '100%',
+        multiple: multiple,
         allowClear: true,
         placeholder: "Select an option",
         ajax: {

@@ -39,7 +39,7 @@
                         @endif
                         </select>
                         <script>
-                            window.selector.make("#application_id", "/api/applications", "id", "name")
+                            window.selector.make("#application_id", "/api/applications", "id", "name", {}, true)
                         </script>
                     </div>
                     <!-- Hosting Id Field -->
@@ -51,7 +51,7 @@
                         @endif
                         </select>
                         <script>
-                            window.selector.make("#hosting_id", "/api/hostings", "id", "name")
+                            window.selector.make("#hosting_id", "/api/hostings", "id", "name", {}, true)
                         </script>
                     </div>
                     <div class="col-lg-12 form-group">
@@ -106,8 +106,12 @@
                         console.log(exception);
                     });
 
+                    var timeout;
                     $('#env,#application_id,#hosting_id').change((e) => {
-                        refreshGraph();
+                        clearTimeout(timeout);
+                        timeout = setTimeout(function(){
+                            refreshGraph();
+                        },250);
                     });
 
                     $('input[name=tagRadio]').change((e) => {

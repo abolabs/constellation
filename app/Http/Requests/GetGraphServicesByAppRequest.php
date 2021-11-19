@@ -26,8 +26,8 @@ class GetGraphServicesByAppRequest extends FormRequest
         return [
             'environnement_id' => 'exists:environnement,id',
             'tag' => 'nullable|string',
-            'application_id' => 'nullable|exists:application,id',
-            'hosting_id' => 'nullable|exists:hosting,id',
+            'application_id.*' => 'nullable|exists:application,id',
+            'hosting_id.*' => 'nullable|exists:hosting,id',
         ];
     }
 }
