@@ -55,6 +55,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/applicationMapping/graphNodesByHosting', [App\Http\Controllers\InfraController::class, 'getGraphServicesByHosting'])->name('applicationMapping.graphNodesByHosting');
 
     /**
+     * User setting
+     */
+    Route::get('user/setting', [UserController::class,'settings'])->name('user.settings');
+    Route::patch('user/setting', [UserController::class,'storeSettings'])->name('user.updateSettings');
+
+    /**
      * Ressource
      */
     Route::resource('environnements', App\Http\Controllers\EnvironnementController::class);

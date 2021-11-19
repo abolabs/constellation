@@ -28,9 +28,7 @@
                 <div class="dropdown-header text-center">
                     <strong>Account</strong>
                 </div>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-user"></i> Profile</a>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{ route('user.settings') }}">
                     <i class="fa fa-wrench"></i> Settings</a>
                 <div class="dropdown-divider"></div>
                 <a href="{{ url('/logout') }}" class="dropdown-item btn btn-default btn-flat"

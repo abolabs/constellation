@@ -17,8 +17,8 @@
                         @endif
                         <form method="post" action="{{ url('/password/email') }}">
                             @csrf
-                            <h1>Reset Your Password</h1>
-                            <p class="text-muted">Enter Email to reset password</p>
+                            <h1>{{ __('passwords.reset_title') }}</h1>
+                            <p class="text-muted">{{ __('passwords.enter_email') }}</p>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -26,7 +26,7 @@
                                     </span>
                                 </div>
                                 <input type="email" class="form-control {{ $errors->has('email')?'is-invalid':'' }}" name="email" value="{{ old('email') }}"
-                                       placeholder="Email">
+                                       placeholder="{{ __('auth.email_placeholder') }}">
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -37,7 +37,7 @@
                             <div class="row">
                                 <div class="col-6 offset-6">
                                     <button class="btn btn-block btn-primary" type="submit">
-                                        <i class="fa fa-btn fa-envelope"></i> Send Password Reset Link
+                                        <i class="fa fa-btn fa-envelope"></i> {{ __('passwords.send_password_reset_button') }}
                                     </button>
                                 </div>
                             </div>
