@@ -52,9 +52,17 @@ class InfraController extends Controller
 
         $nodesData = [];
 
-        $instanceByApplications = AppInstance::select('application_id')->with('application')
-                            ->where('environnement_id', $request->environnement_id)
-                            ->groupBy('application_id')->get();
+        $instanceByApplicationsQuery = AppInstance::select('application_id')->with('application')
+                            ->where('environnement_id', $request->environnement_id);
+
+        // app filter
+        if(!empty($request->application_id)){
+            $instanceByApplicationsQuery->whereIn('application_id', $request->application_id );
+        }
+        if(!empty($request->hosting_id)){
+            $instanceByApplicationsQuery->whereIn('hosting_id', $request->hosting_id );
+        }
+        $instanceByApplications =  $instanceByApplicationsQuery->groupBy('application_id')->get();
 
         foreach($instanceByApplications as $instanceByApplication)
         {
@@ -67,9 +75,17 @@ class InfraController extends Controller
                 "classes" => "application"
             ];
         }
-        $instances = AppInstance::with("serviceVersion","application")
-                        ->where('environnement_id', $request->environnement_id)
-                        ->get() ;
+        $instancesQuery = AppInstance::with("serviceVersion","application","hosting")
+                        ->where('environnement_id', $request->environnement_id);
+
+        // app filter
+        if(!empty($request->application_id)){
+            $instancesQuery->whereIn('application_id', $request->application_id );
+        }
+        if(!empty($request->hosting_id)){
+            $instancesQuery->whereIn('hosting_id', $request->hosting_id );
+        }
+        $instances = $instancesQuery->get() ;
 
         foreach($instances as $appInstance)
         {
@@ -80,13 +96,19 @@ class InfraController extends Controller
                 $classStatut = "disabled";
             }
 
+            if($request->tag == 'hosting'){
+                $tag = $appInstance->hosting->name;
+            }else{
+                $tag = "v".$appInstance->serviceVersion->version;
+            }
+
             // add service instance
             $nodesData[] = (object)[
                 "group" => "nodes",
                 "data" =>(object)[
                     "id" =>  'appInstance_'.$appInstance->id ,
                     "name" => $appInstance->serviceVersion->service->name,
-                    "tag" => "v".$appInstance->serviceVersion->version,
+                    "tag" => $tag,
                     "parent" => 'application_'.$appInstance->application->id ,
                 ],
                 "classes" => "appInstance ".$classStatut,

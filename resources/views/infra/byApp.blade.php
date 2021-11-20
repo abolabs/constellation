@@ -30,12 +30,41 @@
                             </select>
                         </p>
                     </div>
+                     <!-- Application Id Field -->
+                     <div class="form-group col-sm-12">
+                        {!! Form::label('application_id', 'Application ') !!}
+                        <select name="application_id" id="application_id" class="form-control">
+                        @if (isset($appInstance->application->id))
+                            <option value="{{$appInstance->application->id}}">[{{$appInstance->application->id}}] {{$appInstance->application->name}}</option>
+                        @endif
+                        </select>
+                        <script>
+                            window.selector.make("#application_id", "/api/applications", "id", "name", {}, true)
+                        </script>
+                    </div>
+                    <!-- Hosting Id Field -->
+                    <div class="form-group col-sm-12">
+                        {!! Form::label('hosting_id', 'Hosting ') !!}
+                        <select name="hosting_id" id="hosting_id" class="form-control">
+                        @if (isset($appInstance->hosting->id))
+                            <option value="{{$appInstance->hosting->id}}">[{{$appInstance->hosting->id}}] {{$appInstance->hosting->name}}</option>
+                        @endif
+                        </select>
+                        <script>
+                            window.selector.make("#hosting_id", "/api/hostings", "id", "name", {}, true)
+                        </script>
+                    </div>
                     <div class="col-lg-12 form-group">
                         <label>Tag</label>
-
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="version" checked>
+                            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="hosting" checked>
                             <label class="form-check-label" for="tagRadio1">
+                                Hosting
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio2" value="version">
+                            <label class="form-check-label" for="tagRadio2">
                                 Version
                             </label>
                         </div>
@@ -76,27 +105,29 @@
                         console.log(exception);
                     });
 
-                    $('#env').change((e) => {
-                        const params = {
-                            environnement_id: $('#env').val()
-                        }
-                        refreshGraph(params);
+                    var timeout;
+                    $('#env,#application_id,#hosting_id').change((e) => {
+                        clearTimeout(timeout);
+                        timeout = setTimeout(function(){
+                            refreshGraph();
+                        },250);
                     });
 
                     $('input[name=tagRadio]').change((e) => {
                         if($(e.currentTarget).val() === "hide"){
                             return window.Graph.hideAllTag();
                         }
-                        const params = {
-                            environnement_id: $('#env').val(),
-                            tag: $(e.currentTarget).val(),
-                        }
-                        refreshGraph(params);
-
+                        refreshGraph();
                     });
 
-                    function refreshGraph(params)
+                    function refreshGraph()
                     {
+                        const params = {
+                            environnement_id: $('#env').val(),
+                            tag: $('input[name=tagRadio]:checked').val(),
+                            application_id: $('#application_id').val(),
+                            hosting_id: $('#hosting_id').val(),
+                        };
                         window.Graph.getNodesByApplication(params).then((graphData) => {
                             if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
                                 console.log("no data");
@@ -110,7 +141,8 @@
                     function drawGraph(env_id)
                     {
                         const params = {
-                            environnement_id: env_id
+                            environnement_id: env_id,
+                            tag: 'hosting'
                         }
                         window.Graph.getNodesByApplication(params).then((graphData) => {
                             if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
