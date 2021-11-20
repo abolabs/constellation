@@ -46,7 +46,7 @@
                                     <button class="btn btn-primary px-4" type="submit">{{ __('auth.login') }}</button>
                                 </div>
                                 <div class="col-6 text-right">
-                                    <a class="btn btn-link px-0" href="{{ url('/password/reset') }}">{{ __('auth.forgot_password') }}</a>
+                                    <a class="btn btn-link px-0" href="{{ url('/password/reset') }}">{!! __('auth.forgot_password') !!}</a>
                                 </div>
                             </div>
                         </form>

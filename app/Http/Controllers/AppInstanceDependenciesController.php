@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateAppInstanceDependenciesRequest;
 use App\Repositories\AppInstanceDependenciesRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
 
 class AppInstanceDependenciesController extends AppBaseController
@@ -56,6 +57,10 @@ class AppInstanceDependenciesController extends AppBaseController
         $appInstanceDependencies = $this->appInstanceDependenciesRepository->create($input);
 
         Flash::success('App Instance Dependencies saved successfully.');
+
+        if(!empty($input['redirect_to_back'])){
+            return back()->withInput();
+        }
 
         return redirect(route('appInstanceDependencies.index'));
     }
@@ -132,8 +137,9 @@ class AppInstanceDependenciesController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        $input = $request->all();
         $appInstanceDependencies = $this->appInstanceDependenciesRepository->find($id);
 
         if (empty($appInstanceDependencies)) {
@@ -145,6 +151,9 @@ class AppInstanceDependenciesController extends AppBaseController
         $this->appInstanceDependenciesRepository->delete($id);
 
         Flash::success('App Instance Dependencies deleted successfully.');
+        if(!empty($input['redirect_to_back'])){
+            return back()->withInput();
+        }
 
         return redirect(route('appInstanceDependencies.index'));
     }

@@ -5,15 +5,21 @@
                 <div class="card">
                     <div class="card-header text-white bg-secondary">
                         <strong>{{ $title }}</strong>
+                        <a class="pull-right" href="#" data-toggle="modal" data-target="#new{{ $instanceKey }}Modal"><i class="fa fa-plus-square fa-lg pull-right"></i></a>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @foreach($instanceDependencies as $index => $instanceDependencie)
+                            @forelse($instanceDependencies as $index => $instanceDependencie)
                             <div class="col-sm-6 col-md-4 col-lg-3">
                                 <div class="card">
                                     <div class="card-header text-white bg-primary">
                                         {{ $instanceDependencie[$instanceKey]->serviceVersion->service->name }}
-                                        <span class="badge badge-pill badge-secondary float-right">version {{ $instanceDependencie[$instanceKey]->serviceVersion->version }}</span>
+                                        <div class="col-1 pull-right">
+                                            {!! Form::open(['route' => ['appInstanceDependencies.destroy', $instanceDependencie->id], 'method' => 'delete']) !!}
+                                                <input type="hidden" name="redirect_to_back" value="1" />
+                                                <button type="submit" class="btn btn-transparent btn-sm" onclick="return confirm('Are you sure?')"><span class="badge badge-warning"><i class="fa fa-trash"></i></span></button>
+                                            {!! Form::close() !!}
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group">
@@ -26,6 +32,8 @@
                                                 @else
                                                 <span class="badge badge-warning">Statut: Inactive</span>
                                                 @endif
+                                                <!-- Version Field -->
+                                                <span class="badge badge-secondary">Version {{ $instanceDependencie[$instanceKey]->serviceVersion->version }}</span>
                                             </p>
                                             <!-- application Field -->
                                             {!! Form::label('application', 'Application') !!}
@@ -49,11 +57,51 @@
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
+                            @empty
+                            <p>
+                                @if($instanceKey == 'appInstanceDep')
+                                L'instance ne requière aucune dépendance.
+                                @else
+                                Aucune instance de service ne requière l'instance.
+                                @endif
+                            </p>
+                            @endforelse
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="new{{ $instanceKey }}Modal" role="dialog" aria-labelledby="new{{ $instanceKey }}ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header bg-primary">
+            <h5 class="modal-title" id="new{{ $instanceKey }}ModalLabel">Ajouter une nouvelle dépendance</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {!! Form::open(['route' => 'appInstanceDependencies.store']) !!}
+        <div class="modal-body">
+
+            <!-- Application id -->
+            <input type="hidden" name="redirect_to_back" value="1" />
+            @if($instanceKey == 'appInstanceDep')
+                <input type="hidden" name="instance_id" value="{{ $appInstance->id }}" />
+                @include('app_instance_dependencies.fields', ['noButton' => true, 'ignoreSourceInstance' => true])
+            @else
+                <input type="hidden" name="instance_dep_id" value="{{ $appInstance->id }}" />
+                @include('app_instance_dependencies.fields', ['noButton' => true, 'ignoreTargetInstance' => true])
+            @endif
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+        </div>
+        {!! Form::close() !!}
+    </div>
     </div>
 </div>

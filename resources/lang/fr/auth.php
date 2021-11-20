@@ -6,7 +6,7 @@ return [
   'throttle' => 'Trop de tentatives de connexion. Veuillez réessayer dans :seconds secondes.',
   'signin_title' => 'Connectez-vous à votre compte',
   'login' => 'Connexion',
-  'forgot_password' => 'mot de passe oublié?',
+  'forgot_password' => 'Mot de passe oublié&nbsp;?',
   'signup_title' => 'Créer un compte',
   'signup_description' => 'Commencer à modéliser vos dépendances applicatives sur '.env('APP_NAME').'.',
   'email_placeholder' => 'E-mail',

@@ -26,19 +26,15 @@
                  </div>
           </div>
     </div>
-    @if(count($instanceDependencies) > 0)
-        @include('app_instances.show_dependencies',[
-            'title' => 'Dépendances',
-            'instanceDependencies' => $instanceDependencies,
-            'instanceKey' => 'appInstanceDep'
-        ])
-    @endif
-)
-    @if(count($instanceDependenciesSource) > 0)
-        @include('app_instances.show_dependencies',[
-            'title' => 'Requis par',
-            'instanceDependencies' => $instanceDependenciesSource,
-            'instanceKey' => 'appInstance'
-        ])
-    @endif
+    @include('app_instances.show_dependencies',[
+        'title' => 'Dépendances',
+        'instanceDependencies' => $instanceDependencies,
+        'instanceKey' => 'appInstanceDep'
+    ])
+
+    @include('app_instances.show_dependencies',[
+        'title' => 'Requis par',
+        'instanceDependencies' => $instanceDependenciesSource,
+        'instanceKey' => 'appInstance'
+    ])
 @endsection

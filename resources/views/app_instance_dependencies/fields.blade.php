@@ -1,5 +1,6 @@
+@if( !isset($ignoreSourceInstance) || $ignoreSourceInstance !== true)
 <!-- Instance Id Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-12">
     {!! Form::label('instance_id', 'Instance Id:') !!}
     <select name="instance_id" id="instance_id" class="form-control">
     @if (isset($appInstanceDependencies->appInstance->id))
@@ -7,12 +8,14 @@
     @endif
     </select>
     <script>
-        window.selector.make("#instance_id", "/api/app_instances", "id", "service_version_name")
+        window.selector.make("#instance_id", "/api/app_instances", "id", ["environnement_name", "hosting_name","application_name","service_version_name","service_version"])
     </script>
 </div>
+@endif
 
+@if( !isset($ignoreTargetInstance) || $ignoreTargetInstance !== true)
 <!-- Instance Dep Id Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-12">
     {!! Form::label('instance_dep_id', 'Instance Dep Id:') !!}
     <select name="instance_dep_id" id="instance_dep_id" class="form-control">
     @if (isset($appInstanceDependencies->appInstanceDep->id))
@@ -20,12 +23,15 @@
     @endif
     </select>
     <script>
-        window.selector.make("#instance_dep_id", "/api/app_instances", "id", "service_version_name")
+        window.selector.make("#instance_dep_id", "/api/app_instances", "id", ["environnement_name", "hosting_name","application_name","service_version_name","service_version"])
     </script>
 </div>
+@endif
 
+@if( !isset($noButton) || $noButton !== true)
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('appInstanceDependencies.index') }}" class="btn btn-secondary">Cancel</a>
 </div>
+@endif

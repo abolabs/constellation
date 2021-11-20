@@ -31,6 +31,7 @@
         "datatables.net": "^1.11.3",
         "datatables.net-buttons": "^2.0.1",
         "datatables.net-responsive": "^2.2.9",
+        "flexsearch": "^0.7.21",
         "laravel-datatables-assets": "git+https://github.com/yajra/laravel-datatables-assets.git",
         "layout-base": "^2.0.1",
         "tippy.js": "^6.3.4"
