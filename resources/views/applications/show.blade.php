@@ -39,13 +39,14 @@
 
                         <div class="card-body">
                             <div class="row">
+
                                 @if (count($appInstances) > 0)
                                 <div class="nav flex-column nav-pills col-lg-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                     @foreach($appInstances as $index => $appInstance)
                                         @if(!isset($appInstances[$index-1]) || $appInstances[$index-1]->environnement_id != $appInstance->environnement_id)
                                             <a class="nav-link @if($index == 0) active @endif" id="v-pills-{{$appInstance->environnement_id}}-tab" data-toggle="pill"
                                                 href="#v-pills-{{$appInstance->environnement_id}}" role="tab"
-                                                aria-controls="v-pills-{{$appInstance->environnement_id}}" aria-selected="true">{{ $appInstance->environnement->name }}</a>
+                                                aria-controls="v-pills-{{$appInstance->environnement_id}}" aria-selected="true">{{ $appInstance->environnement->name }} <span class="badge badge-light pull-right">{{ $countByEnv[$appInstance->environnement_id]['app_instances_count'] }}</span></a>
                                         @endif
                                     @endforeach
                                 </div>

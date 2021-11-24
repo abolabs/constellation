@@ -9,6 +9,7 @@ use App\Repositories\ApplicationRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use App\Models\AppInstance;
+use App\Models\Environnement;
 use Response;
 
 class ApplicationController extends AppBaseController
@@ -73,13 +74,20 @@ class ApplicationController extends AppBaseController
 
         $appInstances = AppInstance::where("application_id",$id)->with(['serviceVersion','serviceVersion.service','environnement'])->orderBy('environnement_id')->get();
 
+        $countByEnv = Environnement::withCount('appInstances')->with('appInstances', function($query) use ($id) {
+                $query->where('application_id', $id);
+            })->get()->keyBy('id')->toArray();
+
+
         if (empty($application)) {
             Flash::error('Application not found');
 
             return redirect(route('applications.index'));
         }
 
-        return view('applications.show')->with('application', $application)->with('appInstances',$appInstances);
+        return view('applications.show')->with('application', $application)
+                    ->with('appInstances',$appInstances)
+                    ->with('countByEnv',$countByEnv);
     }
 
     /**
