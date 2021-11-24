@@ -3,7 +3,7 @@
 @section('content')
      <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{{ route('appInstanceDependencies.index') }}">App Instance Dependencies</a>
+                <a href="{{ route('serviceInstanceDependencies.index') }}">Service Instance Dependencies</a>
             </li>
             <li class="breadcrumb-item active">Detail</li>
      </ol>
@@ -15,10 +15,10 @@
                          <div class="card">
                              <div class="card-header text-white bg-secondary">
                                  <strong>Details</strong>
-                                  <a href="{{ route('appInstanceDependencies.index') }}" class="btn btn-light">Back</a>
+                                  <a href="{{ route('serviceInstanceDependencies.index') }}" class="btn btn-light">Back</a>
                              </div>
                              <div class="card-body">
-                                 @include('app_instance_dependencies.show_fields')
+                                 @include('service_instance_dependencies.show_fields')
                              </div>
                          </div>
                      </div>

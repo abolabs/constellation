@@ -13,7 +13,7 @@
     },
     {
         "name": "instance_id",
-        "dbType": "integer:unsigned:foreign,app_instance,id",
+        "dbType": "integer:unsigned:foreign,service_instance,id",
         "htmlType": "select,1,2,3",
         "validations": "",
         "searchable": true,
@@ -25,7 +25,7 @@
     },
     {
         "name": "instance_dep_id",
-        "dbType": "integer:unsigned:foreign,app_instance,id",
+        "dbType": "integer:unsigned:foreign,service_instance,id",
         "htmlType": "select,1,2,3",
         "validations": "",
         "searchable": true,
@@ -61,10 +61,10 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,AppInstance,id,instance_id"
+        "relation": "1tm,ServiceInstance,id,instance_id"
     },
     {
         "type": "relation",
-        "relation": "1tm,AppInstance,id,instance_dep_id"
+        "relation": "1tm,ServiceInstance,id,instance_dep_id"
     }
 ]

@@ -3,8 +3,8 @@
 <div class="form-group col-sm-6">
     {!! Form::label('application_id', 'Application ') !!}
     <select name="application_id" id="application_id" class="form-control">
-    @if (isset($appInstance->application->id))
-        <option value="{{$appInstance->application->id}}">[{{$appInstance->application->id}}] {{$appInstance->application->name}}</option>
+    @if (isset($serviceInstance->application->id))
+        <option value="{{$serviceInstance->application->id}}">[{{$serviceInstance->application->id}}] {{$serviceInstance->application->name}}</option>
     @endif
     </select>
     <script>
@@ -17,8 +17,8 @@
 <div class="form-group col-sm-6">
     {!! Form::label('service_id', 'Service ') !!}
     <select name="service_id" id="service_id" class="form-control">
-    @if (isset($appInstance->serviceVersion->service->id))
-        <option value="{{$appInstance->serviceVersion->service->id}}">[{{$appInstance->serviceVersion->service->id}}] {{$appInstance->serviceVersion->service->name}}</option>
+    @if (isset($serviceInstance->serviceVersion->service->id))
+        <option value="{{$serviceInstance->serviceVersion->service->id}}">[{{$serviceInstance->serviceVersion->service->id}}] {{$serviceInstance->serviceVersion->service->name}}</option>
     @endif
     </select>
     <script>
@@ -30,8 +30,8 @@
 <div class="form-group col-sm-6">
     {!! Form::label('service_version_id', 'Service Version ') !!}
     <select name="service_version_id" id="service_version_id" class="form-control">
-    @if (isset($appInstance->serviceVersion->id))
-        <option value="{{$appInstance->serviceVersion->id}}">[{{$appInstance->serviceVersion->id}}] {{$appInstance->serviceVersion->version}}</option>
+    @if (isset($serviceInstance->serviceVersion->id))
+        <option value="{{$serviceInstance->serviceVersion->id}}">[{{$serviceInstance->serviceVersion->id}}] {{$serviceInstance->serviceVersion->version}}</option>
     @endif
     </select>
     <script>
@@ -54,8 +54,8 @@
 <div class="form-group col-sm-6">
     {!! Form::label('environnement_id', 'Environnement ') !!}
     <select name="environnement_id" id="environnement_id" class="form-control">
-    @if (isset($appInstance->environnement->id))
-        <option value="{{$appInstance->environnement->id}}">[{{$appInstance->environnement->id}}] {{$appInstance->environnement->name}}</option>
+    @if (isset($serviceInstance->environnement->id))
+        <option value="{{$serviceInstance->environnement->id}}">[{{$serviceInstance->environnement->id}}] {{$serviceInstance->environnement->name}}</option>
     @endif
     </select>
     <script>
@@ -67,8 +67,8 @@
 <div class="form-group col-sm-6">
     {!! Form::label('hosting_id', 'Hosting ') !!}
     <select name="hosting_id" id="hosting_id" class="form-control">
-    @if (isset($appInstance->hosting->id))
-        <option value="{{$appInstance->hosting->id}}">[{{$appInstance->hosting->id}}] {{$appInstance->hosting->name}}</option>
+    @if (isset($serviceInstance->hosting->id))
+        <option value="{{$serviceInstance->hosting->id}}">[{{$serviceInstance->hosting->id}}] {{$serviceInstance->hosting->name}}</option>
     @endif
     </select>
     <script>
@@ -87,7 +87,7 @@
     {!! Form::label('statut', 'Statut') !!}
     <p>
         <label class="switch switch-label switch-success">
-            <input type="checkbox" class="switch-input" name="statut" value="1" @if ( isset($appInstance->application->id) && $appInstance->statut ); checked @endif>
+            <input type="checkbox" class="switch-input" name="statut" value="1" @if ( isset($serviceInstance->application->id) && $serviceInstance->statut ); checked @endif>
             <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
         </label>
     </p>
@@ -97,6 +97,6 @@
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('appInstances.index') }}" class="btn btn-secondary">Cancel</a>
+    <a href="{{ route('serviceInstances.index') }}" class="btn btn-secondary">Cancel</a>
 </div>
 @endif

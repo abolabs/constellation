@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Rules\AppInstancesDep;
+namespace App\Rules\ServiceInstancesDep;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Models\AppInstance;
+use App\Models\ServiceInstance;
 
-class AppInstancesHasSameEnv implements Rule
+class ServiceInstancesHasSameEnv implements Rule
 {
     private $data;
 
@@ -27,8 +27,8 @@ class AppInstancesHasSameEnv implements Rule
     public function passes($attribute, $value)
     {
         try{
-            $sourceInstance = AppInstance::find($value, ['environnement_id']);
-            $depInstance = AppInstance::find($this->data->get('instance_dep_id'), ['environnement_id']);
+            $sourceInstance = ServiceInstance::find($value, ['environnement_id']);
+            $depInstance = ServiceInstance::find($this->data->get('instance_dep_id'), ['environnement_id']);
 
             return ($sourceInstance->environnement_id == $depInstance->environnement_id);
         }catch(\Exception $exception){

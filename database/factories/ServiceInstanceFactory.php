@@ -2,21 +2,21 @@
 
 namespace Database\Factories;
 
-use App\Models\AppInstance;
+use App\Models\ServiceInstance;
 use App\Models\Application;
 use App\Models\Environnement;
 use App\Models\ServiceVersion;
 use App\Models\Hosting;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AppInstanceFactory extends Factory
+class ServiceInstanceFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = AppInstance::class;
+    protected $model = ServiceInstance::class;
 
     /**
      * Define the model's default state.

@@ -86,7 +86,7 @@ class Graph {
                     }
                 },
                 {
-                    selector: '.appInstance',
+                    selector: '.serviceInstance',
                     style: {
                         'background-color': '#084C61',
                         'border-width': '2',
@@ -130,15 +130,15 @@ class Graph {
         }))
 
         cy.on('layoutready',( (event) => {
-            const appInstances =  cy.nodes(`.appInstance`);
-            appInstances.map((elt) => {
+            const serviceInstances =  cy.nodes(`.serviceInstance`);
+            serviceInstances.map((elt) => {
                 Graph.generateTag(elt, elt.data('tag')).show();
             });
         }))
 
         cy.ready(function() {
-            const appInstances =  cy.nodes(`.appInstance`);
-            appInstances.map((elt) => {
+            const serviceInstances =  cy.nodes(`.serviceInstance`);
+            serviceInstances.map((elt) => {
                 Graph.generateTag(elt, elt.data('tag')).show();
             });
         })

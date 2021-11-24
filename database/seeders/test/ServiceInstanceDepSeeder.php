@@ -2,10 +2,10 @@
 
 namespace Database\Seeders\test;
 
-use App\Models\AppInstanceDependencies;
+use App\Models\ServiceInstanceDependencies;
 use Illuminate\Database\Seeder;
 
-class AppInstanceDepSeeder extends Seeder
+class ServiceInstanceDepSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class AppInstanceDepSeeder extends Seeder
      */
     public function run()
     {
-        AppInstanceDependencies::factory()->count(5)->create();
+        ServiceInstanceDependencies::factory()->count(5)->create();
     }
 }

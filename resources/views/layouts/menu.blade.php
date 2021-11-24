@@ -32,10 +32,10 @@
     </a>
 </li>
 
-<li class="nav-item {{ Request::is('appInstances*') ? 'active' : '' }}">
-    <a class="nav-link" href="{{ route('appInstances.index') }}">
+<li class="nav-item {{ Request::is('serviceInstances*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('serviceInstances.index') }}">
         <i class="nav-icon cil-apps"></i>
-        <span>App Instances</span>
+        <span>Service Instances</span>
     </a>
 </li>
 

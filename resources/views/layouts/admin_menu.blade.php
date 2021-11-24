@@ -4,10 +4,10 @@
     </a>
     <ul class="nav-dropdown-items">
 
-        <li class="nav-item {{ Request::is('appInstanceDependencies*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('appInstanceDependencies.index') }}">
+        <li class="nav-item {{ Request::is('serviceInstanceDependencies*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('serviceInstanceDependencies.index') }}">
                 <i class="nav-icon cil-apps-settings"></i>
-                <span>App Instance Dependencies</span>
+                <span>Service Instance Dependencies</span>
             </a>
         </li>
 

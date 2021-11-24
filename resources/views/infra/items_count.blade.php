@@ -23,7 +23,7 @@
             <small class="text-muted text-uppercase font-weight-bold">Instances Applicatives</small>
         </div>
         <div class="card-footer p-x-1 py-h">
-            <a class="font-weight-bold font-xs btn-block text-muted" href="{{ route('appInstances.index') }}"><small class="text-muted">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></small></a>
+            <a class="font-weight-bold font-xs btn-block text-muted" href="{{ route('serviceInstances.index') }}"><small class="text-muted">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></small></a>
         </div>
     </div>
 </div>

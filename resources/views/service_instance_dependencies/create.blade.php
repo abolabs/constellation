@@ -3,7 +3,7 @@
 @section('content')
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-         <a href="{!! route('appInstances.index') !!}">App Instance</a>
+         <a href="{!! route('serviceInstanceDependencies.index') !!}">Service Instance Dependencies</a>
       </li>
       <li class="breadcrumb-item active">Create</li>
     </ol>
@@ -15,12 +15,12 @@
                         <div class="card">
                             <div class="card-header text-white bg-secondary">
                                 <i class="fa fa-plus-square-o fa-lg"></i>
-                                <strong>Create App Instance</strong>
+                                <strong>Create Service Instance Dependencies</strong>
                             </div>
                             <div class="card-body">
-                                {!! Form::open(['route' => 'appInstances.store']) !!}
+                                {!! Form::open(['route' => 'serviceInstanceDependencies.store']) !!}
 
-                                   @include('app_instances.fields')
+                                   @include('service_instance_dependencies.fields')
 
                                 {!! Form::close() !!}
                             </div>

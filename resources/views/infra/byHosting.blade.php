@@ -34,8 +34,8 @@
                     <div class="form-group col-sm-12">
                         {!! Form::label('application_id', 'Application ') !!}
                         <select name="application_id" id="application_id" class="form-control">
-                        @if (isset($appInstance->application->id))
-                            <option value="{{$appInstance->application->id}}">[{{$appInstance->application->id}}] {{$appInstance->application->name}}</option>
+                        @if (isset($serviceInstance->application->id))
+                            <option value="{{$serviceInstance->application->id}}">[{{$serviceInstance->application->id}}] {{$serviceInstance->application->name}}</option>
                         @endif
                         </select>
                         <script>
@@ -46,8 +46,8 @@
                     <div class="form-group col-sm-12">
                         {!! Form::label('hosting_id', 'Hosting ') !!}
                         <select name="hosting_id" id="hosting_id" class="form-control">
-                        @if (isset($appInstance->hosting->id))
-                            <option value="{{$appInstance->hosting->id}}">[{{$appInstance->hosting->id}}] {{$appInstance->hosting->name}}</option>
+                        @if (isset($serviceInstance->hosting->id))
+                            <option value="{{$serviceInstance->hosting->id}}">[{{$serviceInstance->hosting->id}}] {{$serviceInstance->hosting->name}}</option>
                         @endif
                         </select>
                         <script>

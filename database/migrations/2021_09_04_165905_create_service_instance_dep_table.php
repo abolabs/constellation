@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAppInstanceDepTable extends Migration
+class CreateServiceInstanceDepTable extends Migration
 {
 
     /**
@@ -14,14 +14,14 @@ class CreateAppInstanceDepTable extends Migration
      */
     public function up()
     {
-        Schema::create('app_instance_dep', function (Blueprint $table) {
+        Schema::create('service_instance_dep', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('instance_id')->unsigned();
             $table->integer('instance_dep_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('instance_id')->references('id')->on('app_instance');
-            $table->foreign('instance_dep_id')->references('id')->on('app_instance');
+            $table->foreign('instance_id')->references('id')->on('service_instance');
+            $table->foreign('instance_dep_id')->references('id')->on('service_instance');
         });
     }
 
@@ -32,6 +32,6 @@ class CreateAppInstanceDepTable extends Migration
      */
     public function down()
     {
-        Schema::drop('app_instance_dep');
+        Schema::drop('service_instance_dep');
     }
 }

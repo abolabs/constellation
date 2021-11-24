@@ -27,5 +27,5 @@ Route::resource('applications', ApplicationAPIController::class);
 Route::resource('services', ServiceAPIController::class);
 Route::resource('serviceVersions', ServiceVersionAPIController::class);
 Route::resource('service_version_dependencies', ServiceVersionDependenciesAPIController::class);
-Route::resource('app_instances', AppInstanceAPIController::class);
-Route::resource('appInstanceDependencies', AppInstanceDependenciesAPIController::class);
+Route::resource('service_instances', ServiceInstanceAPIController::class);
+Route::resource('serviceInstanceDependencies', ServiceInstanceDependenciesAPIController::class);

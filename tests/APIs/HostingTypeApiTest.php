@@ -19,7 +19,7 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/hosting_types', $hostingType
+            '/api/hostingTypes', $hostingType
         );
 
         $this->assertApiResponse($hostingType);
@@ -34,7 +34,7 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/hosting_types/'.$hostingType->id
+            '/api/hostingTypes/'.$hostingType->id
         );
 
         $this->assertApiResponse($hostingType->toArray());
@@ -50,7 +50,7 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/hosting_types/'.$hostingType->id,
+            '/api/hostingTypes/'.$hostingType->id,
             $editedHostingType
         );
 
@@ -66,13 +66,13 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-             '/api/hosting_types/'.$hostingType->id
+             '/api/hostingTypes/'.$hostingType->id
          );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/hosting_types/'.$hostingType->id
+            '/api/hostingTypes/'.$hostingType->id
         );
 
         $this->response->assertStatus(404);

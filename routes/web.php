@@ -71,8 +71,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('services', App\Http\Controllers\ServiceController::class);
     Route::resource('serviceVersions', App\Http\Controllers\ServiceVersionController::class);
     Route::resource('serviceVersionDependencies', App\Http\Controllers\ServiceVersionDependenciesController::class);
-    Route::resource('appInstances', App\Http\Controllers\AppInstanceController::class);
-    Route::resource('appInstanceDependencies', App\Http\Controllers\AppInstanceDependenciesController::class);
+    Route::resource('serviceInstances', App\Http\Controllers\ServiceInstanceController::class);
+    Route::resource('serviceInstanceDependencies', App\Http\Controllers\ServiceInstanceDependenciesController::class);
 
 });
 

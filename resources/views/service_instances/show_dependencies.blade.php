@@ -15,7 +15,7 @@
                                     <div class="card-header text-white bg-primary">
                                         {{ $instanceDependencie[$instanceKey]->serviceVersion->service->name }}
                                         <div class="col-1 pull-right">
-                                            {!! Form::open(['route' => ['appInstanceDependencies.destroy', $instanceDependencie->id], 'method' => 'delete']) !!}
+                                            {!! Form::open(['route' => ['serviceInstanceDependencies.destroy', $instanceDependencie->id], 'method' => 'delete']) !!}
                                                 <input type="hidden" name="redirect_to_back" value="1" />
                                                 <button type="submit" class="btn btn-transparent btn-sm" onclick="return confirm('Are you sure?')"><span class="badge badge-warning"><i class="fa fa-trash"></i></span></button>
                                             {!! Form::close() !!}
@@ -45,13 +45,13 @@
                                             {!! Form::label('git_repo', 'Repository') !!}
                                             <p>
                                                 <a href="{{ $instanceDependencie[$instanceKey]->serviceVersion->service->git_repo }}" target="blank">
-                                                {{ $instanceDependencie->appInstance->serviceVersion->service->git_repo }}  <i class="cil-external-link"></i>
+                                                {{ $instanceDependencie->serviceInstance->serviceVersion->service->git_repo }}  <i class="cil-external-link"></i>
                                                 </a>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="card-footer p-x-1 py-h">
-                                        <a class="font-weight-bold font-xs btn-block text-muted" href="/appInstances/{{ $instanceDependencie[$instanceKey]->id }}">
+                                        <a class="font-weight-bold font-xs btn-block text-muted" href="/serviceInstances/{{ $instanceDependencie[$instanceKey]->id }}">
                                             <small class="text-muted">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></small>
                                         </a>
                                     </div>
@@ -59,7 +59,7 @@
                             </div>
                             @empty
                             <p>
-                                @if($instanceKey == 'appInstanceDep')
+                                @if($instanceKey == 'serviceInstanceDep')
                                 L'instance ne requière aucune dépendance.
                                 @else
                                 Aucune instance de service ne requière l'instance.
@@ -84,17 +84,17 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        {!! Form::open(['route' => 'appInstanceDependencies.store']) !!}
+        {!! Form::open(['route' => 'serviceInstanceDependencies.store']) !!}
         <div class="modal-body">
 
             <!-- Application id -->
             <input type="hidden" name="redirect_to_back" value="1" />
-            @if($instanceKey == 'appInstanceDep')
-                <input type="hidden" name="instance_id" value="{{ $appInstance->id }}" />
-                @include('app_instance_dependencies.fields', ['noButton' => true, 'ignoreSourceInstance' => true])
+            @if($instanceKey == 'serviceInstanceDep')
+                <input type="hidden" name="instance_id" value="{{ $serviceInstance->id }}" />
+                @include('service_instance_dependencies.fields', ['noButton' => true, 'ignoreSourceInstance' => true])
             @else
-                <input type="hidden" name="instance_dep_id" value="{{ $appInstance->id }}" />
-                @include('app_instance_dependencies.fields', ['noButton' => true, 'ignoreTargetInstance' => true])
+                <input type="hidden" name="instance_dep_id" value="{{ $serviceInstance->id }}" />
+                @include('service_instance_dependencies.fields', ['noButton' => true, 'ignoreTargetInstance' => true])
             @endif
         </div>
         <div class="modal-footer">

@@ -73,7 +73,7 @@
                                             </div>
                                         </div>
                                         <div class="card-footer p-x-1 py-h">
-                                            <a class="font-weight-bold font-xs btn-block text-muted" href="/appInstances/{{ $instance->id }}">
+                                            <a class="font-weight-bold font-xs btn-block text-muted" href="/serviceInstances/{{ $instance->id }}">
                                                 <small class="text-muted">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></small>
                                             </a>
                                         </div>

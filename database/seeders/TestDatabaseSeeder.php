@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\test\AppInstanceDepSeeder;
+use Database\Seeders\test\ServiceInstanceDepSeeder;
 use Database\Seeders\test\ServiceVersionDepSeeder;
 use Illuminate\Database\Seeder;
 
@@ -16,7 +16,7 @@ class TestDatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            AppInstanceDepSeeder::class,
+            ServiceInstanceDepSeeder::class,
             ServiceVersionDepSeeder::class
         ]);
     }

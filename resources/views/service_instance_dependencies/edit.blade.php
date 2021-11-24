@@ -3,7 +3,7 @@
 @section('content')
     <ol class="breadcrumb">
           <li class="breadcrumb-item">
-             <a href="{!! route('appInstances.index') !!}">App Instance</a>
+             <a href="{!! route('serviceInstanceDependencies.index') !!}">Service Instance Dependencies</a>
           </li>
           <li class="breadcrumb-item active">Edit</li>
         </ol>
@@ -15,12 +15,12 @@
                       <div class="card">
                           <div class="card-header text-white bg-secondary">
                               <i class="fa fa-edit fa-lg"></i>
-                              <strong>Edit App Instance</strong>
+                              <strong>Edit Service Instance Dependencies</strong>
                           </div>
                           <div class="card-body">
-                              {!! Form::model($appInstance, ['route' => ['appInstances.update', $appInstance->id], 'method' => 'patch']) !!}
+                              {!! Form::model($serviceInstanceDependencies, ['route' => ['serviceInstanceDependencies.update', $serviceInstanceDependencies->id], 'method' => 'patch']) !!}
 
-                              @include('app_instances.fields')
+                              @include('service_instance_dependencies.fields')
 
                               {!! Form::close() !!}
                             </div>
