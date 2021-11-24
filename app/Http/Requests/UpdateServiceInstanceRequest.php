@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\AppInstance;
+use App\Models\ServiceInstance;
 
-class CreateAppInstanceRequest extends FormRequest
+class UpdateServiceInstanceRequest extends FormRequest
 {
 
     /**
@@ -25,6 +25,8 @@ class CreateAppInstanceRequest extends FormRequest
      */
     public function rules()
     {
-        return AppInstance::$rules;
+        $rules = ServiceInstance::$rules;
+
+        return $rules;
     }
 }

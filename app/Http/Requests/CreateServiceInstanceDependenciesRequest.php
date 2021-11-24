@@ -3,10 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\AppInstanceDependencies;
-use App\Rules\AppInstancesDep\AppInstancesHasSameEnv;
+use App\Models\ServiceInstanceDependencies;
+use App\Rules\ServiceInstancesDep\ServiceInstancesHasSameEnv;
 
-class CreateAppInstanceDependenciesRequest extends FormRequest
+class CreateServiceInstanceDependenciesRequest extends FormRequest
 {
 
     /**
@@ -28,11 +28,11 @@ class CreateAppInstanceDependenciesRequest extends FormRequest
     {
         return [
             'instance_id' => [
-                new AppInstancesHasSameEnv($this->all()),
-                ...AppInstanceDependencies::$rules['instance_id']
+                new ServiceInstancesHasSameEnv($this->all()),
+                ...ServiceInstanceDependencies::$rules['instance_id']
             ],
             'instance_dep_id' => [
-                ...AppInstanceDependencies::$rules['instance_dep_id']
+                ...ServiceInstanceDependencies::$rules['instance_dep_id']
             ]
 
         ];

@@ -76,9 +76,9 @@ class Environnement extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      **/
-    public function appInstances()
+    public function serviceInstances()
     {
-        return $this->hasMany(\App\Models\AppInstance::class, 'environnement_id');
+        return $this->hasMany(\App\Models\ServiceInstance::class, 'environnement_id');
     }
 
 }

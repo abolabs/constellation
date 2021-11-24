@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- * Class AppInstance
+ * Class ServiceInstance
  * @package App\Models
  * @version September 4, 2021, 4:52 pm UTC
  *
@@ -21,7 +21,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property string $url
  * @property boolean $statut
  */
-class AppInstance extends Model implements Auditable
+class ServiceInstance extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
@@ -29,7 +29,7 @@ class AppInstance extends Model implements Auditable
 
     use HasFactory;
 
-    public $table = 'app_instance';
+    public $table = 'service_instance';
 
     protected $dates = ['deleted_at'];
 

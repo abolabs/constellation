@@ -2,24 +2,27 @@
 
 namespace App\Repositories;
 
-use App\Models\AppInstanceDependencies;
+use App\Models\ServiceInstance;
 use App\Repositories\BaseRepository;
 
 /**
- * Class AppInstanceDependenciesRepository
+ * Class ServiceInstanceRepository
  * @package App\Repositories
- * @version September 4, 2021, 4:59 pm UTC
+ * @version September 4, 2021, 4:52 pm UTC
 */
 
-class AppInstanceDependenciesRepository extends BaseRepository
+class ServiceInstanceRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
         'id',
-        'instance_id',
-        'instance_dep_id'
+        'application_id',
+        'service_version_id',
+        'environnement_id',
+        'url',
+        'statut'
     ];
 
     /**
@@ -37,6 +40,6 @@ class AppInstanceDependenciesRepository extends BaseRepository
      **/
     public function model()
     {
-        return AppInstanceDependencies::class;
+        return ServiceInstance::class;
     }
 }

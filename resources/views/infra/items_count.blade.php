@@ -1,10 +1,7 @@
 <div class="col-sm-3">
     <div class="card card-inverse card-primary text-white bg-primary">
         <div class="card-block p-3">
-            <div class="h4 text-muted text-right mb-2">
-                <i class="fa fa-window-maximize"></i>
-            </div>
-            <div class="h4 mb-0">{{$nbApp}}</div>
+            <div class="h4 mb-0">{{$nbApp}} <i class="fa fa-window-maximize pull-right"></i></div>
             <small class="text-muted text-uppercase font-weight-bold">Applications</small>
         </div>
         <div class="card-footer p-x-1 py-h">
@@ -16,10 +13,7 @@
 <div class="col-sm-3">
     <div class="card card-inverse card-info text-white bg-danger">
         <div class="card-block p-3">
-            <div class="h4 text-muted text-right mb-2">
-                <i class="cil-apps"></i>
-            </div>
-            <div class="h4 mb-0">{{$nbInstances}}</div>
+            <div class="h4 mb-0">{{$nbInstances}} <i class="cil-apps pull-right"></i></div>
             <small class="text-muted text-uppercase font-weight-bold">Instances Applicatives</small>
         </div>
         <div class="card-footer p-x-1 py-h">
@@ -31,10 +25,7 @@
 <div class="col-sm-3">
     <div class="card card-inverse card-success bg-warning">
         <div class="card-block p-3">
-            <div class="h4 text-muted text-right mb-2">
-                <i class="cib-codesandbox"></i>
-            </div>
-            <div class="h4 mb-0 text-muted">{{$nbServices}}</div>
+            <div class="h4 mb-0 text-muted">{{$nbServices}} <i class="cib-codesandbox pull-right"></i></div>
             <small class="text-muted text-uppercase font-weight-bold">Services</small>
         </div>
         <div class="card-footer p-x-1 py-h">
@@ -46,10 +37,7 @@
 <div class="col-sm-3">
     <div class="card card-inverse card-warning text-white bg-info">
         <div class="card-block p-3">
-            <div class="h4 text-muted text-right mb-2">
-                <i class="cib-ghost"></i>
-            </div>
-            <div class="h4 mb-0">{{$nbHostings}}</div>
+            <div class="h4 mb-0">{{$nbHostings}} <i class="cib-ghost pull-right"></i></div>
             <small class="text-muted text-uppercase font-weight-bold">Hébergements</small>
         </div>
         <div class="card-footer p-x-1 py-h">

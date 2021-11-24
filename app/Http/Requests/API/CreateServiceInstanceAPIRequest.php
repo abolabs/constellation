@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\AppInstance;
+use App\Models\ServiceInstance;
 use InfyOm\Generator\Request\APIRequest;
 
-class UpdateAppInstanceAPIRequest extends APIRequest
+class CreateServiceInstanceAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,6 @@ class UpdateAppInstanceAPIRequest extends APIRequest
      */
     public function rules()
     {
-        $rules = AppInstance::$rules;
-        
-        return $rules;
+        return ServiceInstance::$rules;
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GetGraphServicesByAppRequest;
-use App\Models\{Application, Service, AppInstance, AppInstanceDependencies, Hosting};
+use App\Models\{Application, Service, ServiceInstance, ServiceInstanceDependencies, Hosting};
 use Illuminate\Support\Facades\DB;
 
 class InfraController extends Controller
@@ -16,10 +16,10 @@ class InfraController extends Controller
     public function index()
     {
         $nbApp = Application::count();
-        $nbInstances = AppInstance::count();
+        $nbInstances = ServiceInstance::count();
         $nbServices = Service::count();
         $nbHostings = Hosting::count();
-        $mainEnvironnement = AppInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
+        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
 
         return view('infra.index', compact('nbApp','nbInstances','nbServices','nbHostings','mainEnvironnement'));
     }
@@ -31,7 +31,7 @@ class InfraController extends Controller
      */
     public function displayByApp()
     {
-        $mainEnvironnement = AppInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
+        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
 
         return view('infra.byApp', compact('mainEnvironnement'));
     }
@@ -39,7 +39,7 @@ class InfraController extends Controller
 
     public function displayByHosting()
     {
-        $mainEnvironnement = AppInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
+        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
 
         return view('infra.byHosting', compact('mainEnvironnement'));
     }
@@ -52,7 +52,7 @@ class InfraController extends Controller
 
         $nodesData = [];
 
-        $instanceByApplicationsQuery = AppInstance::select('application_id')->with('application')
+        $instanceByApplicationsQuery = ServiceInstance::select('application_id')->with('application')
                             ->where('environnement_id', $request->environnement_id);
 
         // app filter
@@ -75,7 +75,7 @@ class InfraController extends Controller
                 "classes" => "application"
             ];
         }
-        $instancesQuery = AppInstance::with("serviceVersion","application","hosting")
+        $instancesQuery = ServiceInstance::with("serviceVersion","application","hosting")
                         ->where('environnement_id', $request->environnement_id);
 
         // app filter
@@ -87,40 +87,40 @@ class InfraController extends Controller
         }
         $instances = $instancesQuery->get() ;
 
-        foreach($instances as $appInstance)
+        foreach($instances as $serviceInstance)
         {
-            $appInstance->serviceVersion->load("service");
+            $serviceInstance->serviceVersion->load("service");
 
             $classStatut = "";
-            if($appInstance->statut === false){
+            if($serviceInstance->statut === false){
                 $classStatut = "disabled";
             }
 
             if($request->tag == 'hosting'){
-                $tag = $appInstance->hosting->name;
+                $tag = $serviceInstance->hosting->name;
             }else{
-                $tag = "v".$appInstance->serviceVersion->version;
+                $tag = "v".$serviceInstance->serviceVersion->version;
             }
 
             // add service instance
             $nodesData[] = (object)[
                 "group" => "nodes",
                 "data" =>(object)[
-                    "id" =>  'appInstance_'.$appInstance->id ,
-                    "name" => $appInstance->serviceVersion->service->name,
+                    "id" =>  'serviceInstance_'.$serviceInstance->id ,
+                    "name" => $serviceInstance->serviceVersion->service->name,
                     "tag" => $tag,
-                    "parent" => 'application_'.$appInstance->application->id ,
+                    "parent" => 'application_'.$serviceInstance->application->id ,
                 ],
-                "classes" => "appInstance ".$classStatut,
+                "classes" => "serviceInstance ".$classStatut,
             ];
 
-            $appDependencies = AppInstanceDependencies::with(['appInstance' => function($query) use ($request){
+            $appDependencies = ServiceInstanceDependencies::with(['serviceInstance' => function($query) use ($request){
                                     $query->where('environnement_id', $request->environnement_id);
                                 }])
-                                ->with(['appInstanceDep' => function($query) use ($request){
+                                ->with(['serviceInstanceDep' => function($query) use ($request){
                                     $query->where('environnement_id', $request->environnement_id);
                                 }])
-                                ->where("instance_id", $appInstance->id)
+                                ->where("instance_id", $serviceInstance->id)
                                 ->get();
 
             foreach($appDependencies  as $appDep)
@@ -129,9 +129,9 @@ class InfraController extends Controller
                 $nodesData[] = (object)[
                     "group" => "edges",
                     "data" =>(object)[
-                        "id" =>  'dep_'.$appInstance->id."_".$appDep->id ,
-                        "source" => "appInstance_".$appInstance->id,
-                        "target" => 'appInstance_'.$appDep->instance_dep_id ,
+                        "id" =>  'dep_'.$serviceInstance->id."_".$appDep->id ,
+                        "source" => "serviceInstance_".$serviceInstance->id,
+                        "target" => 'serviceInstance_'.$appDep->instance_dep_id ,
                     ]
                 ];
             }
@@ -148,7 +148,7 @@ class InfraController extends Controller
 
         $nodesData = [];
 
-        $instanceByHostingsQuery = AppInstance::select('hosting_id')->with('hosting')
+        $instanceByHostingsQuery = ServiceInstance::select('hosting_id')->with('hosting')
                             ->where('environnement_id', $request->environnement_id);
         // app filter
         if(!empty($request->application_id)){
@@ -170,7 +170,7 @@ class InfraController extends Controller
                 "classes" => "hosting"
             ];
         }
-        $instancesQuery = AppInstance::with("serviceVersion","application")
+        $instancesQuery = ServiceInstance::with("serviceVersion","application")
                         ->where('environnement_id', $request->environnement_id);
         // app filter
         if(!empty($request->application_id)){
@@ -182,18 +182,18 @@ class InfraController extends Controller
 
         $instances = $instancesQuery->get() ;
 
-        foreach($instances as $appInstance)
+        foreach($instances as $serviceInstance)
         {
-            $appInstance->serviceVersion->load("service");
+            $serviceInstance->serviceVersion->load("service");
 
             if($request->tag == 'application'){
-                $tag = $appInstance->application->name;
+                $tag = $serviceInstance->application->name;
             }else{
-                $tag = "v".$appInstance->serviceVersion->version;
+                $tag = "v".$serviceInstance->serviceVersion->version;
             }
 
             $classStatut = "";
-            if($appInstance->statut === false){
+            if($serviceInstance->statut === false){
                 $classStatut = "disabled";
             }
 
@@ -201,16 +201,16 @@ class InfraController extends Controller
             $nodesData[] = (object)[
                 "group" => "nodes",
                 "data" =>(object)[
-                    "id" =>  'appInstance_'.$appInstance->id ,
-                    "name" => $appInstance->serviceVersion->service->name,
+                    "id" =>  'serviceInstance_'.$serviceInstance->id ,
+                    "name" => $serviceInstance->serviceVersion->service->name,
                     "tag" => $tag,
-                    "parent" => 'hosting_'.$appInstance->hosting->id ,
+                    "parent" => 'hosting_'.$serviceInstance->hosting->id ,
                 ],
-                "classes" => "appInstance ".$classStatut,
+                "classes" => "serviceInstance ".$classStatut,
             ];
 
-            $appDependencies = AppInstanceDependencies::join('app_instance as source' , function($query) use ($request){
-                                    $query->on('source.id', '=', 'app_instance_dep.instance_id');
+            $appDependencies = ServiceInstanceDependencies::join('service_instance as source' , function($query) use ($request){
+                                    $query->on('source.id', '=', 'service_instance_dep.instance_id');
 
                                     $query->where('source.environnement_id', $request->environnement_id);
                                     if(!empty($request->application_id)){
@@ -220,8 +220,8 @@ class InfraController extends Controller
                                         $query->whereIn('source.hosting_id', $request->hosting_id );
                                     }
                                 })
-                                ->join('app_instance as target' , function($query) use ($request){
-                                    $query->on('target.id', '=', 'app_instance_dep.instance_dep_id');
+                                ->join('service_instance as target' , function($query) use ($request){
+                                    $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
 
                                     $query->where('target.environnement_id', $request->environnement_id);
                                     if(!empty($request->application_id)){
@@ -231,7 +231,7 @@ class InfraController extends Controller
                                         $query->whereIn('target.hosting_id', $request->hosting_id );
                                     }
                                 })
-                                ->where("instance_id", $appInstance->id)
+                                ->where("instance_id", $serviceInstance->id)
                                 ->get();
 
             foreach($appDependencies  as $appDep)
@@ -240,9 +240,9 @@ class InfraController extends Controller
                 $nodesData[] = (object)[
                     "group" => "edges",
                     "data" =>(object)[
-                        "id" =>  'dep_'.$appInstance->id."_".$appDep->id ,
-                        "source" => "appInstance_".$appInstance->id,
-                        "target" => 'appInstance_'.$appDep->instance_dep_id ,
+                        "id" =>  'dep_'.$serviceInstance->id."_".$appDep->id ,
+                        "source" => "serviceInstance_".$serviceInstance->id,
+                        "target" => 'serviceInstance_'.$appDep->instance_dep_id ,
                     ]
                 ];
             }

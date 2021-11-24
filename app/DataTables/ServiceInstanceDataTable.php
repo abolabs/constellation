@@ -2,10 +2,10 @@
 
 namespace App\DataTables;
 
-use App\Models\AppInstance;
+use App\Models\ServiceInstance;
 use Yajra\DataTables\EloquentDataTable;
 
-class AppInstanceDataTable extends AbstractCommonDatatable
+class ServiceInstanceDataTable extends AbstractCommonDatatable
 {
     /**
      * Build DataTable class.
@@ -17,20 +17,20 @@ class AppInstanceDataTable extends AbstractCommonDatatable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'app_instances.datatables_actions');
+        return $dataTable->addColumn('action', 'service_instances.datatables_actions');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\AppInstance $model
+     * @param \App\Models\ServiceInstance $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(AppInstance $model)
+    public function query(ServiceInstance $model)
     {
         return $model->newQuery()
                 ->with(['serviceVersion','serviceVersion.service','environnement','application','hosting'])
-                ->select(['app_instance.*']);
+                ->select(['service_instance.*']);
     }
 
     /**
@@ -41,10 +41,10 @@ class AppInstanceDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'app_instance_id' =>  new \Yajra\DataTables\Html\Column([
+            'service_instance_id' =>  new \Yajra\DataTables\Html\Column([
                 'title' => 'Id',
                 'data'  => 'id',
-                'name'  => 'app_instance.id'
+                'name'  => 'service_instance.id'
             ]),
             'application_name' => new \Yajra\DataTables\Html\Column([
                 'title' => 'Application',
@@ -75,7 +75,7 @@ class AppInstanceDataTable extends AbstractCommonDatatable
             'statut' => new \Yajra\DataTables\Html\Column([
                 'title' => 'Statut',
                 'data'  => 'statut',
-                'name'  => 'app_instance.statut',
+                'name'  => 'service_instance.statut',
                 'render' => 'window.DataTableRenderer.boolean("statut")'
             ])
         ];
@@ -88,6 +88,6 @@ class AppInstanceDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'app_instances_datatable_' . time();
+        return 'service_instances_datatable_' . time();
     }
 }

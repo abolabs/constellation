@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Models\AppInstance;
+use App\Models\ServiceInstance;
+use InfyOm\Generator\Request\APIRequest;
 
-class UpdateAppInstanceRequest extends FormRequest
+class UpdateServiceInstanceAPIRequest extends APIRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,8 +24,8 @@ class UpdateAppInstanceRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = AppInstance::$rules;
-        
+        $rules = ServiceInstance::$rules;
+
         return $rules;
     }
 }

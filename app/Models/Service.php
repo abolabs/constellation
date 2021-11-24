@@ -86,7 +86,7 @@ class Service extends Model implements Auditable
      */
     public static $rules = [
         'team_id' => 'required|exists:team,id',
-        'git_repo' => ['required', 'regex:/((git|ssh|http(s)?)|(git@[\w\.]+))(:(\/\/)?)([\w\.@\:\/\-~]+)(\.git)( \/)?/']
+        'git_repo' => 'required|url'
     ];
 
     /**

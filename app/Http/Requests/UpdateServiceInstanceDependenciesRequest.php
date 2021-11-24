@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Requests\API;
+namespace App\Http\Requests;
 
-use App\Models\AppInstanceDependencies;
-use App\Rules\AppInstancesDep\AppInstancesHasSameEnv;
-use InfyOm\Generator\Request\APIRequest;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Models\ServiceInstanceDependencies;
+use App\Rules\ServiceInstancesDep\ServiceInstancesHasSameEnv;
 
-class UpdateAppInstanceDependenciesAPIRequest extends APIRequest
+class UpdateServiceInstanceDependenciesRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -27,11 +28,11 @@ class UpdateAppInstanceDependenciesAPIRequest extends APIRequest
     {
         return [
             'instance_id' => [
-                new AppInstancesHasSameEnv($this->all()),
-                ...AppInstanceDependencies::$rules['instance_id']
+                new ServiceInstancesHasSameEnv($this->all()),
+                ...ServiceInstanceDependencies::$rules['instance_id']
             ],
             'instance_dep_id' => [
-                ...AppInstanceDependencies::$rules['instance_dep_id']
+                ...ServiceInstanceDependencies::$rules['instance_dep_id']
             ]
         ];
     }

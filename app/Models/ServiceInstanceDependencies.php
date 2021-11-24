@@ -9,7 +9,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @SWG\Definition(
- *      definition="AppInstanceDependencies",
+ *      definition="ServiceInstanceDependencies",
  *      required={""},
  *      @SWG\Property(
  *          property="id",
@@ -43,13 +43,13 @@ use OwenIt\Auditing\Contracts\Auditable;
  *      )
  * )
  */
-class AppInstanceDependencies extends Model implements Auditable
+class ServiceInstanceDependencies extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
     use HasFactory;
 
-    public $table = 'app_instance_dep';
+    public $table = 'service_instance_dep';
 
     protected $dates = ['deleted_at'];
 
@@ -77,11 +77,11 @@ class AppInstanceDependencies extends Model implements Auditable
     public static $rules = [
         'instance_id' => [
             'required',
-            'exists:app_instance,id'
+            'exists:service_instance,id'
         ],
         'instance_dep_id' => [
             'required',
-            'exists:app_instance,id'
+            'exists:service_instance,id'
         ],
 
     ];
@@ -89,24 +89,24 @@ class AppInstanceDependencies extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      **/
-    public function appInstance()
+    public function serviceInstance()
     {
-        return $this->belongsTo(\App\Models\AppInstance::class, 'instance_id');
+        return $this->belongsTo(\App\Models\ServiceInstance::class, 'instance_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      **/
-    public function appInstanceDep()
+    public function serviceInstanceDep()
     {
-        return $this->belongsTo(\App\Models\AppInstance::class, 'instance_dep_id');
+        return $this->belongsTo(\App\Models\ServiceInstance::class, 'instance_dep_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function appInstanceDeps()
+    public function serviceInstanceDeps()
     {
-        return $this->hasMany(\App\Models\AppInstance::class, 'id', 'instance_dep_id');
+        return $this->hasMany(\App\Models\ServiceInstance::class, 'id', 'instance_dep_id');
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
-use App\Models\AppInstanceDependencies;
+use App\Models\ServiceInstanceDependencies;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class AppInstanceDependenciesDataTable extends AbstractCommonDatatable
+class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
 {
     /**
      * Build DataTable class.
@@ -18,20 +18,20 @@ class AppInstanceDependenciesDataTable extends AbstractCommonDatatable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'app_instance_dependencies.datatables_actions');
+        return $dataTable->addColumn('action', 'service_instance_dependencies.datatables_actions');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\AppInstanceDependencies $model
+     * @param \App\Models\ServiceInstanceDependencies $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(AppInstanceDependencies $model)
+    public function query(ServiceInstanceDependencies $model)
     {
         return $model->newQuery()
-                ->with(['appInstance','appInstanceDep','appInstance.serviceVersion.service','appInstanceDep.serviceVersion.service'])
-                ->select(['app_instance_dep.*']);
+                ->with(['ServiceInstance','ServiceInstanceDep','ServiceInstance.serviceVersion.service','ServiceInstanceDep.serviceVersion.service'])
+                ->select(['service_instance_dep.*']);
     }
 
     /**
@@ -46,14 +46,14 @@ class AppInstanceDependenciesDataTable extends AbstractCommonDatatable
             'instance_id',
             'service_name' => new \Yajra\DataTables\Html\Column([
                 'title' => 'Service Name',
-                'data'  => 'app_instance.service_version.service.name',
-                'name'  => 'appInstance.serviceVersion.service.name',
+                'data'  => 'service_instance.service_version.service.name',
+                'name'  => 'ServiceInstance.serviceVersion.service.name',
             ]),
             'instance_dep_id',
             'dep_service_name' => new \Yajra\DataTables\Html\Column([
                 'title' => 'Dependency Service Name',
-                'data'  => 'app_instance_dep.service_version.service.name',
-                'name'  => 'appInstanceDep.serviceVersion.service.name',
+                'data'  => 'service_instance_dep.service_version.service.name',
+                'name'  => 'ServiceInstanceDep.serviceVersion.service.name',
             ]),
         ];
     }
@@ -65,6 +65,6 @@ class AppInstanceDependenciesDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'app_instance_dependencies_datatable_' . time();
+        return 'service_instance_dependencies_datatable_' . time();
     }
 }

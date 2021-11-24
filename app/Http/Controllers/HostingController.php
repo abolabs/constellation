@@ -9,7 +9,7 @@ use App\Http\Requests\UpdateHostingRequest;
 use App\Repositories\HostingRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
-use App\Models\AppInstance;
+use App\Models\ServiceInstance;
 use Response;
 
 class HostingController extends AppBaseController
@@ -71,7 +71,7 @@ class HostingController extends AppBaseController
     public function show($id)
     {
         $hosting = $this->hostingRepository->find($id);
-        $instances = AppInstance::where('hosting_id', $id)->get();
+        $instances = ServiceInstance::where('hosting_id', $id)->get();
 
         if (empty($hosting)) {
             Flash::error('Hosting not found');

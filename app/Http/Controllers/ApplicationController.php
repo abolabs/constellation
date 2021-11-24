@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateApplicationRequest;
 use App\Repositories\ApplicationRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
-use App\Models\AppInstance;
+use App\Models\ServiceInstance;
 use App\Models\Environnement;
 use Response;
 
@@ -72,9 +72,9 @@ class ApplicationController extends AppBaseController
     {
         $application = $this->applicationRepository->find($id);
 
-        $appInstances = AppInstance::where("application_id",$id)->with(['serviceVersion','serviceVersion.service','environnement'])->orderBy('environnement_id')->get();
+        $serviceInstances = ServiceInstance::where("application_id",$id)->with(['serviceVersion','serviceVersion.service','environnement'])->orderBy('environnement_id')->get();
 
-        $countByEnv = Environnement::withCount('appInstances')->with('appInstances', function($query) use ($id) {
+        $countByEnv = Environnement::withCount('serviceInstances')->with('serviceInstances', function($query) use ($id) {
                 $query->where('application_id', $id);
             })->get()->keyBy('id')->toArray();
 
@@ -86,7 +86,7 @@ class ApplicationController extends AppBaseController
         }
 
         return view('applications.show')->with('application', $application)
-                    ->with('appInstances',$appInstances)
+                    ->with('serviceInstances',$serviceInstances)
                     ->with('countByEnv',$countByEnv);
     }
 
@@ -152,7 +152,7 @@ class ApplicationController extends AppBaseController
             return redirect(route('applications.index'));
         }
 
-        if(AppInstance::where('application_id',$id)->whereNull('deleted_at')->count()>0){
+        if(ServiceInstance::where('application_id',$id)->whereNull('deleted_at')->count()>0){
             Flash::error('Impossible de supprimer l\'application, des instances de services sont attachées à l\'application.');
 
             return redirect(route('applications.index'));

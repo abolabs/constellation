@@ -91,7 +91,7 @@ class ServiceVersion extends Model implements Auditable
      */
     public function instances()
     {
-        return $this->hasMany(\App\Models\AppInstance::class, 'service_version_id');
+        return $this->hasMany(\App\Models\ServiceInstance::class, 'service_version_id');
     }
 
     public function newQuery()
