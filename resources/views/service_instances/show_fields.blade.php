@@ -38,6 +38,12 @@
     <p><a href="{{ $serviceInstance->url }}" target="_blank">{{ $serviceInstance->url }} <i class="cil-external-link"></i></a></p>
 </div>
 
+<!-- Role Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('role', 'Role') !!}
+    <p>{{ $serviceInstance->role }}
+</div>
+
 
 <!-- Statut Field -->
 <div class="form-group col-lg-3">

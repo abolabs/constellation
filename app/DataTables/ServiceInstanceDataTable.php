@@ -72,6 +72,7 @@ class ServiceInstanceDataTable extends AbstractCommonDatatable
                 'name'  => 'hosting.name',
             ]),
             'url',
+            'role',
             'statut' => new \Yajra\DataTables\Html\Column([
                 'title' => 'Statut',
                 'data'  => 'statut',

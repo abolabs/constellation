@@ -39,6 +39,7 @@ class ServiceInstance extends Model implements Auditable
         'environnement_id',
         'hosting_id',
         'url',
+        'role',
         'statut'
     ];
 
@@ -54,6 +55,7 @@ class ServiceInstance extends Model implements Auditable
         'environnement_id' => 'integer',
         'hosting_id' => 'integer',
         'url' => 'string',
+        'role' => 'string',
         'statut' => 'boolean'
     ];
 
@@ -68,6 +70,7 @@ class ServiceInstance extends Model implements Auditable
         'environnement_id' => 'required|exists:environnement,id',
         'hosting_id' => 'required|exists:hosting,id',
         'url' => 'url',
+        'role' => 'nullable|string'
     ];
 
     /**

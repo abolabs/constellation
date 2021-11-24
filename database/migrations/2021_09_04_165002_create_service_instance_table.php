@@ -21,6 +21,7 @@ class CreateServiceInstanceTable extends Migration
             $table->integer('environnement_id')->unsigned();
             $table->integer('hosting_id')->unsigned();
             $table->string('url');
+            $table->string('role')->nullable();
             $table->boolean('statut')->default(0);
             $table->timestamps();
             $table->softDeletes();
