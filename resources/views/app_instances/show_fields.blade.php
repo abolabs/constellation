@@ -35,7 +35,7 @@
 <!-- Url Field -->
 <div class="form-group col-lg-3">
     {!! Form::label('url', 'Url') !!}
-    <p><a href="{{ $appInstance->url }}">{{ $appInstance->url }}</a></p>
+    <p><a href="{{ $appInstance->url }}" target="_blank">{{ $appInstance->url }} <i class="cil-external-link"></i></a></p>
 </div>
 
 

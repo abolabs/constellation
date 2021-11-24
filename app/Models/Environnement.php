@@ -44,7 +44,7 @@ class Environnement extends Model implements Auditable
     use HasFactory;
 
     public $table = 'environnement';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -73,5 +73,12 @@ class Environnement extends Model implements Auditable
         'name' => 'required',
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     **/
+    public function appInstances()
+    {
+        return $this->hasMany(\App\Models\AppInstance::class, 'environnement_id');
+    }
+
 }

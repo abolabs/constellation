@@ -43,15 +43,12 @@
                                     <div class="card">
                                         <div class="card-header text-white bg-primary">v. {{ $serviceVersion->version }} </div>
                                         <div class="card-body">
-                                            <!-- Created At Field -->
+
                                             <div class="form-group">
+                                                <!-- Created At Field -->
                                                 {!! Form::label('created_at', 'Created At') !!}
                                                 <p>{{ $serviceVersion->created_at }}</p>
-                                            </div>
-                                            <hr class="my-2">
-
-                                            <!-- Updated At Field -->
-                                            <div class="form-group">
+                                                <!-- Updated At Field -->
                                                 {!! Form::label('updated_at', 'Updated At') !!}
                                                 <p>{{ $serviceVersion->updated_at }}</p>
                                             </div>
