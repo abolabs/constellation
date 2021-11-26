@@ -69,7 +69,7 @@ class ServiceInstance extends Model implements Auditable
         'service_version_id' => 'required|exists:service_version,id',
         'environnement_id' => 'required|exists:environnement,id',
         'hosting_id' => 'required|exists:hosting,id',
-        'url' => 'url',
+        'url' => 'nullable|url',
         'role' => 'nullable|string'
     ];
 

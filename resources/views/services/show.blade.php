@@ -58,13 +58,15 @@
                                             <div class="form-group">
                                                 {!! Form::label('application', 'Nb instances par application') !!}
                                                 <ul id="application" class="list-group">
-                                                    @foreach ($serviceByApplication[$serviceVersion->id] as $application_id => $application)
+                                                    @forelse ($serviceByApplication[$serviceVersion->id] as $application_id => $application)
                                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                                             <a href="{{ route('applications.show', $application_id ) }}" class="btn btn-light">{{$application['name']}}</a>
                                                             <span class="badge badge-primary badge-pill">{{$application['total']}}</span>
                                                         </li>
-                                                    @endforeach
 
+                                                    @empty
+                                                    <p>n/a</p>
+                                                    @endforelse
                                                 </ul>
                                             </div>
                                             @endif

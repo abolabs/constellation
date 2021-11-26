@@ -78,6 +78,9 @@
                                                             @else
                                                             <span class="badge badge-warning">Statut: Inactive</span>
                                                             @endif
+                                                            @if ($serviceInstance->role)
+                                                            <span class="badge badge-secondary">Role: {{ $serviceInstance->role }}</span>
+                                                            @endif
                                                         </p>
                                                         <!-- Environnement Field -->
                                                         {!! Form::label('git_repo', 'Repository') !!}
@@ -105,7 +108,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="newServiceVersionModal" tabindex="-1" role="dialog" aria-labelledby="newVersionModalLabel" aria-hidden="true">
+    <div class="modal fade" id="newServiceVersionModal" role="dialog" aria-labelledby="newVersionModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">

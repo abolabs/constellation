@@ -11,7 +11,7 @@ $blue: #2EC4B6;
 $indigo: #6574cd;
 $purple: #9561e2;
 $pink: #f66d9b;
-$red: #DB3A34;
+$red: #d02536;
 $orange: #FFC857;
 $yellow: #f8d999;
 $green: #38c172;
@@ -27,7 +27,7 @@ $primary: #177E89;
 $secondary:#084C61;
 $light: #FDFFFC;
 $dark: #323031;
-$danger: #DB3A34;
+$danger: #d02536;
 $warning: #FFC857;
 $info: #54aeb9;
 $success: #177E89;
@@ -50,3 +50,5 @@ $sidebar-dark-nav-link-hover-bg:          theme-color("primary") !default;
 $sidebar-dark-nav-link-hover-icon-color:  $white !default;
 
 $breakpoint-mobile-up: 991.98px;
+
+$enable-gradients: true;

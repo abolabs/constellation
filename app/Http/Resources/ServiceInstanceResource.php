@@ -26,6 +26,7 @@ class ServiceInstanceResource extends JsonResource
             'hosting_id' => $this->hosting_id,
             'hosting_name' => $this->hosting->name,
             'url' => $this->url,
+            'role' => $this->role,
             'statut' => $this->statut,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at

@@ -8,7 +8,7 @@
     @endif
     </select>
     <script>
-        window.selector.make("#instance_id", "/api/service_instances", "id", ["environnement_name", "hosting_name","application_name","service_version_name","service_version"])
+        window.selector.make("#instance_id", "/api/service_instances", "id", ["environnement_name", "hosting_name","application_name","service_version_name","service_version","role"])
     </script>
 </div>
 @endif
@@ -23,7 +23,7 @@
     @endif
     </select>
     <script>
-        window.selector.make("#instance_dep_id", "/api/service_instances", "id", ["environnement_name", "hosting_name","application_name","service_version_name","service_version"])
+        window.selector.make("#instance_dep_id", "/api/service_instances", "id", ["environnement_name", "hosting_name","application_name","service_version_name","service_version","role"])
     </script>
 </div>
 @endif

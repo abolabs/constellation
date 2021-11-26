@@ -20,7 +20,7 @@ class CreateServiceInstanceTable extends Migration
             $table->integer('service_version_id')->unsigned();
             $table->integer('environnement_id')->unsigned();
             $table->integer('hosting_id')->unsigned();
-            $table->string('url');
+            $table->string('url')->nullable();
             $table->string('role')->nullable();
             $table->boolean('statut')->default(0);
             $table->timestamps();

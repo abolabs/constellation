@@ -90,7 +90,7 @@ class Graph {
                     style: {
                         'background-color': '#084C61',
                         'border-width': '2',
-                        'border-color': '#177E89',
+                        'border-color': '#084C61',
                         'text-wrap': 'wrap',
                         'text-valign': 'center',
                         'text-halign': 'center',

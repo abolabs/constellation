@@ -74,10 +74,12 @@ class ApplicationController extends AppBaseController
 
         $serviceInstances = ServiceInstance::where("application_id",$id)->with(['serviceVersion','serviceVersion.service','environnement'])->orderBy('environnement_id')->get();
 
-        $countByEnv = Environnement::withCount('serviceInstances')->with('serviceInstances', function($query) use ($id) {
+        $countByEnv = Environnement::withCount(['serviceInstances' => function($query) use ($id) {
                 $query->where('application_id', $id);
-            })->get()->keyBy('id')->toArray();
-
+            }])
+            ->join('service_instance', 'environnement.id', '=', 'service_instance.environnement_id')
+            ->where('service_instance.application_id', $id)
+            ->get()->keyBy('id')->toArray();
 
         if (empty($application)) {
             Flash::error('Application not found');
