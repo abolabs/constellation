@@ -114,6 +114,12 @@ class Graph {
                     }
                 },
                 {
+                    selector: '.dark',
+                    style: {
+                        "color": "#6c757d",
+                    }
+                },
+                {
                     selector: '.disabled',
                     style: {
                         "background-color": "#FFC857",
@@ -177,12 +183,14 @@ class Graph {
                     content: 'Light',
                     select: function () {
                         $('#'+selector).css('background', "#FDFFFC");
+                        cy.nodes(`.application`).removeClass('dark');
                     }
                 },
                 {
                     content: 'Dark',
                     select: function () {
                         $('#'+selector).css('background', "#343a40");
+                        cy.nodes(`.application`).addClass('dark');
                     }
                 }
             ]
