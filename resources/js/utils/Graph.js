@@ -20,6 +20,7 @@ class Graph {
             nodeRepulsion: 4500,
             idealEdgeLength: 200,
             edgeElasticity: 0.45,
+            randomize: false,
         }).run();
     }
 
@@ -39,6 +40,7 @@ class Graph {
                     nodeRepulsion: 5500,
                     idealEdgeLength: 200,
                     edgeElasticity: 0.45,
+                    randomize: false,
                 }).run();
             },
             zoom: 0.75,
