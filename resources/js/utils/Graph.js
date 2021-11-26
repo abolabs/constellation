@@ -103,7 +103,7 @@ class Graph {
                     }
                 },
                 {
-                    selector: '.application',
+                    selector: '.container',
                     style: {
                         "text-valign": "top",
                         "shape": "roundrectangle",
@@ -183,14 +183,14 @@ class Graph {
                     content: 'Light',
                     select: function () {
                         $('#'+selector).css('background', "#FDFFFC");
-                        cy.nodes(`.application`).removeClass('dark');
+                        cy.nodes(`.container`).removeClass('dark');
                     }
                 },
                 {
                     content: 'Dark',
                     select: function () {
                         $('#'+selector).css('background', "#343a40");
-                        cy.nodes(`.application`).addClass('dark');
+                        cy.nodes(`.container`).addClass('dark');
                     }
                 }
             ]

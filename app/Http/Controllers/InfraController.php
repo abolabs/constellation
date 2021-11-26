@@ -72,7 +72,7 @@ class InfraController extends Controller
                     "id" =>  'application_'.$instanceByApplication->application->id ,
                     "name" => $instanceByApplication->application->name
                 ],
-                "classes" => "application"
+                "classes" => "application container"
             ];
         }
         $instancesQuery = ServiceInstance::with("serviceVersion","application","hosting")
@@ -160,7 +160,7 @@ class InfraController extends Controller
                     "id" =>  'hosting_'.$instanceByHosting->hosting->id ,
                     "name" => $instanceByHosting->hosting->name
                 ],
-                "classes" => "hosting"
+                "classes" => "hosting container"
             ];
         }
         $instancesQuery = ServiceInstance::with("serviceVersion","application")
