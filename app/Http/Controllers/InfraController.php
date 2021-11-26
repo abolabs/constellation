@@ -114,14 +114,7 @@ class InfraController extends Controller
                 "classes" => "serviceInstance ".$classStatut,
             ];
 
-            $appDependencies = ServiceInstanceDependencies::with(['serviceInstance' => function($query) use ($request){
-                                    $query->where('environnement_id', $request->environnement_id);
-                                }])
-                                ->with(['serviceInstanceDep' => function($query) use ($request){
-                                    $query->where('environnement_id', $request->environnement_id);
-                                }])
-                                ->where("instance_id", $serviceInstance->id)
-                                ->get();
+            $appDependencies = $this->getServiceInstanceDependencies($request, $serviceInstance);
 
             foreach($appDependencies  as $appDep)
             {
@@ -209,30 +202,7 @@ class InfraController extends Controller
                 "classes" => "serviceInstance ".$classStatut,
             ];
 
-            $appDependencies = ServiceInstanceDependencies::join('service_instance as source' , function($query) use ($request){
-                                    $query->on('source.id', '=', 'service_instance_dep.instance_id');
-
-                                    $query->where('source.environnement_id', $request->environnement_id);
-                                    if(!empty($request->application_id)){
-                                        $query->whereIn('source.application_id', $request->application_id );
-                                    }
-                                    if(!empty($request->hosting_id)){
-                                        $query->whereIn('source.hosting_id', $request->hosting_id );
-                                    }
-                                })
-                                ->join('service_instance as target' , function($query) use ($request){
-                                    $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
-
-                                    $query->where('target.environnement_id', $request->environnement_id);
-                                    if(!empty($request->application_id)){
-                                        $query->whereIn('target.application_id', $request->application_id );
-                                    }
-                                    if(!empty($request->hosting_id)){
-                                        $query->whereIn('target.hosting_id', $request->hosting_id );
-                                    }
-                                })
-                                ->where("instance_id", $serviceInstance->id)
-                                ->get();
+            $appDependencies = $this->getServiceInstanceDependencies($request, $serviceInstance);
 
             foreach($appDependencies  as $appDep)
             {
@@ -249,5 +219,36 @@ class InfraController extends Controller
         }
 
         return response()->json($nodesData);
+    }
+
+    /**
+     * Load dependencies
+     */
+    private function getServiceInstanceDependencies(GetGraphServicesByAppRequest $request, $serviceInstance)
+    {
+        return ServiceInstanceDependencies::join('service_instance as source' , function($query) use ($request){
+            $query->on('source.id', '=', 'service_instance_dep.instance_id');
+
+            $query->where('source.environnement_id', $request->environnement_id);
+            if(!empty($request->application_id)){
+                $query->whereIn('source.application_id', $request->application_id );
+            }
+            if(!empty($request->hosting_id)){
+                $query->whereIn('source.hosting_id', $request->hosting_id );
+            }
+        })
+        ->join('service_instance as target' , function($query) use ($request){
+            $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
+
+            $query->where('target.environnement_id', $request->environnement_id);
+            if(!empty($request->application_id)){
+                $query->whereIn('target.application_id', $request->application_id );
+            }
+            if(!empty($request->hosting_id)){
+                $query->whereIn('target.hosting_id', $request->hosting_id );
+            }
+        })
+        ->where("instance_id", $serviceInstance->id)
+        ->get();
     }
 }

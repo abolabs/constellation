@@ -25,8 +25,6 @@ class Graph {
 
     load(selector, loadNodesCallback) {
 
-        const currentGraph = this;
-
         this.cy = window.cy = window.cytoscape({
             container: document.getElementById(selector),
 
