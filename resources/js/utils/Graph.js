@@ -78,15 +78,31 @@ class Graph {
                 {
                     selector: 'edge',
                     css: {
-                        'curve-style': 'bezier',
+                        'curve-style': 'unbundled-bezier',
                         'target-arrow-shape': 'triangle',
                         'line-color': '#177E89',
                         'target-arrow-color': '#DB3A34',
                         'source-arrow-color': '#177E89',
+                        'line-opacity': 0.85,
+                        'width': 2,
                     }
                 },
                 {
-                    selector: '.serviceInstance',
+                    selector: 'edge.selected',
+                    css: {
+                        'line-style': 'dashed',
+                        'line-color': '#177E89',
+                        'width': 3,
+                    }
+                },
+                {
+                    selector: 'node.selected',
+                    css: {
+                        'background-color': '#177E89',
+                    }
+                },
+                {
+                    selector: 'node.serviceInstance',
                     style: {
                         'background-color': '#084C61',
                         'border-width': '2',
@@ -97,7 +113,7 @@ class Graph {
                         'text-max-width': '100px',
                         'label': 'data(name)',
                         'width': 'label',
-                        'height': 'label',
+                        //'height': 'label',
                         'color':  '#FDFFFC',
                         'padding': 10,
                     }
@@ -116,7 +132,7 @@ class Graph {
                 {
                     selector: '.dark',
                     style: {
-                        "color": "#6c757d",
+                        "color": "#858d94",
                     }
                 },
                 {
@@ -141,6 +157,21 @@ class Graph {
                 Graph.generateTag(elt, elt.data('tag')).show();
             });
         }))
+
+        var edge_style_added = false;
+        cy.bind('tap', 'node', function(event) {
+            event.target.addClass('selected');
+            event.target.connectedEdges().map(edge => edge.addClass('selected'))
+            edge_style_added = true;
+        })
+        $('#cy').click( (event) => {
+            // Suppression edge style si clic background
+            if (!edge_style_added) {
+                cy.edges().removeClass('selected')
+                cy.nodes().removeClass('selected')
+            }
+            edge_style_added = false;
+        })
 
         cy.ready(function() {
             const serviceInstances =  cy.nodes(`.serviceInstance`);
