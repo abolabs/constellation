@@ -10,12 +10,6 @@
     <p>{{ $service->team->name }}</p>
 </div>
 
-<!-- Name Field -->
-<div class="form-group col-lg-3">
-    {!! Form::label('name', 'Name') !!}
-    <p>{{ $service->name }}</p>
-</div>
-
 <!-- Git Repo Field -->
 <div class="form-group col-lg-3">
     {!! Form::label('git_repo', 'Git Repo') !!}

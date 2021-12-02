@@ -12,6 +12,7 @@
             @include('coreui-templates::common.errors')
             <div class="row">
                 <div class="col-lg-12">
+                    <h3>{{ $application->name }}</h3>
                     <div class="card">
                         <div class="card-header text-white bg-secondary">
                             <strong>Details</strong>

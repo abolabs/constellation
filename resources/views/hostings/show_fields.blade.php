@@ -4,12 +4,6 @@
     <p>{{ $hosting->id }}</p>
 </div>
 
-<!-- Name Field -->
-<div class="form-group col-lg-3">
-    {!! Form::label('name', 'Name') !!}
-    <p>{{ $hosting->name }}</p>
-</div>
-
 <!-- Hosting Type Id Field -->
 <div class="form-group col-lg-3">
     {!! Form::label('hosting_type', 'Hosting Type') !!}

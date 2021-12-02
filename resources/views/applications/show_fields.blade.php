@@ -4,12 +4,6 @@
     <p>{{ $application->id }}</p>
 </div>
 
-<!-- Name Field -->
-<div class="form-group col-lg-3">
-    {!! Form::label('name', 'Name') !!}
-    <p>{{ $application->name }}</p>
-</div>
-
 <!-- Team Id Field -->
 <div class="form-group col-lg-3">
     {!! Form::label('team_name', 'Team') !!}
