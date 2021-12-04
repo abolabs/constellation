@@ -59,6 +59,7 @@ class Graph {
                         "text-valign": "top",
                         "opacity": "1",
                         'font-family': '"Nunito", sans-serif',
+                        'color': '#FDFFFC'
                     },
                 },
                 {
@@ -71,14 +72,12 @@ class Graph {
                 {
                     selector: 'node.selected',
                     style: {
-                        'border-color': '#DB3A34',
-                        'border-width': 2,
-                    }
-                },
-                {
-                    selector: 'node:selected *',
-                    style: {
-                        'color': 'white'
+                        'border-color': '#177E89',
+                        'border-width': 4,
+                        'border-style': 'dotted',
+                        'text-outline-width': 2,
+                        'text-outline-color': '#FDFFFC',
+                        'color': '#084C61',
                     }
                 },
                 {
@@ -114,7 +113,6 @@ class Graph {
                         'label': 'data(name)',
                         'width': 'label',
                         //'height': 'label',
-                        'color':  '#FDFFFC',
                         'padding': 10,
                     }
                 },
@@ -128,6 +126,7 @@ class Graph {
                         "border-color": "#084C61",
                         "padding": 30,
                         "border-color": "#555555",
+                        'color': '#323031'
                     }
                 },
                 {
@@ -168,8 +167,6 @@ class Graph {
             event.target.connectedEdges().map(edge => {
                 edge.addClass('selected');
                 cy.nodes('#'+edge.data('source')).addClass('selected');
-                //cy.nodes('#'+edge.data('target')).addClass('selected');
-                console.log(cy.nodes('#'+edge.data('target')));
             })
             edge_style_added = true;
         })
