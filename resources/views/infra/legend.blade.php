@@ -7,23 +7,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-12 form-group">
-        <h5>Niveau de dépendance</h5>
-        <div class="form-group">
-            @foreach ( \App\Models\ServiceInstanceDependencies::$levelsList as $level)
-            <span class="badge badge-{{ __('service_instance_dependencies.level_bg.'.$level) }}"
-                data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top"
-                data-content="{{ __('service_instance_dependencies.level_description.'.$level) }}">
-                {{ __('service_instance_dependencies.level.'.$level) }}
-            </span>
-            @endforeach
-        </div>
-        <script>
-            $(function () {
-                $('[data-toggle="popover"]').popover()
-            })
-        </script>
-    </div>
+
     <div class="col-lg-12 form-group">
         <h5>Environnement</h5>
         <p>
@@ -76,5 +60,22 @@
                 Aucun
             </label>
         </div>
+    </div>
+    <div class="col-lg-12 form-group">
+        <h5>Niveau de dépendance</h5>
+        <div class="form-group">
+            @foreach ( \App\Models\ServiceInstanceDependencies::$levelsList as $level)
+            <span class="badge badge-{{ __('service_instance_dependencies.level_bg.'.$level) }}"
+                data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top"
+                data-content="{{ __('service_instance_dependencies.level_description.'.$level) }}">
+                {{ __('service_instance_dependencies.level.'.$level) }}
+            </span>
+            @endforeach
+        </div>
+        <script>
+            $(function () {
+                $('[data-toggle="popover"]').popover()
+            })
+        </script>
     </div>
 </div>

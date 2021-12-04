@@ -68,7 +68,8 @@
                                             <p>{{ $instanceDependencie->description }}</p>
 
                                             @include('service_instances.show_dependencies_modal', [
-                                                'instanceKey' => "Edition".$instanceDependencie->id,
+                                                'modalId'    => 'newEdition'.$instanceDependencie->id.'Modal',
+                                                'instanceKey' => $instanceKey,
                                                 'serviceInstance' => $serviceInstance,
                                                 'title' => 'Editer une nouvelle dépendance',
                                                 'serviceInstanceDependencies' => $instanceDependencie,
@@ -101,6 +102,7 @@
 
 <!-- Modal -->
 @include('service_instances.show_dependencies_modal', [
+    'modalId' => 'new'.$instanceKey.'Modal',
     'instanceKey' => $instanceKey,
     'serviceInstance' => $serviceInstance,
     'title' => 'Ajouter une nouvelle dépendance'
