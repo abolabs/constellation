@@ -58,7 +58,6 @@ class Graph {
                         "text-halign": "center",
                         "text-valign": "top",
                         "opacity": "1",
-                        "border-color": "#555555",
                         'font-family': '"Nunito", sans-serif',
                     },
                 },
@@ -67,6 +66,13 @@ class Graph {
                     style: {
                         'background-color': '#343a40',
                         'border-color': '#FDFFFC',
+                    }
+                },
+                {
+                    selector: 'node.selected',
+                    style: {
+                        'border-color': '#DB3A34',
+                        'border-width': 2,
                     }
                 },
                 {
@@ -96,17 +102,10 @@ class Graph {
                     }
                 },
                 {
-                    selector: 'node.selected',
-                    css: {
-                        'background-color': '#177E89',
-                    }
-                },
-                {
                     selector: 'node.serviceInstance',
                     style: {
                         'background-color': '#084C61',
-                        'border-width': '2',
-                        'border-color': '#084C61',
+                        //'border-width': '2',
                         'text-wrap': 'wrap',
                         'text-valign': 'center',
                         'text-halign': 'center',
@@ -127,6 +126,7 @@ class Graph {
                         "font-weight" : "bold",
                         "border-color": "#084C61",
                         "padding": 30,
+                        "border-color": "#555555",
                     }
                 },
                 {
@@ -160,8 +160,16 @@ class Graph {
 
         var edge_style_added = false;
         cy.bind('tap', 'node', function(event) {
+            cy.edges().removeClass('selected')
+            cy.nodes().removeClass('selected')
+
             event.target.addClass('selected');
-            event.target.connectedEdges().map(edge => edge.addClass('selected'))
+            event.target.connectedEdges().map(edge => {
+                edge.addClass('selected');
+                cy.nodes('#'+edge.data('source')).addClass('selected');
+                //cy.nodes('#'+edge.data('target')).addClass('selected');
+                console.log(cy.nodes('#'+edge.data('target')));
+            })
             edge_style_added = true;
         })
         $('#cy').click( (event) => {
@@ -198,12 +206,6 @@ class Graph {
                     },
                     enabled: false
                 },
-                {
-                    content: 'Text',
-                    select: function (ele) {
-                        console.log(ele.position());
-                    }
-                }
             ]
         });
 
@@ -229,7 +231,7 @@ class Graph {
 
     }
 
-    static generateTag(ele, text, placement='bottom', theme='material'){
+    static generateTag(ele, text, placement='bottom', theme='material', arrow=false){
         var ref = ele.popperRef();
 
         // Since tippy constructor requires DOM element/elements, create a placeholder
@@ -242,7 +244,7 @@ class Graph {
             content: text,
             // your own preferences:
             theme: theme,
-            arrow: false,
+            arrow: arrow,
             zIndex:0,
             placement: placement,
             hideOnClick: false,
