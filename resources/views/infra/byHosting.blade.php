@@ -13,70 +13,10 @@
         <!--/.row-->
         <div class="row">
             <div class="col-sm-12 col-md-3 col-lg-2 mapping-legend">
-                <div class="row">
-                    <div class="col-lg-12 d-flex justify-content-between">
-                        <div>
-                            <h4 class="card-title mb-0">Instances par hébergement</h4>
-                            <div class="small text-muted">
-                                <p>Utilisez le menu contextuel pour accéder au détail de chaque noeud <br/>(Clic gauche 2s ou clic droit)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 form-group">
-                        <label>Environnement</label>
-                        <p>
-                            <select class="form-select ol-sm-12 select-primary" id="env" aria-label="Sélectionner un environnement">
-                                <option selected value="{{ $mainEnvironnement['environnement']['id'] }}">{{ $mainEnvironnement['environnement']['name'] }}</option>
-                            </select>
-                        </p>
-                    </div>
-                    <!-- Application Id Field -->
-                    <div class="form-group col-sm-12">
-                        {!! Form::label('application_id', 'Application ') !!}
-                        <select name="application_id" id="application_id" class="form-control">
-                        @if (isset($serviceInstance->application->id))
-                            <option value="{{$serviceInstance->application->id}}">[{{$serviceInstance->application->id}}] {{$serviceInstance->application->name}}</option>
-                        @endif
-                        </select>
-                        <script>
-                            window.selector.make("#application_id", "/api/applications", "id", "name", {}, true)
-                        </script>
-                    </div>
-                    <!-- Hosting Id Field -->
-                    <div class="form-group col-sm-12">
-                        {!! Form::label('hosting_id', 'Hosting ') !!}
-                        <select name="hosting_id" id="hosting_id" class="form-control">
-                        @if (isset($serviceInstance->hosting->id))
-                            <option value="{{$serviceInstance->hosting->id}}">[{{$serviceInstance->hosting->id}}] {{$serviceInstance->hosting->name}}</option>
-                        @endif
-                        </select>
-                        <script>
-                            window.selector.make("#hosting_id", "/api/hostings", "id", "name", {}, true)
-                        </script>
-                    </div>
-                    <div class="col-lg-12 form-group">
-                        <label>Tag</label>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="application" checked>
-                            <label class="form-check-label" for="tagRadio1">
-                                Application
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio2" value="version">
-                            <label class="form-check-label" for="tagRadio2">
-                                Version
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio3" value="hide">
-                            <label class="form-check-label" for="tagRadio3">
-                                Aucun
-                            </label>
-                        </div>
-                    </div>
-                </div>
+                @include('infra.legend', [
+                    'mainEnvironnement' => $mainEnvironnement,
+                    'serviceInstance' => $serviceInstance ?? null,
+                ])
             </div>
             <div class="col-lg-12">
                 <div id="cy-container-byApp">

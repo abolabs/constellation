@@ -58,7 +58,7 @@
                                                 <h5>Dépendance</h5>
                                                 <p>
                                                     <!-- Level -->
-                                                    <span class="badge {{ __('service_instance_dependencies.level_badge.'.$instanceDependencie->level) }}" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="{{ __('service_instance_dependencies.level_description.'.$instanceDependencie->level) }}">
+                                                    <span class="badge badge-{{ __('service_instance_dependencies.level_bg.'.$instanceDependencie->level) }}" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="{{ __('service_instance_dependencies.level_description.'.$instanceDependencie->level) }}">
                                                         Level: {{ __('service_instance_dependencies.level.'.$instanceDependencie->level) }}
                                                     </span>
                                                 </p>
@@ -106,3 +106,9 @@
     'title' => 'Ajouter une nouvelle dépendance'
 
 ])
+
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>

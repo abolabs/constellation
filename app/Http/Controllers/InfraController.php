@@ -115,19 +115,7 @@ class InfraController extends Controller
             ];
 
             $appDependencies = $this->getServiceInstanceDependencies($request, $serviceInstance);
-
-            foreach($appDependencies  as $appDep)
-            {
-                // add dependencies
-                $nodesData[] = (object)[
-                    "group" => "edges",
-                    "data" =>(object)[
-                        "id" =>  'dep_'.$serviceInstance->id."_".$appDep->id ,
-                        "source" => "serviceInstance_".$serviceInstance->id,
-                        "target" => 'serviceInstance_'.$appDep->instance_dep_id ,
-                    ]
-                ];
-            }
+            $this->generateEdges($nodesData, $appDependencies, $serviceInstance);
         }
 
         return response()->json($nodesData);
@@ -203,22 +191,35 @@ class InfraController extends Controller
             ];
 
             $appDependencies = $this->getServiceInstanceDependencies($request, $serviceInstance);
+            $this->generateEdges($nodesData, $appDependencies, $serviceInstance);
 
-            foreach($appDependencies  as $appDep)
-            {
-                // add dependencies
-                $nodesData[] = (object)[
-                    "group" => "edges",
-                    "data" =>(object)[
-                        "id" =>  'dep_'.$serviceInstance->id."_".$appDep->id ,
-                        "source" => "serviceInstance_".$serviceInstance->id,
-                        "target" => 'serviceInstance_'.$appDep->instance_dep_id ,
-                    ]
-                ];
-            }
         }
 
         return response()->json($nodesData);
+    }
+
+    /**
+     * Generate edges data
+     * @param array &$nodesData
+     * @param iterable $appDependencies
+     * @param ServiceInstance $serviceInstance
+     * @return void
+     */
+    private function generateEdges(array &$nodesData, iterable $appDependencies, ServiceInstance $serviceInstance) : void
+    {
+        foreach($appDependencies  as $appDep)
+        {
+            // add dependencies
+            $nodesData[] = (object)[
+                "group" => "edges",
+                "data" =>(object)[
+                    "id" =>  'dep_'.$serviceInstance->id."_".$appDep->id ,
+                    "source" => "serviceInstance_".$serviceInstance->id,
+                    "target" => 'serviceInstance_'.$appDep->instance_dep_id ,
+                ],
+                "classes" => "level_".$appDep->level,
+            ];
+        }
     }
 
     /**

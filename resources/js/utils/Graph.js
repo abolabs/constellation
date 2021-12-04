@@ -85,7 +85,6 @@ class Graph {
                     css: {
                         'curve-style': 'unbundled-bezier',
                         'target-arrow-shape': 'triangle',
-                        'line-color': '#177E89',
                         'target-arrow-color': '#DB3A34',
                         'source-arrow-color': '#177E89',
                         'line-opacity': 0.85,
@@ -97,8 +96,25 @@ class Graph {
                     selector: 'edge.selected',
                     css: {
                         'line-style': 'dashed',
-                        'line-color': '#177E89',
                         'width': 3,
+                    }
+                },
+                {
+                    selector: '.level_1',
+                    css: {
+                        'line-color': '#177E89',
+                    }
+                },
+                {
+                    selector: '.level_2',
+                    css: {
+                        'line-color': '#FFC857',
+                    }
+                },
+                {
+                    selector: '.level_3',
+                    css: {
+                        'line-color': '#DB3A34',
                     }
                 },
                 {

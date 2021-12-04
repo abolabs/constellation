@@ -12,8 +12,8 @@
                  @include('coreui-templates::common.errors')
                  <div class="row">
                      <div class="col-lg-12">
-                        <h3>{{ $serviceInstance->application->name }} / {{ $serviceInstance->serviceVersion->service->name }}</h3>
-                        <h5 class="font-italic">{{ $serviceInstance->hosting->name }}</h5>
+                        <h3><a href="{{ route('applications.show',[$serviceInstance->application->id ]) }}">{{ $serviceInstance->application->name }}</a> / {{ $serviceInstance->serviceVersion->service->name }}</h3>
+                        <h5 class="font-italic">{{ $serviceInstance->environnement->name }} / {{ $serviceInstance->hosting->name }}</h5>
                         <div class="card">
                              <div class="card-header text-white bg-secondary">
                                 <strong>Details</strong>
