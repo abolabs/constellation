@@ -18,6 +18,8 @@ class CreateServiceInstanceDepTable extends Migration
             $table->increments('id');
             $table->integer('instance_id')->unsigned();
             $table->integer('instance_dep_id')->unsigned();
+            $table->integer('level')->default(1);
+            $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('instance_id')->references('id')->on('service_instance');

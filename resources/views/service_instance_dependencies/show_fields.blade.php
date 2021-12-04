@@ -19,6 +19,21 @@
 </div>
 <hr class="my-2">
 
+<!-- Level -->
+<div class="form-group">
+    {!! Form::label('level', 'Level') !!}
+    <p>{{ __('service_instance_dependencies.level.'.$serviceInstanceDependencies->level) }}</p>
+    <p class="font-italic">{{ __('service_instance_dependencies.level_description.'.$serviceInstanceDependencies->level) }}</p>
+</div>
+<hr class="my-2">
+
+<!-- Description -->
+<div class="form-group">
+    {!! Form::label('description', 'Description') !!}
+    <p>{{ $serviceInstanceDependencies->description }}</p>
+</div>
+<hr class="my-2">
+
 <!-- Created At Field -->
 <div class="form-group">
     {!! Form::label('created_at', 'Created At') !!}

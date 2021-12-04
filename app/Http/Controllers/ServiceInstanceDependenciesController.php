@@ -94,6 +94,8 @@ class ServiceInstanceDependenciesController extends AppBaseController
     public function edit($id)
     {
         $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->find($id);
+        $serviceInstanceDependencies->load('serviceInstance');
+        $serviceInstanceDependencies->load('serviceInstance.serviceVersion');
 
         if (empty($serviceInstanceDependencies)) {
             Flash::error('Service Instance Dependencies not found');
@@ -114,6 +116,7 @@ class ServiceInstanceDependenciesController extends AppBaseController
      */
     public function update($id, UpdateServiceInstanceDependenciesRequest $request)
     {
+        $input = $request->all();
         $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->find($id);
 
         if (empty($serviceInstanceDependencies)) {
@@ -126,6 +129,9 @@ class ServiceInstanceDependenciesController extends AppBaseController
 
         Flash::success('Service Instance Dependencies updated successfully.');
 
+        if(!empty($input['redirect_to_back'])){
+            return back()->withInput();
+        }
         return redirect(route('serviceInstanceDependencies.index'));
     }
 

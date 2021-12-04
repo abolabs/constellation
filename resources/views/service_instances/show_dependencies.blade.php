@@ -34,6 +34,8 @@
                                                 @endif
                                                 <!-- Version Field -->
                                                 <span class="badge badge-secondary">Version {{ $instanceDependencie[$instanceKey]->serviceVersion->version }}</span>
+                                                <!-- Role Field -->
+                                                @if(isset($instanceDependencie[$instanceKey]->role)) <span class="badge badge-info">Role: {{ $instanceDependencie[$instanceKey]->role }}</span> @endif
                                             </p>
                                             <!-- application Field -->
                                             {!! Form::label('application', 'Application') !!}
@@ -45,9 +47,32 @@
                                             {!! Form::label('git_repo', 'Repository') !!}
                                             <p>
                                                 <a href="{{ $instanceDependencie[$instanceKey]->serviceVersion->service->git_repo }}" target="blank">
-                                                {{ $instanceDependencie->serviceInstance->serviceVersion->service->git_repo }}  <i class="cil-external-link"></i>
+                                                {{ $instanceDependencie[$instanceKey]->serviceVersion->service->git_repo }}  <i class="cil-external-link"></i>
                                                 </a>
                                             </p>
+                                            <hr class="my-2">
+                                            <div class="form-group">
+                                                <a class="pull-right" href="#" data-toggle="modal" data-target="#newEdition{{ $instanceDependencie->id }}Modal" data-id-dep="{{  $instanceDependencie[$instanceKey]->id }}">
+                                                    <span class="badge badge-secondary"><i class="fa fa-pencil"></i></span>
+                                                </a>
+                                                <h5>Dépendance</h5>
+                                                <p>
+                                                    <!-- Level -->
+                                                    <span class="badge {{ __('service_instance_dependencies.level_badge.'.$instanceDependencie->level) }}" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="{{ __('service_instance_dependencies.level_description.'.$instanceDependencie->level) }}">
+                                                        Level: {{ __('service_instance_dependencies.level.'.$instanceDependencie->level) }}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <!-- Description -->
+                                            {!! Form::label('description', 'Description') !!}
+                                            <p>{{ $instanceDependencie->description }}</p>
+
+                                            @include('service_instances.show_dependencies_modal', [
+                                                'instanceKey' => "Edition".$instanceDependencie->id,
+                                                'serviceInstance' => $serviceInstance,
+                                                'title' => 'Editer une nouvelle dépendance',
+                                                'serviceInstanceDependencies' => $instanceDependencie,
+                                            ])
                                         </div>
                                     </div>
                                     <div class="card-footer p-x-1 py-h">
@@ -75,33 +100,9 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="new{{ $instanceKey }}Modal" role="dialog" aria-labelledby="new{{ $instanceKey }}ModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-        <div class="modal-header bg-primary">
-            <h5 class="modal-title" id="new{{ $instanceKey }}ModalLabel">Ajouter une nouvelle dépendance</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        {!! Form::open(['route' => 'serviceInstanceDependencies.store']) !!}
-        <div class="modal-body">
+@include('service_instances.show_dependencies_modal', [
+    'instanceKey' => $instanceKey,
+    'serviceInstance' => $serviceInstance,
+    'title' => 'Ajouter une nouvelle dépendance'
 
-            <!-- Application id -->
-            <input type="hidden" name="redirect_to_back" value="1" />
-            @if($instanceKey == 'serviceInstanceDep')
-                <input type="hidden" name="instance_id" value="{{ $serviceInstance->id }}" />
-                @include('service_instance_dependencies.fields', ['noButton' => true, 'ignoreSourceInstance' => true])
-            @else
-                <input type="hidden" name="instance_dep_id" value="{{ $serviceInstance->id }}" />
-                @include('service_instance_dependencies.fields', ['noButton' => true, 'ignoreTargetInstance' => true])
-            @endif
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-        </div>
-        {!! Form::close() !!}
-    </div>
-    </div>
-</div>
+])

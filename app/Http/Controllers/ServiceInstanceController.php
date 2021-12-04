@@ -152,7 +152,7 @@ class ServiceInstanceController extends AppBaseController
 
         Flash::success('Service Instance updated successfully.');
 
-        return redirect(route('serviceInstances.index'));
+        return redirect()->route('serviceInstances.show', ['serviceInstance' => $id]);
     }
 
     /**

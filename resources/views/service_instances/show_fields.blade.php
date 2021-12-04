@@ -4,14 +4,6 @@
     <p>{{ $serviceInstance->id }}</p>
 </div>
 
-
-<!-- Application Field -->
-<div class="form-group col-lg-3">
-    {!! Form::label('application', 'Application') !!}
-    <p><a href="/applications/{{ $serviceInstance->application_id }}">{{ $serviceInstance->application->name }}</a></p>
-</div>
-
-
 <!-- Service Version Field -->
 <div class="form-group col-lg-3">
     {!! Form::label('service_version_id', 'Service Version') !!}
@@ -35,11 +27,17 @@
 <!-- Url Field -->
 <div class="form-group col-lg-3">
     {!! Form::label('url', 'Url') !!}
-    <p><a href="{{ $serviceInstance->url }}" target="_blank">{{ $serviceInstance->url }} <i class="cil-external-link"></i></a></p>
+    <p>
+    @if (!empty($serviceInstance->url))
+        <a href="{{ $serviceInstance->url }}" target="_blank">{{ $serviceInstance->url }} <i class="cil-external-link"></i></a>
+    @else
+        <span class="font-italic"> n/a </span>
+    @endif
+    </p>
 </div>
 
 <!-- Role Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-lg-3">
     {!! Form::label('role', 'Role') !!}
     <p>{{ $serviceInstance->role }}
 </div>

@@ -12,7 +12,9 @@
                  @include('coreui-templates::common.errors')
                  <div class="row">
                      <div class="col-lg-12">
-                         <div class="card">
+                        <h3>{{ $serviceInstance->application->name }} / {{ $serviceInstance->serviceVersion->service->name }}</h3>
+                        <h5 class="font-italic">{{ $serviceInstance->hosting->name }}</h5>
+                        <div class="card">
                              <div class="card-header text-white bg-secondary">
                                 <strong>Details</strong>
                                 <a href="{{ route('serviceInstances.edit', $serviceInstance->id ) }}" class="btn btn-light">Edit</a>

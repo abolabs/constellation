@@ -55,6 +55,7 @@ class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
                 'data'  => 'service_instance_dep.service_version.service.name',
                 'name'  => 'ServiceInstanceDep.serviceVersion.service.name',
             ]),
+            'level',
         ];
     }
 

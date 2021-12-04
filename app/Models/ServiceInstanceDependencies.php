@@ -51,11 +51,15 @@ class ServiceInstanceDependencies extends Model implements Auditable
 
     public $table = 'service_instance_dep';
 
+    public static $levelsList = [1,2,3];
+
     protected $dates = ['deleted_at'];
 
     public $fillable = [
         'instance_id',
-        'instance_dep_id'
+        'instance_dep_id',
+        'level',
+        'description'
     ];
 
     /**
@@ -66,7 +70,9 @@ class ServiceInstanceDependencies extends Model implements Auditable
     protected $casts = [
         'id' => 'integer',
         'instance_id' => 'integer',
-        'instance_dep_id' => 'integer'
+        'instance_dep_id' => 'integer',
+        'level' => 'integer',
+        'description' => 'string',
     ];
 
     /**
@@ -83,7 +89,8 @@ class ServiceInstanceDependencies extends Model implements Auditable
             'required',
             'exists:service_instance,id'
         ],
-
+        'level' => 'integer|between:1,3',
+        'description' => 'string|nullable|max:255',
     ];
 
     /**

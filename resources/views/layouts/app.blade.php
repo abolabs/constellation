@@ -9,7 +9,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">
-        <img class="navbar-brand-full" src="/img/abolabs_logo.png" width="30" height="30"
+        <img class="navbar-brand-full" src="/img/abolabs_logo_expanded.png" width="30" height="30"
              alt="Abolabs Logo">
         <img class="navbar-brand-minimized" src="/img/abolabs_logo.png" width="30"
              height="30" alt="Abolabs Logo">
@@ -51,12 +51,12 @@
 </div>
 <footer class="app-footer">
     <div>
-        <a href="https://gitlab.com/abolabs">Abolabs </a>
+        <a href="#">{{ env('APP_NAME')}} </a>
         <span>&copy; 2021 </span>
     </div>
     <div class="ml-auto">
         <span>Powered by</span>
-        <a href="https://coreui.io" target="_blank">CoreUI</a>
+        <a href="https://gitlab.com/abolabs">Abolabs </a>
     </div>
 </footer>
 </body>

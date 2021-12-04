@@ -91,6 +91,7 @@ class Graph {
                         'source-arrow-color': '#177E89',
                         'line-opacity': 0.85,
                         'width': 2,
+                        'font-family': '"Nunito", sans-serif',
                     }
                 },
                 {
