@@ -1,15 +1,15 @@
 <div class="row">
     <div class="col-lg-12 d-flex justify-content-between">
         <div>
-            <h4 class="card-title mb-0">Instances par application</h4>
+            <h4 class="card-title mb-0">{{ __('infra.instances_by_application') }}</h4>
             <div class="small text-muted">
-                <p>Utilisez le menu contextuel pour accéder au détail de chaque noeud <br/>(Clic gauche 2s ou clic droit)</p>
+                <p>{!! __('infra.legend_help') !!}</p>
             </div>
         </div>
     </div>
 
     <div class="col-lg-12 form-group">
-        <h5>Environnement</h5>
+        <h5>{{ __('infra.environnement') }}</h5>
         <p>
             <select class="form-select select-primary" id="env" aria-label="Sélectionner un environnement">
                 <option selected value="{{ $mainEnvironnement['environnement']['id'] }}">{{ $mainEnvironnement['environnement']['name'] }}</option>
@@ -18,7 +18,7 @@
     </div>
         <!-- Application Id Field -->
         <div class="form-group col-sm-12">
-        <h5>Application</h5>
+        <h5>{{ __('infra.applications') }}</h5>
         <select name="application_id" id="application_id" class="form-control">
         @if (isset($serviceInstance->application->id))
             <option value="{{$serviceInstance->application->id}}">[{{$serviceInstance->application->id}}] {{$serviceInstance->application->name}}</option>
@@ -30,7 +30,7 @@
     </div>
     <!-- Hosting Id Field -->
     <div class="form-group col-sm-12">
-        <h5>Hosting</h5>
+        <h5>{{ __('infra.hostings') }}</h5>
         <select name="hosting_id" id="hosting_id" class="form-control">
         @if (isset($serviceInstance->hosting->id))
             <option value="{{$serviceInstance->hosting->id}}">[{{$serviceInstance->hosting->id}}] {{$serviceInstance->hosting->name}}</option>
@@ -41,28 +41,28 @@
         </script>
     </div>
     <div class="col-lg-12 form-group">
-        <h5>Tag</h5>
+        <h5>{{ __('infra.tags') }}</h5>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="hosting" checked>
             <label class="form-check-label" for="tagRadio1">
-                Hosting
+                {{ __('infra.hostings') }}
             </label>
         </div>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio2" value="version">
             <label class="form-check-label" for="tagRadio2">
-                Version
+                {{ __('infra.versions') }}
             </label>
         </div>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio3" value="hide">
             <label class="form-check-label" for="tagRadio3">
-                Aucun
+                {{ __('infra.aucun') }}
             </label>
         </div>
     </div>
     <div class="col-lg-12 form-group">
-        <h5>Niveau de dépendance</h5>
+        <h5>{{ __('infra.dependency_level') }}</h5>
         <div class="form-group">
             @foreach ( \App\Models\ServiceInstanceDependencies::$levelsList as $level)
             <span class="badge badge-{{ __('service_instance_dependencies.level_bg.'.$level) }}"

@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Application;
 use Yajra\DataTables\EloquentDataTable;
+use \Lang;
 
 class ApplicationDataTable extends AbstractCommonDatatable
 {
@@ -40,17 +41,17 @@ class ApplicationDataTable extends AbstractCommonDatatable
     {
         return [
             'application' =>  new \Yajra\DataTables\Html\Column([
-                'title' => 'Id',
+                'title' => Lang::get('application.id'),
                 'data'  => 'id',
                 'name'  => 'application.id',
             ]),
             'name' =>  new \Yajra\DataTables\Html\Column([
-                'title' => 'Name',
+                'title' => Lang::get('application.name'),
                 'data'  => 'name',
                 'name'  => 'application.name',
             ]),
             'team_name' =>  new \Yajra\DataTables\Html\Column([
-                'title' => 'Team',
+                'title' => Lang::get('application.team'),
                 'data'  => 'team.name',
                 'name'  => 'team.name',
             ]),

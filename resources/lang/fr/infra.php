@@ -1,0 +1,31 @@
+<?php
+
+return [
+    "title" => "Dasboard",
+    "applications" => "Applications",
+    "application" => "Application",
+    "view_more" => "Voir plus",
+    "service_instances" => "Instances de service",
+    "services" => "Services",
+    "service" => "Service",
+    "service_version" => "Version du service",
+    "hostings" => "Hébergements",
+    "hosting" => "Hébergement",
+    "instances_by_application" => "Instances par application",
+    "legend_help" => "Utilisez le menu contextuel pour accéder au détail de chaque noeud <br/>(Clic gauche 2s ou clic droit) ",
+    "environnement" => "Environnement",
+    "tags" => "Tags",
+    "versions" => "Versions",
+    "aucun" => "Aucun",
+    "dependency_level" => "Niveau de dépendance",
+    "applicative_map" => "Cartographie Applicative",
+    "view_by_hosting" => "Visualisation par hébergement",
+    "view_by_application" => "Visualisation par application",
+    "status" => "Statut",
+    "active" => "Active",
+    "inactive" => "Inactive",
+    "role" => "Role",
+    "add_service_instance" => "Ajouter une nouvelle instance de service",
+    "url" => "Url",
+
+];

@@ -68,7 +68,6 @@ require('cytoscape-popper');
  */
  import('./utils/Environnement').then((Environnement) => {
     window.Environnement = Environnement.default;
-    console.log("ICI ");
  });
 
 /**
@@ -90,4 +89,3 @@ require('cytoscape-popper');
  import tippy, {sticky} from 'tippy.js';
  window.tippy = tippy
  window.tippyPluginSticky = sticky
-

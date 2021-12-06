@@ -3,9 +3,9 @@
 @section('content')
      <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{{ route('applications.index') }}">Application</a>
+                <a href="{{ route('applications.index') }}">{{ __('application.title') }}</a>
             </li>
-            <li class="breadcrumb-item active">Detail</li>
+            <li class="breadcrumb-item active">{{ __('application.details') }}</li>
      </ol>
      <div class="container-fluid">
         <div class="animated fadeIn">
@@ -15,9 +15,9 @@
                     <h3>{{ $application->name }}</h3>
                     <div class="card">
                         <div class="card-header text-white bg-secondary">
-                            <strong>Details</strong>
-                            <a href="{{ route('applications.edit', $application->id ) }}" class="btn btn-light">Edit</a>
-                            <a href="{{ route('applications.index') }}" class="btn btn-light pull-right">Back</a>
+                            <strong>{{ __('application.details') }}</strong>
+                            <a href="{{ route('applications.edit', $application->id ) }}" class="btn btn-light">{{ __('datatable.edit') }}</a>
+                            <a href="{{ route('applications.index') }}" class="btn btn-light pull-right">{{ __('common.back') }}</a>
                         </div>
                         <div class="card-body row">
                             @include('applications.show_fields')
@@ -34,7 +34,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header text-white bg-secondary">
-                            <strong>Instances de services</strong>
+                            <strong>{{ __('infra.service_instances') }}</strong>
                             <a class="pull-right" href="#" data-toggle="modal" data-target="#newServiceVersionModal"><i class="fa fa-plus-square fa-lg pull-right"></i></a>
                         </div>
 
@@ -75,12 +75,12 @@
                                                             <span class="badge badge-info">Id: {{ $serviceInstance->id }}</span>
                                                             <!-- Statut Field -->
                                                             @if ($serviceInstance->statut == 1)
-                                                                <span class="badge badge-success">Statut: Active</span>
+                                                                <span class="badge badge-success">{{ __('infra.status') }}: {{ __('infra.active') }}</span>
                                                             @else
-                                                            <span class="badge badge-warning">Statut: Inactive</span>
+                                                            <span class="badge badge-warning">{{ __('infra.status') }}: {{ __('infra.inactive') }}</span>
                                                             @endif
                                                             @if ($serviceInstance->role)
-                                                            <span class="badge badge-secondary">Role: {{ $serviceInstance->role }}</span>
+                                                            <span class="badge badge-secondary">{{ __('infra.role') }}: {{ $serviceInstance->role }}</span>
                                                             @endif
                                                         </p>
                                                         <!-- Environnement Field -->
@@ -90,7 +90,7 @@
                                                 </div>
                                                 <div class="card-footer p-x-1 py-h">
                                                     <a class="font-weight-bold font-xs btn-block text-muted" href="/serviceInstances/{{ $serviceInstance->id }}">
-                                                        <small class="text-muted">Voir plus <i class="fa fa-angle-right float-right font-lg"></i></small>
+                                                        <small class="text-muted">{{ __('infra.view_more') }} <i class="fa fa-angle-right float-right font-lg"></i></small>
                                                     </a>
                                                 </div>
                                             </div>
@@ -113,7 +113,7 @@
         <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title" id="newServiceVersionModalLabel">Ajouter une nouvelle instance de service</h5>
+                <h5 class="modal-title" id="newServiceVersionModalLabel">{{ __('infra.add_service_instance') }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -128,8 +128,8 @@
                 @include('service_instances.fields', ['noButton' => true, 'ignoreApp' => true])
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('common.close') }}</button>
+                {!! Form::submit(\Lang::get('common.save'), ['class' => 'btn btn-primary']) !!}
             </div>
             {!! Form::close() !!}
         </div>

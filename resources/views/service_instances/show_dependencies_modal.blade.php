@@ -26,8 +26,8 @@
             @endif
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('common.close') }}</button>
+            {!! Form::submit(\Lang::get('common.save'), ['class' => 'btn btn-primary']) !!}
         </div>
         {!! Form::close() !!}
     </div>

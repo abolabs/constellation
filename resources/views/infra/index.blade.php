@@ -2,7 +2,7 @@
 
 @section('content')
 <ol class="breadcrumb">
-    <li class="breadcrumb-item">Dasboard</li>
+    <li class="breadcrumb-item">{{ __('infra.title') }}</li>
 </ol>
 <div class="container-fluid">
     <div class="animated fadeIn">

@@ -3,9 +3,9 @@
 @section('content')
     <ol class="breadcrumb">
           <li class="breadcrumb-item">
-             <a href="{!! route('applications.index') !!}">Application</a>
+             <a href="{!! route('applications.index') !!}">{{ __('application.title') }}</a>
           </li>
-          <li class="breadcrumb-item active">Edit</li>
+          <li class="breadcrumb-item active">{{ __('datatable.edit') }}</li>
         </ol>
     <div class="container-fluid">
          <div class="animated fadeIn">
@@ -15,7 +15,7 @@
                       <div class="card">
                           <div class="card-header text-white bg-secondary">
                               <i class="fa fa-edit fa-lg"></i>
-                              <strong>Edit Application</strong>
+                              <strong>{{ __('application.edit_application') }}</strong>
                           </div>
                           <div class="card-body">
                               {!! Form::model($application, ['route' => ['applications.update', $application->id], 'method' => 'patch']) !!}

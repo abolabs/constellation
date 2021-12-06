@@ -27,7 +27,7 @@ abstract class AbstractCommonDatatable extends DataTable
                 'language'  =>  [
                     'processing' => '<div class="lds-dual-ring"></div>',
                     "search"=> "_INPUT_",            // Removes the 'Search' field label
-                    "searchPlaceholder"=> "Search"   // Placeholder for the search box
+                    "searchPlaceholder"=> \Lang::get('datatable.search')  // Placeholder for the search box
                 ],
                 'initComplete' => '
                     function () {
@@ -65,11 +65,11 @@ abstract class AbstractCommonDatatable extends DataTable
                 ]
             ],
             'buttons' => [
-                ['extend' => 'create', 'className' => 'btn btn-sm no-corner',],
-                ['extend' => 'excel', 'className' => 'btn btn-sm no-corner',],
-                ['extend' => 'print', 'className' => 'btn btn-sm no-corner',],
-                ['extend' => 'reset', 'className' => 'btn btn-sm no-corner',],
-                ['extend' => 'reload', 'className' => 'btn btn-sm no-corner',],
+                ['extend' => 'create', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-plus"></i> '.\Lang::get('datatable.create')],
+                ['extend' => 'excel', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-file-excel-o"></i> '.\Lang::get('datatable.excel')],
+                ['extend' => 'print', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-print"></i> '.\Lang::get('datatable.print')],
+                ['extend' => 'reset', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-undo"></i> '.\Lang::get('datatable.reset')],
+                ['extend' => 'reload', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-refresh"></i> '.\Lang::get('datatable.reload')],
             ]
         ];
     }

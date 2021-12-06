@@ -3,9 +3,9 @@
 @section('content')
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
-        Cartographie Applicative
+        {{ __('infra.applicative_map') }}
      </li>
-    <li class="breadcrumb-item">Visualisation par application</li>
+     <li class="breadcrumb-item">{{ __('infra.view_by_application') }}</li>
 </ol>
 <div class="container-fluid" id="mappingByApp">
     <div class="animated fadeIn">

@@ -7,7 +7,7 @@
                     <div>
                         <h4 class="card-title mb-0">Instances par application</h4>
                         <div class="small text-muted">
-                            <p>Utilisez le menu contextuel pour accéder au détail de chaque noeud <br/>(Clic gauche 2s ou clic droit)</p>
+                            <p>{!! __('infra.legend_help') !!}</p>
                         </div>
                     </div>
                 </div>
