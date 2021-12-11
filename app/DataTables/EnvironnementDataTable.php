@@ -3,9 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\Environnement;
-use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
-
+use \Yajra\DataTables\Html\Column;
+use \Illuminate\Support\Facades\Lang;
 class EnvironnementDataTable extends AbstractCommonDatatable
 {
     /**
@@ -40,8 +40,16 @@ class EnvironnementDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'id',
-            'name'
+            'id' => new Column([
+                'title' => Lang::get('environnement.id'),
+                'data'  => 'id',
+                'name'  => 'id',
+            ]),
+            'name' => new Column([
+                'title' => Lang::get('environnement.name'),
+                'data'  => 'name',
+                'name'  => 'name',
+            ])
         ];
     }
 
