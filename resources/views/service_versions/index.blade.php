@@ -2,7 +2,7 @@
 
 @section('content')
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">Service Versions</li>
+        <li class="breadcrumb-item">{{ __('infra.service_versions') }}</li>
     </ol>
     <div class="container-fluid">
         <div class="animated fadeIn">

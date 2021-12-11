@@ -4,6 +4,8 @@ namespace App\DataTables;
 
 use App\Models\Service;
 use Yajra\DataTables\EloquentDataTable;
+use Illuminate\Support\Facades\Lang;
+use \Yajra\DataTables\Html\Column;
 
 class ServiceDataTable extends AbstractCommonDatatable
 {
@@ -39,15 +41,23 @@ class ServiceDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'service_id' =>  new \Yajra\DataTables\Html\Column([
-                'title' => 'Id',
+            'service_id' =>  new Column([
+                'title' => Lang::get('infra.id'),
                 'data'  => 'id',
                 'name'  => 'service.id',
             ]),
-            'name',
-            'git_repo',
-            'team' =>  new \Yajra\DataTables\Html\Column([
-                'title' => 'Team',
+            'name'=>  new Column([
+                'title' => Lang::get('infra.name'),
+                'data'  => 'name',
+                'name'  => 'service.name',
+            ]),
+            'git_repo'=>  new Column([
+                'title' => Lang::get('infra.git_repo'),
+                'data'  => 'git_repo',
+                'name'  => 'service.git_repo',
+            ]),
+            'team' =>  new Column([
+                'title' => Lang::get('infra.team'),
                 'data'  => 'team.name',
                 'name'  => 'team.name',
             ]),

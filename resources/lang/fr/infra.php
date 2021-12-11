@@ -9,6 +9,7 @@ return [
     "services" => "Services",
     "service" => "Service",
     "service_version" => "Version du service",
+    "service_versions" => "Versions de services",
     "hostings" => "Hébergements",
     "hosting" => "Hébergement",
     "instances_by_application" => "Instances par application",
@@ -30,6 +31,7 @@ return [
     "active" => "Active",
     "inactive" => "Inactive",
     "role" => "Role",
+    "roles" => "Roles",
     "add_service_instance" => "Ajouter une nouvelle instance de service",
     "url" => "Url",
     "instances_by_application" => "Intances par application",
@@ -37,6 +39,11 @@ return [
     "service_instance_dependencies" => "Dépendances des instances de service",
     "service_instance" => "Instance de service",
     "service_dependency" => "Dépendance de service",
+    "team" => "Equipe",
+    "teams" => "Equipes",
+    "nb_intances_per_app" => "Nb instances par application",
+    "new_version" => "Nouvelle version",
+    "manager" => "Responsable",
 
 
 ];

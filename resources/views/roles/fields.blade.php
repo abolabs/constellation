@@ -6,7 +6,7 @@
 
 <!-- Permission Field -->
 <div class="col-xs-12 col-sm-12 col-md-12 form-group">
-    {!! Form::label('permission', \Lang::get('role.permission')) !!}
+    {!! Form::label('permission', \Lang::get('role.permissions')) !!}
     <br />
     @foreach($permission as $value)
         <p>{{ Form::checkbox('permission[]', $value->id, isset($rolePermissions) && in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}

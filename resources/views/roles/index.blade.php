@@ -4,7 +4,7 @@
 @section('content')
 
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">Roles</li>
+        <li class="breadcrumb-item">{{ __('infra.roles') }}</li>
     </ol>
     <div class="container-fluid">
         <div class="animated fadeIn">
@@ -14,7 +14,7 @@
                      <div class="card">
                          <div class="card-header text-white bg-secondary">
                              <i class="fa fa-align-justify"></i>
-                             Roles
+                             {{ __('infra.roles') }}
                              <a class="pull-right" href="{{ route('roles.create') }}"><i class="fa fa-plus-square fa-lg"></i></a>
                          </div>
                          <div class="card-body">

@@ -4,6 +4,8 @@ namespace App\DataTables;
 
 use App\Models\ServiceVersionDependencies;
 use Yajra\DataTables\EloquentDataTable;
+use Illuminate\Support\Facades\Lang;
+use \Yajra\DataTables\Html\Column;
 
 class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
 {
@@ -39,18 +41,30 @@ class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'id',
-            'service_version_id',
-            'service_version' => new \Yajra\DataTables\Html\Column([
-                'title' => 'Service',
+            'id'=> new Column([
+                'title' => Lang::get('infra.id'),
+                'data'  => 'service_version.id',
+                'name'  => 'serviceVersion.id',
+            ]),
+            'service_version_name'=> new Column([
+                'title' => '# '.Lang::get('infra.service'),
                 'data'  => 'service_version.service.name',
                 'name'  => 'serviceVersion.service.name',
             ]),
-            'service_version_dependency_id',
-            'service_version_dependency' => new \Yajra\DataTables\Html\Column([
-                'title' => 'Dépendance',
+            'service_version' => new Column([
+                'title' => Lang::get('infra.service'),
+                'data'  => 'service_version.version',
+                'name'  => 'serviceVersion.version',
+            ]),
+            'service_version_dependency_id'=> new Column([
+                'title' => '# '.Lang::get('infra.service_dependency'),
                 'data'  => 'service_version_dep.service.name',
                 'name'  => 'serviceVersionDep.service.name',
+            ]),
+            'service_version_dependency' => new Column([
+                'title' => Lang::get('infra.service_dependency'),
+                'data'  => 'service_version_dep.version',
+                'name'  => 'serviceVersionDep.version',
             ]),
         ];
     }

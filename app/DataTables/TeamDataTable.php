@@ -3,8 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\Team;
-use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
+use Illuminate\Support\Facades\Lang;
+use \Yajra\DataTables\Html\Column;
 
 class TeamDataTable extends AbstractCommonDatatable
 {
@@ -40,9 +41,21 @@ class TeamDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'id',
-            'name',
-            'manager'
+            'id' => new Column([
+                'title' => Lang::get('infra.id'),
+                'data'  => 'id',
+                'name'  => 'id',
+            ]),
+            'name' => new Column([
+                'title' => Lang::get('infra.name'),
+                'data'  => 'name',
+                'name'  => 'name',
+            ]),
+            'manager' => new Column([
+                'title' => Lang::get('infra.manager'),
+                'data'  => 'manager',
+                'name'  => 'manager',
+            ])
         ];
     }
 

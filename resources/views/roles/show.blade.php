@@ -21,12 +21,12 @@
                             <div class="card-body">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        {!! Form::label('name', 'Name:') !!}
+                                        {!! Form::label('name', \Lang::get('role.name')) !!}
                                         <p>{{ $role->name }}</p>
                                     </div>
                                     <hr class="my-2">
                                     <div class="form-group">
-                                        {!! Form::label('Permissions', 'Permissions:') !!}
+                                        {!! Form::label('Permissions', \Lang::get('role.permissions')) !!}
                                         <div class="form-group">
                                         @if(count($rolePermissions) > 0)
                                             @foreach($rolePermissions as $v)

@@ -3,9 +3,9 @@
 @section('content')
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-         <a href="{!! route('teams.index') !!}">Team</a>
+         <a href="{!! route('teams.index') !!}">{{ __('infra.team') }}</a>
       </li>
-      <li class="breadcrumb-item active">Create</li>
+      <li class="breadcrumb-item active">{{ __('datatable.create') }}</li>
     </ol>
      <div class="container-fluid">
           <div class="animated fadeIn">
@@ -15,7 +15,7 @@
                         <div class="card">
                             <div class="card-header text-white bg-secondary">
                                 <i class="fa fa-plus-square-o fa-lg"></i>
-                                <strong>Create Team</strong>
+                                <strong>{{ __('datatable.create') }}</strong>
                             </div>
                             <div class="card-body">
                                 {!! Form::open(['route' => 'teams.store']) !!}

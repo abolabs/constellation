@@ -3,9 +3,9 @@
 @section('content')
      <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{{ route('serviceInstances.index') }}">Service Instance</a>
+                <a href="{{ route('serviceInstances.index') }}">{{ __('infra.service_instances') }}</a>
             </li>
-            <li class="breadcrumb-item active">Detail</li>
+            <li class="breadcrumb-item active">{{ __('common.details') }}</li>
      </ol>
      <div class="container-fluid">
           <div class="animated fadeIn">
@@ -16,9 +16,9 @@
                         <h5 class="font-italic">{{ $serviceInstance->environnement->name }} / {{ $serviceInstance->hosting->name }}</h5>
                         <div class="card">
                              <div class="card-header text-white bg-secondary">
-                                <strong>Details</strong>
-                                <a href="{{ route('serviceInstances.edit', $serviceInstance->id ) }}" class="btn btn-light">Edit</a>
-                                <a href="{{ route('serviceInstances.index') }}" class="btn btn-light pull-right">Back</a>
+                                <strong>{{ __('common.details') }}</strong>
+                                (<a href="{{ route('serviceInstances.edit', $serviceInstance->id ) }}" class="text-light">{{ __('datatable.edit') }}</a>)
+                                <a href="{{ route('serviceInstances.index') }}" class="btn btn-light pull-right">{{ __('common.back') }}</a>
                              </div>
                              <div class="card-body row">
                                  @include('service_instances.show_fields')

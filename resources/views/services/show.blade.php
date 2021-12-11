@@ -3,9 +3,9 @@
 @section('content')
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
-        <a href="{{ route('services.index') }}">Service</a>
+        <a href="{{ route('services.index') }}">{{ __('infra.service') }}</a>
     </li>
-    <li class="breadcrumb-item active">Detail</li>
+    <li class="breadcrumb-item active">{{ __('common.details') }}</li>
 </ol>
 <div class="container-fluid">
     <div class="animated fadeIn">
@@ -15,9 +15,9 @@
                 <h3>{{ $service->name }}</h3>
                 <div class="card">
                     <div class="card-header text-white bg-secondary">
-                        <strong>Details</strong>
-                        <a href="{{ route('services.edit', $service->id ) }}" class="btn btn-light">Edit</a>
-                        <a href="{{ route('services.index') }}" class="btn btn-light pull-right">Back</a>
+                        <strong>{{ __('common.details') }}</strong>
+                        (<a href="{{ route('services.edit', $service->id ) }}" class="text-light">{{ __('datatable.edit') }}</a>)
+                        <a href="{{ route('services.index') }}" class="btn btn-light pull-right">{{ __('common.back') }}</a>
                     </div>
                     <div class="card-body row">
                         @include('services.show_fields')
@@ -49,17 +49,17 @@
 
                                         <div class="form-group">
                                             <!-- Created At Field -->
-                                            {!! Form::label('created_at', 'Created At') !!}
+                                            {!! Form::label('created_at', \Lang::get('common.field_created_at')) !!}
                                             <p>{{ $serviceVersion->created_at }}</p>
                                             <!-- Updated At Field -->
-                                            {!! Form::label('updated_at', 'Updated At') !!}
+                                            {!! Form::label('updated_at', \Lang::get('common.field_updated_at')) !!}
                                             <p>{{ $serviceVersion->updated_at }}</p>
                                         </div>
 
                                         @if(isset($serviceByApplication[$serviceVersion->id]))
                                         <hr class="my-2">
                                         <div class="form-group">
-                                            {!! Form::label('application', 'Nb instances par application') !!}
+                                            {!! Form::label('application', \Lang::get('infra.nb_intances_per_app')) !!}
                                             <ul id="application" class="list-group">
                                                 @forelse ($serviceByApplication[$serviceVersion->id] as $application_id
                                                 => $application)
@@ -95,7 +95,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title" id="newVersionModalLabel">Nouvelle version</h5>
+                <h5 class="modal-title" id="newVersionModalLabel">{{ __('infra.new_version') }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -112,8 +112,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('common.close') }}</button>
+                {!! Form::submit(\Lang::get('common.save'), ['class' => 'btn btn-primary']) !!}
             </div>
             {!! Form::close() !!}
         </div>

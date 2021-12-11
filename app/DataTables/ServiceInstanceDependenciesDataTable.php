@@ -3,8 +3,9 @@
 namespace App\DataTables;
 
 use App\Models\ServiceInstanceDependencies;
-use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
+use Illuminate\Support\Facades\Lang;
+use \Yajra\DataTables\Html\Column;
 
 class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
 {
@@ -42,20 +43,37 @@ class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'id',
-            'instance_id',
-            'service_name' => new \Yajra\DataTables\Html\Column([
-                'title' => 'Service Name',
+            'id'=>  new Column([
+                'title' => Lang::get('infra.id'),
+                'data'  => 'id',
+                'name'  => 'id',
+            ]),
+            'instance_id'=>  new Column([
+                'title' => "# ".Lang::get('infra.service_instance'),
+                'data'  => 'instance_id',
+                'name'  => 'instance_id',
+            ]),
+            'service_name' => new Column([
+                'title' => Lang::get('infra.service_instance'),
                 'data'  => 'service_instance.service_version.service.name',
                 'name'  => 'ServiceInstance.serviceVersion.service.name',
             ]),
-            'instance_dep_id',
-            'dep_service_name' => new \Yajra\DataTables\Html\Column([
-                'title' => 'Dependency Service Name',
+            'instance_dep_id'=>  new Column([
+                'title' => "# ". Lang::get('infra.service_dependency'),
+                'data'  => 'instance_dep_id',
+                'name'  => 'instance_dep_id',
+            ]),
+            'dep_service_name' => new Column([
+                'title' => Lang::get('infra.service_dependency'),
                 'data'  => 'service_instance_dep.service_version.service.name',
                 'name'  => 'ServiceInstanceDep.serviceVersion.service.name',
             ]),
-            'level',
+            'level'=>  new Column([
+                'title' => Lang::get('infra.dependency_level'),
+                'data'  => 'level',
+                'name'  => 'level',
+                'render' => 'window.DataTableRenderer.level("level")'
+            ]),
         ];
     }
 

@@ -4,6 +4,8 @@ namespace App\DataTables;
 
 use App\Models\ServiceVersion;
 use Yajra\DataTables\EloquentDataTable;
+use Illuminate\Support\Facades\Lang;
+use \Yajra\DataTables\Html\Column;
 
 class ServiceVersionDataTable extends AbstractCommonDatatable
 {
@@ -39,17 +41,21 @@ class ServiceVersionDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'service_version_id' =>  new \Yajra\DataTables\Html\Column([
-                'title' => 'Id',
+            'service_version_id' =>  new Column([
+                'title' => Lang::get('infra.id'),
                 'data'  => 'id',
                 'name'  => 'service_version.id',
             ]),
-            'service' => new \Yajra\DataTables\Html\Column([
-                'title' => 'Service',
+            'service' => new Column([
+                'title' => Lang::get('infra.service'),
                 'data'  => 'service.name',
                 'name'  => 'service.name',
             ]),
-            'version'
+            'version' => new Column([
+                'title' => Lang::get('infra.version'),
+                'data'  => 'version',
+                'name'  => 'service_version.version',
+            ])
         ];
     }
 

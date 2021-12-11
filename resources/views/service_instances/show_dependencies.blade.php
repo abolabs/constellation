@@ -25,17 +25,17 @@
                                         <div class="form-group">
                                             <p>
                                                 <!-- Statut Id -->
-                                                <span class="badge badge-info">Id: {{ $instanceDependencie[$instanceKey]->id }}</span>
+                                                <span class="badge badge-info">{{ __('infra.id') }}: {{ $instanceDependencie[$instanceKey]->id }}</span>
                                                 <!-- Statut Field -->
                                                 @if ($instanceDependencie[$instanceKey]->statut == 1)
-                                                    <span class="badge badge-success">Statut: Active</span>
+                                                    <span class="badge badge-success">{{ __('infra.status') }}: {{ __('infra.active') }}</span>
                                                 @else
-                                                <span class="badge badge-warning">Statut: Inactive</span>
+                                                <span class="badge badge-warning">{{ __('infra.status') }}: {{ __('infra.inactive') }}</span>
                                                 @endif
                                                 <!-- Version Field -->
-                                                <span class="badge badge-secondary">Version {{ $instanceDependencie[$instanceKey]->serviceVersion->version }}</span>
+                                                <span class="badge badge-secondary">{{ __('infra.version') }} {{ $instanceDependencie[$instanceKey]->serviceVersion->version }}</span>
                                                 <!-- Role Field -->
-                                                @if(isset($instanceDependencie[$instanceKey]->role)) <span class="badge badge-info">Role: {{ $instanceDependencie[$instanceKey]->role }}</span> @endif
+                                                @if(isset($instanceDependencie[$instanceKey]->role)) <span class="badge badge-info">{{ __('infra.role') }}: {{ $instanceDependencie[$instanceKey]->role }}</span> @endif
                                             </p>
                                             <!-- application Field -->
                                             {!! Form::label('application', 'Application') !!}
