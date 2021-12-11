@@ -3,9 +3,9 @@
 @section('content')
     <ol class="breadcrumb">
           <li class="breadcrumb-item">
-             <a href="{!! route('hostingTypes.index') !!}">Hosting Type</a>
+             <a href="{!! route('hostingTypes.index') !!}">{{ __('hosting_type.title') }}</a>
           </li>
-          <li class="breadcrumb-item active">Edit</li>
+          <li class="breadcrumb-item active">{{ __('datatable.edit') }}</li>
         </ol>
     <div class="container-fluid">
          <div class="animated fadeIn">
@@ -15,7 +15,7 @@
                       <div class="card">
                           <div class="card-header text-white bg-secondary">
                               <i class="fa fa-edit fa-lg"></i>
-                              <strong>Edit Hosting Type</strong>
+                              <strong>{{ __('datatable.edit') }} {{ __('hosting_type.title') }}</strong>
                           </div>
                           <div class="card-body">
                               {!! Form::model($hostingType, ['route' => ['hostingTypes.update', $hostingType->id], 'method' => 'patch']) !!}

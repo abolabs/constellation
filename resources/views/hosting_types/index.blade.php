@@ -2,7 +2,7 @@
 
 @section('content')
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">Hosting Types</li>
+        <li class="breadcrumb-item">{{ __('hosting_type.title') }}</li>
     </ol>
     <div class="container-fluid">
         <div class="animated fadeIn">

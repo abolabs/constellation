@@ -4,6 +4,8 @@ namespace App\DataTables;
 
 use App\Models\HostingType;
 use Yajra\DataTables\EloquentDataTable;
+use Illuminate\Support\Facades\Lang;
+use \Yajra\DataTables\Html\Column;
 
 class HostingTypeDataTable extends AbstractCommonDatatable
 {
@@ -39,9 +41,21 @@ class HostingTypeDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'id',
-            'name',
-            'description'
+            'id' =>  new Column([
+                'title' => Lang::get('hosting_type.id'),
+                'data'  => 'id',
+                'name'  => 'id',
+            ]),
+            'name'=>  new Column([
+                'title' => Lang::get('hosting_type.name'),
+                'data'  => 'name',
+                'name'  => 'name',
+            ]),
+            'description'=>  new Column([
+                'title' => Lang::get('hosting_type.description'),
+                'data'  => 'description',
+                'name'  => 'description',
+            ])
         ];
     }
 
