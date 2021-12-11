@@ -11,7 +11,7 @@
     <div class="col-lg-12 form-group">
         <h5>{{ __('infra.environnement') }}</h5>
         <p>
-            <select class="form-select select-primary" id="env" aria-label="Sélectionner un environnement">
+            <select class="form-select select-primary" id="env" aria-label="{{ __('infra.select_environnement') }}">
                 <option selected value="{{ $mainEnvironnement['environnement']['id'] }}">{{ $mainEnvironnement['environnement']['name'] }}</option>
             </select>
         </p>

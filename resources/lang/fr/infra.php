@@ -15,6 +15,7 @@ return [
     "legend_help" => "Utilisez le menu contextuel pour accéder au détail de chaque noeud <br/>(Clic gauche 2s ou clic droit) ",
     "environnement" => "Environnement",
     "id" => 'ID',
+    "name" => "Nom",
     "tags" => "Tags",
     "versions" => "Versions",
     "version" => "Version",
@@ -30,5 +31,8 @@ return [
     "role" => "Role",
     "add_service_instance" => "Ajouter une nouvelle instance de service",
     "url" => "Url",
+    "instances_by_application" => "Intances par application",
+    "select_environnement" => "Sélectionner un environnement",
+
 
 ];

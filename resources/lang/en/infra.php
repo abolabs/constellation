@@ -14,6 +14,7 @@ return [
   'legend_help' => 'Use the contextual menu to access the detail of each node<br/> (Hold left click 2s or right click)',
   'environnement' => 'Environment',
   'id' => 'ID',
+  'name' => 'Name',
   'tags' => 'Tags',
   'versions' => 'Versions',
   'version' => 'Version',
@@ -29,4 +30,5 @@ return [
   'role' => 'Role',
   'add_service_instance' => 'Add a new service instance',
   'url' => 'Url',
+  'select_environnement' => 'Select an environment',
 ];

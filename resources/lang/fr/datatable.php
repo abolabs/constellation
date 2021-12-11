@@ -9,6 +9,7 @@ return [
     'reload' => 'Recharger',
     'view' => 'Voir',
     'edit' => 'Editer',
+    'action' => "Action",
     'delete' => 'Supprimer',
     'confirm_delete' => 'Êtes-vous sûr(e) de supprimer ?',
     'search' => 'Rechercher',

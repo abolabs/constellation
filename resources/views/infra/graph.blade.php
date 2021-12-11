@@ -5,16 +5,16 @@
             <div class="row">
                 <div class="col-md-9 col-sm-12 d-flex justify-content-between">
                     <div>
-                        <h4 class="card-title mb-0">Instances par application</h4>
+                        <h4 class="card-title mb-0">{{ __('infra.instances_by_application') }}</h4>
                         <div class="small text-muted">
                             <p>{!! __('infra.legend_help') !!}</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-12 form-group text-right">
-                    <label>Environnement</label>
+                    <label>{{ __('infra.environnement') }}</label>
                     <p>
-                        <select class="form-select select-primary" id="env" aria-label="Sélectionner un environnement">
+                        <select class="form-select select-primary" id="env" aria-label="{{ __('infra.select_environnement') }}">
                             <option selected value="{{ $mainEnvironnement['environnement']['id'] }}">{{ $mainEnvironnement['environnement']['name'] }}</option>
                         </select>
                     </p>

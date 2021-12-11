@@ -4,9 +4,9 @@
 @section('content')
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="{!! route('roles.index') !!}">Roles</a>
+            <a href="{!! route('roles.index') !!}">{{ __('role.title') }}</a>
         </li>
-        <li class="breadcrumb-item active">Edit</li>
+        <li class="breadcrumb-item active">{{ __('datatable.edit') }}</li>
     </ol>
 
     <div class="container-fluid">
@@ -17,7 +17,7 @@
                     <div class="card">
                         <div class="card-header text-white bg-secondary">
                             <i class="fa fa-edit fa-lg"></i>
-                            <strong>Edit Role</strong>
+                            <strong>{{ __('role.edit') }}</strong>
                         </div>
                         <div class="card-body">
                             {!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
