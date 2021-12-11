@@ -3,9 +3,9 @@
 @section('content')
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
-        <a href="{{ route('hostings.index') }}">Hosting</a>
+        <a href="{{ route('hostings.index') }}">{{ __('hosting.title') }}</a>
     </li>
-    <li class="breadcrumb-item active">Detail</li>
+    <li class="breadcrumb-item active">{{ __('common.details') }}</li>
 </ol>
 <div class="container-fluid">
     <div class="animated fadeIn">
@@ -15,9 +15,9 @@
                 <h3>{{ $hosting->name }}</h3>
                 <div class="card">
                     <div class="card-header text-white bg-secondary">
-                        <strong>Details</strong>
-                        <a href="{{ route('hostings.edit', $hosting->id ) }}" class="btn btn-light">Edit</a>
-                        <a href="{{ route('hostings.index') }}" class="btn btn-light pull-right">Back</a>
+                        <strong>{{ __('common.details') }}</strong>
+                        (<a href="{{ route('hostings.edit', $hosting->id ) }}" class="text-light">{{ __('datatable.edit') }}</a>)
+                        <a href="{{ route('hostings.index') }}" class="btn btn-light pull-right">{{ __('common.back') }}</a>
                     </div>
                     <div class="card-body row">
                         @include('hostings.show_fields')
@@ -34,7 +34,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header text-white bg-secondary">
-                        <strong>Instances</strong>
+                        <strong>{{ __('infra.service_instances') }}</strong>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -48,26 +48,26 @@
                                         <div class="form-group">
                                             <p>
                                                 <!-- Statut Id -->
-                                                <span class="badge badge-info">Id: {{ $instance->id }}</span>
+                                                <span class="badge badge-info">{{ __('infra.id') }}: {{ $instance->id }}</span>
                                                 <!-- Statut Field -->
                                                 @if ($instance->statut == 1)
-                                                <span class="badge badge-success">Statut: Active</span>
+                                                <span class="badge badge-success">{{ __('infra.status') }}: {{ __('infra.active') }}</span>
                                                 @else
-                                                <span class="badge badge-warning">Statut: Inactive</span>
+                                                <span class="badge badge-warning">{{ __('infra.status') }}: {{ __('infra.inactive') }}</span>
                                                 @endif
                                                 <!-- Version Field -->
-                                                <span class="badge badge-secondary">Version {{
+                                                <span class="badge badge-secondary">{{ __('infra.version') }} {{
                                                     $instance->serviceVersion->version }}</span>
                                             </p>
                                             <!-- application Field -->
-                                            {!! Form::label('application', 'Application') !!}
+                                            {!! Form::label('application', \Lang::get('infra.application')) !!}
                                             <p><a href="/applications/{{ $instance->application_id}}">{{
                                                     $instance->application->name }}</a></p>
                                             <!-- Environnement Field -->
-                                            {!! Form::label('environnement', 'Environnement') !!}
+                                            {!! Form::label('environnement', \Lang::get('infra.environnement')) !!}
                                             <p>{{ $instance->environnement->name }}</p>
                                             <!-- Environnement Field -->
-                                            {!! Form::label('git_repo', 'Repository') !!}
+                                            {!! Form::label('git_repo', \Lang::get('infra.git_repo')) !!}
                                             <p>
                                                 <a href="{{ $instance->serviceVersion->service->git_repo }}"
                                                     target="blank">
@@ -80,7 +80,7 @@
                                     <div class="card-footer p-x-1 py-h">
                                         <a class="font-weight-bold font-xs btn-block text-muted"
                                             href="/serviceInstances/{{ $instance->id }}">
-                                            <small class="text-muted">Voir plus <i
+                                            <small class="text-muted">{{ __('infra.view_more') }} <i
                                                     class="fa fa-angle-right float-right font-lg"></i></small>
                                         </a>
                                     </div>
@@ -88,7 +88,7 @@
                             </div>
                             @empty
                             <p>
-                                Aucune instance n'est actuellement présente sur la solution d'hébergement.
+                                {{ __('hosting.no_intance') }}
                             </p>
                             @endforelse
                         </div>

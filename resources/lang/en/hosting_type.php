@@ -1,6 +1,6 @@
 <?php
 return [
-  'title' => 'Type of accommodation',
+  'title' => 'Hosting types',
   'id' => 'ID',
   'name' => 'Last name',
   'description' => 'Description',

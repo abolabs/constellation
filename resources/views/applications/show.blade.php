@@ -16,7 +16,7 @@
                     <div class="card">
                         <div class="card-header text-white bg-secondary">
                             <strong>{{ __('application.details') }}</strong>
-                            <a href="{{ route('applications.edit', $application->id ) }}" class="btn btn-light">{{ __('datatable.edit') }}</a>
+                            (<a href="{{ route('applications.edit', $application->id ) }}" class="text-light">{{ __('datatable.edit') }}</a>)
                             <a href="{{ route('applications.index') }}" class="btn btn-light pull-right">{{ __('common.back') }}</a>
                         </div>
                         <div class="card-body row">
@@ -66,13 +66,13 @@
                                             <div class="card">
                                                 <div class="card-header text-white bg-primary">
                                                     {{ $serviceInstance->serviceVersion->service->name }}
-                                                    <span class="badge badge-pill badge-secondary float-right">version {{ $serviceInstance->serviceVersion->version }}</span>
+                                                    <span class="badge badge-pill badge-secondary float-right">{{ __('infra.version') }} {{ $serviceInstance->serviceVersion->version }}</span>
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="form-group">
                                                         <p>
                                                             <!-- Statut Id -->
-                                                            <span class="badge badge-info">Id: {{ $serviceInstance->id }}</span>
+                                                            <span class="badge badge-info">{{ __('infra.id') }}: {{ $serviceInstance->id }}</span>
                                                             <!-- Statut Field -->
                                                             @if ($serviceInstance->statut == 1)
                                                                 <span class="badge badge-success">{{ __('infra.status') }}: {{ __('infra.active') }}</span>
@@ -84,7 +84,7 @@
                                                             @endif
                                                         </p>
                                                         <!-- Environnement Field -->
-                                                        {!! Form::label('git_repo', 'Repository') !!}
+                                                        {!! Form::label('git_repo', \Lang::get('infra.git_repo')) !!}
                                                         <p><a href="{{ $serviceInstance->serviceVersion->service->git_repo }}" target="blank">{{ $serviceInstance->serviceVersion->service->git_repo }}  <i class="cil-external-link"></i> </a></p>
                                                     </div>
                                                 </div>
