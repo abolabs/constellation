@@ -4,7 +4,8 @@ namespace App\DataTables;
 
 use App\Models\Audit;
 use Yajra\DataTables\EloquentDataTable;
-
+use Illuminate\Support\Facades\Lang;
+use \Yajra\DataTables\Html\Column;
 class AuditDataTable extends AbstractCommonDatatable
 {
     /**
@@ -63,17 +64,49 @@ class AuditDataTable extends AbstractCommonDatatable
     {
         return [
             //'user_type',
-            //'user_id',
-            'auditable_id',
-            'auditable_type',
-            'event',
-            'old_values',
-            'new_values',
+            'user_id' =>  new Column([
+                'title' => Lang::get('audit.user_id'),
+                'data'  => 'user_id',
+                'name'  => 'user_id',
+            ]),
+            'auditable_id' => new Column([
+                'title' => Lang::get('audit.auditable_id'),
+                'data'  => 'auditable_id',
+                'name'  => 'auditable_id',
+            ]),
+            'auditable_type'=> new Column([
+                'title' => Lang::get('audit.auditable_type'),
+                'data'  => 'auditable_type',
+                'name'  => 'auditable_type',
+            ]),
+            'event'=> new Column([
+                'title' => Lang::get('audit.event'),
+                'data'  => 'event',
+                'name'  => 'event',
+            ]),
+            'old_values'=> new Column([
+                'title' => Lang::get('audit.old_values'),
+                'data'  => 'old_values',
+                'name'  => 'old_values',
+            ]),
+            'new_values'=> new Column([
+                'title' => Lang::get('audit.new_values'),
+                'data'  => 'new_values',
+                'name'  => 'new_values',
+            ]),
             //'url',
-            'ip_address',
+            'ip_address'=> new Column([
+                'title' => Lang::get('audit.ip'),
+                'data'  => 'ip_address',
+                'name'  => 'ip_address',
+            ]),
             //'user_agent',
             //'tags',
-            'created_at'
+            'created_at'=> new Column([
+                'title' => Lang::get('audit.created_at'),
+                'data'  => 'created_at',
+                'name'  => 'created_at',
+            ])
         ];
     }
 
