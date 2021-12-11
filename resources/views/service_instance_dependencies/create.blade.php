@@ -3,9 +3,9 @@
 @section('content')
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-         <a href="{!! route('serviceInstanceDependencies.index') !!}">Service Instance Dependencies</a>
+         <a href="{!! route('serviceInstanceDependencies.index') !!}">{{ __('infra.service_instance_dependencies') }}</a>
       </li>
-      <li class="breadcrumb-item active">Create</li>
+      <li class="breadcrumb-item active">{{ __('datatable.create') }}</li>
     </ol>
      <div class="container-fluid">
           <div class="animated fadeIn">
@@ -15,12 +15,12 @@
                         <div class="card">
                             <div class="card-header text-white bg-secondary">
                                 <i class="fa fa-plus-square-o fa-lg"></i>
-                                <strong>Create Service Instance Dependencies</strong>
+                                <strong>{{ __('datatable.create') }}</strong>
                             </div>
                             <div class="card-body">
                                 {!! Form::open(['route' => 'serviceInstanceDependencies.store']) !!}
 
-                                   @include('service_instance_dependencies.fields')
+                                   @include('service_instance_dependencies.fields', ['modalId' => 'ServiceDep'])
 
                                 {!! Form::close() !!}
                             </div>

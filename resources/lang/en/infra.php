@@ -1,4 +1,4 @@
-<?php
+<?php 
 return [
   'title' => 'Dasboard',
   'applications' => 'Applications',
@@ -20,6 +20,7 @@ return [
   'version' => 'Version',
   'aucun' => 'Any',
   'git_repo' => 'Git repository',
+  'description' => 'Description',
   'dependency_level' => 'Dependency level',
   'applicative_map' => 'Application mapping',
   'view_by_hosting' => 'Viewing by hosting',
@@ -31,4 +32,7 @@ return [
   'add_service_instance' => 'Add a new service instance',
   'url' => 'Url',
   'select_environnement' => 'Select an environment',
+  'service_instance_dependencies' => 'Service instance dependencies',
+  'service_instance' => 'Service instance',
+  'service_dependency' => 'Service dependency',
 ];

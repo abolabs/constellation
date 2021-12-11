@@ -1,7 +1,7 @@
 @if( !isset($ignoreSourceInstance) || $ignoreSourceInstance !== true)
 <!-- Instance Id Field -->
 <div class="form-group col-sm-12">
-    {!! Form::label('instance_id'.$modalId, 'Instance Id:') !!}
+    {!! Form::label('instance_id'.$modalId, \Lang::get('infra.service_instance')) !!}
     <select name="instance_id" id="instance_id{{$modalId}}" class="form-control">
     @if (isset($serviceInstanceDependencies->serviceInstance->id))
         <option value="{{$serviceInstanceDependencies->serviceInstance->id}}">
@@ -24,7 +24,7 @@
 @if( !isset($ignoreTargetInstance) || $ignoreTargetInstance !== true)
 <!-- Instance Dep Id Field -->
 <div class="form-group col-sm-12">
-    {!! Form::label('instance_dep_id'.$modalId, 'Instance Dep Id:') !!}
+    {!! Form::label('instance_dep_id'.$modalId, \Lang::get('infra.service_dependency')) !!}
     <select name="instance_dep_id" id="instance_dep_id{{$modalId}}" class="form-control">
     @if (isset($serviceInstanceDependencies->serviceInstanceDep->id))
         <option value="{{$serviceInstanceDependencies->serviceInstanceDep->id}}">
@@ -46,7 +46,7 @@
 
 <!-- Level Field -->
 <div class="form-group col-sm-12">
-    {!! Form::label('level', 'Level') !!}
+    {!! Form::label('level', \Lang::get('infra.dependency_level')) !!}
         @foreach ( \App\Models\ServiceInstanceDependencies::$levelsList as $level)
         <div class="form-check">
             <input class="form-check-input" type="radio" name="level" id="level{{$level}}" value="{{ $level }}" @if (isset($serviceInstanceDependencies->serviceInstanceDep->id) && $level == $serviceInstanceDependencies->level ) checked="checked" @endif>
@@ -60,14 +60,14 @@
 
 <!-- Description Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('description', 'Description') !!}
+    {!! Form::label('description', \Lang::get('infra.description')) !!}
     {!! Form::textarea('description', null, ['class' => 'form-control','rows' => 3]) !!}
 </div>
 
 @if( !isset($noButton) || $noButton !== true)
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
-    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('serviceInstanceDependencies.index') }}" class="btn btn-secondary">Cancel</a>
+    {!! Form::submit( \Lang::get('common.save'), ['class' => 'btn btn-primary']) !!}
+    <a href="{{ route('serviceInstanceDependencies.index') }}" class="btn btn-secondary">{{ __('common.back') }}</a>
 </div>
 @endif

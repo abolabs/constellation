@@ -21,6 +21,7 @@ return [
     "version" => "Version",
     "aucun" => "Aucun",
     "git_repo" => "Dépôt Git",
+    "description" => "Description",
     "dependency_level" => "Niveau de dépendance",
     "applicative_map" => "Cartographie Applicative",
     "view_by_hosting" => "Visualisation par hébergement",
@@ -33,6 +34,9 @@ return [
     "url" => "Url",
     "instances_by_application" => "Intances par application",
     "select_environnement" => "Sélectionner un environnement",
+    "service_instance_dependencies" => "Dépendances des instances de service",
+    "service_instance" => "Instance de service",
+    "service_dependency" => "Dépendance de service",
 
 
 ];
