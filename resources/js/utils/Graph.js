@@ -24,7 +24,7 @@ class Graph {
         }).run();
     }
 
-    load(selector, loadNodesCallback) {
+    load(selector, loadNodesCallback, showTags=true) {
 
         this.cy = window.cy = window.cytoscape({
             container: document.getElementById(selector),
@@ -169,9 +169,11 @@ class Graph {
 
         cy.on('layoutready',( (event) => {
             const serviceInstances =  cy.nodes(`.serviceInstance`);
-            serviceInstances.map((elt) => {
-                Graph.generateTag(elt, elt.data('tag')).show();
-            });
+            if(showTags){
+                serviceInstances.map((elt) => {
+                    Graph.generateTag(elt, elt.data('tag')).show();
+                });
+            }
         }))
 
         var edge_style_added = false;
@@ -197,9 +199,11 @@ class Graph {
 
         cy.ready(function() {
             const serviceInstances =  cy.nodes(`.serviceInstance`);
-            serviceInstances.map((elt) => {
-                Graph.generateTag(elt, elt.data('tag')).show();
-            });
+            if(showTags){
+                serviceInstances.map((elt) => {
+                    Graph.generateTag(elt, elt.data('tag')).show();
+                });
+            }
         })
 
         // Menu contextuel
@@ -286,6 +290,13 @@ class Graph {
     // Chargement des données par hébergement
     static getNodesByHosting(params) {
         return window.axios.get("/applicationMapping/graphNodesByHosting", {
+            params: params
+        });
+    }
+
+     // Chargement des données par hébergement
+     static getNodesAppMap(params) {
+        return window.axios.get("/applicationMapping/graphNodesAppMap", {
             params: params
         });
     }

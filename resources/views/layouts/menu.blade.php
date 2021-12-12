@@ -10,6 +10,12 @@
         <i class="nav-icon icon-settings"></i> {{ __('menu.app_mapping' )}}
     </a>
     <ul class="nav-dropdown-items">
+        <li class="nav-item {{ Request::is('applicationMapping/AppMap*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('applicationMapping.AppMap') }}">
+                <i class="nav-icon  cil-share-alt "></i>
+                <span>{{ __('menu.app_map' )}}</span>
+            </a>
+        </li>
         <li class="nav-item {{ Request::is('applicationMapping/byApp*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('applicationMapping.byApp') }}">
                 <i class="nav-icon  cil-share-alt "></i>

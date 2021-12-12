@@ -24,6 +24,18 @@ class InfraController extends Controller
         return view('infra.index', compact('nbApp','nbInstances','nbServices','nbHostings','mainEnvironnement'));
     }
 
+    /**
+     * Display App Map
+     *
+     * @return Response
+     */
+    public function displayAppMap()
+    {
+        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
+
+        return view('infra.AppMap', compact('mainEnvironnement'));
+    }
+
      /**
      * Display the IT Infrastructure dashboard
      *
@@ -42,6 +54,83 @@ class InfraController extends Controller
         $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
 
         return view('infra.byHosting', compact('mainEnvironnement'));
+    }
+
+    /**
+     * Get nodes informations for the graph
+     */
+    public function getGraphByApp(GetGraphServicesByAppRequest $request)
+    {
+
+        $nodesData = [];
+
+        $instanceByApplicationsQuery = ServiceInstance::select('application_id')->with('application')
+                            ->where('environnement_id', $request->environnement_id);
+
+        // app filter
+        if(!empty($request->application_id)){
+            $instanceByApplicationsQuery->whereIn('application_id', $request->application_id );
+        }
+        if(!empty($request->hosting_id)){
+            $instanceByApplicationsQuery->whereIn('hosting_id', $request->hosting_id );
+        }
+        $instanceByApplications =  $instanceByApplicationsQuery->groupBy('application_id')->get();
+
+        foreach($instanceByApplications as $instanceByApplication)
+        {
+            $nodesData[] = (object)[
+                "group" => "nodes",
+                "data" =>(object)[
+                    "id" =>  'application_'.$instanceByApplication->application->id ,
+                    "name" => $instanceByApplication->application->name
+                ],
+                "classes" => "serviceInstance"
+            ];
+
+        }
+
+        $depByApp = ServiceInstanceDependencies::select(['source.application_id as source_app_id', 'target.application_id as target_app_id' , 'level'])
+        ->join('service_instance as source' , function($query) use ($request){
+            $query->on('source.id', '=', 'service_instance_dep.instance_id');
+
+            $query->where('source.environnement_id', $request->environnement_id);
+            if(!empty($request->application_id)){
+                $query->whereIn('source.application_id', $request->application_id );
+            }
+        })
+        ->join('service_instance as target' , function($query) use ($request){
+            $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
+
+            $query->where('target.environnement_id', $request->environnement_id);
+            if(!empty($request->application_id)){
+                $query->whereIn('target.application_id', $request->application_id );
+            }
+        });
+
+        if(!empty($request->application_id)){
+            $depByApp->whereIn('source.application_id', $request->application_id );
+            $depByApp->whereIn('target.application_id', $request->application_id );
+        }
+        $appDeps = $depByApp->whereRaw('source.application_id != target.application_id')
+                ->groupBy(['source.application_id','target.application_id','level'])->orderBy('level','desc')->get();
+
+        foreach($appDeps  as $appDep)
+        {
+
+            // add dependencies
+             $nodesData[] = (object)[
+                "group" => "edges",
+                "data" =>(object)[
+                    "id" =>  'dep_'.$appDep->source_app_id."_".$appDep->target_app_id ,
+                    "source" => "application_".$appDep->source_app_id,
+                    "target" => 'application_'.$appDep->target_app_id ,
+                ],
+                "classes" => "level_".$appDep->level,
+            ];
+        }
+
+
+        return response()->json($nodesData);
     }
 
     /**

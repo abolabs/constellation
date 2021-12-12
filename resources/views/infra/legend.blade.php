@@ -28,6 +28,7 @@
             window.selector.make("#application_id", "/api/applications", "id", "name", {}, true)
         </script>
     </div>
+    @if (!isset($appMapOnly) || $appMapOnly !== true)
     <!-- Hosting Id Field -->
     <div class="form-group col-sm-12">
         <h5>{{ __('infra.hostings') }}</h5>
@@ -61,6 +62,7 @@
             </label>
         </div>
     </div>
+    @endif
     <div class="col-lg-12 form-group">
         <h5>{{ __('infra.dependency_level') }}</h5>
         <div class="form-group">

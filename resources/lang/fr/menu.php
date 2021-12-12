@@ -3,8 +3,9 @@
 return [
     "dashboard" => "Dashboard",
     "app_mapping" => "Cartographie applicative",
-    "view_by_app" => "Visualisation par application",
-    "view_by_hosting" => "Visualisation par hébergement",
+    "app_map" => "Applications",
+    "view_by_app" => "Services par application",
+    "view_by_hosting" => "Services par hébergement",
     "applications" => "Applications",
     "service_instances" => "Instances de services",
     "services" => "Services",

@@ -2,8 +2,9 @@
 return [
   'dashboard' => 'Dashboard',
   'app_mapping' => 'Application mapping',
-  'view_by_app' => 'Visualization by application',
-  'view_by_hosting' => 'Viewing by hosting',
+  "app_map" => "Applications",
+  'view_by_app' => 'Services by application',
+  'view_by_hosting' => 'Services by hosting',
   'applications' => 'Applications',
   'service_instances' => 'Service instances',
   'services' => 'Services',

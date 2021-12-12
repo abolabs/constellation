@@ -17,19 +17,6 @@ use App\Http\Controllers\UserController;
 Auth::routes();
 
 
-/**
- * Administration
- */
-Route::get('generator_builder', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@builder')->name('io_generator_builder');
-Route::get('field_template', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@fieldTemplate')->name('io_field_template');
-Route::get('relation_field_template', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@relationFieldTemplate')->name('io_relation_field_template');
-Route::post('generator_builder/generate', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generate')->name('io_generator_builder_generate');
-Route::post('generator_builder/rollback', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@rollback')->name('io_generator_builder_rollback');
-Route::post(
-    'generator_builder/generate-from-file',
-    '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generateFromFile'
-)->name('io_generator_builder_generate_from_file');
-
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -55,10 +42,12 @@ Route::group(['middleware' => 'auth'], function () {
     /**
      * Application Mapping
      */
+    Route::get('/applicationMapping/AppMap', [App\Http\Controllers\InfraController::class, 'displayAppMap'])->name('applicationMapping.AppMap');
     Route::get('/applicationMapping/byApp', [App\Http\Controllers\InfraController::class, 'displayByApp'])->name('applicationMapping.byApp');
     Route::get('/applicationMapping/byHosting', [App\Http\Controllers\InfraController::class, 'displayByHosting'])->name('applicationMapping.byHosting');
     Route::get('/applicationMapping/graphNodesByApp', [App\Http\Controllers\InfraController::class, 'getGraphServicesByApp'])->name('applicationMapping.graphNodesByApp');
     Route::get('/applicationMapping/graphNodesByHosting', [App\Http\Controllers\InfraController::class, 'getGraphServicesByHosting'])->name('applicationMapping.graphNodesByHosting');
+    Route::get('/applicationMapping/graphNodesAppMap', [App\Http\Controllers\InfraController::class, 'getGraphByApp'])->name('applicationMapping.getGraphByApp');
 
     /**
      * User setting
@@ -79,7 +68,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('serviceVersionDependencies', App\Http\Controllers\ServiceVersionDependenciesController::class);
     Route::resource('serviceInstances', App\Http\Controllers\ServiceInstanceController::class);
     Route::resource('serviceInstanceDependencies', App\Http\Controllers\ServiceInstanceDependenciesController::class);
+    Route::resource('audits', App\Http\Controllers\AuditController::class);
+
+    /**
+     * Administration
+     */
+    Route::get('generator_builder', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@builder')->name('io_generator_builder');
+    Route::get('field_template', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@fieldTemplate')->name('io_field_template');
+    Route::get('relation_field_template', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@relationFieldTemplate')->name('io_relation_field_template');
+    Route::post('generator_builder/generate', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generate')->name('io_generator_builder_generate');
+    Route::post('generator_builder/rollback', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@rollback')->name('io_generator_builder_rollback');
+    Route::post(
+        'generator_builder/generate-from-file',
+        '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generateFromFile'
+    )->name('io_generator_builder_generate_from_file');
 
 });
-
-Route::resource('audits', App\Http\Controllers\AuditController::class);
