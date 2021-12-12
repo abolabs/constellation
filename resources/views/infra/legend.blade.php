@@ -43,12 +43,22 @@
     </div>
     <div class="col-lg-12 form-group">
         <h5>{{ __('infra.tags') }}</h5>
+        @if( !isset($showTagHosting) || $showTagHosting === true)
         <div class="form-check">
             <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="hosting" checked>
             <label class="form-check-label" for="tagRadio1">
                 {{ __('infra.hostings') }}
             </label>
         </div>
+        @endIf
+        @if( !isset($showTagApp) || $showTagApp === true)
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="application" checked>
+            <label class="form-check-label" for="tagRadio1">
+                {{ __('infra.application') }}
+            </label>
+        </div>
+        @endIf
         <div class="form-check">
             <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio2" value="version">
             <label class="form-check-label" for="tagRadio2">

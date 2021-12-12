@@ -83,6 +83,9 @@
                                                             <span class="badge badge-secondary">{{ __('infra.role') }}: {{ $serviceInstance->role }}</span>
                                                             @endif
                                                         </p>
+                                                        <!-- Hosting Field -->
+                                                        {!! Form::label('hosting', \Lang::get('infra.hosting')) !!}
+                                                        <p>{{ $serviceInstance->hosting->name }}</p>
                                                         <!-- Environnement Field -->
                                                         {!! Form::label('git_repo', \Lang::get('infra.git_repo')) !!}
                                                         <p><a href="{{ $serviceInstance->serviceVersion->service->git_repo }}" target="blank">{{ $serviceInstance->serviceVersion->service->git_repo }}  <i class="cil-external-link"></i> </a></p>

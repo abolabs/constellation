@@ -40,7 +40,7 @@ class Graph {
                     nodeRepulsion: 5500,
                     idealEdgeLength: 200,
                     edgeElasticity: 0.45,
-                    randomize: false,
+                    randomize: true,
                 }).run();
             },
             zoom: 0.7,

@@ -16,6 +16,8 @@
                 @include('infra.legend', [
                     'mainEnvironnement' => $mainEnvironnement,
                     'serviceInstance' => $serviceInstance ?? null,
+                    'showTagHosting' => false,
+                    'showTagApp' => true,
                 ])
             </div>
             <div class="col-lg-12">
