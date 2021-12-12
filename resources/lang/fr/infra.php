@@ -23,6 +23,8 @@ return [
     "aucun" => "Aucun",
     "git_repo" => "Dépôt Git",
     "description" => "Description",
+    "dependencies" => "Dépendances",
+    "required_by" => "Requis par",
     "dependency_level" => "Niveau de dépendance",
     "applicative_map" => "Cartographie Applicative",
     "view_by_hosting" => "Visualisation par hébergement",
@@ -30,8 +32,8 @@ return [
     "status" => "Statut",
     "active" => "Active",
     "inactive" => "Inactive",
-    "role" => "Role",
-    "roles" => "Roles",
+    "role" => "Rôle",
+    "roles" => "Rôles",
     "add_service_instance" => "Ajouter une nouvelle instance de service",
     "url" => "Url",
     "instances_by_application" => "Intances par application",
@@ -44,6 +46,8 @@ return [
     "nb_intances_per_app" => "Nb instances par application",
     "new_version" => "Nouvelle version",
     "manager" => "Responsable",
+    "no_dep_required" => "L'instance ne requière aucune dépendance.",
+    "is_not_a_requirement" => "Aucune instance de service ne requière l'instance.",
 
 
 ];

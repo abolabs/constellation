@@ -56,7 +56,7 @@
 
 <!-- Ip Address Field -->
 <div class="form-group">
-    {!! Form::label('ip_address', \Lang::get('audit.ip_address')) !!}
+    {!! Form::label('ip_address', \Lang::get('audit.ip')) !!}
     <p>{{ $audit->ip_address }}</p>
 </div>
 <hr class="my-2">

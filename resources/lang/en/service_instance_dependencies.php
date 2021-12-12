@@ -1,7 +1,7 @@
-<?php 
+<?php
 return [
   'level' => [
-    1 => 'Weak',
+    1 => 'Minor',
     2 => 'Major',
     3 => 'Critical',
   ],

@@ -5,9 +5,9 @@
 @section('content')
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
-        Account
+        {{ __('user.account')}}
     </li>
-    <li class="breadcrumb-item active">Settings</li>
+    <li class="breadcrumb-item active">{{ __('user.settings')}}</li>
 </ol>
 <div class="container-fluid">
     <div class="animated fadeIn">
@@ -17,12 +17,12 @@
                 <div class="card">
                     <div class="card-header text-white bg-secondary">
                         <i class="fa fa-edit fa-lg"></i>
-                        <strong>Edit profile</strong>
+                        <strong>{{ __('user.edit_profile')}}</strong>
                     </div>
                     <div class="card-body">
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <strong>Language</strong>
+                                <strong>{{ __('user.language')}}</strong>
                                 <ul class="nav navbar-nav ml-auto">
                                     @php $locale = session()->get('locale'); @endphp
                                     <li class="nav-item dropdown">
@@ -52,14 +52,14 @@
                         {!! Form::model($user, ['method' => 'PATCH','route' => 'user.updateSettings']) !!}
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <strong>Name:</strong>
+                                <strong>{{ __('user.name')}}</strong>
                                 {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control'))
                                 !!}
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <strong>Email:</strong>
+                                <strong>{{ __('user.email')}}</strong>
                                 {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control'))
                                 !!}
                             </div>
@@ -71,7 +71,7 @@
                         </div>
                         <!-- Submit Field -->
                         <div class="form-group col-sm-12">
-                            {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                            {!! Form::submit(\Lang::get('common.save'), ['class' => 'btn btn-primary']) !!}
                         </div>
                         {!! Form::close() !!}
                     </div>

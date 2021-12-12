@@ -94,16 +94,8 @@ class AuditDataTable extends AbstractCommonDatatable
                 'data'  => 'new_values',
                 'name'  => 'new_values',
             ]),
-            //'url',
-            'ip_address'=> new Column([
-                'title' => Lang::get('audit.ip'),
-                'data'  => 'ip_address',
-                'name'  => 'ip_address',
-            ]),
-            //'user_agent',
-            //'tags',
             'created_at'=> new Column([
-                'title' => Lang::get('audit.created_at'),
+                'title' => Lang::get('common.field_created_at'),
                 'data'  => 'created_at',
                 'name'  => 'created_at',
             ])

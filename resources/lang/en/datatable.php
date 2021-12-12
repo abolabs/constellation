@@ -1,16 +1,16 @@
-<?php 
+<?php
 return [
   'title' => 'Application',
   'no_service' => 'No service associated with the application',
-  'create' => 'To create',
+  'create' => 'Create',
   'excel' => 'Excel',
-  'print' => 'To print',
+  'print' => 'Print',
   'reset' => 'Reset',
   'reload' => 'Reload',
-  'view' => 'See',
+  'view' => 'View',
   'edit' => 'Edit',
   'action' => 'Action',
-  'delete' => 'To delete',
+  'delete' => 'Delete',
   'confirm_delete' => 'Are you sure you delete?',
-  'search' => 'To research',
+  'search' => 'Search',
 ];

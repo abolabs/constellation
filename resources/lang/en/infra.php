@@ -1,9 +1,9 @@
-<?php 
+<?php
 return [
   'title' => 'Dasboard',
   'applications' => 'Applications',
   'application' => 'Application',
-  'view_more' => 'See more',
+  'view_more' => 'View more',
   'service_instances' => 'Service instances',
   'services' => 'Services',
   'service' => 'Service',
@@ -22,6 +22,8 @@ return [
   'aucun' => 'Any',
   'git_repo' => 'Git repository',
   'description' => 'Description',
+  'dependencies' => 'Dependencies',
+  'required_by' => 'Required by',
   'dependency_level' => 'Dependency level',
   'applicative_map' => 'Application mapping',
   'view_by_hosting' => 'Viewing by hosting',
@@ -42,4 +44,6 @@ return [
   'nb_intances_per_app' => 'Number of instances per application',
   'new_version' => 'New version',
   'manager' => 'Responsible',
+  'no_dep_required' => 'The instance does not require any dependencies.',
+  'is_not_a_requirement' => 'No service instance requires the instance.',
 ];

@@ -29,13 +29,13 @@
           </div>
     </div>
     @include('service_instances.show_dependencies',[
-        'title' => 'Dépendances',
+        'title' => \Lang::get('infra.dependencies'),
         'instanceDependencies' => $instanceDependencies,
         'instanceKey' => 'serviceInstanceDep'
     ])
 
     @include('service_instances.show_dependencies',[
-        'title' => 'Requis par',
+        'title' => \Lang::get('infra.required_by'),
         'instanceDependencies' => $instanceDependenciesSource,
         'instanceKey' => 'serviceInstance'
     ])

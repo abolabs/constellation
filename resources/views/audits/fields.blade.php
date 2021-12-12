@@ -48,7 +48,7 @@
 
 <!-- Ip Address Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('ip_address', \Lang::get('audit.ip_address').':') !!}
+    {!! Form::label('ip_address', \Lang::get('audit.ip').':') !!}
     {!! Form::text('ip_address', null, ['class' => 'form-control','maxlength' => 45,'maxlength' => 45]) !!}
 </div>
 
