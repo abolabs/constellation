@@ -33,7 +33,13 @@ Route::post(
 
 Route::group(['middleware' => 'auth'], function () {
 
+
     Route::get('/', [App\Http\Controllers\InfraController::class, 'index']);
+
+    /**
+     * Localization
+     */
+    Route::get('user/lang/{locale}', [App\Http\Controllers\LocalizationController::class, 'index']);
 
     /**
      * Users & permissions

@@ -43,8 +43,8 @@ class Graph {
                     randomize: false,
                 }).run();
             },
-            zoom: 0.75,
-            minZoom: 0.750,
+            zoom: 0.7,
+            minZoom: 0.7,
             maxZoom: 1.25,
             wheelSensitivity: 0.25,
             refresh: 20,

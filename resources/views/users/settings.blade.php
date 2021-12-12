@@ -20,6 +20,35 @@
                         <strong>Edit profile</strong>
                     </div>
                     <div class="card-body">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <strong>Language</strong>
+                                <ul class="nav navbar-nav ml-auto">
+                                    @php $locale = session()->get('locale'); @endphp
+                                    <li class="nav-item dropdown">
+                                        <a id="navbarDropdownlang" class="nav-link dropdown-toggle" href="#" role="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            @switch($locale)
+                                                @case('en')
+                                                <i class="flag-icon-us flag-icon "></i> English
+                                                @break
+                                                @case('fr')
+                                                <i class="flag-icon-fr flag-icon "></i> Français
+                                                @break
+                                                @default
+                                                <i class="flag-icon-fr flag-icon "></i> Français
+                                            @endswitch
+                                            <span class="caret"></span>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownlang">
+                                            <a class="dropdown-item" href="lang/en"><i class="flag-icon-us flag-icon "></i> English</a>
+                                            <a class="dropdown-item" href="lang/fr"><i class="flag-icon-fr flag-icon "></i> Français</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
                         {!! Form::model($user, ['method' => 'PATCH','route' => 'user.updateSettings']) !!}
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
