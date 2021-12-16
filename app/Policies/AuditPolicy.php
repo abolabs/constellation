@@ -18,10 +18,7 @@ class AuditPolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->can('view audit')) {
-            return true;
-        }
-        return false;
+        return $user->can('view audit');
     }
 
     /**
@@ -33,10 +30,7 @@ class AuditPolicy
      */
     public function view(User $user, Audit $audit)
     {
-        if ($user->can('view audit')) {
-            return true;
-        }
-        return false;
+        return $user->can('view audit');
     }
 
     /**

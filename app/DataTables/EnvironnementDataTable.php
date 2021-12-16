@@ -9,6 +9,14 @@ use \Illuminate\Support\Facades\Lang;
 class EnvironnementDataTable extends AbstractCommonDatatable
 {
     /**
+     * Constructor
+     * Define permission prefix
+     */
+    public function __construct()
+    {
+        $this->permissionPrefix = "environnement";
+    }
+    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.

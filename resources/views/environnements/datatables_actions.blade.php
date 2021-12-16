@@ -1,1 +1,1 @@
-@include('common.datatables_actions',["basePath" => "environnements"])
+@include('common.datatables_actions',["basePath" => "environnements", "permissionPrefix" => "environnement"])
