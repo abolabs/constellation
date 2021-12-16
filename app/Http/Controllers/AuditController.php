@@ -38,7 +38,9 @@ class AuditController extends AppBaseController
      */
     public function create()
     {
-        return view('audits.create');
+        Flash::error(\Lang::get('common.not_implemented'));
+
+        return redirect(route('audits.index'));
     }
 
     /**
@@ -50,11 +52,7 @@ class AuditController extends AppBaseController
      */
     public function store(CreateAuditRequest $request)
     {
-        $input = $request->all();
-
-        $audit = $this->auditRepository->create($input);
-
-        Flash::success('Audit saved successfully.');
+        Flash::error(\Lang::get('common.not_implemented'));
 
         return redirect(route('audits.index'));
     }
@@ -88,15 +86,9 @@ class AuditController extends AppBaseController
      */
     public function edit($id)
     {
-        $audit = $this->auditRepository->find($id);
+        Flash::error(\Lang::get('common.not_implemented'));
 
-        if (empty($audit)) {
-            Flash::error('Audit not found');
-
-            return redirect(route('audits.index'));
-        }
-
-        return view('audits.edit')->with('audit', $audit);
+        return redirect(route('audits.index'));
     }
 
     /**
@@ -109,17 +101,7 @@ class AuditController extends AppBaseController
      */
     public function update($id, UpdateAuditRequest $request)
     {
-        $audit = $this->auditRepository->find($id);
-
-        if (empty($audit)) {
-            Flash::error('Audit not found');
-
-            return redirect(route('audits.index'));
-        }
-
-        $audit = $this->auditRepository->update($request->all(), $id);
-
-        Flash::success('Audit updated successfully.');
+        Flash::error(\Lang::get('common.not_implemented'));
 
         return redirect(route('audits.index'));
     }
@@ -133,17 +115,7 @@ class AuditController extends AppBaseController
      */
     public function destroy($id)
     {
-        $audit = $this->auditRepository->find($id);
-
-        if (empty($audit)) {
-            Flash::error('Audit not found');
-
-            return redirect(route('audits.index'));
-        }
-
-        $this->auditRepository->delete($id);
-
-        Flash::success('Audit deleted successfully.');
+        Flash::error(\Lang::get('common.not_implemented'));
 
         return redirect(route('audits.index'));
     }
