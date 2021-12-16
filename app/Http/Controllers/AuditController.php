@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateAuditRequest;
 use App\Repositories\AuditRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Audit;
 use Response;
 
 class AuditController extends AppBaseController
@@ -17,6 +18,7 @@ class AuditController extends AppBaseController
 
     public function __construct(AuditRepository $auditRepo)
     {
+        $this->authorizeResource(Audit::class);
         $this->auditRepository = $auditRepo;
     }
 
@@ -60,14 +62,12 @@ class AuditController extends AppBaseController
     /**
      * Display the specified Audit.
      *
-     * @param  int $id
+     * @param  Audit $audit
      *
      * @return Response
      */
-    public function show($id)
+    public function show(Audit $audit)
     {
-        $audit = $this->auditRepository->find($id);
-
         if (empty($audit)) {
             Flash::error('Audit not found');
 
@@ -80,11 +80,11 @@ class AuditController extends AppBaseController
     /**
      * Show the form for editing the specified Audit.
      *
-     * @param  int $id
+     * @param  Audit $audit
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit(Audit $audit)
     {
         Flash::error(\Lang::get('common.not_implemented'));
 
@@ -94,12 +94,12 @@ class AuditController extends AppBaseController
     /**
      * Update the specified Audit in storage.
      *
-     * @param  int              $id
+     * @param  Audit $audit
      * @param UpdateAuditRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateAuditRequest $request)
+    public function update(Audit $audit, UpdateAuditRequest $request)
     {
         Flash::error(\Lang::get('common.not_implemented'));
 
@@ -109,11 +109,11 @@ class AuditController extends AppBaseController
     /**
      * Remove the specified Audit from storage.
      *
-     * @param  int $id
+     * @param  Audit $audit
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Audit $audit)
     {
         Flash::error(\Lang::get('common.not_implemented'));
 

@@ -17,7 +17,7 @@ class PermissionTableSeeder extends Seeder
         $permissions = [
            'app-mapping','service-mapping-per-app','service-mapping-per-host',
            'admin',
-           'audit'
+           'view audit'
         ];
 
         foreach ($permissions as $permission) {
