@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateServiceRequest;
 use App\Repositories\ServiceRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Service;
 use Response;
 
 class ServiceController extends AppBaseController
@@ -18,6 +19,7 @@ class ServiceController extends AppBaseController
 
     public function __construct(ServiceRepository $serviceRepo)
     {
+        $this->authorizeResource(Service::class);
         $this->serviceRepository = $serviceRepo;
     }
 
@@ -63,14 +65,12 @@ class ServiceController extends AppBaseController
     /**
      * Display the specified Service.
      *
-     * @param  int $id
+     * @param  Service $service
      *
      * @return Response
      */
-    public function show($id)
+    public function show(Service $service)
     {
-        $service = $this->serviceRepository->find($id);
-
         if (empty($service)) {
             Flash::error('Service not found');
 
@@ -98,14 +98,12 @@ class ServiceController extends AppBaseController
     /**
      * Show the form for editing the specified Service.
      *
-     * @param  int $id
+     * @param  Service $service
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit(Service $service)
     {
-        $service = $this->serviceRepository->find($id);
-
         if (empty($service)) {
             Flash::error('Service not found');
 
@@ -118,22 +116,20 @@ class ServiceController extends AppBaseController
     /**
      * Update the specified Service in storage.
      *
-     * @param  int              $id
+     * @param  Service $service
      * @param UpdateServiceRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateServiceRequest $request)
+    public function update(Service $service, UpdateServiceRequest $request)
     {
-        $service = $this->serviceRepository->find($id);
-
         if (empty($service)) {
             Flash::error('Service not found');
 
             return redirect(route('services.index'));
         }
 
-        $service = $this->serviceRepository->update($request->all(), $id);
+        $service = $this->serviceRepository->update($request->all(), $service->id);
 
         Flash::success('Service updated successfully.');
 
@@ -143,21 +139,19 @@ class ServiceController extends AppBaseController
     /**
      * Remove the specified Service from storage.
      *
-     * @param  int $id
+     * @param  Service $service
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Service $service)
     {
-        $service = $this->serviceRepository->find($id);
-
         if (empty($service)) {
             Flash::error('Service not found');
 
             return redirect(route('services.index'));
         }
 
-        $this->serviceRepository->delete($id);
+        $this->serviceRepository->delete($service->id);
 
         Flash::success('Service deleted successfully.');
 

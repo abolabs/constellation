@@ -7,11 +7,13 @@ use App\Models\Audit;
 use App\Models\Environnement;
 use App\Models\Hosting;
 use App\Models\HostingType;
+use App\Models\Service;
 use App\Policies\ApplicationPolicy;
 use App\Policies\AuditPolicy;
 use App\Policies\EnvironnementPolicy;
 use App\Policies\HostingPolicy;
 use App\Policies\HostingTypePolicy;
+use App\Policies\ServicePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -28,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
          Environnement::class => EnvironnementPolicy::class,
          Hosting::class => HostingPolicy::class,
          HostingType::class => HostingTypePolicy::class,
+         Service::class => ServicePolicy::class,
     ];
 
     /**
