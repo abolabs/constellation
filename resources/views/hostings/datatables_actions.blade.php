@@ -1,1 +1,1 @@
-@include('common.datatables_actions',["basePath" => "hostings"])
+@include('common.datatables_actions',["basePath" => "hostings", "permissionPrefix" => "hosting"])

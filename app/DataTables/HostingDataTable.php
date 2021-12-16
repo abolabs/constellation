@@ -9,6 +9,14 @@ use \Yajra\DataTables\Html\Column;
 class HostingDataTable extends AbstractCommonDatatable
 {
     /**
+     * Constructor
+     * Define permission prefix
+     */
+    public function __construct()
+    {
+        $this->permissionPrefix = "hosting";
+    }
+    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.

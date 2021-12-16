@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateHostingRequest;
 use App\Repositories\HostingRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Hosting;
 use App\Models\ServiceInstance;
 use Response;
 
@@ -19,6 +20,7 @@ class HostingController extends AppBaseController
 
     public function __construct(HostingRepository $hostingRepo)
     {
+        $this->authorizeResource(Hosting::class);
         $this->hostingRepository = $hostingRepo;
     }
 
@@ -64,20 +66,18 @@ class HostingController extends AppBaseController
     /**
      * Display the specified Hosting.
      *
-     * @param  int $id
+     * @param  Hosting $hosting
      *
      * @return Response
      */
-    public function show($id)
+    public function show(Hosting $hosting)
     {
-        $hosting = $this->hostingRepository->find($id);
-        $instances = ServiceInstance::where('hosting_id', $id)->get();
-
         if (empty($hosting)) {
             Flash::error('Hosting not found');
 
             return redirect(route('hostings.index'));
         }
+        $instances = ServiceInstance::where('hosting_id', $hosting->id)->get();
 
         return view('hostings.show')->with('hosting', $hosting)->with('instances', $instances);
     }
@@ -85,14 +85,12 @@ class HostingController extends AppBaseController
     /**
      * Show the form for editing the specified Hosting.
      *
-     * @param  int $id
+     * @param  Hosting $hosting
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit(Hosting $hosting)
     {
-        $hosting = $this->hostingRepository->find($id);
-
         if (empty($hosting)) {
             Flash::error('Hosting not found');
 
@@ -105,22 +103,20 @@ class HostingController extends AppBaseController
     /**
      * Update the specified Hosting in storage.
      *
-     * @param  int              $id
+     * @param Hosting $hosting
      * @param UpdateHostingRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateHostingRequest $request)
+    public function update(Hosting $hosting, UpdateHostingRequest $request)
     {
-        $hosting = $this->hostingRepository->find($id);
-
         if (empty($hosting)) {
             Flash::error('Hosting not found');
 
             return redirect(route('hostings.index'));
         }
 
-        $hosting = $this->hostingRepository->update($request->all(), $id);
+        $hosting = $this->hostingRepository->update($request->all(), $hosting->id);
 
         Flash::success('Hosting updated successfully.');
 
@@ -130,21 +126,19 @@ class HostingController extends AppBaseController
     /**
      * Remove the specified Hosting from storage.
      *
-     * @param  int $id
+     * @param  Hosting $hosting
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Hosting $hosting)
     {
-        $hosting = $this->hostingRepository->find($id);
-
         if (empty($hosting)) {
             Flash::error('Hosting not found');
 
             return redirect(route('hostings.index'));
         }
 
-        $this->hostingRepository->delete($id);
+        $this->hostingRepository->delete($hosting->id);
 
         Flash::success('Hosting deleted successfully.');
 
