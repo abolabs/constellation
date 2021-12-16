@@ -31,59 +31,62 @@
                         id: {{ $mainEnvironnement['environnement']['id'] }},
                         label: "{{ $mainEnvironnement['environnement']['name'] }}"
                     }
-                    const graph = new window.Graph();
 
-                    window.Environnement.getAll().then((result) => {
-                        const envData = result.data.data;
-                        for(const envIndex in envData ){
-                            if(envData[envIndex].id != defaultEnv.id){
-                                $('#env').append($('<option value="'+envData[envIndex].id+'">'+envData[envIndex].name+'</option>'));
+                    setTimeout(function() {
+                        const graph = new window.Graph();
+
+                        window.Environnement.getAll().then((result) => {
+                            const envData = result.data.data;
+                            for(const envIndex in envData ){
+                                if(envData[envIndex].id != defaultEnv.id){
+                                    $('#env').append($('<option value="'+envData[envIndex].id+'">'+envData[envIndex].name+'</option>'));
+                                }
                             }
-                        }
-                        drawGraph(defaultEnv.id);
+                            drawGraph(defaultEnv.id);
 
-                    }).catch((exception) => {
-                        console.log(exception);
-                    });
-
-                    var timeout;
-                    $('#env,#application_id').change((e) => {
-                        clearTimeout(timeout);
-                        timeout = setTimeout(function(){
-                            refreshGraph();
-                        },250);
-                    });
-
-                    function refreshGraph()
-                    {
-                        const params = {
-                            environnement_id: $('#env').val(),
-                            application_id: $('#application_id').val(),
-                        };
-                        window.Graph.getNodesAppMap(params).then((graphData) => {
-                            if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
-                                console.log("no data");
-                            }
-                            graph.replaceData(graphData.data);
                         }).catch((exception) => {
                             console.log(exception);
                         });
-                    }
 
-                    function drawGraph(env_id)
-                    {
-                        const params = {
-                            environnement_id: env_id,
-                        }
-                        window.Graph.getNodesAppMap(params).then((graphData) => {
-                            if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
-                                console.log("no data");
-                            }
-                            graph.load("cy",graphData.data, false);
-                        }).catch((exception) => {
-                            console.log(exception);
+                        var timeout;
+                        $('#env,#application_id').change((e) => {
+                            clearTimeout(timeout);
+                            timeout = setTimeout(function(){
+                                refreshGraph();
+                            },250);
                         });
-                    }
+
+                        function refreshGraph()
+                        {
+                            const params = {
+                                environnement_id: $('#env').val(),
+                                application_id: $('#application_id').val(),
+                            };
+                            window.Graph.getNodesAppMap(params).then((graphData) => {
+                                if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
+                                    console.log("no data");
+                                }
+                                graph.replaceData(graphData.data);
+                            }).catch((exception) => {
+                                console.log(exception);
+                            });
+                        }
+
+                        function drawGraph(env_id)
+                        {
+                            const params = {
+                                environnement_id: env_id,
+                            }
+                            window.Graph.getNodesAppMap(params).then((graphData) => {
+                                if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
+                                    console.log("no data");
+                                }
+                                graph.load("cy",graphData.data, false);
+                            }).catch((exception) => {
+                                console.log(exception);
+                            });
+                        }
+                    }, 500);
 
                 });
             </script>

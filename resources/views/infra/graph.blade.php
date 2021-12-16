@@ -37,49 +37,56 @@
             id: {{ $mainEnvironnement['environnement']['id'] }},
             label: "{{ $mainEnvironnement['environnement']['name'] }}"
         }
-        const graph = new window.Graph();
 
-        window.Environnement.getAll().then((result) => {
-            const envData = result.data.data;
-            for(const envIndex in envData ){
-                if(envData[envIndex].id != defaultEnv.id){
-                    $('#env').append($('<option value="'+envData[envIndex].id+'">'+envData[envIndex].name+'</option>'));
+        // setTimeout because of Edge ^^
+        setTimeout(function() {
+            const graph = new window.Graph();
+
+            window.Environnement.getAll().then((result) => {
+                const envData = result.data.data;
+                for(const envIndex in envData ){
+                    if(envData[envIndex].id != defaultEnv.id){
+                        $('#env').append($('<option value="'+envData[envIndex].id+'">'+envData[envIndex].name+'</option>'));
+                    }
                 }
-            }
-            drawGraph(defaultEnv.id);
+                drawGraph(defaultEnv.id);
 
-        }).catch((exception) => {
-            console.log(exception);
-        });
-
-        $('#env').change((e) => {
-            const params = {
-                environnement_id: $('#env').val()
-            }
-            window.Graph.getNodesByApplication(params).then((graphData) => {
-                if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
-                    console.log("no data");
-                }
-                graph.replaceData(graphData.data);
             }).catch((exception) => {
                 console.log(exception);
             });
-        });
 
-        function drawGraph(env_id)
-        {
-            const params = {
-                environnement_id: env_id
-            }
-            window.Graph.getNodesByApplication(params).then((graphData) => {
-                if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
-                    console.log("no data");
+
+
+            $('#env').change((e) => {
+                const params = {
+                    environnement_id: $('#env').val()
                 }
-                graph.load("cy",graphData.data);
-            }).catch((exception) => {
-                console.log(exception);
+                window.Graph.getNodesByApplication(params).then((graphData) => {
+                    if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
+                        console.log("no data");
+                    }
+                    graph.replaceData(graphData.data);
+                }).catch((exception) => {
+                    console.log(exception);
+                });
             });
-        }
+
+            function drawGraph(env_id)
+            {
+                const params = {
+                    environnement_id: env_id
+                }
+                window.Graph.getNodesByApplication(params).then((graphData) => {
+                    if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
+                        console.log("no data");
+                    }
+                    graph.load("cy",graphData.data);
+                }).catch((exception) => {
+                    console.log(exception);
+                });
+            }
+
+        }, 500);
 
     });
 </script>
