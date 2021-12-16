@@ -8,6 +8,15 @@ use \Lang;
 
 class ApplicationDataTable extends AbstractCommonDatatable
 {
+
+    /**
+     * Constructor
+     * Define permission prefix
+     */
+    public function __construct()
+    {
+        $this->permissionPrefix = "application";
+    }
     /**
      * Build DataTable class.
      *

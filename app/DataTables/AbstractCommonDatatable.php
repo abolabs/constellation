@@ -6,6 +6,8 @@ use Yajra\DataTables\Services\DataTable;
 
 abstract class AbstractCommonDatatable extends DataTable
 {
+    protected $permissionPrefix = "";
+
     /**
      * Optional method if you want to use html builder.
      *
@@ -57,6 +59,15 @@ abstract class AbstractCommonDatatable extends DataTable
      */
     protected function getHtmlButtons() : array
     {
+        $buttons = [];
+        if(auth()->user()->can("create ".$this->permissionPrefix)){
+            $buttons[] = ['extend' => 'create', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-plus"></i> '.\Lang::get('datatable.create')];
+        }
+        $buttons[] = ['extend' => 'excel', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-file-excel-o"></i> '.\Lang::get('datatable.excel')];
+        $buttons[] = ['extend' => 'print', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-print"></i> '.\Lang::get('datatable.print')];
+        $buttons[] = ['extend' => 'reset', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-undo"></i> '.\Lang::get('datatable.reset')];
+        $buttons[] = ['extend' => 'reload', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-refresh"></i> '.\Lang::get('datatable.reload')];
+
         return [
             'dom' => [
                 'button' => [
@@ -64,13 +75,7 @@ abstract class AbstractCommonDatatable extends DataTable
                     'className' => ''
                 ]
             ],
-            'buttons' => [
-                ['extend' => 'create', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-plus"></i> '.\Lang::get('datatable.create')],
-                ['extend' => 'excel', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-file-excel-o"></i> '.\Lang::get('datatable.excel')],
-                ['extend' => 'print', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-print"></i> '.\Lang::get('datatable.print')],
-                ['extend' => 'reset', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-undo"></i> '.\Lang::get('datatable.reset')],
-                ['extend' => 'reload', 'className' => 'btn btn-sm no-corner','text'=> '<i class="fa fa-refresh"></i> '.\Lang::get('datatable.reload')],
-            ]
+            'buttons' => $buttons
         ];
     }
 }

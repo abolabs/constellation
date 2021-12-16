@@ -6,7 +6,7 @@
 </div>
 <div class="col-xs-12 col-sm-12 col-md-12">
     <div class="form-group">
-        <strong>{{ __('infra.email') }}</strong>
+        <strong>{{ __('user.email') }}</strong>
         {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
     </div>
 </div>
