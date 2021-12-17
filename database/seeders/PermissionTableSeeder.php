@@ -29,7 +29,6 @@ class PermissionTableSeeder extends Seeder
             'user',
             'hostingType',
             'hosting',
-            'role',
             'service',
             'serviceVersion',
             'serviceVersionDep',

@@ -13,6 +13,10 @@ use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -90,12 +94,11 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::find($id);
         return view('users.show',compact('user'));
     }
 
@@ -105,9 +108,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
 
@@ -118,14 +120,14 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
+            'email' => 'required|email|unique:users,email,'.$user->id,
             'password' => 'same:confirm-password',
             'roles' => 'required'
         ]);
@@ -137,9 +139,8 @@ class UserController extends Controller
             $input = Arr::except($input,array('password'));
         }
 
-        $user = User::find($id);
         $user->update($input);
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
+        DB::table('model_has_roles')->where('model_id',$user->id)->delete();
 
         $user->assignRole($request->input('roles'));
 
@@ -153,9 +154,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        User::find($id)->delete();
         return redirect()->route('users.index')
                         ->with('success','User deleted successfully');
     }
