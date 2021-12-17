@@ -111,14 +111,12 @@ class ServiceInstanceController extends AppBaseController
     /**
      * Show the form for editing the specified ServiceInstance.
      *
-     * @param int $id
+     * @param ServiceInstance $serviceInstance
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit(ServiceInstance $serviceInstance)
     {
-        $serviceInstance = $this->serviceInstanceRepository->find($id);
-
         if (empty($serviceInstance)) {
             Flash::error('Service Instance not found');
 
@@ -131,15 +129,13 @@ class ServiceInstanceController extends AppBaseController
     /**
      * Update the specified ServiceInstance in storage.
      *
-     * @param int $id
+     * @param ServiceInstance $serviceInstance
      * @param UpdateServiceInstanceRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateServiceInstanceRequest $request)
+    public function update(ServiceInstance $serviceInstance, UpdateServiceInstanceRequest $request)
     {
-        $serviceInstance = $this->serviceInstanceRepository->find($id);
-
         if (empty($serviceInstance)) {
             Flash::error('Service Instance not found');
 
@@ -149,33 +145,31 @@ class ServiceInstanceController extends AppBaseController
             "statut" => false
         ];
 
-        $serviceInstance = $this->serviceInstanceRepository->update(array_merge($defaultInputs,$request->all()), $id);
+        $serviceInstance = $this->serviceInstanceRepository->update(array_merge($defaultInputs,$request->all()), $serviceInstance->id);
 
         Flash::success('Service Instance updated successfully.');
 
-        return redirect()->route('serviceInstances.show', ['serviceInstance' => $id]);
+        return redirect()->route('serviceInstances.show', ['serviceInstance' => $serviceInstance->id]);
     }
 
     /**
      * Remove the specified ServiceInstance from storage.
      *
-     * @param int $id
+     * @param ServiceInstance $serviceInstance
      *
      * @throws \Exception
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(ServiceInstance $serviceInstance)
     {
-        $serviceInstance = $this->serviceInstanceRepository->find($id);
-
         if (empty($serviceInstance)) {
             Flash::error('Service Instance not found');
 
             return redirect(route('serviceInstances.index'));
         }
 
-        $this->serviceInstanceRepository->delete($id);
+        $this->serviceInstanceRepository->delete($serviceInstance->id);
 
         Flash::success('Service Instance deleted successfully.');
 
