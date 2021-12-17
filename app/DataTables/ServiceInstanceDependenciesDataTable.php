@@ -10,6 +10,14 @@ use \Yajra\DataTables\Html\Column;
 class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
 {
     /**
+     * Constructor
+     * Define permission prefix
+     */
+    public function __construct()
+    {
+        $this->permissionPrefix = "serviceInstanceDep";
+    }
+    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.

@@ -1,1 +1,1 @@
-@include('common.datatables_actions',["basePath" => "serviceInstanceDependencies"])
+@include('common.datatables_actions',["basePath" => "serviceInstanceDependencies", "permissionPrefix" => "serviceInstanceDep"])
