@@ -7,6 +7,7 @@ use App\Http\Requests\CreateServiceInstanceRequest;
 use App\Http\Requests\UpdateServiceInstanceRequest;
 use App\Repositories\ServiceInstanceRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Models\ServiceInstance;
 use App\Models\ServiceInstanceDependencies;
 use Illuminate\Http\Request;
 use Flash;
@@ -19,6 +20,7 @@ class ServiceInstanceController extends AppBaseController
 
     public function __construct(ServiceInstanceRepository $serviceInstanceRepo)
     {
+        $this->authorizeResource(ServiceInstance::class,'serviceInstance');
         $this->serviceInstanceRepository = $serviceInstanceRepo;
     }
 
@@ -68,13 +70,12 @@ class ServiceInstanceController extends AppBaseController
     /**
      * Display the specified ServiceInstance.
      *
-     * @param int $id
+     * @param ServiceInstance $serviceInstance
      *
      * @return Response
      */
-    public function show($id)
+    public function show(ServiceInstance $serviceInstance)
     {
-        $serviceInstance = $this->serviceInstanceRepository->find($id);
         $serviceInstance->load(['application','hosting','environnement','serviceVersion','serviceVersion.service']);
 
         if (empty($serviceInstance)) {
@@ -83,7 +84,7 @@ class ServiceInstanceController extends AppBaseController
             return redirect(route('serviceInstances.index'));
         }
 
-        $instanceDependencies = ServiceInstanceDependencies::where('instance_id', $id)
+        $instanceDependencies = ServiceInstanceDependencies::where('instance_id', $serviceInstance->id)
             ->with(
                 'serviceInstanceDep',
                 'serviceInstanceDep.hosting',
@@ -92,7 +93,7 @@ class ServiceInstanceController extends AppBaseController
                 'serviceInstanceDep.serviceVersion.service',
             )->get();
 
-        $instanceDependenciesSource = ServiceInstanceDependencies::where('instance_dep_id', $id)
+        $instanceDependenciesSource = ServiceInstanceDependencies::where('instance_dep_id', $serviceInstance->id)
             ->with(
                 'serviceInstance',
                 'serviceInstanceDep.hosting',

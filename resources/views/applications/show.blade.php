@@ -35,7 +35,9 @@
                     <div class="card">
                         <div class="card-header text-white bg-secondary">
                             <strong>{{ __('infra.service_instances') }}</strong>
+                            @can('create serviceInstance')
                             <a class="pull-right" href="#" data-toggle="modal" data-target="#newServiceVersionModal"><i class="fa fa-plus-square fa-lg pull-right"></i></a>
+                            @endcan
                         </div>
 
                         <div class="card-body">
