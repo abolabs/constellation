@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\TeamDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
 use App\Repositories\TeamRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Team;
 use Response;
 
 class TeamController extends AppBaseController
@@ -18,6 +18,7 @@ class TeamController extends AppBaseController
 
     public function __construct(TeamRepository $teamRepo)
     {
+        $this->authorizeResource(Team::class);
         $this->teamRepository = $teamRepo;
     }
 
@@ -63,14 +64,12 @@ class TeamController extends AppBaseController
     /**
      * Display the specified Team.
      *
-     * @param  int $id
+     * @param  Team $team
      *
      * @return Response
      */
-    public function show($id)
+    public function show(Team $team)
     {
-        $team = $this->teamRepository->find($id);
-
         if (empty($team)) {
             Flash::error('Team not found');
 
@@ -83,14 +82,12 @@ class TeamController extends AppBaseController
     /**
      * Show the form for editing the specified Team.
      *
-     * @param  int $id
+     * @param  Team $team
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit(Team $team)
     {
-        $team = $this->teamRepository->find($id);
-
         if (empty($team)) {
             Flash::error('Team not found');
 
@@ -103,22 +100,20 @@ class TeamController extends AppBaseController
     /**
      * Update the specified Team in storage.
      *
-     * @param  int              $id
+     * @param Team $team
      * @param UpdateTeamRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateTeamRequest $request)
+    public function update(Team $team, UpdateTeamRequest $request)
     {
-        $team = $this->teamRepository->find($id);
-
         if (empty($team)) {
             Flash::error('Team not found');
 
             return redirect(route('teams.index'));
         }
 
-        $team = $this->teamRepository->update($request->all(), $id);
+        $team = $this->teamRepository->update($request->all(), $team->id);
 
         Flash::success('Team updated successfully.');
 
@@ -128,21 +123,19 @@ class TeamController extends AppBaseController
     /**
      * Remove the specified Team from storage.
      *
-     * @param  int $id
+     * @param  Team $team
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Team $team)
     {
-        $team = $this->teamRepository->find($id);
-
         if (empty($team)) {
             Flash::error('Team not found');
 
             return redirect(route('teams.index'));
         }
 
-        $this->teamRepository->delete($id);
+        $this->teamRepository->delete($team->id);
 
         Flash::success('Team deleted successfully.');
 

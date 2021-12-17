@@ -10,6 +10,14 @@ use \Yajra\DataTables\Html\Column;
 class TeamDataTable extends AbstractCommonDatatable
 {
     /**
+     * Constructor
+     * Define permission prefix
+     */
+    public function __construct()
+    {
+        $this->permissionPrefix = "team";
+    }
+    /**
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
