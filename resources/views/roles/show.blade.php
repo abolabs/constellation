@@ -30,7 +30,7 @@
                                         <div class="form-group">
                                         @if(count($rolePermissions) > 0)
                                             @foreach($rolePermissions as $v)
-                                                <div class="col-2">{{ $v->name }}</div>
+                                                <div class="col-12">{{ $v->name }}</div>
                                             @endforeach
                                         @else
                                             <p> {{ __('role.no_permission') }}

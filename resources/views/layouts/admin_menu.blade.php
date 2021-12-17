@@ -60,14 +60,14 @@
             </a>
         </li>
         @endcan
-        @can('view role')
+        @role('Admin')
         <li class="nav-item {{ Request::is('roles*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('roles.index') }}">
                 <i class="nav-icon fa fa-tags"></i>
                 <span>{{ __('menu.roles') }}</span>
             </a>
         </li>
-        @endcan
+        @endrole
         @can('view audit')
         <li class="nav-item {{ Request::is('audits*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('audits.index') }}">
