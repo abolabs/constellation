@@ -10,6 +10,7 @@ use App\Models\HostingType;
 use App\Models\Service;
 use App\Models\ServiceInstance;
 use App\Models\ServiceInstanceDependencies;
+use App\Models\ServiceVersion;
 use App\Policies\ApplicationPolicy;
 use App\Policies\AuditPolicy;
 use App\Policies\EnvironnementPolicy;
@@ -18,6 +19,7 @@ use App\Policies\HostingTypePolicy;
 use App\Policies\ServicePolicy;
 use App\Policies\ServiceInstancePolicy;
 use App\Policies\ServiceInstanceDependenciesPolicy;
+use App\Policies\ServiceVersionPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -37,6 +39,7 @@ class AuthServiceProvider extends ServiceProvider
          Service::class => ServicePolicy::class,
          ServiceInstance::class => ServiceInstancePolicy::class,
          ServiceInstanceDependencies::class => ServiceInstanceDependenciesPolicy::class,
+         ServiceVersion::class => ServiceVersionPolicy::class,
     ];
 
     /**

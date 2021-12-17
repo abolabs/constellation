@@ -30,7 +30,7 @@ class UpdateServiceVersionRequest extends FormRequest
                 ...ServiceVersion::$rules['service_id']
             ],
             'version' => [
-                'unique:service_version,version,'.$this->route('serviceVersion').',id,service_id,'.$this->service_id,
+                'unique:service_version,version,'.$this->route('serviceVersion')->id.',id,service_id,'.$this->service_id,
                 ...ServiceVersion::$rules['version'],
             ]
         ] ;

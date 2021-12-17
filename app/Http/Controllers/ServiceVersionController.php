@@ -9,6 +9,8 @@ use App\Http\Requests\UpdateServiceVersionRequest;
 use App\Repositories\ServiceVersionRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\ServiceInstance;
+use App\Models\ServiceVersion;
 use Response;
 
 class ServiceVersionController extends AppBaseController
@@ -18,6 +20,7 @@ class ServiceVersionController extends AppBaseController
 
     public function __construct(ServiceVersionRepository $serviceVersionRepo)
     {
+        $this->authorizeResource(ServiceVersion::class, 'serviceVersion');
         $this->serviceVersionRepository = $serviceVersionRepo;
     }
 
@@ -71,14 +74,12 @@ class ServiceVersionController extends AppBaseController
     /**
      * Display the specified ServiceVersion.
      *
-     * @param  int $id
+     * @param  ServiceVersion $serviceVersion
      *
      * @return Response
      */
-    public function show($id)
+    public function show(ServiceVersion $serviceVersion)
     {
-        $serviceVersion = $this->serviceVersionRepository->find($id);
-
         if (empty($serviceVersion)) {
             Flash::error('Service Version not found');
 
@@ -91,14 +92,12 @@ class ServiceVersionController extends AppBaseController
     /**
      * Show the form for editing the specified ServiceVersion.
      *
-     * @param  int $id
+     * @param  ServiceVersion $serviceVersion
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit(ServiceVersion $serviceVersion)
     {
-        $serviceVersion = $this->serviceVersionRepository->find($id);
-
         if (empty($serviceVersion)) {
             Flash::error('Service Version not found');
 
@@ -111,22 +110,20 @@ class ServiceVersionController extends AppBaseController
     /**
      * Update the specified ServiceVersion in storage.
      *
-     * @param  int              $id
+     * @param  ServiceVersion $serviceVersion
      * @param UpdateServiceVersionRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateServiceVersionRequest $request)
+    public function update(ServiceVersion $serviceVersion, UpdateServiceVersionRequest $request)
     {
-        $serviceVersion = $this->serviceVersionRepository->find($id);
-
         if (empty($serviceVersion)) {
             Flash::error('Service Version not found');
 
             return redirect(route('serviceVersions.index'));
         }
 
-        $serviceVersion = $this->serviceVersionRepository->update($request->all(), $id);
+        $serviceVersion = $this->serviceVersionRepository->update($request->all(), $serviceVersion->id);
 
         Flash::success('Service Version updated successfully.');
 
@@ -136,21 +133,24 @@ class ServiceVersionController extends AppBaseController
     /**
      * Remove the specified ServiceVersion from storage.
      *
-     * @param  int $id
+     * @param  ServiceVersion $serviceVersion
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(ServiceVersion $serviceVersion)
     {
-        $serviceVersion = $this->serviceVersionRepository->find($id);
-
         if (empty($serviceVersion)) {
             Flash::error('Service Version not found');
 
             return redirect(route('serviceVersions.index'));
         }
+        if(ServiceInstance::where('service_version_id', $serviceVersion->id)->count() > 0){
+            Flash::error('Service version is currently used, cannot delete it.');
 
-        $this->serviceVersionRepository->delete($id);
+            return redirect(route('serviceVersions.index'));
+        }
+
+        $this->serviceVersionRepository->delete($serviceVersion->id);
 
         Flash::success('Service Version deleted successfully.');
 
