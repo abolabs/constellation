@@ -3,11 +3,20 @@
 namespace App\DataTables;
 
 use App\Models\Team;
-use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
+use Illuminate\Support\Facades\Lang;
+use \Yajra\DataTables\Html\Column;
 
-class TeamDataTable extends DataTable
+class TeamDataTable extends AbstractCommonDatatable
 {
+    /**
+     * Constructor
+     * Define permission prefix
+     */
+    public function __construct()
+    {
+        $this->permissionPrefix = "team";
+    }
     /**
      * Build DataTable class.
      *
@@ -33,31 +42,6 @@ class TeamDataTable extends DataTable
     }
 
     /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-    public function html()
-    {
-        return $this->builder()
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
-            ->parameters([
-                'dom'       => 'Bfrtip',
-                'stateSave' => true,
-                'order'     => [[0, 'desc']],
-                'buttons'   => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
-                ],
-            ]);
-    }
-
-    /**
      * Get columns.
      *
      * @return array
@@ -65,9 +49,21 @@ class TeamDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'id',
-            'name',
-            'manager'
+            'id' => new Column([
+                'title' => Lang::get('infra.id'),
+                'data'  => 'id',
+                'name'  => 'id',
+            ]),
+            'name' => new Column([
+                'title' => Lang::get('infra.name'),
+                'data'  => 'name',
+                'name'  => 'name',
+            ]),
+            'manager' => new Column([
+                'title' => Lang::get('infra.manager'),
+                'data'  => 'manager',
+                'name'  => 'manager',
+            ])
         ];
     }
 

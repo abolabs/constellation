@@ -23,6 +23,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        if(env('APP_DEBUG') && env('DEBUG_SQL_QUERY')){
+            // Add in boot function
+            \DB::listen(function($query) {
+                \Log::info(
+                    $query->sql,
+                    $query->bindings,
+                    $query->time
+                );
+            });
+        }
     }
 }

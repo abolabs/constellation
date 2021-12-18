@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\ServiceVersion;
+use Illuminate\Validation\Rule;
 
 class CreateServiceVersionRequest extends FormRequest
 {
@@ -25,6 +26,14 @@ class CreateServiceVersionRequest extends FormRequest
      */
     public function rules()
     {
-        return ServiceVersion::$rules;
+        return [
+            'service_id' => [
+                ...ServiceVersion::$rules['service_id']
+            ],
+            'version' => [
+                'unique:service_version,version,NULL,service_id,service_id,'.$this->service_id,
+                ...ServiceVersion::$rules['version'],
+            ]
+        ] ;
     }
 }

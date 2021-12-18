@@ -3,9 +3,9 @@
 @section('content')
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-         <a href="{!! route('services.index') !!}">Service</a>
+         <a href="{!! route('services.index') !!}">{{ __('infra.service') }}</a>
       </li>
-      <li class="breadcrumb-item active">Create</li>
+      <li class="breadcrumb-item active">{{ __('datatable.create') }}</li>
     </ol>
      <div class="container-fluid">
           <div class="animated fadeIn">
@@ -13,9 +13,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header text-white bg-secondary">
                                 <i class="fa fa-plus-square-o fa-lg"></i>
-                                <strong>Create Service</strong>
+                                <strong>{{ __('datatable.create') }}</strong>
                             </div>
                             <div class="card-body">
                                 {!! Form::open(['route' => 'services.store']) !!}

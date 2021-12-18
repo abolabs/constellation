@@ -19,7 +19,7 @@ class ServiceVersionApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/service_versions', $serviceVersion
+            '/api/serviceVersions', $serviceVersion
         );
 
         $this->assertApiResponse($serviceVersion);
@@ -34,7 +34,7 @@ class ServiceVersionApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/service_versions/'.$serviceVersion->id
+            '/api/serviceVersions/'.$serviceVersion->id
         );
 
         $this->assertApiResponse($serviceVersion->toArray());
@@ -50,7 +50,7 @@ class ServiceVersionApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/service_versions/'.$serviceVersion->id,
+            '/api/serviceVersions/'.$serviceVersion->id,
             $editedServiceVersion
         );
 
@@ -66,13 +66,13 @@ class ServiceVersionApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-             '/api/service_versions/'.$serviceVersion->id
+             '/api/serviceVersions/'.$serviceVersion->id
          );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/service_versions/'.$serviceVersion->id
+            '/api/serviceVersions/'.$serviceVersion->id
         );
 
         $this->response->assertStatus(404);

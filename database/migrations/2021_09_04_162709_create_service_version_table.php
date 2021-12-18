@@ -21,6 +21,8 @@ class CreateServiceVersionTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('service_id')->references('id')->on('service');
+
+            $table->unique(['service_id','version']);
         });
     }
 

@@ -18,7 +18,7 @@ class CreateHostingTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('hosting_type_id')->unsigned();
-            $table->string('localisation');
+            $table->string('localisation')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('hosting_type_id')->references('id')->on('hosting_type');

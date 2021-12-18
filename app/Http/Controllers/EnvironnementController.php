@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateEnvironnementRequest;
 use App\Repositories\EnvironnementRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Environnement;
 use Response;
 
 class EnvironnementController extends AppBaseController
@@ -18,6 +19,7 @@ class EnvironnementController extends AppBaseController
 
     public function __construct(EnvironnementRepository $environnementRepo)
     {
+        $this->authorizeResource(Environnement::class);
         $this->environnementRepository = $environnementRepo;
     }
 
@@ -63,14 +65,12 @@ class EnvironnementController extends AppBaseController
     /**
      * Display the specified Environnement.
      *
-     * @param  int $id
+     * @param  Environnement $environnement
      *
      * @return Response
      */
-    public function show($id)
+    public function show(Environnement $environnement)
     {
-        $environnement = $this->environnementRepository->find($id);
-
         if (empty($environnement)) {
             Flash::error('Environnement not found');
 
@@ -83,14 +83,12 @@ class EnvironnementController extends AppBaseController
     /**
      * Show the form for editing the specified Environnement.
      *
-     * @param  int $id
+     * @param  Environnement $environnement
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit(Environnement $environnement)
     {
-        $environnement = $this->environnementRepository->find($id);
-
         if (empty($environnement)) {
             Flash::error('Environnement not found');
 
@@ -103,22 +101,20 @@ class EnvironnementController extends AppBaseController
     /**
      * Update the specified Environnement in storage.
      *
-     * @param  int              $id
+     * @param  Environnement $environnement
      * @param UpdateEnvironnementRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateEnvironnementRequest $request)
+    public function update(Environnement $environnement, UpdateEnvironnementRequest $request)
     {
-        $environnement = $this->environnementRepository->find($id);
-
         if (empty($environnement)) {
             Flash::error('Environnement not found');
 
             return redirect(route('environnements.index'));
         }
 
-        $environnement = $this->environnementRepository->update($request->all(), $id);
+        $environnement = $this->environnementRepository->update($request->all(), $environnement->id);
 
         Flash::success('Environnement updated successfully.');
 
@@ -128,21 +124,19 @@ class EnvironnementController extends AppBaseController
     /**
      * Remove the specified Environnement from storage.
      *
-     * @param  int $id
+     * @param  Environnement $environnement
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Environnement $environnement)
     {
-        $environnement = $this->environnementRepository->find($id);
-
         if (empty($environnement)) {
             Flash::error('Environnement not found');
 
             return redirect(route('environnements.index'));
         }
 
-        $this->environnementRepository->delete($id);
+        $this->environnementRepository->delete($environnement->id);
 
         Flash::success('Environnement deleted successfully.');
 

@@ -5,7 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @SWG\Definition(
  *      definition="Hosting",
@@ -46,14 +46,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *      )
  * )
  */
-class Hosting extends Model
+class Hosting extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     use SoftDeletes;
 
     use HasFactory;
 
     public $table = 'hosting';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -90,8 +92,8 @@ class Hosting extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function hostingTypes()
+    public function hostingType()
     {
-        return $this->hasMany(\App\Models\HostingType::class, 'id', 'hosting_type_id');
+        return $this->belongsTo(\App\Models\HostingType::class, 'hosting_type_id');
     }
 }

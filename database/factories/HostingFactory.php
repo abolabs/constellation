@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Hosting;
+use App\Models\HostingType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class HostingFactory extends Factory
@@ -23,10 +24,12 @@ class HostingFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-        'hosting_type_id' => $this->faker->randomDigitNotNull,
-        'localisation' => $this->faker->word,
-        'created_at' => $this->faker->date('Y-m-d H:i:s'),
-        'updated_at' => $this->faker->date('Y-m-d H:i:s')
+            'hosting_type_id' => function(){
+                return HostingType::all()->random()->id;
+            },
+            'localisation' => $this->faker->city,
+            'created_at' => $this->faker->date('Y-m-d H:i:s'),
+            'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }

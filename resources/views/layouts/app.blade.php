@@ -1,28 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>{{config('app.name')}}</title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 4.1.1 -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@coreui/coreui@2.1.16/dist/css/coreui.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@icon/coreui-icons-free@1.0.1-alpha.1/coreui-icons-free.css">     
-
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />    
-    <!-- jQuery 3.1.1 -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
-    <link rel="stylesheet" href="/css/app.css">
-    <script src="/js/app.js"></script>
-    @yield('additional_headers')    
+    @include('layouts.head')
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 <header class="app-header navbar">
@@ -30,7 +9,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">
-        <img class="navbar-brand-full" src="/img/abolabs_logo.png" width="30" height="30"
+        <img class="navbar-brand-full" src="/img/abolabs_logo_expanded.png" width="30" height="30"
              alt="Abolabs Logo">
         <img class="navbar-brand-minimized" src="/img/abolabs_logo.png" width="30"
              height="30" alt="Abolabs Logo">
@@ -40,12 +19,6 @@
     </button>
 
     <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item d-md-down-none">
-            <a class="nav-link" href="#">
-                <i class="icon-bell"></i>
-                <span class="badge badge-pill badge-danger">5</span>
-            </a>
-        </li>
         <li class="nav-item dropdown">
             <a class="nav-link" style="margin-right: 10px" data-toggle="dropdown" href="#" role="button"
                aria-haspopup="true" aria-expanded="false">
@@ -53,23 +26,14 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header text-center">
-                    <strong>Account</strong>
+                    <strong>{{ __('user.account')}}</strong>
                 </div>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-envelope-o"></i> Messages
-                    <span class="badge badge-success">42</span>
-                </a>
-                <div class="dropdown-header text-center">
-                    <strong>Settings</strong>
-                </div>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-user"></i> Profile</a>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-wrench"></i> Settings</a>
-                <div class="dropdown-divider"></div>                
+                <a class="dropdown-item" href="{{ route('user.settings') }}">
+                    <i class="fa fa-wrench"></i> {{ __('user.settings')}}</a>
+                <div class="dropdown-divider"></div>
                 <a href="{{ url('/logout') }}" class="dropdown-item btn btn-default btn-flat"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fa fa-lock"></i>Logout
+                    <i class="fa fa-lock"></i>{{ __('user.logout')}}
                 </a>
                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                     @csrf
@@ -87,12 +51,12 @@
 </div>
 <footer class="app-footer">
     <div>
-        <a href="https://infyom.com">InfyOm </a>
-        <span>&copy; 2019 InfyOmLabs.</span>
+        <a href="#">{{ env('APP_NAME')}} </a>
+        <span>&copy; 2021 </span>
     </div>
     <div class="ml-auto">
         <span>Powered by</span>
-        <a href="https://coreui.io">CoreUI</a>
+        <a href="https://gitlab.com/abolabs">Abolabs </a>
     </div>
 </footer>
 </body>

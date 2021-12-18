@@ -1,15 +1,1 @@
-{!! Form::open(['route' => ['serviceVersions.destroy', $id], 'method' => 'delete']) !!}
-<div class='btn-group'>
-    <a href="{{ route('serviceVersions.show', $id) }}" class='btn btn-ghost-success'>
-       <i class="fa fa-eye"></i>
-    </a>
-    <a href="{{ route('serviceVersions.edit', $id) }}" class='btn btn-ghost-info'>
-       <i class="fa fa-edit"></i>
-    </a>
-    {!! Form::button('<i class="fa fa-trash"></i>', [
-        'type' => 'submit',
-        'class' => 'btn btn-ghost-danger',
-        'onclick' => "return confirm('Are you sure?')"
-    ]) !!}
-</div>
-{!! Form::close() !!}
+@include('common.datatables_actions',["basePath" => "serviceVersions", "permissionPrefix" => "serviceVersion"])

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ApplicationDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Repositories\ApplicationRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Application;
+use App\Models\ServiceInstance;
+use App\Models\Environnement;
 use Response;
 
 class ApplicationController extends AppBaseController
@@ -18,6 +20,7 @@ class ApplicationController extends AppBaseController
 
     public function __construct(ApplicationRepository $applicationRepo)
     {
+        $this->authorizeResource(Application::class);
         $this->applicationRepository = $applicationRepo;
     }
 
@@ -57,19 +60,26 @@ class ApplicationController extends AppBaseController
 
         Flash::success('Application saved successfully.');
 
-        return redirect(route('applications.index'));
+        return redirect(route('applications.show', $application->id));
     }
 
     /**
      * Display the specified Application.
      *
-     * @param  int $id
+     * @param  Application $application
      *
      * @return Response
      */
-    public function show($id)
+    public function show(Application $application)
     {
-        $application = $this->applicationRepository->find($id);
+        $serviceInstances = ServiceInstance::where("application_id",$application->id)->with(['serviceVersion','serviceVersion.service','environnement'])->orderBy('environnement_id')->get();
+
+        $countByEnv = Environnement::withCount(['serviceInstances' => function($query) use ($application) {
+                $query->where('application_id', $application->id);
+            }])
+            ->join('service_instance', 'environnement.id', '=', 'service_instance.environnement_id')
+            ->where('service_instance.application_id', $application->id)
+            ->get()->keyBy('id')->toArray();
 
         if (empty($application)) {
             Flash::error('Application not found');
@@ -77,20 +87,20 @@ class ApplicationController extends AppBaseController
             return redirect(route('applications.index'));
         }
 
-        return view('applications.show')->with('application', $application);
+        return view('applications.show')->with('application', $application)
+                    ->with('serviceInstances',$serviceInstances)
+                    ->with('countByEnv',$countByEnv);
     }
 
     /**
      * Show the form for editing the specified Application.
      *
-     * @param  int $id
+     * @param  Application $application
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit(Application $application)
     {
-        $application = $this->applicationRepository->find($id);
-
         if (empty($application)) {
             Flash::error('Application not found');
 
@@ -108,17 +118,15 @@ class ApplicationController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateApplicationRequest $request)
+    public function update(Application $application, UpdateApplicationRequest $request)
     {
-        $application = $this->applicationRepository->find($id);
-
         if (empty($application)) {
             Flash::error('Application not found');
 
             return redirect(route('applications.index'));
         }
 
-        $application = $this->applicationRepository->update($request->all(), $id);
+        $application = $this->applicationRepository->update($request->all(), $application->id);
 
         Flash::success('Application updated successfully.');
 
@@ -128,21 +136,25 @@ class ApplicationController extends AppBaseController
     /**
      * Remove the specified Application from storage.
      *
-     * @param  int $id
+     * @param  Application $application
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Application $application)
     {
-        $application = $this->applicationRepository->find($id);
-
         if (empty($application)) {
             Flash::error('Application not found');
 
             return redirect(route('applications.index'));
         }
 
-        $this->applicationRepository->delete($id);
+        if(ServiceInstance::where('application_id',$application->id)->whereNull('deleted_at')->count()>0){
+            Flash::error('Impossible de supprimer l\'application, des instances de services sont attachées à l\'application.');
+
+            return redirect(route('applications.index'));
+        }
+
+        $this->applicationRepository->delete($application->id);
 
         Flash::success('Application deleted successfully.');
 

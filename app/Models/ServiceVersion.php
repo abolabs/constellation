@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @SWG\Definition(
@@ -41,18 +42,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *      )
  * )
  */
-class ServiceVersion extends Model
+class ServiceVersion extends Model implements Auditable
 {
-    use SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
 
     use HasFactory;
 
     public $table = 'service_version';
-    
 
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'service_id',
@@ -76,8 +74,30 @@ class ServiceVersion extends Model
      * @var array
      */
     public static $rules = [
-        'service_id' => 'required|exists:service,id',
+        'service_id' => ['required','exists:service,id'],
+        'version' => ['required']
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     **/
+    public function service()
+    {
+        return $this->belongsTo(\App\Models\Service::class, 'service_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function instances()
+    {
+        return $this->hasMany(\App\Models\ServiceInstance::class, 'service_version_id');
+    }
+
+    public function newQuery()
+    {
+        $query = parent::newQuery()->with(['service']);
+        return $query;
+    }
+
 }

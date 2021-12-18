@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class ServiceVersionDependencies
@@ -16,14 +17,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer $service_version_id
  * @property integer $service_version_dependency_id
  */
-class ServiceVersionDependencies extends Model
+class ServiceVersionDependencies extends Model implements Auditable
 {
-    use SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
 
     use HasFactory;
 
     public $table = 'service_version_dependencies';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -56,6 +57,21 @@ class ServiceVersionDependencies extends Model
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     **/
+    public function serviceVersion()
+    {
+        return $this->hasOne(\App\Models\ServiceVersion::class, 'id', 'service_version_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     **/
+    public function serviceVersionDep()
+    {
+        return $this->hasOne(\App\Models\ServiceVersion::class, 'id', 'service_version_dependency_id');
+    }
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function serviceVersions()
@@ -66,7 +82,7 @@ class ServiceVersionDependencies extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function serviceVersion1s()
+    public function serviceVersionDeps()
     {
         return $this->hasMany(\App\Models\ServiceVersion::class, 'id', 'service_version_dependency_id');
     }

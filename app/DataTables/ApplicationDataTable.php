@@ -3,11 +3,20 @@
 namespace App\DataTables;
 
 use App\Models\Application;
-use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
+use \Lang;
 
-class ApplicationDataTable extends DataTable
+class ApplicationDataTable extends AbstractCommonDatatable
 {
+
+    /**
+     * Constructor
+     * Define permission prefix
+     */
+    public function __construct()
+    {
+        $this->permissionPrefix = "application";
+    }
     /**
      * Build DataTable class.
      *
@@ -29,37 +38,7 @@ class ApplicationDataTable extends DataTable
      */
     public function query(Application $model)
     {
-        $query = $model->query()
-            ->select(['application.id as id', 'application.name as name', 'team.name as team'])
-            ->join('team','application.team_id','=','team.id');
-
-        return $query;
-
-    }
-
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-    public function html()
-    {
-        return $this->builder()
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
-            ->parameters([
-                'dom'       => 'Bfrtip',
-                'stateSave' => true,
-                'order'     => [[0, 'desc']],
-                'buttons'   => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
-                ],
-            ]);
+        return $model->newQuery()->with(['team'])->select(['application.*']);
     }
 
     /**
@@ -70,9 +49,21 @@ class ApplicationDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'id',
-            'name',
-            'team'
+            'application' =>  new \Yajra\DataTables\Html\Column([
+                'title' => Lang::get('application.id'),
+                'data'  => 'id',
+                'name'  => 'application.id',
+            ]),
+            'name' =>  new \Yajra\DataTables\Html\Column([
+                'title' => Lang::get('application.name'),
+                'data'  => 'name',
+                'name'  => 'application.name',
+            ]),
+            'team_name' =>  new \Yajra\DataTables\Html\Column([
+                'title' => Lang::get('application.team'),
+                'data'  => 'team.name',
+                'name'  => 'team.name',
+            ]),
         ];
     }
 

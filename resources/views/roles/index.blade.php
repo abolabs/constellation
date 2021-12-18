@@ -4,38 +4,38 @@
 @section('content')
 
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">Roles</li>
+        <li class="breadcrumb-item">{{ __('infra.roles') }}</li>
     </ol>
     <div class="container-fluid">
         <div class="animated fadeIn">
              @include('flash::message')
-             <div class="row">            
+             <div class="row">
                  <div class="col-lg-12">
                      <div class="card">
-                         <div class="card-header">
+                         <div class="card-header text-white bg-secondary">
                              <i class="fa fa-align-justify"></i>
-                             Roles
+                             {{ __('infra.roles') }}
                              <a class="pull-right" href="{{ route('roles.create') }}"><i class="fa fa-plus-square fa-lg"></i></a>
                          </div>
                          <div class="card-body">
                             <table class="table table-bordered">
                             <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th width="280px">Action</th>
+                                <th>{{ __('infra.id') }}</th>
+                                <th>{{ __('infra.name') }}</th>
+                                <th width="280px">{{ __('datatable.action') }}</th>
                             </tr>
                                 @foreach ($roles as $key => $role)
                                 <tr>
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $role->name }}</td>
                                     <td>
-                                        <a class="btn btn-info" href="{{ route('roles.show',$role->id) }}">Show</a>
+                                        <a class="btn btn-info" href="{{ route('roles.show',$role->id) }}">{{ __('datatable.view') }}</a>
                                         @can('role-edit')
-                                            <a class="btn btn-primary" href="{{ route('roles.edit',$role->id) }}">Edit</a>
+                                            <a class="btn btn-primary" href="{{ route('roles.edit',$role->id) }}">{{ __('datatable.edit') }}</a>
                                         @endcan
                                         @can('role-delete')
                                             {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
-                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                                {!! Form::submit(\Lang::get('datatable.delete'), ['class' => 'btn btn-danger']) !!}
                                             {!! Form::close() !!}
                                         @endcan
                                     </td>

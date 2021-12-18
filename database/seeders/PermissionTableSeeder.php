@@ -15,15 +15,34 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-           'homepage',
-           'role-list',
-           'role-create',
-           'role-edit',
-           'role-delete',           
+           'app-mapping','service-mapping-per-app','service-mapping-per-host',
+           'admin',
+           'view audit'
         ];
-   
+
         foreach ($permissions as $permission) {
-             Permission::create(['name' => $permission]);
+            Permission::create(['name' => $permission]);
+        }
+
+        $entities = [
+            'application',
+            'user',
+            'hostingType',
+            'hosting',
+            'service',
+            'serviceVersion',
+            'serviceVersionDep',
+            'serviceInstance',
+            'serviceInstanceDep',
+            'environnement',
+            'team',
+        ];
+
+        foreach ($entities as $entitiesPermission) {
+            Permission::create(['name' => "view ".$entitiesPermission]);
+            Permission::create(['name' => "create ".$entitiesPermission]);
+            Permission::create(['name' => "edit ".$entitiesPermission]);
+            Permission::create(['name' => "delete ".$entitiesPermission]);
         }
     }
 }

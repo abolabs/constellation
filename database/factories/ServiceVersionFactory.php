@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Service;
 use App\Models\ServiceVersion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,10 +23,12 @@ class ServiceVersionFactory extends Factory
     public function definition()
     {
         return [
-            'service_id' => $this->faker->randomDigitNotNull,
-        'version' => $this->faker->word,
-        'created_at' => $this->faker->date('Y-m-d H:i:s'),
-        'updated_at' => $this->faker->date('Y-m-d H:i:s')
+            'service_id' => function(){
+                return Service::factory()->create()->id;
+            },
+            'version' => $this->faker->randomFloat(1,1,15),
+            'created_at' => $this->faker->date('Y-m-d H:i:s'),
+            'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }

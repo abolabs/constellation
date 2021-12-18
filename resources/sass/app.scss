@@ -6,15 +6,208 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+// Bootstrap datetimepicker
+@import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css');
+
+// Datatable
+@import url('https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/af-2.3.7/b-2.0.1/b-colvis-2.0.1/b-html5-2.0.1/b-print-2.0.1/cr-1.5.4/date-1.1.1/fc-4.0.0/fh-3.2.0/kt-2.6.4/r-2.2.9/rg-1.1.3/rr-1.2.8/sc-2.0.5/sb-1.2.2/sp-1.4.0/sl-1.3.3/datatables.min.css');
+
+// coreui
+@import url('https://cdn.jsdelivr.net/npm/@coreui/coreui@2.1.16/dist/css/coreui.min.css');
+
+// -- Icons --
+@import url('https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/all.min.css');
+// Ionicons
+@import url('https://cdn.jsdelivr.net/npm/@icon/coreui-icons-free@1.0.1-alpha.1/coreui-icons-free.css');
+// font awesome
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+// Simple line icons
+@import url('https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css');
+// flag icon
+@import url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css');
+
+// Select2 JS
+@import url('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css');
+@import 'select2js.custom.theme';
 
 .table-bordered{
   margin-top: 0.5em;
 }
 
+
+// Login page
+.login-logo{
+    height: 60px;
+    width: 60px;
+    background: $white;
+    border-radius: 10px;
+}
+
+// Layout
 .app-header .navbar-brand{
   height: auto;
 }
+@include media-breakpoint-up($breakpoint-mobile-up) {
+    .app-body {
+        margin-top: 0;
+    }
+}
 
+.text-sm-center{
+    font-size: 0.8em;
+}
+
+// breadcrumb
+.breadcrumb{
+    border-bottom:0;
+    background-color: $body-bg;
+    font-size: 1.5em;
+}
+
+// Sidebar
+.sidebar .nav-link:hover{
+    background: $primary;
+}
+.sidebar .nav-link.active .nav-icon{
+    color: $primary !important;
+}
+
+.sidebar-minimized .sidebar .nav-item:hover > .nav-link{
+    background: $primary;
+}
+
+.sidebar-minimized .sidebar .nav-link:hover,.sidebar-minimized .sidebar .nav-item:hover{
+    width: 350px;
+}
+.sidebar-minimized .sidebar .nav-dropdown-items .nav-item .nav-link, .sidebar-minimized .sidebar .nav-dropdown-items .nav-item{
+    width: 300px;
+}
+// Components
+// -- Card
 .card-body label {
-  font-weight: bold;
+    font-weight: bold;
+}
+// --Modal
+.modal-body label{
+    font-weight: bold;
+}
+
+// Datatable
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control::before {
+    background-color: $primary !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background-color: $primary !important;
+    background: $primary !important;
+    border: 1px solid $grey !important;
+    color: $white !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+    background: $grey;
+}
+
+table.dataTable thead th, table.dataTable thead td{
+    border-bottom: 2px solid $secondary;
+}
+.table thead th{
+    vertical-align:middle;
+    background-color: $primary;
+    color: $lightgrey;
+}
+.table-bordered th, .table-bordered td {
+    border:none;
+}
+
+table.dataTable thead th:first-child{
+    border-top-left-radius: 5px;
+}
+
+table.dataTable thead th:last-child{
+    border-top-right-radius: 5px;
+}
+
+// Form
+.select-primary{
+    background: $primary;
+    border: none;
+    color: $white;
+    padding: 0.5em;
+    border-radius: 0.5em;
+}
+
+// Graph
+.transparent-title {
+    background: rgba(255,255,255,0.8);
+    z-index: 4;
+    position: relative;
+}
+#cy-container{
+    min-height: 50rem;
+}
+#cy-container-byApp {
+    min-height: 60rem;
+}
+.mapping-legend{
+    background: rgba(255,255,255,0.9);
+    z-index:4;
+    position: absolute;
+    border-radius: 0 0 10px 0;
+    padding: 2em;
+}
+
+#cy {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    //z-index: 1;
+}
+
+.cxtmenu-disabled {
+    opacity: 0.333;
+}
+
+
+/**
+ * Loader
+ */
+ .lds-dual-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #177E89;
+    border-color: #177E89 transparent #177E89 transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  .dataTables_wrapper .dataTables_processing{
+      background: none;
+  }
+
+// tippy
+@import 'tippy.js/dist/tippy.css'; // optional for styling
+@import 'tippy.js/themes/light.css';
+@import 'tippy.js/themes/material.css';
+.tippy-content{
+    font-size: 0.7em;
+}
+.tippy-box[data-theme~="material"]{
+    background: rgba(80,83,85,0.8);
 }

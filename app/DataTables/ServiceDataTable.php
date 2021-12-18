@@ -3,11 +3,20 @@
 namespace App\DataTables;
 
 use App\Models\Service;
-use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
+use Illuminate\Support\Facades\Lang;
+use \Yajra\DataTables\Html\Column;
 
-class ServiceDataTable extends DataTable
+class ServiceDataTable extends AbstractCommonDatatable
 {
+    /**
+     * Constructor
+     * Define permission prefix
+     */
+    public function __construct()
+    {
+        $this->permissionPrefix = "service";
+    }
     /**
      * Build DataTable class.
      *
@@ -29,32 +38,7 @@ class ServiceDataTable extends DataTable
      */
     public function query(Service $model)
     {
-        return $model->newQuery();
-    }
-
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-    public function html()
-    {
-        return $this->builder()
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
-            ->parameters([
-                'dom'       => 'Bfrtip',
-                'stateSave' => true,
-                'order'     => [[0, 'desc']],
-                'buttons'   => [
-                    ['extend' => 'create', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'export', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'print', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reset', 'className' => 'btn btn-default btn-sm no-corner',],
-                    ['extend' => 'reload', 'className' => 'btn btn-default btn-sm no-corner',],
-                ],
-            ]);
+        return $model->newQuery()->with(['team'])->select(['service.*']);
     }
 
     /**
@@ -65,10 +49,26 @@ class ServiceDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'id',
-            'team_id',
-            'name',
-            'git_repo'
+            'service_id' =>  new Column([
+                'title' => Lang::get('infra.id'),
+                'data'  => 'id',
+                'name'  => 'service.id',
+            ]),
+            'name'=>  new Column([
+                'title' => Lang::get('infra.name'),
+                'data'  => 'name',
+                'name'  => 'service.name',
+            ]),
+            'git_repo'=>  new Column([
+                'title' => Lang::get('infra.git_repo'),
+                'data'  => 'git_repo',
+                'name'  => 'service.git_repo',
+            ]),
+            'team' =>  new Column([
+                'title' => Lang::get('infra.team'),
+                'data'  => 'team.name',
+                'name'  => 'team.name',
+            ]),
         ];
     }
 

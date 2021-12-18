@@ -24,6 +24,14 @@ class CreateServiceVersionAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return ServiceVersion::$rules;
+        return [
+            'service_id' => [
+                ...ServiceVersion::$rules['service_id']
+            ],
+            'version' => [
+                'unique:service_version,version,NULL,id,service_id,'.$this->service_id,
+                ...ServiceVersion::$rules['version'],
+            ]
+        ] ;
     }
 }

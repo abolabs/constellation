@@ -5,7 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @SWG\Definition(
  *      definition="Application",
@@ -41,14 +41,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *      )
  * )
  */
-class Application extends Model
+class Application extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     use SoftDeletes;
 
     use HasFactory;
 
     public $table = 'application';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -80,5 +82,11 @@ class Application extends Model
         'team_id' => 'required|exists:team,id',
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function team()
+    {
+        return $this->belongsTo(\App\Models\Team::class,'team_id');
+    }
 }

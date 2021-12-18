@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Service;
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ServiceFactory extends Factory
@@ -22,11 +23,13 @@ class ServiceFactory extends Factory
     public function definition()
     {
         return [
-            'team_id' => $this->faker->randomDigitNotNull,
-        'name' => $this->faker->word,
-        'git_repo' => $this->faker->word,
-        'created_at' => $this->faker->date('Y-m-d H:i:s'),
-        'updated_at' => $this->faker->date('Y-m-d H:i:s')
+            'team_id' => function(){
+                return Team::factory()->create()->id;
+            },
+            'name' => $this->faker->word,
+            'git_repo' => $this->faker->randomElement(['http://','https://']).$this->faker->domainName."/",
+            'created_at' => $this->faker->date('Y-m-d H:i:s'),
+            'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }

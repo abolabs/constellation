@@ -5,7 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use OwenIt\Auditing\Contracts\Auditable;
 /**
  * @SWG\Definition(
  *      definition="Service",
@@ -46,14 +46,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  *      )
  * )
  */
-class Service extends Model
+class Service extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     use SoftDeletes;
 
     use HasFactory;
 
     public $table = 'service';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -84,8 +86,19 @@ class Service extends Model
      */
     public static $rules = [
         'team_id' => 'required|exists:team,id',
-        'git_repo' => ['required', 'regex:/((git|ssh|http(s)?)|(git@[\w\.]+))(:(\/\/)?)([\w\.@\:\/\-~]+)(\.git)( \/)?/']
+        'git_repo' => 'required|url'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function team()
+    {
+        return $this->belongsTo(\App\Models\Team::class,'team_id');
+    }
+
+    public function versions()
+    {
+        return $this->hasMany(ServiceVersion::class,'service_id');
+    }
 }

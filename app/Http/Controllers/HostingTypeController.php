@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\HostingTypeDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateHostingTypeRequest;
 use App\Http\Requests\UpdateHostingTypeRequest;
 use App\Repositories\HostingTypeRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\HostingType;
 use Response;
 
 class HostingTypeController extends AppBaseController
@@ -18,6 +18,7 @@ class HostingTypeController extends AppBaseController
 
     public function __construct(HostingTypeRepository $hostingTypeRepo)
     {
+        $this->authorizeResource(HostingType::class, "hostingType");
         $this->hostingTypeRepository = $hostingTypeRepo;
     }
 
@@ -63,14 +64,12 @@ class HostingTypeController extends AppBaseController
     /**
      * Display the specified HostingType.
      *
-     * @param  int $id
+     * @param  HostingType $hostingType
      *
      * @return Response
      */
-    public function show($id)
+    public function show(HostingType $hostingType)
     {
-        $hostingType = $this->hostingTypeRepository->find($id);
-
         if (empty($hostingType)) {
             Flash::error('Hosting Type not found');
 
@@ -83,14 +82,12 @@ class HostingTypeController extends AppBaseController
     /**
      * Show the form for editing the specified HostingType.
      *
-     * @param  int $id
+     * @param  HostingType $hostingType
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit(HostingType $hostingType)
     {
-        $hostingType = $this->hostingTypeRepository->find($id);
-
         if (empty($hostingType)) {
             Flash::error('Hosting Type not found');
 
@@ -103,22 +100,20 @@ class HostingTypeController extends AppBaseController
     /**
      * Update the specified HostingType in storage.
      *
-     * @param  int              $id
+     * @param  HostingType $hostingType
      * @param UpdateHostingTypeRequest $request
      *
      * @return Response
      */
-    public function update($id, UpdateHostingTypeRequest $request)
+    public function update(HostingType $hostingType, UpdateHostingTypeRequest $request)
     {
-        $hostingType = $this->hostingTypeRepository->find($id);
-
         if (empty($hostingType)) {
             Flash::error('Hosting Type not found');
 
             return redirect(route('hostingTypes.index'));
         }
 
-        $hostingType = $this->hostingTypeRepository->update($request->all(), $id);
+        $hostingType = $this->hostingTypeRepository->update($request->all(), $hostingType->id);
 
         Flash::success('Hosting Type updated successfully.');
 
@@ -128,21 +123,19 @@ class HostingTypeController extends AppBaseController
     /**
      * Remove the specified HostingType from storage.
      *
-     * @param  int $id
+     * @param  HostingType $hostingType
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(HostingType $hostingType)
     {
-        $hostingType = $this->hostingTypeRepository->find($id);
-
         if (empty($hostingType)) {
             Flash::error('Hosting Type not found');
 
             return redirect(route('hostingTypes.index'));
         }
 
-        $this->hostingTypeRepository->delete($id);
+        $this->hostingTypeRepository->delete($hostingType->id);
 
         Flash::success('Hosting Type deleted successfully.');
 

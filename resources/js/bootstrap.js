@@ -1,5 +1,15 @@
 window._ = require('lodash');
 
+const messages = require('./message.json')
+
+Lang = require('lang.js')
+
+window.lang = new Lang({
+    messages: messages,
+    locale: navigator.language,
+    fallback: "en"
+})
+
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -7,11 +17,13 @@ window._ = require('lodash');
  */
 
 try {
-    window.Popper = require('popper.js').default;
+    window.Popper = require('@popperjs/core').createPopper;
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-} catch (e) {}
+} catch (e) {
+    console.log(e);
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -40,4 +52,50 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
-window.selector = require('./selector');
+/**
+ * selector utils
+ */
+window.selector = require('./utils/selector');
+
+/**
+ * Cytoscape
+ */
+window.cytoscape = require('cytoscape');
+require('cytoscape-cxtmenu');
+require('cytoscape-layout-utilities');
+require('cytoscape-fcose');
+require('cytoscape-popper');
+
+/**
+ * Graph
+ */
+ import('./utils/Graph').then((Graph) => {
+    window.Graph = Graph.default;
+ });
+
+/**
+ * Environnement
+ */
+ import('./utils/Environnement').then((Environnement) => {
+    window.Environnement = Environnement.default;
+ });
+
+/**
+ * Datatable
+ */
+ var DataTable = require('datatables.net');
+ require( 'datatables.net-buttons' );
+ require( 'datatables.net-responsive' );
+
+ $.fn.dataTable = DataTable;
+ $.fn.dataTableSettings = DataTable.settings;
+ $.fn.dataTableExt = DataTable.ext;
+ DataTable.$ = $;
+
+ import('./utils/DataTableRenderer').then((DataTableRenderer) => {
+    window.DataTableRenderer = DataTableRenderer.default;
+ });
+
+ import tippy, {sticky} from 'tippy.js';
+ window.tippy = tippy
+ window.tippyPluginSticky = sticky

@@ -65,6 +65,7 @@ class ServiceVersionAPIController extends AppBaseController
             $request->get('skip'),
             $request->get('limit')
         );
+        $serviceVersions->load("service");
 
         return $this->sendResponse(ServiceVersionResource::collection($serviceVersions), 'Service Versions retrieved successfully');
     }
