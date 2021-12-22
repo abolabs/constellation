@@ -10,13 +10,13 @@
         "http"
     ],
     "paths": {
-        "/appInstanceDependencies": {
+        "/serviceInstanceDependencies": {
             "get": {
                 "tags": [
-                    "AppInstanceDependencies"
+                    "ServiceInstanceDependencies"
                 ],
-                "summary": "Get a listing of the AppInstanceDependencies.",
-                "description": "Get all AppInstanceDependencies",
+                "summary": "Get a listing of the ServiceInstanceDependencies.",
+                "description": "Get all ServiceInstanceDependencies",
                 "produces": [
                     "application/json"
                 ],
@@ -31,7 +31,7 @@
                                 "data": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/AppInstanceDependencies"
+                                        "$ref": "#/definitions/ServiceInstanceDependencies"
                                     }
                                 },
                                 "message": {
@@ -45,10 +45,10 @@
             },
             "post": {
                 "tags": [
-                    "AppInstanceDependencies"
+                    "ServiceInstanceDependencies"
                 ],
-                "summary": "Store a newly created AppInstanceDependencies in storage",
-                "description": "Store AppInstanceDependencies",
+                "summary": "Store a newly created ServiceInstanceDependencies in storage",
+                "description": "Store ServiceInstanceDependencies",
                 "produces": [
                     "application/json"
                 ],
@@ -56,10 +56,10 @@
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "AppInstanceDependencies that should be stored",
+                        "description": "ServiceInstanceDependencies that should be stored",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/AppInstanceDependencies"
+                            "$ref": "#/definitions/ServiceInstanceDependencies"
                         }
                     }
                 ],
@@ -72,7 +72,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/AppInstanceDependencies"
+                                    "$ref": "#/definitions/ServiceInstanceDependencies"
                                 },
                                 "message": {
                                     "type": "string"
@@ -84,13 +84,13 @@
                 }
             }
         },
-        "/appInstanceDependencies/{id}": {
+        "/serviceInstanceDependencies/{id}": {
             "get": {
                 "tags": [
-                    "AppInstanceDependencies"
+                    "ServiceInstanceDependencies"
                 ],
-                "summary": "Display the specified AppInstanceDependencies",
-                "description": "Get AppInstanceDependencies",
+                "summary": "Display the specified ServiceInstanceDependencies",
+                "description": "Get ServiceInstanceDependencies",
                 "produces": [
                     "application/json"
                 ],
@@ -98,7 +98,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of AppInstanceDependencies",
+                        "description": "id of ServiceInstanceDependencies",
                         "required": true,
                         "type": "integer"
                     }
@@ -112,7 +112,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/AppInstanceDependencies"
+                                    "$ref": "#/definitions/ServiceInstanceDependencies"
                                 },
                                 "message": {
                                     "type": "string"
@@ -125,10 +125,10 @@
             },
             "put": {
                 "tags": [
-                    "AppInstanceDependencies"
+                    "ServiceInstanceDependencies"
                 ],
-                "summary": "Update the specified AppInstanceDependencies in storage",
-                "description": "Update AppInstanceDependencies",
+                "summary": "Update the specified ServiceInstanceDependencies in storage",
+                "description": "Update ServiceInstanceDependencies",
                 "produces": [
                     "application/json"
                 ],
@@ -136,17 +136,17 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of AppInstanceDependencies",
+                        "description": "id of ServiceInstanceDependencies",
                         "required": true,
                         "type": "integer"
                     },
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "AppInstanceDependencies that should be updated",
+                        "description": "ServiceInstanceDependencies that should be updated",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/AppInstanceDependencies"
+                            "$ref": "#/definitions/ServiceInstanceDependencies"
                         }
                     }
                 ],
@@ -159,7 +159,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/AppInstanceDependencies"
+                                    "$ref": "#/definitions/ServiceInstanceDependencies"
                                 },
                                 "message": {
                                     "type": "string"
@@ -172,10 +172,10 @@
             },
             "delete": {
                 "tags": [
-                    "AppInstanceDependencies"
+                    "ServiceInstanceDependencies"
                 ],
-                "summary": "Remove the specified AppInstanceDependencies from storage",
-                "description": "Delete AppInstanceDependencies",
+                "summary": "Remove the specified ServiceInstanceDependencies from storage",
+                "description": "Delete ServiceInstanceDependencies",
                 "produces": [
                     "application/json"
                 ],
@@ -183,7 +183,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of AppInstanceDependencies",
+                        "description": "id of ServiceInstanceDependencies",
                         "required": true,
                         "type": "integer"
                     }
@@ -1604,7 +1604,7 @@
         }
     },
     "definitions": {
-        "AppInstanceDependencies": {
+        "ServiceInstanceDependencies": {
             "required": [
                 ""
             ],

@@ -11,7 +11,7 @@ use Response;
  *   host="localhost:8080",
  *   basePath="/api",
  *   @SWG\Info(
- *     title="Laravel Generator APIs",
+ *     title="Constellation APIs",
  *     version="1.0.0",
  *   )
  * )
