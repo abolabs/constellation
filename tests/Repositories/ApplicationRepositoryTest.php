@@ -1,10 +1,12 @@
-<?php namespace Tests\Repositories;
+<?php
+
+namespace Tests\Repositories;
 
 use App\Models\Application;
 use App\Repositories\ApplicationRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use Tests\ApiTestTrait;
+use Tests\TestCase;
 
 class ApplicationRepositoryTest extends TestCase
 {
@@ -15,7 +17,7 @@ class ApplicationRepositoryTest extends TestCase
      */
     protected $applicationRepo;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
         $this->applicationRepo = \App::make(ApplicationRepository::class);

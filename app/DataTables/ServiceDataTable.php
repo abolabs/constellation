@@ -3,24 +3,25 @@
 namespace App\DataTables;
 
 use App\Models\Service;
-use Yajra\DataTables\EloquentDataTable;
 use Illuminate\Support\Facades\Lang;
-use \Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Column;
 
 class ServiceDataTable extends AbstractCommonDatatable
 {
     /**
      * Constructor
-     * Define permission prefix
+     * Define permission prefix.
      */
     public function __construct()
     {
-        $this->permissionPrefix = "service";
+        $this->permissionPrefix = 'service';
     }
+
     /**
      * Build DataTable class.
      *
-     * @param mixed $query Results from query() method.
+     * @param  mixed  $query  Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
@@ -33,7 +34,7 @@ class ServiceDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Service $model
+     * @param  \App\Models\Service  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Service $model)
@@ -79,6 +80,6 @@ class ServiceDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'services_datatable_' . time();
+        return 'services_datatable_'.time();
     }
 }

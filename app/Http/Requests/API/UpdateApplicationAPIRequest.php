@@ -25,7 +25,7 @@ class UpdateApplicationAPIRequest extends APIRequest
     public function rules()
     {
         $rules = Application::$rules;
-        
+
         return $rules;
     }
 }

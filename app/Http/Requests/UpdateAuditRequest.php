@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Audit;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateAuditRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,7 +25,7 @@ class UpdateAuditRequest extends FormRequest
     public function rules()
     {
         $rules = Audit::$rules;
-        
+
         return $rules;
     }
 }

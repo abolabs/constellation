@@ -25,7 +25,7 @@ class UpdateServiceAPIRequest extends APIRequest
     public function rules()
     {
         $rules = Service::$rules;
-        
+
         return $rules;
     }
 }

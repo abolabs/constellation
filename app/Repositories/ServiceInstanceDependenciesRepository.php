@@ -3,14 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\ServiceInstanceDependencies;
-use App\Repositories\BaseRepository;
 
 /**
- * Class ServiceInstanceDependenciesRepository
- * @package App\Repositories
+ * Class ServiceInstanceDependenciesRepository.
+ *
  * @version September 4, 2021, 4:59 pm UTC
-*/
-
+ */
 class ServiceInstanceDependenciesRepository extends BaseRepository
 {
     /**
@@ -19,11 +17,11 @@ class ServiceInstanceDependenciesRepository extends BaseRepository
     protected $fieldSearchable = [
         'id',
         'instance_id',
-        'instance_dep_id'
+        'instance_dep_id',
     ];
 
     /**
-     * Return searchable fields
+     * Return searchable fields.
      *
      * @return array
      */
@@ -33,7 +31,7 @@ class ServiceInstanceDependenciesRepository extends BaseRepository
     }
 
     /**
-     * Configure the Model
+     * Configure the Model.
      **/
     public function model()
     {

@@ -1,10 +1,12 @@
-<?php namespace Tests\Repositories;
+<?php
+
+namespace Tests\Repositories;
 
 use App\Models\ServiceVersionDependencies;
 use App\Repositories\ServiceVersionDependenciesRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use Tests\ApiTestTrait;
+use Tests\TestCase;
 
 class ServiceVersionDependenciesRepositoryTest extends TestCase
 {
@@ -15,7 +17,7 @@ class ServiceVersionDependenciesRepositoryTest extends TestCase
      */
     protected $serviceVersionDependenciesRepo;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
         $this->serviceVersionDependenciesRepo = \App::make(ServiceVersionDependenciesRepository::class);

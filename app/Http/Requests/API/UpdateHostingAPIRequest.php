@@ -25,7 +25,7 @@ class UpdateHostingAPIRequest extends APIRequest
     public function rules()
     {
         $rules = Hosting::$rules;
-        
+
         return $rules;
     }
 }

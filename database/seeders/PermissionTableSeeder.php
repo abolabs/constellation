@@ -15,9 +15,9 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-           'app-mapping','service-mapping-per-app','service-mapping-per-host',
-           'admin',
-           'view audit'
+            'app-mapping', 'service-mapping-per-app', 'service-mapping-per-host',
+            'admin',
+            'view audit',
         ];
 
         foreach ($permissions as $permission) {
@@ -39,10 +39,10 @@ class PermissionTableSeeder extends Seeder
         ];
 
         foreach ($entities as $entitiesPermission) {
-            Permission::create(['name' => "view ".$entitiesPermission]);
-            Permission::create(['name' => "create ".$entitiesPermission]);
-            Permission::create(['name' => "edit ".$entitiesPermission]);
-            Permission::create(['name' => "delete ".$entitiesPermission]);
+            Permission::create(['name' => 'view '.$entitiesPermission]);
+            Permission::create(['name' => 'create '.$entitiesPermission]);
+            Permission::create(['name' => 'edit '.$entitiesPermission]);
+            Permission::create(['name' => 'delete '.$entitiesPermission]);
         }
     }
 }

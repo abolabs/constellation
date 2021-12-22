@@ -3,24 +3,25 @@
 namespace App\DataTables;
 
 use App\Models\Team;
-use Yajra\DataTables\EloquentDataTable;
 use Illuminate\Support\Facades\Lang;
-use \Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Column;
 
 class TeamDataTable extends AbstractCommonDatatable
 {
     /**
      * Constructor
-     * Define permission prefix
+     * Define permission prefix.
      */
     public function __construct()
     {
-        $this->permissionPrefix = "team";
+        $this->permissionPrefix = 'team';
     }
+
     /**
      * Build DataTable class.
      *
-     * @param mixed $query Results from query() method.
+     * @param  mixed  $query  Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
@@ -33,7 +34,7 @@ class TeamDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Team $model
+     * @param  \App\Models\Team  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Team $model)
@@ -63,7 +64,7 @@ class TeamDataTable extends AbstractCommonDatatable
                 'title' => Lang::get('infra.manager'),
                 'data'  => 'manager',
                 'name'  => 'manager',
-            ])
+            ]),
         ];
     }
 
@@ -74,6 +75,6 @@ class TeamDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'teams_datatable_' . time();
+        return 'teams_datatable_'.time();
     }
 }

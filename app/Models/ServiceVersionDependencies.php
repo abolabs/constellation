@@ -3,19 +3,18 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- * Class ServiceVersionDependencies
- * @package App\Models
+ * Class ServiceVersionDependencies.
+ *
  * @version September 4, 2021, 4:37 pm UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection $serviceVersions
  * @property \Illuminate\Database\Eloquent\Collection $serviceVersion1s
- * @property integer $service_version_id
- * @property integer $service_version_dependency_id
+ * @property int $service_version_id
+ * @property int $service_version_dependency_id
  */
 class ServiceVersionDependencies extends Model implements Auditable
 {
@@ -25,14 +24,11 @@ class ServiceVersionDependencies extends Model implements Auditable
 
     public $table = 'service_version_dependencies';
 
-
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'service_version_id',
-        'service_version_dependency_id'
+        'service_version_dependency_id',
     ];
 
     /**
@@ -43,11 +39,11 @@ class ServiceVersionDependencies extends Model implements Auditable
     protected $casts = [
         'id' => 'integer',
         'service_version_id' => 'integer',
-        'service_version_dependency_id' => 'integer'
+        'service_version_dependency_id' => 'integer',
     ];
 
     /**
-     * Validation rules
+     * Validation rules.
      *
      * @var array
      */
@@ -71,6 +67,7 @@ class ServiceVersionDependencies extends Model implements Auditable
     {
         return $this->hasOne(\App\Models\ServiceVersion::class, 'id', 'service_version_dependency_id');
     }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/

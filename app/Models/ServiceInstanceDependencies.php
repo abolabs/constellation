@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -51,7 +50,7 @@ class ServiceInstanceDependencies extends Model implements Auditable
 
     public $table = 'service_instance_dep';
 
-    public static $levelsList = [1,2,3];
+    public static $levelsList = [1, 2, 3];
 
     protected $dates = ['deleted_at'];
 
@@ -59,7 +58,7 @@ class ServiceInstanceDependencies extends Model implements Auditable
         'instance_id',
         'instance_dep_id',
         'level',
-        'description'
+        'description',
     ];
 
     /**
@@ -76,18 +75,18 @@ class ServiceInstanceDependencies extends Model implements Auditable
     ];
 
     /**
-     * Validation rules
+     * Validation rules.
      *
      * @var array
      */
     public static $rules = [
         'instance_id' => [
             'required',
-            'exists:service_instance,id'
+            'exists:service_instance,id',
         ],
         'instance_dep_id' => [
             'required',
-            'exists:service_instance,id'
+            'exists:service_instance,id',
         ],
         'level' => 'integer|between:1,3',
         'description' => 'string|nullable|max:255',

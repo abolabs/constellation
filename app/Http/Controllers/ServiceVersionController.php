@@ -3,19 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ServiceVersionDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateServiceVersionRequest;
 use App\Http\Requests\UpdateServiceVersionRequest;
-use App\Repositories\ServiceVersionRepository;
-use Flash;
-use App\Http\Controllers\AppBaseController;
 use App\Models\ServiceInstance;
 use App\Models\ServiceVersion;
+use App\Repositories\ServiceVersionRepository;
+use Flash;
 use Response;
 
 class ServiceVersionController extends AppBaseController
 {
-    /** @var  ServiceVersionRepository */
+    /** @var ServiceVersionRepository */
     private $serviceVersionRepository;
 
     public function __construct(ServiceVersionRepository $serviceVersionRepo)
@@ -27,7 +25,7 @@ class ServiceVersionController extends AppBaseController
     /**
      * Display a listing of the ServiceVersion.
      *
-     * @param ServiceVersionDataTable $serviceVersionDataTable
+     * @param  ServiceVersionDataTable  $serviceVersionDataTable
      * @return Response
      */
     public function index(ServiceVersionDataTable $serviceVersionDataTable)
@@ -48,8 +46,7 @@ class ServiceVersionController extends AppBaseController
     /**
      * Store a newly created ServiceVersion in storage.
      *
-     * @param CreateServiceVersionRequest $request
-     *
+     * @param  CreateServiceVersionRequest  $request
      * @return Response
      */
     public function store(CreateServiceVersionRequest $request)
@@ -59,12 +56,11 @@ class ServiceVersionController extends AppBaseController
         $serviceVersion = $this->serviceVersionRepository->create($input);
         if (empty($serviceVersion)) {
             Flash::error('Error during saving the new version');
-
-        }else{
+        } else {
             Flash::success('Service Version saved successfully.');
         }
 
-        if(!empty($input['redirect_to_service'])){
+        if (! empty($input['redirect_to_service'])) {
             return back()->withInput();
         }
 
@@ -74,8 +70,7 @@ class ServiceVersionController extends AppBaseController
     /**
      * Display the specified ServiceVersion.
      *
-     * @param  ServiceVersion $serviceVersion
-     *
+     * @param  ServiceVersion  $serviceVersion
      * @return Response
      */
     public function show(ServiceVersion $serviceVersion)
@@ -92,8 +87,7 @@ class ServiceVersionController extends AppBaseController
     /**
      * Show the form for editing the specified ServiceVersion.
      *
-     * @param  ServiceVersion $serviceVersion
-     *
+     * @param  ServiceVersion  $serviceVersion
      * @return Response
      */
     public function edit(ServiceVersion $serviceVersion)
@@ -110,9 +104,8 @@ class ServiceVersionController extends AppBaseController
     /**
      * Update the specified ServiceVersion in storage.
      *
-     * @param  ServiceVersion $serviceVersion
-     * @param UpdateServiceVersionRequest $request
-     *
+     * @param  ServiceVersion  $serviceVersion
+     * @param  UpdateServiceVersionRequest  $request
      * @return Response
      */
     public function update(ServiceVersion $serviceVersion, UpdateServiceVersionRequest $request)
@@ -133,8 +126,7 @@ class ServiceVersionController extends AppBaseController
     /**
      * Remove the specified ServiceVersion from storage.
      *
-     * @param  ServiceVersion $serviceVersion
-     *
+     * @param  ServiceVersion  $serviceVersion
      * @return Response
      */
     public function destroy(ServiceVersion $serviceVersion)
@@ -144,7 +136,7 @@ class ServiceVersionController extends AppBaseController
 
             return redirect(route('serviceVersions.index'));
         }
-        if(ServiceInstance::where('service_version_id', $serviceVersion->id)->count() > 0){
+        if (ServiceInstance::where('service_version_id', $serviceVersion->id)->count() > 0) {
             Flash::error('Service version is currently used, cannot delete it.');
 
             return redirect(route('serviceVersions.index'));

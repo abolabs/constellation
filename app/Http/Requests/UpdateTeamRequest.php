@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Team;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTeamRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,7 +25,7 @@ class UpdateTeamRequest extends FormRequest
     public function rules()
     {
         $rules = Team::$rules;
-        
+
         return $rules;
     }
 }

@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\ServiceInstance;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateServiceInstanceRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *

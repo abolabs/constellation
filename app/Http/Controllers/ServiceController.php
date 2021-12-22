@@ -3,18 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ServiceDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
+use App\Models\Service;
 use App\Repositories\ServiceRepository;
 use Flash;
-use App\Http\Controllers\AppBaseController;
-use App\Models\Service;
 use Response;
 
 class ServiceController extends AppBaseController
 {
-    /** @var  ServiceRepository */
+    /** @var ServiceRepository */
     private $serviceRepository;
 
     public function __construct(ServiceRepository $serviceRepo)
@@ -26,7 +24,7 @@ class ServiceController extends AppBaseController
     /**
      * Display a listing of the Service.
      *
-     * @param ServiceDataTable $serviceDataTable
+     * @param  ServiceDataTable  $serviceDataTable
      * @return Response
      */
     public function index(ServiceDataTable $serviceDataTable)
@@ -47,8 +45,7 @@ class ServiceController extends AppBaseController
     /**
      * Store a newly created Service in storage.
      *
-     * @param CreateServiceRequest $request
-     *
+     * @param  CreateServiceRequest  $request
      * @return Response
      */
     public function store(CreateServiceRequest $request)
@@ -65,8 +62,7 @@ class ServiceController extends AppBaseController
     /**
      * Display the specified Service.
      *
-     * @param  Service $service
-     *
+     * @param  Service  $service
      * @return Response
      */
     public function show(Service $service)
@@ -79,13 +75,13 @@ class ServiceController extends AppBaseController
         $service->load('versions', 'versions.instances.application');
 
         $serviceByApplication = [];
-        foreach($service->versions as $version ){
+        foreach ($service->versions as $version) {
             $serviceByApplication[$version->id] = [];
-            foreach($version->instances as $instance){
-                if(!isset($serviceByApplication[$version->id][$instance->application->id])){
+            foreach ($version->instances as $instance) {
+                if (! isset($serviceByApplication[$version->id][$instance->application->id])) {
                     $serviceByApplication[$version->id][$instance->application->id] = [
-                        "name" => $instance->application->name,
-                        "total" => 0
+                        'name' => $instance->application->name,
+                        'total' => 0,
                     ];
                 }
                 $serviceByApplication[$version->id][$instance->application->id]['total']++;
@@ -98,8 +94,7 @@ class ServiceController extends AppBaseController
     /**
      * Show the form for editing the specified Service.
      *
-     * @param  Service $service
-     *
+     * @param  Service  $service
      * @return Response
      */
     public function edit(Service $service)
@@ -116,9 +111,8 @@ class ServiceController extends AppBaseController
     /**
      * Update the specified Service in storage.
      *
-     * @param  Service $service
-     * @param UpdateServiceRequest $request
-     *
+     * @param  Service  $service
+     * @param  UpdateServiceRequest  $request
      * @return Response
      */
     public function update(Service $service, UpdateServiceRequest $request)
@@ -139,8 +133,7 @@ class ServiceController extends AppBaseController
     /**
      * Remove the specified Service from storage.
      *
-     * @param  Service $service
-     *
+     * @param  Service  $service
      * @return Response
      */
     public function destroy(Service $service)

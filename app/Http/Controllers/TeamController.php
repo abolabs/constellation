@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use App\DataTables\TeamDataTable;
 use App\Http\Requests\CreateTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
+use App\Models\Team;
 use App\Repositories\TeamRepository;
 use Flash;
-use App\Http\Controllers\AppBaseController;
-use App\Models\Team;
 use Response;
 
 class TeamController extends AppBaseController
 {
-    /** @var  TeamRepository */
+    /** @var TeamRepository */
     private $teamRepository;
 
     public function __construct(TeamRepository $teamRepo)
@@ -25,7 +24,7 @@ class TeamController extends AppBaseController
     /**
      * Display a listing of the Team.
      *
-     * @param TeamDataTable $teamDataTable
+     * @param  TeamDataTable  $teamDataTable
      * @return Response
      */
     public function index(TeamDataTable $teamDataTable)
@@ -46,8 +45,7 @@ class TeamController extends AppBaseController
     /**
      * Store a newly created Team in storage.
      *
-     * @param CreateTeamRequest $request
-     *
+     * @param  CreateTeamRequest  $request
      * @return Response
      */
     public function store(CreateTeamRequest $request)
@@ -64,8 +62,7 @@ class TeamController extends AppBaseController
     /**
      * Display the specified Team.
      *
-     * @param  Team $team
-     *
+     * @param  Team  $team
      * @return Response
      */
     public function show(Team $team)
@@ -82,8 +79,7 @@ class TeamController extends AppBaseController
     /**
      * Show the form for editing the specified Team.
      *
-     * @param  Team $team
-     *
+     * @param  Team  $team
      * @return Response
      */
     public function edit(Team $team)
@@ -100,9 +96,8 @@ class TeamController extends AppBaseController
     /**
      * Update the specified Team in storage.
      *
-     * @param Team $team
-     * @param UpdateTeamRequest $request
-     *
+     * @param  Team  $team
+     * @param  UpdateTeamRequest  $request
      * @return Response
      */
     public function update(Team $team, UpdateTeamRequest $request)
@@ -123,8 +118,7 @@ class TeamController extends AppBaseController
     /**
      * Remove the specified Team from storage.
      *
-     * @param  Team $team
-     *
+     * @param  Team  $team
      * @return Response
      */
     public function destroy(Team $team)

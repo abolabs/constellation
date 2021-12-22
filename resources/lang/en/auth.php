@@ -25,7 +25,4 @@ return [
     'password_placeholder' => 'Password',
     'register_button' => 'Register Now!',
 
-
-
-
 ];

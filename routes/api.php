@@ -18,8 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::resource('environnements',  EnvironnementAPIController::class);
+Route::resource('environnements', EnvironnementAPIController::class);
 Route::resource('hostingTypes', HostingTypeAPIController::class);
 Route::resource('hostings', HostingAPIController::class);
 Route::resource('teams', TeamAPIController::class);

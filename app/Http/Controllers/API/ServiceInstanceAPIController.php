@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateServiceInstanceAPIRequest;
 use App\Http\Requests\API\UpdateServiceInstanceAPIRequest;
+use App\Http\Resources\ServiceInstanceResource;
 use App\Models\ServiceInstance;
 use App\Repositories\ServiceInstanceRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\ServiceInstanceResource;
 use Response;
 
 /**
- * Class ServiceInstanceController
- * @package App\Http\Controllers\API
+ * Class ServiceInstanceController.
  */
-
 class ServiceInstanceAPIController extends AppBaseController
 {
-    /** @var  ServiceInstanceRepository */
+    /** @var ServiceInstanceRepository */
     private $serviceInstanceRepository;
 
     public function __construct(ServiceInstanceRepository $serviceInstanceRepo)
@@ -28,9 +26,9 @@ class ServiceInstanceAPIController extends AppBaseController
 
     /**
      * Display a listing of the ServiceInstance.
-     * GET|HEAD /serviceInstances
+     * GET|HEAD /serviceInstances.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      */
     public function index(Request $request)
@@ -46,10 +44,9 @@ class ServiceInstanceAPIController extends AppBaseController
 
     /**
      * Store a newly created ServiceInstance in storage.
-     * POST /serviceInstances
+     * POST /serviceInstances.
      *
-     * @param CreateServiceInstanceAPIRequest $request
-     *
+     * @param  CreateServiceInstanceAPIRequest  $request
      * @return Response
      */
     public function store(CreateServiceInstanceAPIRequest $request)
@@ -63,10 +60,9 @@ class ServiceInstanceAPIController extends AppBaseController
 
     /**
      * Display the specified ServiceInstance.
-     * GET|HEAD /serviceInstances/{id}
+     * GET|HEAD /serviceInstances/{id}.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return Response
      */
     public function show($id)
@@ -83,11 +79,10 @@ class ServiceInstanceAPIController extends AppBaseController
 
     /**
      * Update the specified ServiceInstance in storage.
-     * PUT/PATCH /serviceInstances/{id}
+     * PUT/PATCH /serviceInstances/{id}.
      *
-     * @param int $id
-     * @param UpdateServiceInstanceAPIRequest $request
-     *
+     * @param  int  $id
+     * @param  UpdateServiceInstanceAPIRequest  $request
      * @return Response
      */
     public function update($id, UpdateServiceInstanceAPIRequest $request)
@@ -108,13 +103,12 @@ class ServiceInstanceAPIController extends AppBaseController
 
     /**
      * Remove the specified ServiceInstance from storage.
-     * DELETE /serviceInstances/{id}
+     * DELETE /serviceInstances/{id}.
      *
-     * @param int $id
+     * @param  int  $id
+     * @return Response
      *
      * @throws \Exception
-     *
-     * @return Response
      */
     public function destroy($id)
     {

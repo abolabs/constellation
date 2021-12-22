@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateEnvironnementAPIRequest;
 use App\Http\Requests\API\UpdateEnvironnementAPIRequest;
+use App\Http\Resources\EnvironnementResource;
 use App\Models\Environnement;
 use App\Repositories\EnvironnementRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\EnvironnementResource;
 use Response;
 
 /**
- * Class EnvironnementController
- * @package App\Http\Controllers\API
+ * Class EnvironnementController.
  */
-
 class EnvironnementAPIController extends AppBaseController
 {
-    /** @var  EnvironnementRepository */
+    /** @var EnvironnementRepository */
     private $environnementRepository;
 
     public function __construct(EnvironnementRepository $environnementRepo)
@@ -27,7 +25,7 @@ class EnvironnementAPIController extends AppBaseController
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -70,7 +68,7 @@ class EnvironnementAPIController extends AppBaseController
     }
 
     /**
-     * @param CreateEnvironnementAPIRequest $request
+     * @param  CreateEnvironnementAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -117,7 +115,7 @@ class EnvironnementAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Get(
@@ -167,8 +165,8 @@ class EnvironnementAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @param UpdateEnvironnementAPIRequest $request
+     * @param  int  $id
+     * @param  UpdateEnvironnementAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -229,7 +227,7 @@ class EnvironnementAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Delete(

@@ -3,16 +3,16 @@
 namespace App\DataTables;
 
 use App\Models\ServiceVersionDependencies;
-use Yajra\DataTables\EloquentDataTable;
 use Illuminate\Support\Facades\Lang;
-use \Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Column;
 
 class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
 {
     /**
      * Build DataTable class.
      *
-     * @param mixed $query Results from query() method.
+     * @param  mixed  $query  Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
@@ -25,12 +25,12 @@ class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\ServiceVersionDependencies $model
+     * @param  \App\Models\ServiceVersionDependencies  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ServiceVersionDependencies $model)
     {
-        return $model->newQuery()->with(['serviceVersion.service','serviceVersionDep.service'])->select(['service_version_dependencies.*']);
+        return $model->newQuery()->with(['serviceVersion.service', 'serviceVersionDep.service'])->select(['service_version_dependencies.*']);
     }
 
     /**
@@ -76,6 +76,6 @@ class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'service_version_dependencies_datatable_' . time();
+        return 'service_version_dependencies_datatable_'.time();
     }
 }

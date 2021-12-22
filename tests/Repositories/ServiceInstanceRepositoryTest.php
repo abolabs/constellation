@@ -1,10 +1,12 @@
-<?php namespace Tests\Repositories;
+<?php
+
+namespace Tests\Repositories;
 
 use App\Models\ServiceInstance;
 use App\Repositories\ServiceInstanceRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use Tests\ApiTestTrait;
+use Tests\TestCase;
 
 class ServiceInstanceRepositoryTest extends TestCase
 {
@@ -15,7 +17,7 @@ class ServiceInstanceRepositoryTest extends TestCase
      */
     protected $serviceInstanceRepo;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
         $this->serviceInstanceRepo = \App::make(ServiceInstanceRepository::class);

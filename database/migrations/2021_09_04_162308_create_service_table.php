@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateServiceTable extends Migration
 {
-
     /**
      * Run the migrations.
      *

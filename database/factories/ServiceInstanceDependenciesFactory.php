@@ -24,18 +24,18 @@ class ServiceInstanceDependenciesFactory extends Factory
     {
         $sourceService = ServiceInstance::factory()->create();
         $targetService = ServiceInstance::factory()->create([
-            "environnement_id" => $sourceService->environnement_id
+            'environnement_id' => $sourceService->environnement_id,
         ]);
 
         return [
-            'instance_id' => function() use ($sourceService) {
+            'instance_id' => function () use ($sourceService) {
                 return $sourceService->id;
             },
-            'instance_dep_id' => function() use ($targetService) {
+            'instance_dep_id' => function () use ($targetService) {
                 return $targetService->id;
             },
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
-            'updated_at' => $this->faker->date('Y-m-d H:i:s')
+            'updated_at' => $this->faker->date('Y-m-d H:i:s'),
         ];
     }
 }

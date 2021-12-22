@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+
 /**
  * @SWG\Definition(
  *      definition="Environnement",
@@ -45,13 +46,10 @@ class Environnement extends Model implements Auditable
 
     public $table = 'environnement';
 
-
     protected $dates = ['deleted_at'];
 
-
-
     public $fillable = [
-        'name'
+        'name',
     ];
 
     /**
@@ -61,11 +59,11 @@ class Environnement extends Model implements Auditable
      */
     protected $casts = [
         'id' => 'integer',
-        'name' => 'string'
+        'name' => 'string',
     ];
 
     /**
-     * Validation rules
+     * Validation rules.
      *
      * @var array
      */
@@ -80,5 +78,4 @@ class Environnement extends Model implements Auditable
     {
         return $this->hasMany(\App\Models\ServiceInstance::class, 'environnement_id');
     }
-
 }

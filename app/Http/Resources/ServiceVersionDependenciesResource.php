@@ -19,7 +19,7 @@ class ServiceVersionDependenciesResource extends JsonResource
             'service_version_id' => $this->service_version_id,
             'service_version_dependency_id' => $this->service_version_dependency_id,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'updated_at' => $this->updated_at,
         ];
     }
 }

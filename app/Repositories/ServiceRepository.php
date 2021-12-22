@@ -3,14 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\Service;
-use App\Repositories\BaseRepository;
 
 /**
- * Class ServiceRepository
- * @package App\Repositories
+ * Class ServiceRepository.
+ *
  * @version September 4, 2021, 4:23 pm UTC
-*/
-
+ */
 class ServiceRepository extends BaseRepository
 {
     /**
@@ -20,11 +18,11 @@ class ServiceRepository extends BaseRepository
         'id',
         'team_id',
         'name',
-        'git_repo'
+        'git_repo',
     ];
 
     /**
-     * Return searchable fields
+     * Return searchable fields.
      *
      * @return array
      */
@@ -34,7 +32,7 @@ class ServiceRepository extends BaseRepository
     }
 
     /**
-     * Configure the Model
+     * Configure the Model.
      **/
     public function model()
     {

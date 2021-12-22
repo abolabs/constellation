@@ -6,14 +6,13 @@ use App\DataTables\ServiceVersionDependenciesDataTable;
 use App\Http\Requests\CreateServiceVersionDependenciesRequest;
 use App\Http\Requests\UpdateServiceVersionDependenciesRequest;
 use App\Repositories\ServiceVersionDependenciesRepository;
-use App\Http\Controllers\AppBaseController;
-use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Http\Request;
 use Response;
 
 class ServiceVersionDependenciesController extends AppBaseController
 {
-    /** @var  ServiceVersionDependenciesRepository */
+    /** @var ServiceVersionDependenciesRepository */
     private $serviceVersionDependenciesRepository;
 
     public function __construct(ServiceVersionDependenciesRepository $serviceVersionDependenciesRepo)
@@ -24,8 +23,7 @@ class ServiceVersionDependenciesController extends AppBaseController
     /**
      * Display a listing of the ServiceVersionDependencies.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return Response
      */
     public function index(ServiceVersionDependenciesDataTable $serviceVersionDep)
@@ -46,8 +44,7 @@ class ServiceVersionDependenciesController extends AppBaseController
     /**
      * Store a newly created ServiceVersionDependencies in storage.
      *
-     * @param CreateServiceVersionDependenciesRequest $request
-     *
+     * @param  CreateServiceVersionDependenciesRequest  $request
      * @return Response
      */
     public function store(CreateServiceVersionDependenciesRequest $request)
@@ -64,8 +61,7 @@ class ServiceVersionDependenciesController extends AppBaseController
     /**
      * Display the specified ServiceVersionDependencies.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return Response
      */
     public function show($id)
@@ -84,8 +80,7 @@ class ServiceVersionDependenciesController extends AppBaseController
     /**
      * Show the form for editing the specified ServiceVersionDependencies.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return Response
      */
     public function edit($id)
@@ -104,9 +99,8 @@ class ServiceVersionDependenciesController extends AppBaseController
     /**
      * Update the specified ServiceVersionDependencies in storage.
      *
-     * @param int $id
-     * @param UpdateServiceVersionDependenciesRequest $request
-     *
+     * @param  int  $id
+     * @param  UpdateServiceVersionDependenciesRequest  $request
      * @return Response
      */
     public function update($id, UpdateServiceVersionDependenciesRequest $request)
@@ -129,11 +123,10 @@ class ServiceVersionDependenciesController extends AppBaseController
     /**
      * Remove the specified ServiceVersionDependencies from storage.
      *
-     * @param int $id
+     * @param  int  $id
+     * @return Response
      *
      * @throws \Exception
-     *
-     * @return Response
      */
     public function destroy($id)
     {

@@ -3,24 +3,25 @@
 namespace App\DataTables;
 
 use App\Models\ServiceInstanceDependencies;
-use Yajra\DataTables\EloquentDataTable;
 use Illuminate\Support\Facades\Lang;
-use \Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Column;
 
 class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
 {
     /**
      * Constructor
-     * Define permission prefix
+     * Define permission prefix.
      */
     public function __construct()
     {
-        $this->permissionPrefix = "serviceInstanceDep";
+        $this->permissionPrefix = 'serviceInstanceDep';
     }
+
     /**
      * Build DataTable class.
      *
-     * @param mixed $query Results from query() method.
+     * @param  mixed  $query  Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
@@ -33,13 +34,13 @@ class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\ServiceInstanceDependencies $model
+     * @param  \App\Models\ServiceInstanceDependencies  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ServiceInstanceDependencies $model)
     {
         return $model->newQuery()
-                ->with(['ServiceInstance','ServiceInstanceDep','ServiceInstance.serviceVersion.service','ServiceInstanceDep.serviceVersion.service'])
+                ->with(['ServiceInstance', 'ServiceInstanceDep', 'ServiceInstance.serviceVersion.service', 'ServiceInstanceDep.serviceVersion.service'])
                 ->select(['service_instance_dep.*']);
     }
 
@@ -57,7 +58,7 @@ class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
                 'name'  => 'id',
             ]),
             'instance_id'=>  new Column([
-                'title' => "# ".Lang::get('infra.service_instance'),
+                'title' => '# '.Lang::get('infra.service_instance'),
                 'data'  => 'instance_id',
                 'name'  => 'instance_id',
             ]),
@@ -67,7 +68,7 @@ class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
                 'name'  => 'ServiceInstance.serviceVersion.service.name',
             ]),
             'instance_dep_id'=>  new Column([
-                'title' => "# ". Lang::get('infra.service_dependency'),
+                'title' => '# '.Lang::get('infra.service_dependency'),
                 'data'  => 'instance_dep_id',
                 'name'  => 'instance_dep_id',
             ]),
@@ -80,7 +81,7 @@ class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
                 'title' => Lang::get('infra.dependency_level'),
                 'data'  => 'level',
                 'name'  => 'level',
-                'render' => 'window.DataTableRenderer.level("level")'
+                'render' => 'window.DataTableRenderer.level("level")',
             ]),
         ];
     }
@@ -92,6 +93,6 @@ class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'service_instance_dependencies_datatable_' . time();
+        return 'service_instance_dependencies_datatable_'.time();
     }
 }

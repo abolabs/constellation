@@ -3,14 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\HostingType;
-use App\Repositories\BaseRepository;
 
 /**
- * Class HostingTypeRepository
- * @package App\Repositories
+ * Class HostingTypeRepository.
+ *
  * @version September 4, 2021, 3:38 pm UTC
-*/
-
+ */
 class HostingTypeRepository extends BaseRepository
 {
     /**
@@ -18,11 +16,11 @@ class HostingTypeRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'name',
-        'description'
+        'description',
     ];
 
     /**
-     * Return searchable fields
+     * Return searchable fields.
      *
      * @return array
      */
@@ -32,7 +30,7 @@ class HostingTypeRepository extends BaseRepository
     }
 
     /**
-     * Configure the Model
+     * Configure the Model.
      **/
     public function model()
     {

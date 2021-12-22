@@ -3,24 +3,25 @@
 namespace App\DataTables;
 
 use App\Models\ServiceVersion;
-use Yajra\DataTables\EloquentDataTable;
 use Illuminate\Support\Facades\Lang;
-use \Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Column;
 
 class ServiceVersionDataTable extends AbstractCommonDatatable
 {
     /**
      * Constructor
-     * Define permission prefix
+     * Define permission prefix.
      */
     public function __construct()
     {
-        $this->permissionPrefix = "serviceVersion";
+        $this->permissionPrefix = 'serviceVersion';
     }
+
     /**
      * Build DataTable class.
      *
-     * @param mixed $query Results from query() method.
+     * @param  mixed  $query  Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
@@ -33,7 +34,7 @@ class ServiceVersionDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\ServiceVersion $model
+     * @param  \App\Models\ServiceVersion  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ServiceVersion $model)
@@ -63,7 +64,7 @@ class ServiceVersionDataTable extends AbstractCommonDatatable
                 'title' => Lang::get('infra.version'),
                 'data'  => 'version',
                 'name'  => 'service_version.version',
-            ])
+            ]),
         ];
     }
 
@@ -74,6 +75,6 @@ class ServiceVersionDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'service_versions_datatable_' . time();
+        return 'service_versions_datatable_'.time();
     }
 }

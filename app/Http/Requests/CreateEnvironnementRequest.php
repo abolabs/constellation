@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Environnement;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CreateEnvironnementRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *

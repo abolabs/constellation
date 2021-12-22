@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\ServiceVersion;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateServiceVersionRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -27,12 +26,12 @@ class UpdateServiceVersionRequest extends FormRequest
     {
         return [
             'service_id' => [
-                ...ServiceVersion::$rules['service_id']
+                ...ServiceVersion::$rules['service_id'],
             ],
             'version' => [
                 'unique:service_version,version,'.$this->route('serviceVersion')->id.',id,service_id,'.$this->service_id,
                 ...ServiceVersion::$rules['version'],
-            ]
-        ] ;
+            ],
+        ];
     }
 }

@@ -25,7 +25,7 @@ class UpdateEnvironnementAPIRequest extends APIRequest
     public function rules()
     {
         $rules = Environnement::$rules;
-        
+
         return $rules;
     }
 }
