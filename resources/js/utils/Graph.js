@@ -139,7 +139,6 @@ class Graph {
                         "shape": "roundrectangle",
                         "text-margin-y": "0px",
                         "font-weight" : "bold",
-                        "border-color": "#084C61",
                         "padding": 30,
                         "border-color": "#555555",
                         'color': '#323031'
