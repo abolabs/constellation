@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\ServiceVersionDependencies;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateServiceVersionDependenciesRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,7 +25,7 @@ class UpdateServiceVersionDependenciesRequest extends FormRequest
     public function rules()
     {
         $rules = ServiceVersionDependencies::$rules;
-        
+
         return $rules;
     }
 }

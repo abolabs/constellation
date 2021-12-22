@@ -3,23 +3,25 @@
 namespace App\DataTables;
 
 use App\Models\Audit;
-use Yajra\DataTables\EloquentDataTable;
 use Illuminate\Support\Facades\Lang;
-use \Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Column;
+
 class AuditDataTable extends AbstractCommonDatatable
 {
     /**
      * Constructor
-     * Define permission prefix
+     * Define permission prefix.
      */
     public function __construct()
     {
-        $this->permissionPrefix = "audit";
+        $this->permissionPrefix = 'audit';
     }
+
     /**
      * Build DataTable class.
      *
-     * @param mixed $query Results from query() method.
+     * @param  mixed  $query  Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
@@ -32,7 +34,7 @@ class AuditDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Audit $model
+     * @param  \App\Models\Audit  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Audit $model)
@@ -43,25 +45,23 @@ class AuditDataTable extends AbstractCommonDatatable
     /**
      * @override
      */
-    protected function getHtmlButtons() : array
+    protected function getHtmlButtons(): array
     {
         return [
             'dom' => [
                 'button' => [
                     'tag' => 'button',
-                    'className' => ''
-                ]
+                    'className' => '',
+                ],
             ],
             'buttons' => [
-                ['extend' => 'export', 'className' => 'btn btn-secondary btn-sm no-corner',],
-                ['extend' => 'print', 'className' => 'btn btn-secondary btn-sm no-corner',],
-                ['extend' => 'reset', 'className' => 'btn btn-secondary btn-sm no-corner',],
-                ['extend' => 'reload', 'className' => 'btn btn-secondary btn-sm no-corner',],
-            ]
+                ['extend' => 'export', 'className' => 'btn btn-secondary btn-sm no-corner'],
+                ['extend' => 'print', 'className' => 'btn btn-secondary btn-sm no-corner'],
+                ['extend' => 'reset', 'className' => 'btn btn-secondary btn-sm no-corner'],
+                ['extend' => 'reload', 'className' => 'btn btn-secondary btn-sm no-corner'],
+            ],
         ];
     }
-
-
 
     /**
      * Get columns.
@@ -106,7 +106,7 @@ class AuditDataTable extends AbstractCommonDatatable
                 'title' => Lang::get('common.field_created_at'),
                 'data'  => 'created_at',
                 'name'  => 'created_at',
-            ])
+            ]),
         ];
     }
 
@@ -117,6 +117,6 @@ class AuditDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'audits_datatable_' . time();
+        return 'audits_datatable_'.time();
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
 return [
-    "title" => "Utilisateurs",
-    'name' => "Nom",
-    "email" => "E-mail",
+    'title' => 'Utilisateurs',
+    'name' => 'Nom',
+    'email' => 'E-mail',
     'logout' => 'Se déconnecter',
     'settings' => 'Paramètres',
     'account' => 'Mon Compte',

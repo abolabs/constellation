@@ -1,11 +1,8 @@
 window._ = require('lodash');
 
-const messages = require('./message.json')
-
 Lang = require('lang.js')
 
 window.lang = new Lang({
-    messages: messages,
     locale: navigator.language,
     fallback: "en"
 })

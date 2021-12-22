@@ -3,14 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\Application;
-use App\Repositories\BaseRepository;
 
 /**
- * Class ApplicationRepository
- * @package App\Repositories
+ * Class ApplicationRepository.
+ *
  * @version September 4, 2021, 4:16 pm UTC
-*/
-
+ */
 class ApplicationRepository extends BaseRepository
 {
     /**
@@ -19,11 +17,11 @@ class ApplicationRepository extends BaseRepository
     protected $fieldSearchable = [
         'id',
         'name',
-        'team_id'
+        'team_id',
     ];
 
     /**
-     * Return searchable fields
+     * Return searchable fields.
      *
      * @return array
      */
@@ -33,7 +31,7 @@ class ApplicationRepository extends BaseRepository
     }
 
     /**
-     * Configure the Model
+     * Configure the Model.
      **/
     public function model()
     {

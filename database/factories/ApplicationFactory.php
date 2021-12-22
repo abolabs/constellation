@@ -24,11 +24,11 @@ class ApplicationFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'team_id' => function(){
+            'team_id' => function () {
                 return Team::factory()->create()->id;
             },
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
-            'updated_at' => $this->faker->date('Y-m-d H:i:s')
+            'updated_at' => $this->faker->date('Y-m-d H:i:s'),
         ];
     }
 }

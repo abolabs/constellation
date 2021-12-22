@@ -1,10 +1,12 @@
-<?php namespace Tests\Repositories;
+<?php
+
+namespace Tests\Repositories;
 
 use App\Models\HostingType;
 use App\Repositories\HostingTypeRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use Tests\ApiTestTrait;
+use Tests\TestCase;
 
 class HostingTypeRepositoryTest extends TestCase
 {
@@ -15,7 +17,7 @@ class HostingTypeRepositoryTest extends TestCase
      */
     protected $hostingTypeRepo;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
         $this->hostingTypeRepo = \App::make(HostingTypeRepository::class);

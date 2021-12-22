@@ -3,23 +3,23 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
 
 /**
- * Class ServiceInstance
- * @package App\Models
+ * Class ServiceInstance.
+ *
  * @version September 4, 2021, 4:52 pm UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection $serviceVersions
  * @property \Illuminate\Database\Eloquent\Collection $environnements
  * @property \Illuminate\Database\Eloquent\Collection $applications
- * @property integer $application_id
- * @property integer $service_version_id
- * @property integer $environnement_id
+ * @property int $application_id
+ * @property int $service_version_id
+ * @property int $environnement_id
  * @property string $url
- * @property boolean $statut
+ * @property bool $statut
  */
 class ServiceInstance extends Model implements Auditable
 {
@@ -40,7 +40,7 @@ class ServiceInstance extends Model implements Auditable
         'hosting_id',
         'url',
         'role',
-        'statut'
+        'statut',
     ];
 
     /**
@@ -56,11 +56,11 @@ class ServiceInstance extends Model implements Auditable
         'hosting_id' => 'integer',
         'url' => 'string',
         'role' => 'string',
-        'statut' => 'boolean'
+        'statut' => 'boolean',
     ];
 
     /**
-     * Validation rules
+     * Validation rules.
      *
      * @var array
      */
@@ -70,7 +70,7 @@ class ServiceInstance extends Model implements Auditable
         'environnement_id' => 'required|exists:environnement,id',
         'hosting_id' => 'required|exists:hosting,id',
         'url' => 'nullable|url',
-        'role' => 'nullable|string'
+        'role' => 'nullable|string',
     ];
 
     /**

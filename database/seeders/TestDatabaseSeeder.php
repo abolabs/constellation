@@ -17,7 +17,7 @@ class TestDatabaseSeeder extends Seeder
     {
         $this->call([
             ServiceInstanceDepSeeder::class,
-            ServiceVersionDepSeeder::class
+            ServiceVersionDepSeeder::class,
         ]);
     }
 }

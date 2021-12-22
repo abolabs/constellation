@@ -15,8 +15,8 @@ class TeamSeeder extends Seeder
     public function run()
     {
         Team::create([
-            "name" => "Dev team A",
-            "manager" => "team A manager"
+            'name' => 'Dev team A',
+            'manager' => 'team A manager',
         ]);
     }
 }

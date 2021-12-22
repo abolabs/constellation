@@ -3,24 +3,24 @@
 namespace App\DataTables;
 
 use App\Models\Application;
+use Lang;
 use Yajra\DataTables\EloquentDataTable;
-use \Lang;
 
 class ApplicationDataTable extends AbstractCommonDatatable
 {
-
     /**
      * Constructor
-     * Define permission prefix
+     * Define permission prefix.
      */
     public function __construct()
     {
-        $this->permissionPrefix = "application";
+        $this->permissionPrefix = 'application';
     }
+
     /**
      * Build DataTable class.
      *
-     * @param mixed $query Results from query() method.
+     * @param  mixed  $query  Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
@@ -33,7 +33,7 @@ class ApplicationDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Application $model
+     * @param  \App\Models\Application  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Application $model)
@@ -74,6 +74,6 @@ class ApplicationDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'applications_datatable_' . time();
+        return 'applications_datatable_'.time();
     }
 }

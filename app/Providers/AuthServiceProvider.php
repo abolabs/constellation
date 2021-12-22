@@ -17,9 +17,9 @@ use App\Policies\AuditPolicy;
 use App\Policies\EnvironnementPolicy;
 use App\Policies\HostingPolicy;
 use App\Policies\HostingTypePolicy;
-use App\Policies\ServicePolicy;
-use App\Policies\ServiceInstancePolicy;
 use App\Policies\ServiceInstanceDependenciesPolicy;
+use App\Policies\ServiceInstancePolicy;
+use App\Policies\ServicePolicy;
 use App\Policies\ServiceVersionPolicy;
 use App\Policies\TeamPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -33,16 +33,16 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-         Application::class => ApplicationPolicy::class,
-         Audit::class => AuditPolicy::class,
-         Environnement::class => EnvironnementPolicy::class,
-         Hosting::class => HostingPolicy::class,
-         HostingType::class => HostingTypePolicy::class,
-         Service::class => ServicePolicy::class,
-         ServiceInstance::class => ServiceInstancePolicy::class,
-         ServiceInstanceDependencies::class => ServiceInstanceDependenciesPolicy::class,
-         ServiceVersion::class => ServiceVersionPolicy::class,
-         Team::class => TeamPolicy::class,
+        Application::class => ApplicationPolicy::class,
+        Audit::class => AuditPolicy::class,
+        Environnement::class => EnvironnementPolicy::class,
+        Hosting::class => HostingPolicy::class,
+        HostingType::class => HostingTypePolicy::class,
+        Service::class => ServicePolicy::class,
+        ServiceInstance::class => ServiceInstancePolicy::class,
+        ServiceInstanceDependencies::class => ServiceInstanceDependenciesPolicy::class,
+        ServiceVersion::class => ServiceVersionPolicy::class,
+        Team::class => TeamPolicy::class,
     ];
 
     /**
@@ -55,7 +55,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::after(function ($user, $ability) {
-            if($user->hasRole(config('permission.super-admin-role'))){
+            if ($user->hasRole(config('permission.super-admin-role'))) {
                 return true;
             }
         });

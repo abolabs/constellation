@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GetGraphServicesByAppRequest;
-use App\Models\{Application, Service, ServiceInstance, ServiceInstanceDependencies, Hosting};
+use App\Models\Application;
+use App\Models\Hosting;
+use App\Models\Service;
+use App\Models\ServiceInstance;
+use App\Models\ServiceInstanceDependencies;
 use Illuminate\Support\Facades\DB;
 
 class InfraController extends Controller
 {
     /**
-     * Display the IT Infrastructure dashboard
+     * Display the IT Infrastructure dashboard.
      *
      * @return Response
      */
@@ -19,188 +23,179 @@ class InfraController extends Controller
         $nbInstances = ServiceInstance::count();
         $nbServices = Service::count();
         $nbHostings = Hosting::count();
-        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
+        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first();
 
-        return view('infra.index', compact('nbApp','nbInstances','nbServices','nbHostings','mainEnvironnement'));
+        return view('infra.index', compact('nbApp', 'nbInstances', 'nbServices', 'nbHostings', 'mainEnvironnement'));
     }
 
     /**
-     * Display App Map
+     * Display App Map.
      *
      * @return Response
      */
     public function displayAppMap()
     {
-        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
+        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first();
 
         return view('infra.AppMap', compact('mainEnvironnement'));
     }
 
-     /**
-     * Display the IT Infrastructure dashboard
+    /**
+     * Display the IT Infrastructure dashboard.
      *
      * @return Response
      */
     public function displayByApp()
     {
-        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
+        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first();
 
         return view('infra.byApp', compact('mainEnvironnement'));
     }
 
-
     public function displayByHosting()
     {
-        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total','desc')->groupBy('environnement_id')->first();
+        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first();
 
         return view('infra.byHosting', compact('mainEnvironnement'));
     }
 
     /**
-     * Get nodes informations for the graph
+     * Get nodes informations for the graph.
      */
     public function getGraphByApp(GetGraphServicesByAppRequest $request)
     {
-
         $nodesData = [];
 
         $instanceByApplicationsQuery = ServiceInstance::select('application_id')->with('application')
                             ->where('environnement_id', $request->environnement_id);
 
         // app filter
-        if(!empty($request->application_id)){
-            $instanceByApplicationsQuery->whereIn('application_id', $request->application_id );
+        if (! empty($request->application_id)) {
+            $instanceByApplicationsQuery->whereIn('application_id', $request->application_id);
         }
-        if(!empty($request->hosting_id)){
-            $instanceByApplicationsQuery->whereIn('hosting_id', $request->hosting_id );
+        if (! empty($request->hosting_id)) {
+            $instanceByApplicationsQuery->whereIn('hosting_id', $request->hosting_id);
         }
-        $instanceByApplications =  $instanceByApplicationsQuery->groupBy('application_id')->get();
+        $instanceByApplications = $instanceByApplicationsQuery->groupBy('application_id')->get();
 
-        foreach($instanceByApplications as $instanceByApplication)
-        {
-            $nodesData[] = (object)[
-                "group" => "nodes",
-                "data" =>(object)[
-                    "id" =>  'application_'.$instanceByApplication->application->id ,
-                    "name" => $instanceByApplication->application->name
+        foreach ($instanceByApplications as $instanceByApplication) {
+            $nodesData[] = (object) [
+                'group' => 'nodes',
+                'data' =>(object) [
+                    'id' =>  'application_'.$instanceByApplication->application->id,
+                    'name' => $instanceByApplication->application->name,
                 ],
-                "classes" => "serviceInstance"
+                'classes' => 'serviceInstance',
             ];
-
         }
 
-        $depByApp = ServiceInstanceDependencies::select(['source.application_id as source_app_id', 'target.application_id as target_app_id' , 'level'])
-        ->join('service_instance as source' , function($query) use ($request){
+        $depByApp = ServiceInstanceDependencies::select(['source.application_id as source_app_id', 'target.application_id as target_app_id', 'level'])
+        ->join('service_instance as source', function ($query) use ($request) {
             $query->on('source.id', '=', 'service_instance_dep.instance_id');
 
             $query->where('source.environnement_id', $request->environnement_id);
-            if(!empty($request->application_id)){
-                $query->whereIn('source.application_id', $request->application_id );
+            if (! empty($request->application_id)) {
+                $query->whereIn('source.application_id', $request->application_id);
             }
         })
-        ->join('service_instance as target' , function($query) use ($request){
+        ->join('service_instance as target', function ($query) use ($request) {
             $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
 
             $query->where('target.environnement_id', $request->environnement_id);
-            if(!empty($request->application_id)){
-                $query->whereIn('target.application_id', $request->application_id );
+            if (! empty($request->application_id)) {
+                $query->whereIn('target.application_id', $request->application_id);
             }
         });
 
-        if(!empty($request->application_id)){
-            $depByApp->whereIn('source.application_id', $request->application_id );
-            $depByApp->whereIn('target.application_id', $request->application_id );
+        if (! empty($request->application_id)) {
+            $depByApp->whereIn('source.application_id', $request->application_id);
+            $depByApp->whereIn('target.application_id', $request->application_id);
         }
         $appDeps = $depByApp->whereRaw('source.application_id != target.application_id')
-                ->groupBy(['source.application_id','target.application_id','level'])->orderBy('level','desc')->get();
+                ->groupBy(['source.application_id', 'target.application_id', 'level'])->orderBy('level', 'desc')->get();
 
-        foreach($appDeps  as $appDep)
-        {
+        foreach ($appDeps  as $appDep) {
 
             // add dependencies
-             $nodesData[] = (object)[
-                "group" => "edges",
-                "data" =>(object)[
-                    "id" =>  'dep_'.$appDep->source_app_id."_".$appDep->target_app_id ,
-                    "source" => "application_".$appDep->source_app_id,
-                    "target" => 'application_'.$appDep->target_app_id ,
+            $nodesData[] = (object) [
+                'group' => 'edges',
+                'data' =>(object) [
+                    'id' =>  'dep_'.$appDep->source_app_id.'_'.$appDep->target_app_id,
+                    'source' => 'application_'.$appDep->source_app_id,
+                    'target' => 'application_'.$appDep->target_app_id,
                 ],
-                "classes" => "level_".$appDep->level,
+                'classes' => 'level_'.$appDep->level,
             ];
         }
-
 
         return response()->json($nodesData);
     }
 
     /**
-     * Get nodes informations for the graph
+     * Get nodes informations for the graph.
      */
     public function getGraphServicesByApp(GetGraphServicesByAppRequest $request)
     {
-
         $nodesData = [];
 
         $instanceByApplicationsQuery = ServiceInstance::select('application_id')->with('application')
                             ->where('environnement_id', $request->environnement_id);
 
         // app filter
-        if(!empty($request->application_id)){
-            $instanceByApplicationsQuery->whereIn('application_id', $request->application_id );
+        if (! empty($request->application_id)) {
+            $instanceByApplicationsQuery->whereIn('application_id', $request->application_id);
         }
-        if(!empty($request->hosting_id)){
-            $instanceByApplicationsQuery->whereIn('hosting_id', $request->hosting_id );
+        if (! empty($request->hosting_id)) {
+            $instanceByApplicationsQuery->whereIn('hosting_id', $request->hosting_id);
         }
-        $instanceByApplications =  $instanceByApplicationsQuery->groupBy('application_id')->get();
+        $instanceByApplications = $instanceByApplicationsQuery->groupBy('application_id')->get();
 
-        foreach($instanceByApplications as $instanceByApplication)
-        {
-            $nodesData[] = (object)[
-                "group" => "nodes",
-                "data" =>(object)[
-                    "id" =>  'application_'.$instanceByApplication->application->id ,
-                    "name" => $instanceByApplication->application->name
+        foreach ($instanceByApplications as $instanceByApplication) {
+            $nodesData[] = (object) [
+                'group' => 'nodes',
+                'data' =>(object) [
+                    'id' =>  'application_'.$instanceByApplication->application->id,
+                    'name' => $instanceByApplication->application->name,
                 ],
-                "classes" => "application container"
+                'classes' => 'application container',
             ];
         }
-        $instancesQuery = ServiceInstance::with("serviceVersion","application","hosting")
+        $instancesQuery = ServiceInstance::with('serviceVersion', 'application', 'hosting')
                         ->where('environnement_id', $request->environnement_id);
 
         // app filter
-        if(!empty($request->application_id)){
-            $instancesQuery->whereIn('application_id', $request->application_id );
+        if (! empty($request->application_id)) {
+            $instancesQuery->whereIn('application_id', $request->application_id);
         }
-        if(!empty($request->hosting_id)){
-            $instancesQuery->whereIn('hosting_id', $request->hosting_id );
+        if (! empty($request->hosting_id)) {
+            $instancesQuery->whereIn('hosting_id', $request->hosting_id);
         }
-        $instances = $instancesQuery->get() ;
+        $instances = $instancesQuery->get();
 
-        foreach($instances as $serviceInstance)
-        {
-            $serviceInstance->serviceVersion->load("service");
+        foreach ($instances as $serviceInstance) {
+            $serviceInstance->serviceVersion->load('service');
 
-            $classStatut = "";
-            if($serviceInstance->statut === false){
-                $classStatut = "disabled";
+            $classStatut = '';
+            if ($serviceInstance->statut === false) {
+                $classStatut = 'disabled';
             }
 
-            if($request->tag == 'hosting'){
+            if ($request->tag == 'hosting') {
                 $tag = $serviceInstance->hosting->name;
-            }else{
-                $tag = "v".$serviceInstance->serviceVersion->version;
+            } else {
+                $tag = 'v'.$serviceInstance->serviceVersion->version;
             }
 
             // add service instance
-            $nodesData[] = (object)[
-                "group" => "nodes",
-                "data" =>(object)[
-                    "id" =>  'serviceInstance_'.$serviceInstance->id ,
-                    "name" => $serviceInstance->serviceVersion->service->name,
-                    "tag" => $tag,
-                    "parent" => 'application_'.$serviceInstance->application->id ,
+            $nodesData[] = (object) [
+                'group' => 'nodes',
+                'data' =>(object) [
+                    'id' =>  'serviceInstance_'.$serviceInstance->id,
+                    'name' => $serviceInstance->serviceVersion->service->name,
+                    'tag' => $tag,
+                    'parent' => 'application_'.$serviceInstance->application->id,
                 ],
-                "classes" => "serviceInstance ".$classStatut,
+                'classes' => 'serviceInstance '.$classStatut,
             ];
 
             $appDependencies = $this->getServiceInstanceDependencies($request, $serviceInstance);
@@ -211,134 +206,130 @@ class InfraController extends Controller
     }
 
     /**
-     * Get nodes informations for the graph
+     * Get nodes informations for the graph.
      */
     public function getGraphServicesByHosting(GetGraphServicesByAppRequest $request)
     {
-
         $nodesData = [];
 
         $instanceByHostingsQuery = ServiceInstance::select('hosting_id')->with('hosting')
                             ->where('environnement_id', $request->environnement_id);
         // app filter
-        if(!empty($request->application_id)){
-            $instanceByHostingsQuery->whereIn('application_id', $request->application_id );
+        if (! empty($request->application_id)) {
+            $instanceByHostingsQuery->whereIn('application_id', $request->application_id);
         }
-        if(!empty($request->hosting_id)){
-            $instanceByHostingsQuery->whereIn('hosting_id', $request->hosting_id );
+        if (! empty($request->hosting_id)) {
+            $instanceByHostingsQuery->whereIn('hosting_id', $request->hosting_id);
         }
-        $instanceByHostings =  $instanceByHostingsQuery->groupBy('hosting_id')->get();
+        $instanceByHostings = $instanceByHostingsQuery->groupBy('hosting_id')->get();
 
-        foreach($instanceByHostings as $instanceByHosting)
-        {
-            $nodesData[] = (object)[
-                "group" => "nodes",
-                "data" =>(object)[
-                    "id" =>  'hosting_'.$instanceByHosting->hosting->id ,
-                    "name" => $instanceByHosting->hosting->name
+        foreach ($instanceByHostings as $instanceByHosting) {
+            $nodesData[] = (object) [
+                'group' => 'nodes',
+                'data' =>(object) [
+                    'id' =>  'hosting_'.$instanceByHosting->hosting->id,
+                    'name' => $instanceByHosting->hosting->name,
                 ],
-                "classes" => "hosting container"
+                'classes' => 'hosting container',
             ];
         }
-        $instancesQuery = ServiceInstance::with("serviceVersion","application")
+        $instancesQuery = ServiceInstance::with('serviceVersion', 'application')
                         ->where('environnement_id', $request->environnement_id);
         // app filter
-        if(!empty($request->application_id)){
-            $instancesQuery->whereIn('application_id', $request->application_id );
+        if (! empty($request->application_id)) {
+            $instancesQuery->whereIn('application_id', $request->application_id);
         }
-        if(!empty($request->hosting_id)){
-            $instancesQuery->whereIn('hosting_id', $request->hosting_id );
+        if (! empty($request->hosting_id)) {
+            $instancesQuery->whereIn('hosting_id', $request->hosting_id);
         }
 
-        $instances = $instancesQuery->get() ;
+        $instances = $instancesQuery->get();
 
-        foreach($instances as $serviceInstance)
-        {
-            $serviceInstance->serviceVersion->load("service");
+        foreach ($instances as $serviceInstance) {
+            $serviceInstance->serviceVersion->load('service');
 
-            if($request->tag == 'application'){
+            if ($request->tag == 'application') {
                 $tag = $serviceInstance->application->name;
-            }else{
-                $tag = "v".$serviceInstance->serviceVersion->version;
+            } else {
+                $tag = 'v'.$serviceInstance->serviceVersion->version;
             }
 
-            $classStatut = "";
-            if($serviceInstance->statut === false){
-                $classStatut = "disabled";
+            $classStatut = '';
+            if ($serviceInstance->statut === false) {
+                $classStatut = 'disabled';
             }
 
             // add service instance
-            $nodesData[] = (object)[
-                "group" => "nodes",
-                "data" =>(object)[
-                    "id" =>  'serviceInstance_'.$serviceInstance->id ,
-                    "name" => $serviceInstance->serviceVersion->service->name,
-                    "tag" => $tag,
-                    "parent" => 'hosting_'.$serviceInstance->hosting->id ,
+            $nodesData[] = (object) [
+                'group' => 'nodes',
+                'data' =>(object) [
+                    'id' =>  'serviceInstance_'.$serviceInstance->id,
+                    'name' => $serviceInstance->serviceVersion->service->name,
+                    'tag' => $tag,
+                    'parent' => 'hosting_'.$serviceInstance->hosting->id,
                 ],
-                "classes" => "serviceInstance ".$classStatut,
+                'classes' => 'serviceInstance '.$classStatut,
             ];
 
             $appDependencies = $this->getServiceInstanceDependencies($request, $serviceInstance);
             $this->generateEdges($nodesData, $appDependencies, $serviceInstance);
-
         }
 
         return response()->json($nodesData);
     }
 
     /**
-     * Generate edges data
-     * @param array &$nodesData
-     * @param iterable $appDependencies
-     * @param ServiceInstance $serviceInstance
+     * Generate edges data.
+     *
+     * @param  array  &$nodesData
+     * @param  iterable  $appDependencies
+     * @param  ServiceInstance  $serviceInstance
      * @return void
      */
-    private function generateEdges(array &$nodesData, iterable $appDependencies, ServiceInstance $serviceInstance) : void
+    private function generateEdges(array &$nodesData, iterable $appDependencies, ServiceInstance $serviceInstance): void
     {
-        foreach($appDependencies  as $appDep)
-        {
+        foreach ($appDependencies  as $appDep) {
             // add dependencies
-            $nodesData[] = (object)[
-                "group" => "edges",
-                "data" =>(object)[
-                    "id" =>  'dep_'.$serviceInstance->id."_".$appDep->id ,
-                    "source" => "serviceInstance_".$serviceInstance->id,
-                    "target" => 'serviceInstance_'.$appDep->instance_dep_id ,
+            $nodesData[] = (object) [
+                'group' => 'edges',
+                'data' =>(object) [
+                    'id' =>  'dep_'.$serviceInstance->id.'_'.$appDep->id,
+                    'source' => 'serviceInstance_'.$serviceInstance->id,
+                    'target' => 'serviceInstance_'.$appDep->instance_dep_id,
                 ],
-                "classes" => "level_".$appDep->level,
+                'classes' => 'level_'.$appDep->level,
             ];
         }
     }
 
     /**
-     * Load dependencies
+     * Load dependencies.
      */
     private function getServiceInstanceDependencies(GetGraphServicesByAppRequest $request, $serviceInstance)
     {
-        return ServiceInstanceDependencies::join('service_instance as source' , function($query) use ($request){
+        return ServiceInstanceDependencies::join('service_instance as source', function ($query) use ($request) {
             $query->on('source.id', '=', 'service_instance_dep.instance_id');
 
             $query->where('source.environnement_id', $request->environnement_id);
-            if(!empty($request->application_id)){
-                $query->whereIn('source.application_id', $request->application_id );
+            if (! empty($request->application_id)) {
+                $query->whereIn('source.application_id', $request->application_id);
             }
-            if(!empty($request->hosting_id)){
-                $query->whereIn('source.hosting_id', $request->hosting_id );
+            if (! empty($request->hosting_id)) {
+                $query->whereIn('source.hosting_id', $request->hosting_id);
             }
         })
-        ->join('service_instance as target' , function($query) use ($request){
+        ->join('service_instance as target', function ($query) use ($request) {
             $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
 
             $query->where('target.environnement_id', $request->environnement_id);
-            if(!empty($request->application_id)){
-                $query->whereIn('target.application_id', $request->application_id );
+            if (! empty($request->application_id)) {
+                $query->whereIn('target.application_id', $request->application_id);
             }
-            if(!empty($request->hosting_id)){
-                $query->whereIn('target.hosting_id', $request->hosting_id );
+            if (! empty($request->hosting_id)) {
+                $query->whereIn('target.hosting_id', $request->hosting_id);
             }
         })
-        ->where("instance_id", $serviceInstance->id)
+        ->where('instance_id', $serviceInstance->id)
         ->get();
     }
 }

@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+
 /**
  * @SWG\Definition(
  *      definition="Hosting",
@@ -56,15 +57,12 @@ class Hosting extends Model implements Auditable
 
     public $table = 'hosting';
 
-
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'name',
         'hosting_type_id',
-        'localisation'
+        'localisation',
     ];
 
     /**
@@ -76,11 +74,11 @@ class Hosting extends Model implements Auditable
         'id' => 'integer',
         'name' => 'string',
         'hosting_type_id' => 'integer',
-        'localisation' => 'string'
+        'localisation' => 'string',
     ];
 
     /**
-     * Validation rules
+     * Validation rules.
      *
      * @var array
      */

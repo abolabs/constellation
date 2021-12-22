@@ -1,13 +1,13 @@
-php:
-  preset: laravel
-  disabled:
-    - no_unused_imports
-  finder:
-    not-name:
-      - index.php
-      - server.php
-js:
-  finder:
-    not-name:
-      - webpack.mix.js
-css: true
+risky: false
+version: 8.0
+preset: laravel
+finder:
+  exclude:
+    - "node_modules"
+    - "storage"
+    - "vendor"
+    - "public/js"
+  name: "*.php"
+  not-name:
+    - "*.blade.php"
+    - "_ide_helper.php"

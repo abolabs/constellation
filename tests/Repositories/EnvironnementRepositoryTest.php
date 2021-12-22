@@ -1,10 +1,12 @@
-<?php namespace Tests\Repositories;
+<?php
+
+namespace Tests\Repositories;
 
 use App\Models\Environnement;
 use App\Repositories\EnvironnementRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use Tests\ApiTestTrait;
+use Tests\TestCase;
 
 class EnvironnementRepositoryTest extends TestCase
 {
@@ -15,7 +17,7 @@ class EnvironnementRepositoryTest extends TestCase
      */
     protected $environnementRepo;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
         $this->environnementRepo = \App::make(EnvironnementRepository::class);

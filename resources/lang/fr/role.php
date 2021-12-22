@@ -9,5 +9,4 @@ return [
     'permissions' => 'Permissions',
     'no_permission' => 'Aucune permission',
 
-
 ];

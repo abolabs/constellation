@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateServiceVersionTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -22,7 +21,7 @@ class CreateServiceVersionTable extends Migration
             $table->softDeletes();
             $table->foreign('service_id')->references('id')->on('service');
 
-            $table->unique(['service_id','version']);
+            $table->unique(['service_id', 'version']);
         });
     }
 

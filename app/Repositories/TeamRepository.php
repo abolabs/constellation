@@ -3,14 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\Team;
-use App\Repositories\BaseRepository;
 
 /**
- * Class TeamRepository
- * @package App\Repositories
+ * Class TeamRepository.
+ *
  * @version September 4, 2021, 4:07 pm UTC
-*/
-
+ */
 class TeamRepository extends BaseRepository
 {
     /**
@@ -19,11 +17,11 @@ class TeamRepository extends BaseRepository
     protected $fieldSearchable = [
         'id',
         'name',
-        'manager'
+        'manager',
     ];
 
     /**
-     * Return searchable fields
+     * Return searchable fields.
      *
      * @return array
      */
@@ -33,7 +31,7 @@ class TeamRepository extends BaseRepository
     }
 
     /**
-     * Configure the Model
+     * Configure the Model.
      **/
     public function model()
     {

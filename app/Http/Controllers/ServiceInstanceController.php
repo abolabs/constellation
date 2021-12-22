@@ -5,30 +5,28 @@ namespace App\Http\Controllers;
 use App\DataTables\ServiceInstanceDataTable;
 use App\Http\Requests\CreateServiceInstanceRequest;
 use App\Http\Requests\UpdateServiceInstanceRequest;
-use App\Repositories\ServiceInstanceRepository;
-use App\Http\Controllers\AppBaseController;
 use App\Models\ServiceInstance;
 use App\Models\ServiceInstanceDependencies;
-use Illuminate\Http\Request;
+use App\Repositories\ServiceInstanceRepository;
 use Flash;
+use Illuminate\Http\Request;
 use Response;
 
 class ServiceInstanceController extends AppBaseController
 {
-    /** @var  ServiceInstanceRepository */
+    /** @var ServiceInstanceRepository */
     private $serviceInstanceRepository;
 
     public function __construct(ServiceInstanceRepository $serviceInstanceRepo)
     {
-        $this->authorizeResource(ServiceInstance::class,'serviceInstance');
+        $this->authorizeResource(ServiceInstance::class, 'serviceInstance');
         $this->serviceInstanceRepository = $serviceInstanceRepo;
     }
 
     /**
      * Display a listing of the ServiceInstance.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return Response
      */
     public function index(ServiceInstanceDataTable $serviceInstanceDataTable)
@@ -49,8 +47,7 @@ class ServiceInstanceController extends AppBaseController
     /**
      * Store a newly created ServiceInstance in storage.
      *
-     * @param CreateServiceInstanceRequest $request
-     *
+     * @param  CreateServiceInstanceRequest  $request
      * @return Response
      */
     public function store(CreateServiceInstanceRequest $request)
@@ -61,22 +58,22 @@ class ServiceInstanceController extends AppBaseController
 
         Flash::success('Service Instance saved successfully.');
 
-        if(!empty($input['redirect_to_back'])){
+        if (! empty($input['redirect_to_back'])) {
             return back()->withInput();
         }
+
         return redirect(route('serviceInstances.index'));
     }
 
     /**
      * Display the specified ServiceInstance.
      *
-     * @param ServiceInstance $serviceInstance
-     *
+     * @param  ServiceInstance  $serviceInstance
      * @return Response
      */
     public function show(ServiceInstance $serviceInstance)
     {
-        $serviceInstance->load(['application','hosting','environnement','serviceVersion','serviceVersion.service']);
+        $serviceInstance->load(['application', 'hosting', 'environnement', 'serviceVersion', 'serviceVersion.service']);
 
         if (empty($serviceInstance)) {
             Flash::error('Service Instance not found');
@@ -111,8 +108,7 @@ class ServiceInstanceController extends AppBaseController
     /**
      * Show the form for editing the specified ServiceInstance.
      *
-     * @param ServiceInstance $serviceInstance
-     *
+     * @param  ServiceInstance  $serviceInstance
      * @return Response
      */
     public function edit(ServiceInstance $serviceInstance)
@@ -129,9 +125,8 @@ class ServiceInstanceController extends AppBaseController
     /**
      * Update the specified ServiceInstance in storage.
      *
-     * @param ServiceInstance $serviceInstance
-     * @param UpdateServiceInstanceRequest $request
-     *
+     * @param  ServiceInstance  $serviceInstance
+     * @param  UpdateServiceInstanceRequest  $request
      * @return Response
      */
     public function update(ServiceInstance $serviceInstance, UpdateServiceInstanceRequest $request)
@@ -142,10 +137,10 @@ class ServiceInstanceController extends AppBaseController
             return redirect(route('serviceInstances.index'));
         }
         $defaultInputs = [
-            "statut" => false
+            'statut' => false,
         ];
 
-        $serviceInstance = $this->serviceInstanceRepository->update(array_merge($defaultInputs,$request->all()), $serviceInstance->id);
+        $serviceInstance = $this->serviceInstanceRepository->update(array_merge($defaultInputs, $request->all()), $serviceInstance->id);
 
         Flash::success('Service Instance updated successfully.');
 
@@ -155,11 +150,10 @@ class ServiceInstanceController extends AppBaseController
     /**
      * Remove the specified ServiceInstance from storage.
      *
-     * @param ServiceInstance $serviceInstance
+     * @param  ServiceInstance  $serviceInstance
+     * @return Response
      *
      * @throws \Exception
-     *
-     * @return Response
      */
     public function destroy(ServiceInstance $serviceInstance)
     {

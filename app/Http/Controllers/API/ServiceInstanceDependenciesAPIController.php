@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateServiceInstanceDependenciesAPIRequest;
 use App\Http\Requests\API\UpdateServiceInstanceDependenciesAPIRequest;
+use App\Http\Resources\ServiceInstanceDependenciesResource;
 use App\Models\ServiceInstanceDependencies;
 use App\Repositories\ServiceInstanceDependenciesRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\ServiceInstanceDependenciesResource;
 use Response;
 
 /**
- * Class ServiceInstanceDependenciesController
- * @package App\Http\Controllers\API
+ * Class ServiceInstanceDependenciesController.
  */
-
 class ServiceInstanceDependenciesAPIController extends AppBaseController
 {
-    /** @var  ServiceInstanceDependenciesRepository */
+    /** @var ServiceInstanceDependenciesRepository */
     private $serviceInstanceDependenciesRepository;
 
     public function __construct(ServiceInstanceDependenciesRepository $serviceInstanceDependenciesRepo)
@@ -27,7 +25,7 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -70,7 +68,7 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
     }
 
     /**
-     * @param CreateServiceInstanceDependenciesAPIRequest $request
+     * @param  CreateServiceInstanceDependenciesAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -117,7 +115,7 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Get(
@@ -167,8 +165,8 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @param UpdateServiceInstanceDependenciesAPIRequest $request
+     * @param  int  $id
+     * @param  UpdateServiceInstanceDependenciesAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -229,7 +227,7 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Delete(

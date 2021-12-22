@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -54,7 +53,7 @@ class ServiceVersion extends Model implements Auditable
 
     public $fillable = [
         'service_id',
-        'version'
+        'version',
     ];
 
     /**
@@ -65,17 +64,17 @@ class ServiceVersion extends Model implements Auditable
     protected $casts = [
         'id' => 'integer',
         'service_id' => 'integer',
-        'version' => 'string'
+        'version' => 'string',
     ];
 
     /**
-     * Validation rules
+     * Validation rules.
      *
      * @var array
      */
     public static $rules = [
-        'service_id' => ['required','exists:service,id'],
-        'version' => ['required']
+        'service_id' => ['required', 'exists:service,id'],
+        'version' => ['required'],
     ];
 
     /**
@@ -97,7 +96,7 @@ class ServiceVersion extends Model implements Auditable
     public function newQuery()
     {
         $query = parent::newQuery()->with(['service']);
+
         return $query;
     }
-
 }

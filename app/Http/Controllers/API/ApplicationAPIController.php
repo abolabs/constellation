@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateApplicationAPIRequest;
 use App\Http\Requests\API\UpdateApplicationAPIRequest;
+use App\Http\Resources\ApplicationResource;
 use App\Models\Application;
 use App\Repositories\ApplicationRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\ApplicationResource;
 use Response;
 
 /**
- * Class ApplicationController
- * @package App\Http\Controllers\API
+ * Class ApplicationController.
  */
-
 class ApplicationAPIController extends AppBaseController
 {
-    /** @var  ApplicationRepository */
+    /** @var ApplicationRepository */
     private $applicationRepository;
 
     public function __construct(ApplicationRepository $applicationRepo)
@@ -27,7 +25,7 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -70,7 +68,7 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @param CreateApplicationAPIRequest $request
+     * @param  CreateApplicationAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -117,7 +115,7 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Get(
@@ -167,8 +165,8 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @param UpdateApplicationAPIRequest $request
+     * @param  int  $id
+     * @param  UpdateApplicationAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -229,7 +227,7 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Delete(

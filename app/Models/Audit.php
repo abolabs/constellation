@@ -6,15 +6,15 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * Class Audit
- * @package App\Models
+ * Class Audit.
+ *
  * @version September 18, 2021, 7:02 pm UTC
  *
  * @property string $user_type
- * @property integer $user_id
+ * @property int $user_id
  * @property string $event
  * @property string $auditable_type
- * @property integer $auditable_id
+ * @property int $auditable_id
  * @property string $old_values
  * @property string $new_values
  * @property string $url
@@ -23,18 +23,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $tags
  */
 class Audit extends Model
-{   
+{
     use HasFactory;
 
     public $table = 'audits';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
-
     protected $dates = ['deleted_at'];
 
-    public $connection = "mysql";
+    public $connection = 'mysql';
 
     public $fillable = [
         'user_type',
@@ -47,7 +46,7 @@ class Audit extends Model
         'url',
         'ip_address',
         'user_agent',
-        'tags'
+        'tags',
     ];
 
     /**
@@ -67,11 +66,11 @@ class Audit extends Model
         'url' => 'string',
         'ip_address' => 'string',
         'user_agent' => 'string',
-        'tags' => 'string'
+        'tags' => 'string',
     ];
 
     /**
-     * Validation rules
+     * Validation rules.
      *
      * @var array
      */
@@ -88,8 +87,6 @@ class Audit extends Model
         'user_agent' => 'nullable|string|max:1023',
         'tags' => 'nullable|string|max:255',
         'created_at' => 'nullable',
-        'updated_at' => 'nullable'
+        'updated_at' => 'nullable',
     ];
-
-    
 }

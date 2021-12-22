@@ -3,14 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\ServiceInstance;
-use App\Repositories\BaseRepository;
 
 /**
- * Class ServiceInstanceRepository
- * @package App\Repositories
+ * Class ServiceInstanceRepository.
+ *
  * @version September 4, 2021, 4:52 pm UTC
-*/
-
+ */
 class ServiceInstanceRepository extends BaseRepository
 {
     /**
@@ -22,11 +20,11 @@ class ServiceInstanceRepository extends BaseRepository
         'service_version_id',
         'environnement_id',
         'url',
-        'statut'
+        'statut',
     ];
 
     /**
-     * Return searchable fields
+     * Return searchable fields.
      *
      * @return array
      */
@@ -36,7 +34,7 @@ class ServiceInstanceRepository extends BaseRepository
     }
 
     /**
-     * Configure the Model
+     * Configure the Model.
      **/
     public function model()
     {

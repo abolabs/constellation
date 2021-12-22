@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use App\DataTables\ServiceInstanceDependenciesDataTable;
 use App\Http\Requests\CreateServiceInstanceDependenciesRequest;
 use App\Http\Requests\UpdateServiceInstanceDependenciesRequest;
+use App\Models\ServiceInstanceDependencies;
 use App\Repositories\ServiceInstanceDependenciesRepository;
 use Flash;
-use App\Http\Controllers\AppBaseController;
-use App\Models\ServiceInstanceDependencies;
 use Illuminate\Http\Request;
 use Response;
 
 class ServiceInstanceDependenciesController extends AppBaseController
 {
-    /** @var  ServiceInstanceDependenciesRepository */
+    /** @var ServiceInstanceDependenciesRepository */
     private $serviceInstanceDependenciesRepository;
 
     public function __construct(ServiceInstanceDependenciesRepository $serviceInstanceDependenciesRepo)
@@ -25,12 +24,13 @@ class ServiceInstanceDependenciesController extends AppBaseController
     /**
      * Display a listing of the ServiceInstanceDependencies.
      *
-     * @param ServiceInstanceDependenciesDataTable $serviceInstanceDependenciesDataTable
+     * @param  ServiceInstanceDependenciesDataTable  $serviceInstanceDependenciesDataTable
      * @return Response
      */
     public function index(ServiceInstanceDependenciesDataTable $serviceInstanceDependenciesDataTable)
     {
         $this->authorize('viewAny', ServiceInstanceDependencies::class);
+
         return $serviceInstanceDependenciesDataTable->render('service_instance_dependencies.index');
     }
 
@@ -42,14 +42,14 @@ class ServiceInstanceDependenciesController extends AppBaseController
     public function create()
     {
         $this->authorize('create', ServiceInstanceDependencies::class);
+
         return view('service_instance_dependencies.create');
     }
 
     /**
      * Store a newly created ServiceInstanceDependencies in storage.
      *
-     * @param CreateServiceInstanceDependenciesRequest $request
-     *
+     * @param  CreateServiceInstanceDependenciesRequest  $request
      * @return Response
      */
     public function store(CreateServiceInstanceDependenciesRequest $request)
@@ -61,7 +61,7 @@ class ServiceInstanceDependenciesController extends AppBaseController
 
         Flash::success('Service Instance Dependencies saved successfully.');
 
-        if(!empty($input['redirect_to_back'])){
+        if (! empty($input['redirect_to_back'])) {
             return back()->withInput();
         }
 
@@ -71,8 +71,7 @@ class ServiceInstanceDependenciesController extends AppBaseController
     /**
      * Display the specified ServiceInstanceDependencies.
      *
-     * @param  int $id
-     *
+     * @param  int  $id
      * @return Response
      */
     public function show(int $id)
@@ -92,8 +91,7 @@ class ServiceInstanceDependenciesController extends AppBaseController
     /**
      * Show the form for editing the specified ServiceInstanceDependencies.
      *
-     * @param  int $id
-     *
+     * @param  int  $id
      * @return Response
      */
     public function edit(int $id)
@@ -115,9 +113,8 @@ class ServiceInstanceDependenciesController extends AppBaseController
     /**
      * Update the specified ServiceInstanceDependencies in storage.
      *
-     * @param int $id
-     * @param UpdateServiceInstanceDependenciesRequest $request
-     *
+     * @param  int  $id
+     * @param  UpdateServiceInstanceDependenciesRequest  $request
      * @return Response
      */
     public function update(int $id, UpdateServiceInstanceDependenciesRequest $request)
@@ -136,17 +133,17 @@ class ServiceInstanceDependenciesController extends AppBaseController
 
         Flash::success('Service Instance Dependencies updated successfully.');
 
-        if(!empty($input['redirect_to_back'])){
+        if (! empty($input['redirect_to_back'])) {
             return back()->withInput();
         }
+
         return redirect(route('serviceInstanceDependencies.index'));
     }
 
     /**
      * Remove the specified ServiceInstanceDependencies from storage.
      *
-     * @param  int $id
-     *
+     * @param  int  $id
      * @return Response
      */
     public function destroy(Request $request, int $id)
@@ -164,7 +161,7 @@ class ServiceInstanceDependenciesController extends AppBaseController
         $this->serviceInstanceDependenciesRepository->delete($serviceInstanceDependencies->id);
 
         Flash::success('Service Instance Dependencies deleted successfully.');
-        if(!empty($input['redirect_to_back'])){
+        if (! empty($input['redirect_to_back'])) {
             return back()->withInput();
         }
 

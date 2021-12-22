@@ -3,24 +3,25 @@
 namespace App\DataTables;
 
 use App\Models\HostingType;
-use Yajra\DataTables\EloquentDataTable;
 use Illuminate\Support\Facades\Lang;
-use \Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Column;
 
 class HostingTypeDataTable extends AbstractCommonDatatable
 {
     /**
      * Constructor
-     * Define permission prefix
+     * Define permission prefix.
      */
     public function __construct()
     {
-        $this->permissionPrefix = "hostingType";
+        $this->permissionPrefix = 'hostingType';
     }
+
     /**
      * Build DataTable class.
      *
-     * @param mixed $query Results from query() method.
+     * @param  mixed  $query  Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
@@ -33,7 +34,7 @@ class HostingTypeDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\HostingType $model
+     * @param  \App\Models\HostingType  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(HostingType $model)
@@ -63,7 +64,7 @@ class HostingTypeDataTable extends AbstractCommonDatatable
                 'title' => Lang::get('hosting_type.description'),
                 'data'  => 'description',
                 'name'  => 'description',
-            ])
+            ]),
         ];
     }
 
@@ -74,6 +75,6 @@ class HostingTypeDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'hosting_types_datatable_' . time();
+        return 'hosting_types_datatable_'.time();
     }
 }

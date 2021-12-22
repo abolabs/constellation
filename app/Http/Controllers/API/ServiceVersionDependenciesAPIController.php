@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateServiceVersionDependenciesAPIRequest;
 use App\Http\Requests\API\UpdateServiceVersionDependenciesAPIRequest;
+use App\Http\Resources\ServiceVersionDependenciesResource;
 use App\Models\ServiceVersionDependencies;
 use App\Repositories\ServiceVersionDependenciesRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\ServiceVersionDependenciesResource;
 use Response;
 
 /**
- * Class ServiceVersionDependenciesController
- * @package App\Http\Controllers\API
+ * Class ServiceVersionDependenciesController.
  */
-
 class ServiceVersionDependenciesAPIController extends AppBaseController
 {
-    /** @var  ServiceVersionDependenciesRepository */
+    /** @var ServiceVersionDependenciesRepository */
     private $serviceVersionDependenciesRepository;
 
     public function __construct(ServiceVersionDependenciesRepository $serviceVersionDependenciesRepo)
@@ -28,9 +26,9 @@ class ServiceVersionDependenciesAPIController extends AppBaseController
 
     /**
      * Display a listing of the ServiceVersionDependencies.
-     * GET|HEAD /serviceVersionDependencies
+     * GET|HEAD /serviceVersionDependencies.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      */
     public function index(Request $request)
@@ -46,10 +44,9 @@ class ServiceVersionDependenciesAPIController extends AppBaseController
 
     /**
      * Store a newly created ServiceVersionDependencies in storage.
-     * POST /serviceVersionDependencies
+     * POST /serviceVersionDependencies.
      *
-     * @param CreateServiceVersionDependenciesAPIRequest $request
-     *
+     * @param  CreateServiceVersionDependenciesAPIRequest  $request
      * @return Response
      */
     public function store(CreateServiceVersionDependenciesAPIRequest $request)
@@ -63,10 +60,9 @@ class ServiceVersionDependenciesAPIController extends AppBaseController
 
     /**
      * Display the specified ServiceVersionDependencies.
-     * GET|HEAD /serviceVersionDependencies/{id}
+     * GET|HEAD /serviceVersionDependencies/{id}.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return Response
      */
     public function show($id)
@@ -83,11 +79,10 @@ class ServiceVersionDependenciesAPIController extends AppBaseController
 
     /**
      * Update the specified ServiceVersionDependencies in storage.
-     * PUT/PATCH /serviceVersionDependencies/{id}
+     * PUT/PATCH /serviceVersionDependencies/{id}.
      *
-     * @param int $id
-     * @param UpdateServiceVersionDependenciesAPIRequest $request
-     *
+     * @param  int  $id
+     * @param  UpdateServiceVersionDependenciesAPIRequest  $request
      * @return Response
      */
     public function update($id, UpdateServiceVersionDependenciesAPIRequest $request)
@@ -108,13 +103,12 @@ class ServiceVersionDependenciesAPIController extends AppBaseController
 
     /**
      * Remove the specified ServiceVersionDependencies from storage.
-     * DELETE /serviceVersionDependencies/{id}
+     * DELETE /serviceVersionDependencies/{id}.
      *
-     * @param int $id
+     * @param  int  $id
+     * @return Response
      *
      * @throws \Exception
-     *
-     * @return Response
      */
     public function destroy($id)
     {
