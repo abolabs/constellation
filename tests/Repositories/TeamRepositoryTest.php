@@ -1,10 +1,12 @@
-<?php namespace Tests\Repositories;
+<?php
+
+namespace Tests\Repositories;
 
 use App\Models\Team;
 use App\Repositories\TeamRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use Tests\ApiTestTrait;
+use Tests\TestCase;
 
 class TeamRepositoryTest extends TestCase
 {
@@ -15,7 +17,7 @@ class TeamRepositoryTest extends TestCase
      */
     protected $teamRepo;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
         $this->teamRepo = \App::make(TeamRepository::class);

@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateServiceVersionAPIRequest;
 use App\Http\Requests\API\UpdateServiceVersionAPIRequest;
+use App\Http\Resources\ServiceVersionResource;
 use App\Models\ServiceVersion;
 use App\Repositories\ServiceVersionRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\ServiceVersionResource;
 use Response;
 
 /**
- * Class ServiceVersionController
- * @package App\Http\Controllers\API
+ * Class ServiceVersionController.
  */
-
 class ServiceVersionAPIController extends AppBaseController
 {
-    /** @var  ServiceVersionRepository */
+    /** @var ServiceVersionRepository */
     private $serviceVersionRepository;
 
     public function __construct(ServiceVersionRepository $serviceVersionRepo)
@@ -27,7 +25,7 @@ class ServiceVersionAPIController extends AppBaseController
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -65,13 +63,13 @@ class ServiceVersionAPIController extends AppBaseController
             $request->get('skip'),
             $request->get('limit')
         );
-        $serviceVersions->load("service");
+        $serviceVersions->load('service');
 
         return $this->sendResponse(ServiceVersionResource::collection($serviceVersions), 'Service Versions retrieved successfully');
     }
 
     /**
-     * @param CreateServiceVersionAPIRequest $request
+     * @param  CreateServiceVersionAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -118,7 +116,7 @@ class ServiceVersionAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Get(
@@ -168,8 +166,8 @@ class ServiceVersionAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @param UpdateServiceVersionAPIRequest $request
+     * @param  int  $id
+     * @param  UpdateServiceVersionAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -230,7 +228,7 @@ class ServiceVersionAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Delete(

@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Environnement;
+use Illuminate\Database\Seeder;
 
 class EnvironnementSeeder extends Seeder
 {
@@ -14,10 +14,10 @@ class EnvironnementSeeder extends Seeder
      */
     public function run()
     {
-        $envs = ['Dev','Staging','Production'];
-        foreach($envs as $env){
+        $envs = ['Dev', 'Staging', 'Production'];
+        foreach ($envs as $env) {
             Environnement::create([
-                'name' => $env
+                'name' => $env,
             ]);
         }
     }

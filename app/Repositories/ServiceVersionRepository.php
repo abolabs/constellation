@@ -3,14 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\ServiceVersion;
-use App\Repositories\BaseRepository;
 
 /**
- * Class ServiceVersionRepository
- * @package App\Repositories
+ * Class ServiceVersionRepository.
+ *
  * @version September 4, 2021, 4:27 pm UTC
-*/
-
+ */
 class ServiceVersionRepository extends BaseRepository
 {
     /**
@@ -19,11 +17,11 @@ class ServiceVersionRepository extends BaseRepository
     protected $fieldSearchable = [
         'id',
         'service_id',
-        'version'
+        'version',
     ];
 
     /**
-     * Return searchable fields
+     * Return searchable fields.
      *
      * @return array
      */
@@ -33,7 +31,7 @@ class ServiceVersionRepository extends BaseRepository
     }
 
     /**
-     * Configure the Model
+     * Configure the Model.
      **/
     public function model()
     {

@@ -3,23 +3,25 @@
 namespace App\DataTables;
 
 use App\Models\Environnement;
+use Illuminate\Support\Facades\Lang;
 use Yajra\DataTables\EloquentDataTable;
-use \Yajra\DataTables\Html\Column;
-use \Illuminate\Support\Facades\Lang;
+use Yajra\DataTables\Html\Column;
+
 class EnvironnementDataTable extends AbstractCommonDatatable
 {
     /**
      * Constructor
-     * Define permission prefix
+     * Define permission prefix.
      */
     public function __construct()
     {
-        $this->permissionPrefix = "environnement";
+        $this->permissionPrefix = 'environnement';
     }
+
     /**
      * Build DataTable class.
      *
-     * @param mixed $query Results from query() method.
+     * @param  mixed  $query  Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
@@ -32,7 +34,7 @@ class EnvironnementDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Environnement $model
+     * @param  \App\Models\Environnement  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Environnement $model)
@@ -57,7 +59,7 @@ class EnvironnementDataTable extends AbstractCommonDatatable
                 'title' => Lang::get('environnement.name'),
                 'data'  => 'name',
                 'name'  => 'name',
-            ])
+            ]),
         ];
     }
 
@@ -68,6 +70,6 @@ class EnvironnementDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'environnements_datatable_' . time();
+        return 'environnements_datatable_'.time();
     }
 }

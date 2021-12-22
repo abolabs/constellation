@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Hosting;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateHostingRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,7 +25,7 @@ class UpdateHostingRequest extends FormRequest
     public function rules()
     {
         $rules = Hosting::$rules;
-        
+
         return $rules;
     }
 }

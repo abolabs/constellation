@@ -34,7 +34,7 @@ class AppBaseController extends Controller
     {
         return Response::json([
             'success' => true,
-            'message' => $message
+            'message' => $message,
         ], 200);
     }
 }

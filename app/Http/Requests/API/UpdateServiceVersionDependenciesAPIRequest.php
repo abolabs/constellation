@@ -25,7 +25,7 @@ class UpdateServiceVersionDependenciesAPIRequest extends APIRequest
     public function rules()
     {
         $rules = ServiceVersionDependencies::$rules;
-        
+
         return $rules;
     }
 }

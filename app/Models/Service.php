@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+
 /**
  * @SWG\Definition(
  *      definition="Service",
@@ -56,15 +57,12 @@ class Service extends Model implements Auditable
 
     public $table = 'service';
 
-
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'team_id',
         'name',
-        'git_repo'
+        'git_repo',
     ];
 
     /**
@@ -76,17 +74,17 @@ class Service extends Model implements Auditable
         'id' => 'integer',
         'team_id' => 'integer',
         'name' => 'string',
-        'git_repo' => 'string'
+        'git_repo' => 'string',
     ];
 
     /**
-     * Validation rules
+     * Validation rules.
      *
      * @var array
      */
     public static $rules = [
         'team_id' => 'required|exists:team,id',
-        'git_repo' => 'required|url'
+        'git_repo' => 'required|url',
     ];
 
     /**
@@ -94,11 +92,11 @@ class Service extends Model implements Auditable
      **/
     public function team()
     {
-        return $this->belongsTo(\App\Models\Team::class,'team_id');
+        return $this->belongsTo(\App\Models\Team::class, 'team_id');
     }
 
     public function versions()
     {
-        return $this->hasMany(ServiceVersion::class,'service_id');
+        return $this->hasMany(ServiceVersion::class, 'service_id');
     }
 }

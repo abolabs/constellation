@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+
 /**
  * @SWG\Definition(
  *      definition="Application",
@@ -51,14 +52,11 @@ class Application extends Model implements Auditable
 
     public $table = 'application';
 
-
     protected $dates = ['deleted_at'];
-
-
 
     public $fillable = [
         'name',
-        'team_id'
+        'team_id',
     ];
 
     /**
@@ -69,11 +67,11 @@ class Application extends Model implements Auditable
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
-        'team_id' => 'integer'
+        'team_id' => 'integer',
     ];
 
     /**
-     * Validation rules
+     * Validation rules.
      *
      * @var array
      */
@@ -87,6 +85,6 @@ class Application extends Model implements Auditable
      **/
     public function team()
     {
-        return $this->belongsTo(\App\Models\Team::class,'team_id');
+        return $this->belongsTo(\App\Models\Team::class, 'team_id');
     }
 }

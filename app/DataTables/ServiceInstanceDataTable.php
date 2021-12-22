@@ -3,23 +3,25 @@
 namespace App\DataTables;
 
 use App\Models\ServiceInstance;
-use Yajra\DataTables\EloquentDataTable;
 use Illuminate\Support\Facades\Lang;
-use \Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Column;
+
 class ServiceInstanceDataTable extends AbstractCommonDatatable
 {
     /**
      * Constructor
-     * Define permission prefix
+     * Define permission prefix.
      */
     public function __construct()
     {
-        $this->permissionPrefix = "serviceInstance";
+        $this->permissionPrefix = 'serviceInstance';
     }
+
     /**
      * Build DataTable class.
      *
-     * @param mixed $query Results from query() method.
+     * @param  mixed  $query  Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
     public function dataTable($query)
@@ -32,13 +34,13 @@ class ServiceInstanceDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\ServiceInstance $model
+     * @param  \App\Models\ServiceInstance  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ServiceInstance $model)
     {
         return $model->newQuery()
-                ->with(['serviceVersion','serviceVersion.service','environnement','application','hosting'])
+                ->with(['serviceVersion', 'serviceVersion.service', 'environnement', 'application', 'hosting'])
                 ->select(['service_instance.*']);
     }
 
@@ -53,7 +55,7 @@ class ServiceInstanceDataTable extends AbstractCommonDatatable
             'service_instance_id' =>  new Column([
                 'title' => Lang::get('infra.id'),
                 'data'  => 'id',
-                'name'  => 'service_instance.id'
+                'name'  => 'service_instance.id',
             ]),
             'application_name' => new Column([
                 'title' => Lang::get('infra.application'),
@@ -83,19 +85,19 @@ class ServiceInstanceDataTable extends AbstractCommonDatatable
             'url'=>  new Column([
                 'title' => Lang::get('infra.url'),
                 'data'  => 'url',
-                'name'  => 'service_instance.url'
+                'name'  => 'service_instance.url',
             ]),
             'role'=>  new Column([
                 'title' => Lang::get('infra.role'),
                 'data'  => 'role',
-                'name'  => 'service_instance.role'
+                'name'  => 'service_instance.role',
             ]),
             'statut' => new Column([
                 'title' => Lang::get('infra.status'),
                 'data'  => 'statut',
                 'name'  => 'service_instance.statut',
-                'render' => 'window.DataTableRenderer.boolean("statut")'
-            ])
+                'render' => 'window.DataTableRenderer.boolean("statut")',
+            ]),
         ];
     }
 
@@ -106,6 +108,6 @@ class ServiceInstanceDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'service_instances_datatable_' . time();
+        return 'service_instances_datatable_'.time();
     }
 }

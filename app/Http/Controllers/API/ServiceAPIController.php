@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateServiceAPIRequest;
 use App\Http\Requests\API\UpdateServiceAPIRequest;
+use App\Http\Resources\ServiceResource;
 use App\Models\Service;
 use App\Repositories\ServiceRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\ServiceResource;
 use Response;
 
 /**
- * Class ServiceController
- * @package App\Http\Controllers\API
+ * Class ServiceController.
  */
-
 class ServiceAPIController extends AppBaseController
 {
-    /** @var  ServiceRepository */
+    /** @var ServiceRepository */
     private $serviceRepository;
 
     public function __construct(ServiceRepository $serviceRepo)
@@ -27,7 +25,7 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -70,7 +68,7 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param CreateServiceAPIRequest $request
+     * @param  CreateServiceAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -117,7 +115,7 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Get(
@@ -167,8 +165,8 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @param UpdateServiceAPIRequest $request
+     * @param  int  $id
+     * @param  UpdateServiceAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -229,7 +227,7 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Delete(

@@ -5,27 +5,26 @@ namespace App\Http\Controllers;
 use App\DataTables\HostingTypeDataTable;
 use App\Http\Requests\CreateHostingTypeRequest;
 use App\Http\Requests\UpdateHostingTypeRequest;
+use App\Models\HostingType;
 use App\Repositories\HostingTypeRepository;
 use Flash;
-use App\Http\Controllers\AppBaseController;
-use App\Models\HostingType;
 use Response;
 
 class HostingTypeController extends AppBaseController
 {
-    /** @var  HostingTypeRepository */
+    /** @var HostingTypeRepository */
     private $hostingTypeRepository;
 
     public function __construct(HostingTypeRepository $hostingTypeRepo)
     {
-        $this->authorizeResource(HostingType::class, "hostingType");
+        $this->authorizeResource(HostingType::class, 'hostingType');
         $this->hostingTypeRepository = $hostingTypeRepo;
     }
 
     /**
      * Display a listing of the HostingType.
      *
-     * @param HostingTypeDataTable $hostingTypeDataTable
+     * @param  HostingTypeDataTable  $hostingTypeDataTable
      * @return Response
      */
     public function index(HostingTypeDataTable $hostingTypeDataTable)
@@ -46,8 +45,7 @@ class HostingTypeController extends AppBaseController
     /**
      * Store a newly created HostingType in storage.
      *
-     * @param CreateHostingTypeRequest $request
-     *
+     * @param  CreateHostingTypeRequest  $request
      * @return Response
      */
     public function store(CreateHostingTypeRequest $request)
@@ -64,8 +62,7 @@ class HostingTypeController extends AppBaseController
     /**
      * Display the specified HostingType.
      *
-     * @param  HostingType $hostingType
-     *
+     * @param  HostingType  $hostingType
      * @return Response
      */
     public function show(HostingType $hostingType)
@@ -82,8 +79,7 @@ class HostingTypeController extends AppBaseController
     /**
      * Show the form for editing the specified HostingType.
      *
-     * @param  HostingType $hostingType
-     *
+     * @param  HostingType  $hostingType
      * @return Response
      */
     public function edit(HostingType $hostingType)
@@ -100,9 +96,8 @@ class HostingTypeController extends AppBaseController
     /**
      * Update the specified HostingType in storage.
      *
-     * @param  HostingType $hostingType
-     * @param UpdateHostingTypeRequest $request
-     *
+     * @param  HostingType  $hostingType
+     * @param  UpdateHostingTypeRequest  $request
      * @return Response
      */
     public function update(HostingType $hostingType, UpdateHostingTypeRequest $request)
@@ -123,8 +118,7 @@ class HostingTypeController extends AppBaseController
     /**
      * Remove the specified HostingType from storage.
      *
-     * @param  HostingType $hostingType
-     *
+     * @param  HostingType  $hostingType
      * @return Response
      */
     public function destroy(HostingType $hostingType)

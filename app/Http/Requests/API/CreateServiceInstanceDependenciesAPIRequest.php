@@ -28,11 +28,11 @@ class CreateServiceInstanceDependenciesAPIRequest extends APIRequest
         return [
             'instance_id' => [
                 new ServiceInstancesHasSameEnv($this->all()),
-                ...ServiceInstanceDependencies::$rules['instance_id']
+                ...ServiceInstanceDependencies::$rules['instance_id'],
             ],
             'instance_dep_id' => [
-                ...ServiceInstanceDependencies::$rules['instance_dep_id']
-            ]
+                ...ServiceInstanceDependencies::$rules['instance_dep_id'],
+            ],
         ];
     }
 }

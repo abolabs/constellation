@@ -3,14 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\ServiceVersionDependencies;
-use App\Repositories\BaseRepository;
 
 /**
- * Class ServiceVersionDependenciesRepository
- * @package App\Repositories
+ * Class ServiceVersionDependenciesRepository.
+ *
  * @version September 4, 2021, 4:37 pm UTC
-*/
-
+ */
 class ServiceVersionDependenciesRepository extends BaseRepository
 {
     /**
@@ -19,11 +17,11 @@ class ServiceVersionDependenciesRepository extends BaseRepository
     protected $fieldSearchable = [
         'id',
         'service_version_id',
-        'service_version_dependency_id'
+        'service_version_dependency_id',
     ];
 
     /**
-     * Return searchable fields
+     * Return searchable fields.
      *
      * @return array
      */
@@ -33,7 +31,7 @@ class ServiceVersionDependenciesRepository extends BaseRepository
     }
 
     /**
-     * Configure the Model
+     * Configure the Model.
      **/
     public function model()
     {

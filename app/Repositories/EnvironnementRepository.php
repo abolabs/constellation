@@ -3,25 +3,23 @@
 namespace App\Repositories;
 
 use App\Models\Environnement;
-use App\Repositories\BaseRepository;
 
 /**
- * Class EnvironnementRepository
- * @package App\Repositories
+ * Class EnvironnementRepository.
+ *
  * @version September 4, 2021, 3:37 pm UTC
-*/
-
+ */
 class EnvironnementRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'name'
+        'name',
     ];
 
     /**
-     * Return searchable fields
+     * Return searchable fields.
      *
      * @return array
      */
@@ -31,7 +29,7 @@ class EnvironnementRepository extends BaseRepository
     }
 
     /**
-     * Configure the Model
+     * Configure the Model.
      **/
     public function model()
     {

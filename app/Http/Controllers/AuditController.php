@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use App\DataTables\AuditDataTable;
 use App\Http\Requests\CreateAuditRequest;
 use App\Http\Requests\UpdateAuditRequest;
+use App\Models\Audit;
 use App\Repositories\AuditRepository;
 use Flash;
-use App\Http\Controllers\AppBaseController;
-use App\Models\Audit;
 use Response;
 
 class AuditController extends AppBaseController
 {
-    /** @var  AuditRepository */
+    /** @var AuditRepository */
     private $auditRepository;
 
     public function __construct(AuditRepository $auditRepo)
@@ -25,7 +24,7 @@ class AuditController extends AppBaseController
     /**
      * Display a listing of the Audit.
      *
-     * @param AuditDataTable $auditDataTable
+     * @param  AuditDataTable  $auditDataTable
      * @return Response
      */
     public function index(AuditDataTable $auditDataTable)
@@ -48,8 +47,7 @@ class AuditController extends AppBaseController
     /**
      * Store a newly created Audit in storage.
      *
-     * @param CreateAuditRequest $request
-     *
+     * @param  CreateAuditRequest  $request
      * @return Response
      */
     public function store(CreateAuditRequest $request)
@@ -62,8 +60,7 @@ class AuditController extends AppBaseController
     /**
      * Display the specified Audit.
      *
-     * @param  Audit $audit
-     *
+     * @param  Audit  $audit
      * @return Response
      */
     public function show(Audit $audit)
@@ -80,8 +77,7 @@ class AuditController extends AppBaseController
     /**
      * Show the form for editing the specified Audit.
      *
-     * @param  Audit $audit
-     *
+     * @param  Audit  $audit
      * @return Response
      */
     public function edit(Audit $audit)
@@ -94,9 +90,8 @@ class AuditController extends AppBaseController
     /**
      * Update the specified Audit in storage.
      *
-     * @param  Audit $audit
-     * @param UpdateAuditRequest $request
-     *
+     * @param  Audit  $audit
+     * @param  UpdateAuditRequest  $request
      * @return Response
      */
     public function update(Audit $audit, UpdateAuditRequest $request)
@@ -109,8 +104,7 @@ class AuditController extends AppBaseController
     /**
      * Remove the specified Audit from storage.
      *
-     * @param  Audit $audit
-     *
+     * @param  Audit  $audit
      * @return Response
      */
     public function destroy(Audit $audit)

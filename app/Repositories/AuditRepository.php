@@ -3,14 +3,12 @@
 namespace App\Repositories;
 
 use App\Models\Audit;
-use App\Repositories\BaseRepository;
 
 /**
- * Class AuditRepository
- * @package App\Repositories
+ * Class AuditRepository.
+ *
  * @version September 18, 2021, 7:46 pm UTC
-*/
-
+ */
 class AuditRepository extends BaseRepository
 {
     /**
@@ -27,11 +25,11 @@ class AuditRepository extends BaseRepository
         'url',
         'ip_address',
         'user_agent',
-        'tags'
+        'tags',
     ];
 
     /**
-     * Return searchable fields
+     * Return searchable fields.
      *
      * @return array
      */
@@ -41,7 +39,7 @@ class AuditRepository extends BaseRepository
     }
 
     /**
-     * Configure the Model
+     * Configure the Model.
      **/
     public function model()
     {

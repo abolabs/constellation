@@ -25,7 +25,7 @@ class UpdateTeamAPIRequest extends APIRequest
     public function rules()
     {
         $rules = Team::$rules;
-        
+
         return $rules;
     }
 }

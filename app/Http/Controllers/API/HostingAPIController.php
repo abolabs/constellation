@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateHostingAPIRequest;
 use App\Http\Requests\API\UpdateHostingAPIRequest;
+use App\Http\Resources\HostingResource;
 use App\Models\Hosting;
 use App\Repositories\HostingRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\HostingResource;
 use Response;
 
 /**
- * Class HostingController
- * @package App\Http\Controllers\API
+ * Class HostingController.
  */
-
 class HostingAPIController extends AppBaseController
 {
-    /** @var  HostingRepository */
+    /** @var HostingRepository */
     private $hostingRepository;
 
     public function __construct(HostingRepository $hostingRepo)
@@ -27,7 +25,7 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -70,7 +68,7 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param CreateHostingAPIRequest $request
+     * @param  CreateHostingAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -117,7 +115,7 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Get(
@@ -167,8 +165,8 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
-     * @param UpdateHostingAPIRequest $request
+     * @param  int  $id
+     * @param  UpdateHostingAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -229,7 +227,7 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
      * @SWG\Delete(

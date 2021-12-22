@@ -1,4 +1,5 @@
 <?php
+
 return [
     'title' => 'Application',
     'no_service' => 'Aucun service associé à l\'application',

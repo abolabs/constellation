@@ -2,12 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Environnement;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateEnvironnementRequest extends FormRequest
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,7 +25,7 @@ class UpdateEnvironnementRequest extends FormRequest
     public function rules()
     {
         $rules = Environnement::$rules;
-        
+
         return $rules;
     }
 }

@@ -2,15 +2,15 @@
 
 namespace App\Rules\ServiceInstancesDep;
 
-use Illuminate\Contracts\Validation\Rule;
 use App\Models\ServiceInstance;
+use Illuminate\Contracts\Validation\Rule;
 
 class ServiceInstancesHasSameEnv implements Rule
 {
     private $data;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct(array $data)
     {
@@ -26,13 +26,14 @@ class ServiceInstancesHasSameEnv implements Rule
      */
     public function passes($attribute, $value)
     {
-        try{
+        try {
             $sourceInstance = ServiceInstance::find($value, ['environnement_id']);
             $depInstance = ServiceInstance::find($this->data->get('instance_dep_id'), ['environnement_id']);
 
-            return ($sourceInstance->environnement_id == $depInstance->environnement_id);
-        }catch(\Exception $exception){
+            return $sourceInstance->environnement_id == $depInstance->environnement_id;
+        } catch (\Exception $exception) {
             \Log::warning($exception);
+
             return false;
         }
     }

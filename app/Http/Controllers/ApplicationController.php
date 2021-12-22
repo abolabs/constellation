@@ -5,17 +5,16 @@ namespace App\Http\Controllers;
 use App\DataTables\ApplicationDataTable;
 use App\Http\Requests\CreateApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
+use App\Models\Application;
+use App\Models\Environnement;
+use App\Models\ServiceInstance;
 use App\Repositories\ApplicationRepository;
 use Flash;
-use App\Http\Controllers\AppBaseController;
-use App\Models\Application;
-use App\Models\ServiceInstance;
-use App\Models\Environnement;
 use Response;
 
 class ApplicationController extends AppBaseController
 {
-    /** @var  ApplicationRepository */
+    /** @var ApplicationRepository */
     private $applicationRepository;
 
     public function __construct(ApplicationRepository $applicationRepo)
@@ -27,7 +26,7 @@ class ApplicationController extends AppBaseController
     /**
      * Display a listing of the Application.
      *
-     * @param ApplicationDataTable $applicationDataTable
+     * @param  ApplicationDataTable  $applicationDataTable
      * @return Response
      */
     public function index(ApplicationDataTable $applicationDataTable)
@@ -48,8 +47,7 @@ class ApplicationController extends AppBaseController
     /**
      * Store a newly created Application in storage.
      *
-     * @param CreateApplicationRequest $request
-     *
+     * @param  CreateApplicationRequest  $request
      * @return Response
      */
     public function store(CreateApplicationRequest $request)
@@ -66,17 +64,16 @@ class ApplicationController extends AppBaseController
     /**
      * Display the specified Application.
      *
-     * @param  Application $application
-     *
+     * @param  Application  $application
      * @return Response
      */
     public function show(Application $application)
     {
-        $serviceInstances = ServiceInstance::where("application_id",$application->id)->with(['serviceVersion','serviceVersion.service','environnement'])->orderBy('environnement_id')->get();
+        $serviceInstances = ServiceInstance::where('application_id', $application->id)->with(['serviceVersion', 'serviceVersion.service', 'environnement'])->orderBy('environnement_id')->get();
 
-        $countByEnv = Environnement::withCount(['serviceInstances' => function($query) use ($application) {
-                $query->where('application_id', $application->id);
-            }])
+        $countByEnv = Environnement::withCount(['serviceInstances' => function ($query) use ($application) {
+            $query->where('application_id', $application->id);
+        }])
             ->join('service_instance', 'environnement.id', '=', 'service_instance.environnement_id')
             ->where('service_instance.application_id', $application->id)
             ->get()->keyBy('id')->toArray();
@@ -88,15 +85,14 @@ class ApplicationController extends AppBaseController
         }
 
         return view('applications.show')->with('application', $application)
-                    ->with('serviceInstances',$serviceInstances)
-                    ->with('countByEnv',$countByEnv);
+                    ->with('serviceInstances', $serviceInstances)
+                    ->with('countByEnv', $countByEnv);
     }
 
     /**
      * Show the form for editing the specified Application.
      *
-     * @param  Application $application
-     *
+     * @param  Application  $application
      * @return Response
      */
     public function edit(Application $application)
@@ -113,9 +109,8 @@ class ApplicationController extends AppBaseController
     /**
      * Update the specified Application in storage.
      *
-     * @param  int              $id
-     * @param UpdateApplicationRequest $request
-     *
+     * @param  int  $id
+     * @param  UpdateApplicationRequest  $request
      * @return Response
      */
     public function update(Application $application, UpdateApplicationRequest $request)
@@ -136,8 +131,7 @@ class ApplicationController extends AppBaseController
     /**
      * Remove the specified Application from storage.
      *
-     * @param  Application $application
-     *
+     * @param  Application  $application
      * @return Response
      */
     public function destroy(Application $application)
@@ -148,7 +142,7 @@ class ApplicationController extends AppBaseController
             return redirect(route('applications.index'));
         }
 
-        if(ServiceInstance::where('application_id',$application->id)->whereNull('deleted_at')->count()>0){
+        if (ServiceInstance::where('application_id', $application->id)->whereNull('deleted_at')->count() > 0) {
             Flash::error('Impossible de supprimer l\'application, des instances de services sont attachées à l\'application.');
 
             return redirect(route('applications.index'));

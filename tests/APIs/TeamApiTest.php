@@ -1,10 +1,12 @@
-<?php namespace Tests\APIs;
+<?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
-use Tests\ApiTestTrait;
+namespace Tests\APIs;
+
 use App\Models\Team;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Tests\ApiTestTrait;
+use Tests\TestCase;
 
 class TeamApiTest extends TestCase
 {

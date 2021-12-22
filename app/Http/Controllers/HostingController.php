@@ -3,19 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\HostingDataTable;
-use App\Http\Requests;
 use App\Http\Requests\CreateHostingRequest;
 use App\Http\Requests\UpdateHostingRequest;
-use App\Repositories\HostingRepository;
-use Flash;
-use App\Http\Controllers\AppBaseController;
 use App\Models\Hosting;
 use App\Models\ServiceInstance;
+use App\Repositories\HostingRepository;
+use Flash;
 use Response;
 
 class HostingController extends AppBaseController
 {
-    /** @var  HostingRepository */
+    /** @var HostingRepository */
     private $hostingRepository;
 
     public function __construct(HostingRepository $hostingRepo)
@@ -27,7 +25,7 @@ class HostingController extends AppBaseController
     /**
      * Display a listing of the Hosting.
      *
-     * @param HostingDataTable $hostingDataTable
+     * @param  HostingDataTable  $hostingDataTable
      * @return Response
      */
     public function index(HostingDataTable $hostingDataTable)
@@ -48,8 +46,7 @@ class HostingController extends AppBaseController
     /**
      * Store a newly created Hosting in storage.
      *
-     * @param CreateHostingRequest $request
-     *
+     * @param  CreateHostingRequest  $request
      * @return Response
      */
     public function store(CreateHostingRequest $request)
@@ -66,8 +63,7 @@ class HostingController extends AppBaseController
     /**
      * Display the specified Hosting.
      *
-     * @param  Hosting $hosting
-     *
+     * @param  Hosting  $hosting
      * @return Response
      */
     public function show(Hosting $hosting)
@@ -85,8 +81,7 @@ class HostingController extends AppBaseController
     /**
      * Show the form for editing the specified Hosting.
      *
-     * @param  Hosting $hosting
-     *
+     * @param  Hosting  $hosting
      * @return Response
      */
     public function edit(Hosting $hosting)
@@ -103,9 +98,8 @@ class HostingController extends AppBaseController
     /**
      * Update the specified Hosting in storage.
      *
-     * @param Hosting $hosting
-     * @param UpdateHostingRequest $request
-     *
+     * @param  Hosting  $hosting
+     * @param  UpdateHostingRequest  $request
      * @return Response
      */
     public function update(Hosting $hosting, UpdateHostingRequest $request)
@@ -126,8 +120,7 @@ class HostingController extends AppBaseController
     /**
      * Remove the specified Hosting from storage.
      *
-     * @param  Hosting $hosting
-     *
+     * @param  Hosting  $hosting
      * @return Response
      */
     public function destroy(Hosting $hosting)

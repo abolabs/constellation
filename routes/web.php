@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,31 +16,27 @@ use App\Http\Controllers\UserController;
 */
 Auth::routes();
 
-
-
 Route::group(['middleware' => 'auth'], function () {
-
-
     Route::get('/', [App\Http\Controllers\InfraController::class, 'index']);
 
     /**
-     * Localization
+     * Localization.
      */
     Route::get('user/lang/{locale}', [App\Http\Controllers\LocalizationController::class, 'index']);
 
     /**
-     * Users & permissions
+     * Users & permissions.
      */
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
 
     /**
-     * Dashboard
+     * Dashboard.
      */
     Route::get('/dashboard', [App\Http\Controllers\InfraController::class, 'index'])->name('dashboard.index');
 
     /**
-     * Application Mapping
+     * Application Mapping.
      */
     Route::get('/applicationMapping/AppMap', [App\Http\Controllers\InfraController::class, 'displayAppMap'])->name('applicationMapping.AppMap');
     Route::get('/applicationMapping/byApp', [App\Http\Controllers\InfraController::class, 'displayByApp'])->name('applicationMapping.byApp');
@@ -50,13 +46,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/applicationMapping/graphNodesAppMap', [App\Http\Controllers\InfraController::class, 'getGraphByApp'])->name('applicationMapping.getGraphByApp');
 
     /**
-     * User setting
+     * User setting.
      */
-    Route::get('user/setting', [UserController::class,'settings'])->name('user.settings');
-    Route::patch('user/setting', [UserController::class,'storeSettings'])->name('user.updateSettings');
+    Route::get('user/setting', [UserController::class, 'settings'])->name('user.settings');
+    Route::patch('user/setting', [UserController::class, 'storeSettings'])->name('user.updateSettings');
 
     /**
-     * Ressource
+     * Ressource.
      */
     Route::resource('environnements', App\Http\Controllers\EnvironnementController::class);
     Route::resource('hostingTypes', App\Http\Controllers\HostingTypeController::class);
@@ -71,7 +67,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('audits', App\Http\Controllers\AuditController::class);
 
     /**
-     * Administration
+     * Administration.
      */
     Route::get('generator_builder', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@builder')->name('io_generator_builder');
     Route::get('field_template', '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@fieldTemplate')->name('io_field_template');
@@ -82,5 +78,4 @@ Route::group(['middleware' => 'auth'], function () {
         'generator_builder/generate-from-file',
         '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generateFromFile'
     )->name('io_generator_builder_generate_from_file');
-
 });

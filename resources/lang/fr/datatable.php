@@ -1,4 +1,5 @@
 <?php
+
 return [
     'title' => 'Application',
     'no_service' => 'Aucun service associé à l\'application',
@@ -9,7 +10,7 @@ return [
     'reload' => 'Recharger',
     'view' => 'Voir',
     'edit' => 'Editer',
-    'action' => "Action",
+    'action' => 'Action',
     'delete' => 'Supprimer',
     'confirm_delete' => 'Êtes-vous sûr(e) de supprimer ?',
     'search' => 'Rechercher',

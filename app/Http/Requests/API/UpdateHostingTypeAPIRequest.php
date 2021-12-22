@@ -25,7 +25,7 @@ class UpdateHostingTypeAPIRequest extends APIRequest
     public function rules()
     {
         $rules = HostingType::$rules;
-        
+
         return $rules;
     }
 }
