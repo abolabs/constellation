@@ -97,8 +97,8 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before, tabl
     background-color: $primary !important;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-    background-color: $primary !important;
     background: $primary !important;
+    background-color: $primary !important;
     border: 1px solid $grey !important;
     color: $white !important;
 }

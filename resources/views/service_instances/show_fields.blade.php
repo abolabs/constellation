@@ -29,7 +29,7 @@
     {!! Form::label('url', \Lang::get('infra.url')) !!}
     <p>
     @if (!empty($serviceInstance->url))
-        <a href="{{ $serviceInstance->url }}" target="_blank">{{ $serviceInstance->url }} <i class="cil-external-link"></i></a>
+        <a href="{{ $serviceInstance->url }}" target="_blank" rel="noopener">{{ $serviceInstance->url }} <i class="cil-external-link"></i></a>
     @else
         <span class="font-italic"> n/a </span>
     @endif
