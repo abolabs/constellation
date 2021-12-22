@@ -78,7 +78,7 @@
         @endcan
         @if(!App::environment('production'))
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('io_generator_builder') }}" target="_blank">
+            <a class="nav-link" href="{{ route('io_generator_builder') }}" target="_blank" rel="noopener">
                 <i class="nav-icon fa fa-external-link"></i>{{ __('menu.generator') }}
             </a>
         </li>
