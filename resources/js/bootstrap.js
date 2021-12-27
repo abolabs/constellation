@@ -4,6 +4,7 @@ window.$ = window.jQuery = require('jquery');
 const Lang = require('lang.js');
 
 window.lang = new Lang({
+    messages: require('./messages.json'),
     locale: navigator.language,
     fallback: "en"
 })
