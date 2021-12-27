@@ -27,7 +27,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://gitlab.com/abolabs/constellation">
     <img src="doc/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -135,16 +135,16 @@ The versions of services used are declared in the file `./install/dev/docker-com
 #### 1. Initialize the docker-compose environment file
 
 ```sh
-cp ./install/dev/.env.example .env
+cp ./install/prod/.env.example .env
 ``` 
 
 #### 2. Edit the Docker stack environment file
 
 * `MYUSER` Username in the fpm container.
-* `COMPOSE_PROJECT_NAME` Name of the stack in Docker.
 * `DATA_VOLUME` Sharing directory for storing service data (Mariadb, Nginx, Redis).
 * `SOURCE_VOLUME` Location of application sources (ex.: `/home/myname/project/Constellation`).
 * Mariadb - The information below must match that of the `.env` Laravel file, at the root of the project).
+    * `MARIADB_ROOT_PASSWORD` Root user Mariadb password
     * `MYSQL_USER` Mariadb username.
     * `MYSQL_PWD` Mot de passe.
     * `MYSQL_PORT` Port Mariadb shared with the Docker host.
@@ -165,33 +165,21 @@ If the ports are already in use by other services, change the configuration.
 
 #### 4. Application initialization
 
-* Enter the fpm container on CLI.
-    ```sh
-    docker exec -it constellation_fpm_1 bash
-    ```
-* Switch to app user
-    ```sh
-    su app_user
-    ```
-    _(`app_user` corresponds here to what has been defined in the variable `MYUSER`)_
 * Initialize the Laravel environment file
     ```sh
     cp .env.example .env
     ```
-* Edit the file to match what has been defined in the file `./install/dev/.env`.
-  You can also modify the other variables according to your environment (see https://laravel.com/docs/8.x/configuration).
-* Install & compile libraries
-    * PHP
-    ```sh
-    composer install
-    ```
-    * Javascript
-    ```sh
-    npm install && npm run production
-    ```
+* Edit the Laravel environment file.
+    * Generate a new application key (it is not recommended to use the one used for building the Docker image).
+    `docker-compose exec fpm php artisan key:generate`
+    * Edit variables starting `DB_` to match what has been defined in the file `./install/dev/.env`.
+    `docker-compose exec fpm nano .env`
+    You can also modify the other variables according to your environment (see https://laravel.com/docs/8.x/configuration).
+
 * Initialize the database
     * Edit the administrator. 
     Edit file `./database/seeders/CreateAdminUserSeeder.php`.
+    `docker-compose exec fpm nano database/seeders/CreateAdminUserSeeder.php`
     Edit the name, email and password at your convenience 
     ```php
     'name' => 'Super Admin',
@@ -200,11 +188,11 @@ If the ports are already in use by other services, change the configuration.
     ```
     * Initialization of tables
     ```sh
-    php artisan migrate --seed
+    docker-compose exec fpm php artisan migrate --seed
     ```
     * (Optional) Load example applications
     ```sh
-    php artisan db:seed --class=AppExampleSeeder
+    docker-compose exec fpm php artisan db:seed --class=AppExampleSeeder
     ```
 #### 5. Finalization
 

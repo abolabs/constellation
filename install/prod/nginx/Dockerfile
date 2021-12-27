@@ -1,6 +1,6 @@
 FROM nginx:latest
 
-COPY --from=abolabs/constellation-fpm:1.0.3 /var/www/public /var/www/public
+COPY --from=registry.gitlab.com/abolabs/constellation/fpm:latest /var/www/public /var/www/public
 
 
 

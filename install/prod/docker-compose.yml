@@ -20,7 +20,7 @@ services:
       - ${DATA_VOLUME}/mariadb:/var/lib/mysql
 
   web:
-      image: abolabs/constellation-nginx:${TAG_NAME}
+      image: registry.gitlab.com/abolabs/constellation/nginx:${TAG_NAME}
       build:
         context: .
         dockerfile: nginx/Dockerfile
@@ -32,7 +32,7 @@ services:
         - ${DATA_VOLUME}/nginx:/var/log/nginx
         - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
   fpm:
-      image: abolabs/constellation-fpm:${TAG_NAME}
+      image: registry.gitlab.com/abolabs/constellation/fpm:${TAG_NAME}
       build:
         context: .
         dockerfile: fpm/Dockerfile

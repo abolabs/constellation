@@ -27,7 +27,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://gitlab.com/abolabs/constellation">
     <img src="doc/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -129,24 +129,25 @@ L'application a été développée en utilisant les versions ci-dessous :
 
 Les versions de services utilisés sont déclarés dans le fichier `./install/dev/docker-compose.yml`. 
 ### Installation
+Les instructions ci-dessous décrivent comment monter un environnement de production.
+Si vous souhaitez monter un environnement de développement, merci de voir le [wiki](https://gitlab.com/abolabs/constellation/-/wikis/Setup-Dev-environnement)
 
 #### 1. Initialiser le fichier d'environnement du docker-compose
 
 ```sh
-cp ./install/dev/.env.example .env
+cp ./install/prod/.env.example .env
 ``` 
 
 #### 2. Editer le fichier d'environnement de la stack Docker
 
 * `MYUSER` Nom de l'utilisateur dans le conteneur fpm. 
-* `COMPOSE_PROJECT_NAME` Nom de la stack dans Docker.
 * `DATA_VOLUME` Répertoire de partage pour le stockage des données des services (Mariadb, Nginx, Redis).
-* `SOURCE_VOLUME` Emplacement des sources de l'application (ex.: `/home/myname/project/Constellation`).
 * Mariadb - Les informations ci-dessous devront correspondre à celles du `.env` Laravel, à la racine du projet).
-    * `MYSQL_USER` Nom utilisateur Mariadb.
-    * `MYSQL_PWD` Mot de passe.
-    * `MYSQL_PORT` Port Mariadb partagé avec le host Docker.
-    * `MYSQL_DATABASE` Nom de la base de données initialisée par défaut.
+    * `MARIADB_ROOT_PASSWORD` Mot de passe root
+    * `MARIADB_USER` Nom utilisateur Mariadb.
+    * `MARIADB_PASSWORD` Mot de passe.
+    * `MARIADB_PORT` Port Mariadb partagé avec le host Docker.
+    * `MARIADB_DATABASE` Nom de la base de données initialisée par défaut.
 * MailDev - Service de debug pour l'envoi de mail.
 _(Voir https://hub.docker.com/r/maildev/maildev)_
     * `SMTP` Port partagé avec le host pour l'écoute des messages à capturer.
@@ -163,33 +164,21 @@ Si des ports sont déjà utilisés par d'autres services, modifiez la configurat
 
 #### 4. Initialisation de l'application
 
-* Entrez en ligne de commande dans le conteneur fpm.
-    ```sh
-    docker exec -it constellation_fpm_1 bash
-    ```
-* Prenez l'identité utilisateur 
-    ```sh
-    su app_user
-    ```
-    _(`app_user` correspond ici à ce qui a été défini dans la variable `MYUSER`)_
 * Initialisez le fichier d'environnement Laravel
     ```sh
     cp .env.example .env
     ```
-* Editez le fichier pour correspondre à ce qui a été défini dans le fichier `./install/dev/.env`.
+* Editez le fichier d'environnement Laravel
+  * Générer une nouvelle clé applicative (il est déconseillé d'utiliser celle utilisée pour la construction de l'image Docker).
+  `docker-compose exec fpm php artisan key:generate`
+  * Editer les variables commençant `DB_` pour correspondre à ce qui a été défini dans le fichier `./install/dev/.env`.
+  `docker-compose exec fpm nano .env`
   Vous pouvez également modifier les autres variables en fonction de votre environnement (voir https://laravel.com/docs/8.x/configuration).
-* Installez & compilez les librairies
-    * PHP
-    ```sh
-    composer install
-    ```
-    * Javascript
-    ```sh
-    npm install && npm run production
-    ```
+
 * Initialisez la base de données    
-    * Editez l'administrateur. 
+    * Editez l'administrateur.     
     Modifier le fichier `./database/seeders/CreateAdminUserSeeder.php`.
+    `docker-compose exec fpm nano database/seeders/CreateAdminUserSeeder.php`
     Editez le nom, l'email et mot de passe à votre convenance 
     ```php
     'name' => 'Super Admin',
@@ -198,11 +187,11 @@ Si des ports sont déjà utilisés par d'autres services, modifiez la configurat
     ```
     * Initialisation des tables
     ```sh
-    php artisan migrate --seed
+    docker-compose exec fpm php artisan migrate --seed
     ```
     * (Optionnel) Chargez des applications d'exemple
     ```sh
-    php artisan db:seed --class=AppExampleSeeder
+    docker-compose exec fpm php artisan db:seed --class=AppExampleSeeder
     ```
 #### 5. Finalisation
 
