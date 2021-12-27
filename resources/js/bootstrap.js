@@ -1,8 +1,10 @@
 window._ = require('lodash');
+window.$ = window.jQuery = require('jquery');
 
-Lang = require('lang.js')
+const Lang = require('lang.js');
 
 window.lang = new Lang({
+    messages: require('./messages.json'),
     locale: navigator.language,
     fallback: "en"
 })
@@ -15,8 +17,6 @@ window.lang = new Lang({
 
 try {
     window.Popper = require('@popperjs/core').createPopper;
-    window.$ = window.jQuery = require('jquery');
-
     require('bootstrap');
 } catch (e) {
     console.log(e);
