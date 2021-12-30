@@ -29,6 +29,7 @@ cache:
   - composer.lock
   - package-lock.json
   - bootstrap/
+  - .sonar/cache
 
 stages:
   - build
@@ -97,10 +98,6 @@ sonarcloud-check:
     entrypoint: [""]
   dependencies:
   - "phpunit"
-  cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
   script:
     - sonar-scanner
   only:
