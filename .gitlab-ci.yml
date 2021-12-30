@@ -90,6 +90,7 @@ phpunit:
   - XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover reports/coverage.xml --log-junit reports/logfile.xml
 
 sonarcloud-check:
+  stage: scan
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
