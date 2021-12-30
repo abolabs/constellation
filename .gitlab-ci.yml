@@ -55,8 +55,9 @@ composer_build:
 
   # Generate an application key. Re-cache.
   - php artisan cache:clear
-  - php artisan key:generate
   - php artisan config:clear
+  - php artisan key:generate
+  - php artisan config:cache
   - php artisan route:cache
 
 npm_build:
