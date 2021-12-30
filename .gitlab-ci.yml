@@ -77,7 +77,8 @@ npm_build:
 phpunit:
   stage: test
   extends: .base
-  needs: ["composer_build"]
+  dependencies:
+  - "composer_build"
   script:
   - - mysql --user=root --password="$MARIADB_ROOT_PASSWORD" --host=mariadb "$MARIADB_DATABASE" -e "grant all on *.* to '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';flush privileges;"
   # Run database migrations.
@@ -94,7 +95,8 @@ sonarcloud-check:
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
-  needs: ["phpunit"]
+  dependencies:
+  - "phpunit"
   cache:
     key: "${CI_JOB_NAME}"
     paths:
