@@ -10,18 +10,100 @@ include:
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  MARIADB_ROOT_PASSWORD: root
+  MARIADB_DATABASE: Constellation
+  MARIADB_USER: homestead
+  MARIADB_PASSWORD: secret
+  DB_HOST: mariadb
+  REDIS_HOST: redis
+  Host: redis
+  REDIS_PORT: 6379
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - vendor/
+  - node_modules/
+  - reports/
+  - .env
+  - composer.lock
+  - package-lock.json
+  - bootstrap/
+  - .sonar/cache
+
+stages:
+  - build
+  - test
+  - scan
+  - deploy
+
+.base:
+  image: registry.gitlab.com/abolabs/constellation/fpm:ci
+  services:
+  - mariadb:10.5
+  - redis:3.0.6
+
+composer_build:
+  stage: build
+  extends: .base
+  script:
+  # Copy over testing configuration.
+  # Don't forget to set the database config in .env.testing correctly
+  - cp .env.testing .env
+
+  # Install Composer and project dependencies.
+  - composer install
+
+  # Generate an application key. Re-cache.
+  - php artisan cache:clear
+  - php artisan config:clear
+  - php artisan key:generate
+  - php artisan config:cache
+  - php artisan route:cache
+
+npm_build:
+  stage: build
+  extends: .base
+  script:
+  # Install Node dependencies.
+  # comment this out if you don't have a node dependency
+  - npm install
+
+  # Run npm build
+  # comment this out if you don't have a frontend build
+  # you can change this to to your frontend building script like
+  # npm run build
+  - npm run development
+
+phpunit:
+  stage: test
+  extends: .base
+  dependencies:
+  - "composer_build"
+  script:
+  - - mysql --user=root --password="$MARIADB_ROOT_PASSWORD" --host=mariadb "$MARIADB_DATABASE" -e "grant all on *.* to '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';flush privileges;"
+  # Run database migrations.
+  - php artisan migrate --force
+  # Run database seed
+  - php artisan db:seed --force
+
+  # run laravel tests
+  - mkdir -p reports/
+  - XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover reports/coverage.xml --log-junit reports/logfile.xml
 
 sonarcloud-check:
+  stage: scan
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
-  cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
+  dependencies:
+  - "phpunit"
   script:
     - sonar-scanner
   only:
     - merge_requests
     - master
     - develop
+
+
+
