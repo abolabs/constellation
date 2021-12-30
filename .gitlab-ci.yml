@@ -10,9 +10,10 @@ include:
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-  MYSQL_DATABASE: Constellation
-  MYSQL_USER: homestead
-  MYSQL_PASSWORD: secret
+  MARIADB_ROOT_PASSWORD: root
+  MARIADB_DATABASE: Constellation
+  MARIADB_USER: homestead
+  MARIADB_PASSWORD: secret
   DB_HOST: mariadb
   REDIS_HOST: redis
   Host: redis
@@ -70,13 +71,14 @@ npm_build:
   # comment this out if you don't have a frontend build
   # you can change this to to your frontend building script like
   # npm run build
-  - npm run dev
+  - npm run development
 
 phpunit:
   stage: test
   extends: .base
   needs: ["composer_build"]
   script:
+  - - mysql --user=root --password="$MARIADB_ROOT_PASSWORD" --host=mariadb "$MARIADB_DATABASE" -e "grant all on *.* to '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';flush privileges;"
   # Run database migrations.
   - php artisan migrate --force
   # Run database seed
