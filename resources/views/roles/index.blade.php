@@ -19,15 +19,16 @@
                          </div>
                          <div class="card-body">
                             <table class="table table-bordered">
-                            <tr>
-                                <th>{{ __('infra.id') }}</th>
-                                <th>{{ __('infra.name') }}</th>
-                                <th width="280px">{{ __('datatable.action') }}</th>
-                            </tr>
+                                <caption> {{ __('role.caption') }}</caption>
+                                <tr>
+                                    <th scope="col">{{ __('infra.id') }}</th>
+                                    <th scope="col">{{ __('infra.name') }}</th>
+                                    <th scope="col" width="280px">{{ __('datatable.action') }}</th>
+                                </tr>
                                 @foreach ($roles as $key => $role)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-                                    <td>{{ $role->name }}</td>
+                                    <td scope="row">{{ $role->name }}</td>
                                     <td>
                                         <a class="btn btn-info" href="{{ route('roles.show',$role->id) }}">{{ __('datatable.view') }}</a>
                                         @can('role-edit')

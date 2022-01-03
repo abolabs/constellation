@@ -2,6 +2,7 @@
 
 return [
     'title' => 'Roles',
+    'caption' => 'Roles list',
     'create' => 'Create a role',
     'edit' => 'Edit role',
     'name' => 'Name',
