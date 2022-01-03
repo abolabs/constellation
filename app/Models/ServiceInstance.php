@@ -5,8 +5,8 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Support\Facades\DB;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class ServiceInstance.
@@ -107,22 +107,24 @@ class ServiceInstance extends Model implements Auditable
     }
 
     /**
-     * Get the most used environnement
+     * Get the most used environnement.
+     *
      * @return array
      */
-    public static function getMainEnvironnement() : array
+    public static function getMainEnvironnement(): array
     {
         $env = self::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first();
 
-        if(empty($env)){
+        if (empty($env)) {
             $tmpEnv = Environnement::first();
             $env = [
                 'environnement' => [
                     'id' => $tmpEnv->id,
-                    'name' => $tmpEnv->name
-                ]
+                    'name' => $tmpEnv->name,
+                ],
             ];
         }
+
         return $env;
     }
 }
