@@ -9,6 +9,7 @@ use Yajra\DataTables\Html\Column;
 
 class AuditDataTable extends AbstractCommonDatatable
 {
+    const DEFAULT_CLASSNAME='btn btn-sm no-corner';
     /**
      * Constructor
      * Define permission prefix.
@@ -55,10 +56,10 @@ class AuditDataTable extends AbstractCommonDatatable
                 ],
             ],
             'buttons' => [
-                ['extend' => 'export', 'className' => 'btn btn-secondary btn-sm no-corner'],
-                ['extend' => 'print', 'className' => 'btn btn-secondary btn-sm no-corner'],
-                ['extend' => 'reset', 'className' => 'btn btn-secondary btn-sm no-corner'],
-                ['extend' => 'reload', 'className' => 'btn btn-secondary btn-sm no-corner'],
+                ['extend' => 'export', 'className' => self::DEFAULT_CLASSNAME],
+                ['extend' => 'print', 'className' => self::DEFAULT_CLASSNAME],
+                ['extend' => 'reset', 'className' => self::DEFAULT_CLASSNAME],
+                ['extend' => 'reload', 'className' => self::DEFAULT_CLASSNAME],
             ],
         ];
     }
