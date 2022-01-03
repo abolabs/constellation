@@ -9,8 +9,8 @@ use App\Http\Resources\ApplicationResource;
 use App\Models\Application;
 use App\Repositories\ApplicationRepository;
 use Illuminate\Http\Request;
+use Lang;
 use Response;
-use \Lang;
 
 /**
  * Class ApplicationController.
