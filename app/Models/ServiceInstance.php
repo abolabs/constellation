@@ -6,6 +6,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ServiceInstance.
@@ -103,5 +104,25 @@ class ServiceInstance extends Model implements Auditable
     public function hosting()
     {
         return $this->belongsTo(\App\Models\Hosting::class, 'hosting_id');
+    }
+
+    /**
+     * Get the most used environnement
+     * @return array
+     */
+    public static function getMainEnvironnement() : array
+    {
+        $env = self::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first();
+
+        if(empty($env)){
+            $tmpEnv = Environnement::first();
+            $env = [
+                'environnement' => [
+                    'id' => $tmpEnv->id,
+                    'name' => $tmpEnv->name
+                ]
+            ];
+        }
+        return $env;
     }
 }
