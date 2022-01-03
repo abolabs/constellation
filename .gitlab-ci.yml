@@ -24,7 +24,6 @@ cache:
   paths:
   - vendor/
   - node_modules/
-  - reports/
   - .env
   - composer.lock
   - package-lock.json
@@ -90,6 +89,12 @@ phpunit:
   # run laravel tests
   - mkdir -p reports/
   - XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover reports/coverage.xml --log-junit reports/logfile.xml
+  artifacts:
+    name: "$CI_COMMIT_REF_SLUG"
+    untracked: true
+    expire_in: 1 day
+    paths:
+      - reports/
 
 sonarcloud-check:
   stage: scan
