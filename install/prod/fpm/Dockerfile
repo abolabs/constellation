@@ -47,8 +47,7 @@ RUN useradd -ms /bin/bash -G www-data ${MYUSER} || echo "User already exists."
 RUN docker-php-ext-install ldap mbstring pdo_mysql curl intl gd xml zip bz2 opcache
 
 # COMPOSER
-RUN curl --silent --show-error https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # COPY SOURCE
 RUN rm -rf /var/www
