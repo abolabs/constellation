@@ -1,6 +1,8 @@
 grumphp:
     tasks:
       composer: null
+      phpversion:
+            project: '8.0'
       phpcs:
             standard:
                 - "PSR12"
