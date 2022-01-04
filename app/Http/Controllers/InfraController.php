@@ -85,8 +85,8 @@ class InfraController extends Controller
         foreach ($instanceByApplications as $instanceByApplication) {
             $nodesData[] = (object) [
                 'group' => 'nodes',
-                'data' =>(object) [
-                    'id' =>  'application_'.$instanceByApplication->application->id,
+                'data' => (object) [
+                    'id' =>  'application_' . $instanceByApplication->application->id,
                     'name' => $instanceByApplication->application->name,
                 ],
                 'classes' => 'serviceInstance',
@@ -118,17 +118,16 @@ class InfraController extends Controller
         $appDeps = $depByApp->whereRaw('source.application_id != target.application_id')
                 ->groupBy(['source.application_id', 'target.application_id', 'level'])->orderBy('level', 'desc')->get();
 
-        foreach ($appDeps  as $appDep) {
-
+        foreach ($appDeps as $appDep) {
             // add dependencies
             $nodesData[] = (object) [
                 'group' => 'edges',
-                'data' =>(object) [
-                    'id' =>  'dep_'.$appDep->source_app_id.'_'.$appDep->target_app_id,
-                    'source' => 'application_'.$appDep->source_app_id,
-                    'target' => 'application_'.$appDep->target_app_id,
+                'data' => (object) [
+                    'id' =>  'dep_' . $appDep->source_app_id . '_' . $appDep->target_app_id,
+                    'source' => 'application_' . $appDep->source_app_id,
+                    'target' => 'application_' . $appDep->target_app_id,
                 ],
-                'classes' => 'level_'.$appDep->level,
+                'classes' => 'level_' . $appDep->level,
             ];
         }
 
@@ -157,8 +156,8 @@ class InfraController extends Controller
         foreach ($instanceByApplications as $instanceByApplication) {
             $nodesData[] = (object) [
                 'group' => 'nodes',
-                'data' =>(object) [
-                    'id' =>  'application_'.$instanceByApplication->application->id,
+                'data' => (object) [
+                    'id' =>  'application_' . $instanceByApplication->application->id,
                     'name' => $instanceByApplication->application->name,
                 ],
                 'classes' => 'application container',
@@ -187,19 +186,19 @@ class InfraController extends Controller
             if ($request->tag == 'hosting') {
                 $tag = $serviceInstance->hosting->name;
             } else {
-                $tag = 'v'.$serviceInstance->serviceVersion->version;
+                $tag = 'v' . $serviceInstance->serviceVersion->version;
             }
 
             // add service instance
             $nodesData[] = (object) [
                 'group' => 'nodes',
-                'data' =>(object) [
-                    'id' =>  'serviceInstance_'.$serviceInstance->id,
+                'data' => (object) [
+                    'id' =>  'serviceInstance_' . $serviceInstance->id,
                     'name' => $serviceInstance->serviceVersion->service->name,
                     'tag' => $tag,
-                    'parent' => 'application_'.$serviceInstance->application->id,
+                    'parent' => 'application_' . $serviceInstance->application->id,
                 ],
-                'classes' => 'serviceInstance '.$classStatut,
+                'classes' => 'serviceInstance ' . $classStatut,
             ];
 
             $appDependencies = $this->getServiceInstanceDependencies($request, $serviceInstance);
@@ -230,8 +229,8 @@ class InfraController extends Controller
         foreach ($instanceByHostings as $instanceByHosting) {
             $nodesData[] = (object) [
                 'group' => 'nodes',
-                'data' =>(object) [
-                    'id' =>  'hosting_'.$instanceByHosting->hosting->id,
+                'data' => (object) [
+                    'id' =>  'hosting_' . $instanceByHosting->hosting->id,
                     'name' => $instanceByHosting->hosting->name,
                 ],
                 'classes' => 'hosting container',
@@ -255,7 +254,7 @@ class InfraController extends Controller
             if ($request->tag == 'application') {
                 $tag = $serviceInstance->application->name;
             } else {
-                $tag = 'v'.$serviceInstance->serviceVersion->version;
+                $tag = 'v' . $serviceInstance->serviceVersion->version;
             }
 
             $classStatut = '';
@@ -266,13 +265,13 @@ class InfraController extends Controller
             // add service instance
             $nodesData[] = (object) [
                 'group' => 'nodes',
-                'data' =>(object) [
-                    'id' =>  'serviceInstance_'.$serviceInstance->id,
+                'data' => (object) [
+                    'id' =>  'serviceInstance_' . $serviceInstance->id,
                     'name' => $serviceInstance->serviceVersion->service->name,
                     'tag' => $tag,
-                    'parent' => 'hosting_'.$serviceInstance->hosting->id,
+                    'parent' => 'hosting_' . $serviceInstance->hosting->id,
                 ],
-                'classes' => 'serviceInstance '.$classStatut,
+                'classes' => 'serviceInstance ' . $classStatut,
             ];
 
             $appDependencies = $this->getServiceInstanceDependencies($request, $serviceInstance);
@@ -292,16 +291,16 @@ class InfraController extends Controller
      */
     private function generateEdges(array &$nodesData, iterable $appDependencies, ServiceInstance $serviceInstance): void
     {
-        foreach ($appDependencies  as $appDep) {
+        foreach ($appDependencies as $appDep) {
             // add dependencies
             $nodesData[] = (object) [
                 'group' => 'edges',
-                'data' =>(object) [
-                    'id' =>  'dep_'.$serviceInstance->id.'_'.$appDep->id,
-                    'source' => 'serviceInstance_'.$serviceInstance->id,
-                    'target' => 'serviceInstance_'.$appDep->instance_dep_id,
+                'data' => (object) [
+                    'id' =>  'dep_' . $serviceInstance->id . '_' . $appDep->id,
+                    'source' => 'serviceInstance_' . $serviceInstance->id,
+                    'target' => 'serviceInstance_' . $appDep->instance_dep_id,
                 ],
-                'classes' => 'level_'.$appDep->level,
+                'classes' => 'level_' . $appDep->level,
             ];
         }
     }

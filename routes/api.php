@@ -12,17 +12,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-// API Route used for the front
-Route::group(['middleware' => 'auth'], function () {
-    Route::resource('environnements', EnvironnementAPIController::class);
-    Route::resource('hostingTypes', HostingTypeAPIController::class);
-    Route::resource('hostings', HostingAPIController::class);
-    Route::resource('teams', TeamAPIController::class);
-    Route::resource('applications', ApplicationAPIController::class);
-    Route::resource('services', ServiceAPIController::class);
-    Route::resource('serviceVersions', ServiceVersionAPIController::class);
-    Route::resource('service_version_dependencies', ServiceVersionDependenciesAPIController::class);
-    Route::resource('service_instances', ServiceInstanceAPIController::class);
-    Route::resource('serviceInstanceDependencies', ServiceInstanceDependenciesAPIController::class);
+// API V1
+Route::group(['middleware' => 'api', 'prefix' => 'v1/'], function () {
+    Route::resource('environnements', EnvironnementAPIController::class, ['names' => 'v1.environnements']);
+    Route::resource('hostingTypes', HostingTypeAPIController::class, ['names' => 'v1.hostingTypes']);
+    Route::resource('hostings', HostingAPIController::class, ['names' => 'v1.hostings']);
+    Route::resource('teams', TeamAPIController::class, ['names' => 'v1.teams']);
+    Route::resource('applications', ApplicationAPIController::class, ['names' => 'v1.applications']);
+    Route::resource('services', ServiceAPIController::class, ['names' => 'v1.services']);
+    Route::resource('serviceVersions', ServiceVersionAPIController::class, ['names' => 'v1.serviceVersions']);
+    Route::resource('service_version_dependencies', ServiceVersionDependenciesAPIController::class, ['names' => 'v1.service_version_dependencies']);
+    Route::resource('service_instances', ServiceInstanceAPIController::class, ['names' => 'v1.service_instances']);
+    Route::resource('serviceInstanceDependencies', ServiceInstanceDependenciesAPIController::class, ['names' => 'v1.serviceInstanceDependencies']);
 });

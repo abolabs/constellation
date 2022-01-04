@@ -52,13 +52,13 @@ class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'id'=>  new Column([
+            'id' =>  new Column([
                 'title' => Lang::get('infra.id'),
                 'data'  => 'id',
                 'name'  => 'id',
             ]),
-            'instance_id'=>  new Column([
-                'title' => '# '.Lang::get('infra.service_instance'),
+            'instance_id' =>  new Column([
+                'title' => '# ' . Lang::get('infra.service_instance'),
                 'data'  => 'instance_id',
                 'name'  => 'instance_id',
             ]),
@@ -67,8 +67,8 @@ class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
                 'data'  => 'service_instance.service_version.service.name',
                 'name'  => 'ServiceInstance.serviceVersion.service.name',
             ]),
-            'instance_dep_id'=>  new Column([
-                'title' => '# '.Lang::get('infra.service_dependency'),
+            'instance_dep_id' =>  new Column([
+                'title' => '# ' . Lang::get('infra.service_dependency'),
                 'data'  => 'instance_dep_id',
                 'name'  => 'instance_dep_id',
             ]),
@@ -77,7 +77,7 @@ class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
                 'data'  => 'service_instance_dep.service_version.service.name',
                 'name'  => 'ServiceInstanceDep.serviceVersion.service.name',
             ]),
-            'level'=>  new Column([
+            'level' =>  new Column([
                 'title' => Lang::get('infra.dependency_level'),
                 'data'  => 'level',
                 'name'  => 'level',
@@ -93,6 +93,6 @@ class ServiceInstanceDependenciesDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'service_instance_dependencies_datatable_'.time();
+        return 'service_instance_dependencies_datatable_' . time();
     }
 }

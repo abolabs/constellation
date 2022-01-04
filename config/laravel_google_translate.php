@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'google_translate_api_key'=>env('GOOGLE_API_KEY'),
-    'yandex_translate_api_key'=>null,
+    'google_translate_api_key' => env('GOOGLE_API_KEY'),
+    'yandex_translate_api_key' => null,
     'custom_api_translator' => null,
     'custom_api_translator_key' => null,
-    'api_limit_settings'=>[
+    'api_limit_settings' => [
         'no_requests_per_batch' => 5,
         'sleep_time_between_batches' => 1,
     ],

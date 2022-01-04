@@ -55,12 +55,12 @@ class ServiceDataTable extends AbstractCommonDatatable
                 'data'  => 'id',
                 'name'  => 'service.id',
             ]),
-            'name'=>  new Column([
+            'name' =>  new Column([
                 'title' => Lang::get('infra.name'),
                 'data'  => 'name',
                 'name'  => 'service.name',
             ]),
-            'git_repo'=>  new Column([
+            'git_repo' =>  new Column([
                 'title' => Lang::get('infra.git_repo'),
                 'data'  => 'git_repo',
                 'name'  => 'service.git_repo',
@@ -80,6 +80,6 @@ class ServiceDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'services_datatable_'.time();
+        return 'services_datatable_' . time();
     }
 }

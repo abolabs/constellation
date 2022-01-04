@@ -6,8 +6,8 @@ use Closure;
 
 class Localization
 {
-    const SESSION_KEY = 'locale';
-    const LOCALES = ['fr', 'en'];
+    public const SESSION_KEY = 'locale';
+    public const LOCALES = ['fr', 'en'];
 
     /**
      * Handle an incoming request.

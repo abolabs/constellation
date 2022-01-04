@@ -82,12 +82,12 @@ class ServiceInstanceDataTable extends AbstractCommonDatatable
                 'data'  => 'hosting.name',
                 'name'  => 'hosting.name',
             ]),
-            'url'=>  new Column([
+            'url' =>  new Column([
                 'title' => Lang::get('infra.url'),
                 'data'  => 'url',
                 'name'  => 'service_instance.url',
             ]),
-            'role'=>  new Column([
+            'role' =>  new Column([
                 'title' => Lang::get('infra.role'),
                 'data'  => 'role',
                 'name'  => 'service_instance.role',
@@ -108,6 +108,6 @@ class ServiceInstanceDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'service_instances_datatable_'.time();
+        return 'service_instances_datatable_' . time();
     }
 }

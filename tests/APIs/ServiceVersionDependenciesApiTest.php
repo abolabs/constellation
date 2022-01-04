@@ -10,7 +10,9 @@ use Tests\TestCase;
 
 class ServiceVersionDependenciesApiTest extends TestCase
 {
-    use ApiTestTrait, WithoutMiddleware, DatabaseTransactions;
+    use ApiTestTrait;
+    use WithoutMiddleware;
+    use DatabaseTransactions;
 
     /**
      * @test
@@ -21,7 +23,8 @@ class ServiceVersionDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/service_version_dependencies', $serviceVersionDependencies
+            '/api/service_version_dependencies',
+            $serviceVersionDependencies
         );
 
         $this->assertApiResponse($serviceVersionDependencies);
@@ -36,7 +39,7 @@ class ServiceVersionDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/service_version_dependencies/'.$serviceVersionDependencies->id
+            '/api/service_version_dependencies/' . $serviceVersionDependencies->id
         );
 
         $this->assertApiResponse($serviceVersionDependencies->toArray());
@@ -52,7 +55,7 @@ class ServiceVersionDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/service_version_dependencies/'.$serviceVersionDependencies->id,
+            '/api/service_version_dependencies/' . $serviceVersionDependencies->id,
             $editedServiceVersionDependencies
         );
 
@@ -68,13 +71,13 @@ class ServiceVersionDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-             '/api/service_version_dependencies/'.$serviceVersionDependencies->id
-         );
+            '/api/service_version_dependencies/' . $serviceVersionDependencies->id
+        );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/service_version_dependencies/'.$serviceVersionDependencies->id
+            '/api/service_version_dependencies/' . $serviceVersionDependencies->id
         );
 
         $this->response->assertStatus(404);

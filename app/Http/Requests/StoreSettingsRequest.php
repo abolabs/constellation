@@ -25,7 +25,7 @@ class StoreSettingsRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.\Auth::user()->id,
+            'email' => 'required|email|unique:users,email,' . \Auth::user()->id,
         ];
     }
 }

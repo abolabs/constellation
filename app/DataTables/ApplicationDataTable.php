@@ -74,6 +74,6 @@ class ApplicationDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'applications_datatable_'.time();
+        return 'applications_datatable_' . time();
     }
 }
