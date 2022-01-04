@@ -10,7 +10,8 @@ use Tests\TestCase;
 
 class ServiceVersionDependenciesRepositoryTest extends TestCase
 {
-    use ApiTestTrait, DatabaseTransactions;
+    use ApiTestTrait;
+    use DatabaseTransactions;
 
     /**
      * @var ServiceVersionDependenciesRepository

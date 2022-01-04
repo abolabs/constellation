@@ -39,10 +39,10 @@ class PermissionTableSeeder extends Seeder
         ];
 
         foreach ($entities as $entitiesPermission) {
-            Permission::create(['name' => 'view '.$entitiesPermission]);
-            Permission::create(['name' => 'create '.$entitiesPermission]);
-            Permission::create(['name' => 'edit '.$entitiesPermission]);
-            Permission::create(['name' => 'delete '.$entitiesPermission]);
+            Permission::create(['name' => 'view ' . $entitiesPermission]);
+            Permission::create(['name' => 'create ' . $entitiesPermission]);
+            Permission::create(['name' => 'edit ' . $entitiesPermission]);
+            Permission::create(['name' => 'delete ' . $entitiesPermission]);
         }
     }
 }

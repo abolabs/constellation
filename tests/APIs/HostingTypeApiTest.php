@@ -10,7 +10,9 @@ use Tests\TestCase;
 
 class HostingTypeApiTest extends TestCase
 {
-    use ApiTestTrait, WithoutMiddleware, DatabaseTransactions;
+    use ApiTestTrait;
+    use WithoutMiddleware;
+    use DatabaseTransactions;
 
     /**
      * @test
@@ -21,7 +23,8 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/hostingTypes', $hostingType
+            '/api/hostingTypes',
+            $hostingType
         );
 
         $this->assertApiResponse($hostingType);
@@ -36,7 +39,7 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/hostingTypes/'.$hostingType->id
+            '/api/hostingTypes/' . $hostingType->id
         );
 
         $this->assertApiResponse($hostingType->toArray());
@@ -52,7 +55,7 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/hostingTypes/'.$hostingType->id,
+            '/api/hostingTypes/' . $hostingType->id,
             $editedHostingType
         );
 
@@ -68,13 +71,13 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-             '/api/hostingTypes/'.$hostingType->id
-         );
+            '/api/hostingTypes/' . $hostingType->id
+        );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/hostingTypes/'.$hostingType->id
+            '/api/hostingTypes/' . $hostingType->id
         );
 
         $this->response->assertStatus(404);
