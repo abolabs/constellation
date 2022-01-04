@@ -26,3 +26,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('service_instances', ServiceInstanceAPIController::class);
     Route::resource('serviceInstanceDependencies', ServiceInstanceDependenciesAPIController::class);
 });
+
+// API V1
+Route::group(['middleware' => 'api', 'prefix' => 'v1/'], function () {
+    Route::resource('environnements', EnvironnementAPIController::class);
+    Route::resource('hostingTypes', HostingTypeAPIController::class);
+    Route::resource('hostings', HostingAPIController::class);
+    Route::resource('teams', TeamAPIController::class);
+    Route::resource('applications', ApplicationAPIController::class);
+    Route::resource('services', ServiceAPIController::class);
+    Route::resource('serviceVersions', ServiceVersionAPIController::class);
+    Route::resource('service_version_dependencies', ServiceVersionDependenciesAPIController::class);
+    Route::resource('service_instances', ServiceInstanceAPIController::class);
+    Route::resource('serviceInstanceDependencies', ServiceInstanceDependenciesAPIController::class);
+});
