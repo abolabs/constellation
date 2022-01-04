@@ -31,7 +31,6 @@ cache:
   - .sonar/cache
 
 stages:
-  - build
   - test
   - scan
   - deploy
@@ -42,10 +41,7 @@ stages:
   - mariadb:10.5
   - redis:3.0.6
 
-composer_build:
-  stage: build
-  extends: .base
-  script:
+.script-prepare: &script-prepare
   # Copy over testing configuration.
   # Don't forget to set the database config in .env.testing correctly
   - cp .env.testing .env
@@ -60,10 +56,6 @@ composer_build:
   - php artisan config:cache
   - php artisan route:cache
 
-npm_build:
-  stage: build
-  extends: .base
-  script:
   # Install Node dependencies.
   # comment this out if you don't have a node dependency
   - npm install
@@ -77,9 +69,8 @@ npm_build:
 phpunit:
   stage: test
   extends: .base
-  dependencies:
-  - "composer_build"
   script:
+  - *script-prepare
   - - mysql --user=root --password="$MARIADB_ROOT_PASSWORD" --host=mariadb "$MARIADB_DATABASE" -e "grant all on *.* to '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';flush privileges;"
   # Run database migrations.
   - php artisan migrate --force
