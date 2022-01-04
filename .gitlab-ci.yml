@@ -79,7 +79,7 @@ phpunit:
 
   # run laravel tests
   - mkdir -p reports/
-  - XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover reports/coverage.xml --log-junit reports/logfile.xml
+  - XDEBUG_MODE=coverage ./vendor/bin/phpunit  --coverage-text --colors=never --coverage-clover reports/coverage.xml --log-junit reports/logfile.xml
   artifacts:
     name: "$CI_COMMIT_REF_SLUG"
     untracked: true
