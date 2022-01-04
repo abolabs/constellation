@@ -8,7 +8,6 @@ use App\Models\Hosting;
 use App\Models\Service;
 use App\Models\ServiceInstance;
 use App\Models\ServiceInstanceDependencies;
-use Illuminate\Support\Facades\DB;
 
 class InfraController extends Controller
 {
@@ -23,7 +22,7 @@ class InfraController extends Controller
         $nbInstances = ServiceInstance::count();
         $nbServices = Service::count();
         $nbHostings = Hosting::count();
-        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first();
+        $mainEnvironnement = ServiceInstance::getMainEnvironnement();
 
         return view('infra.index', compact('nbApp', 'nbInstances', 'nbServices', 'nbHostings', 'mainEnvironnement'));
     }
@@ -35,7 +34,7 @@ class InfraController extends Controller
      */
     public function displayAppMap()
     {
-        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first();
+        $mainEnvironnement = ServiceInstance::getMainEnvironnement();
 
         return view('infra.AppMap', compact('mainEnvironnement'));
     }
@@ -47,14 +46,19 @@ class InfraController extends Controller
      */
     public function displayByApp()
     {
-        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first();
+        $mainEnvironnement = ServiceInstance::getMainEnvironnement();
 
         return view('infra.byApp', compact('mainEnvironnement'));
     }
 
+    /**
+     * Display App map by hosting solution.
+     *
+     * @return Response
+     */
     public function displayByHosting()
     {
-        $mainEnvironnement = ServiceInstance::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first();
+        $mainEnvironnement = ServiceInstance::getMainEnvironnement();
 
         return view('infra.byHosting', compact('mainEnvironnement'));
     }

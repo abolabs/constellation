@@ -2,6 +2,7 @@
 
 return [
     'title' => 'Utilisateurs',
+    'caption' => 'Liste des utilisateurs',
     'name' => 'Nom',
     'email' => 'E-mail',
     'logout' => 'Se déconnecter',

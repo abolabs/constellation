@@ -2,6 +2,7 @@
 
 return [
     'title' => 'Users',
+    'caption' => 'Users list',
     'name' => 'Last name',
     'email' => 'E-mail',
     'logout' => 'Log out',

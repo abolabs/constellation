@@ -9,4 +9,9 @@ return [
     'name' => 'Nom',
     'team' => 'Equipe',
     'details' => 'Détails',
+    'not_found' => 'Application non trouvée',
+    'delete_confirm' => 'Application correctement supprimée',
+    'update_confirm' => 'Application correctement mis à jour',
+    'show_confirm' => 'Application correctement récuprée',
+    'saved_confirm' => 'Application correctement sauvegardée',
 ];

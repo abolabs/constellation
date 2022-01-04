@@ -6,6 +6,7 @@ use Yajra\DataTables\Services\DataTable;
 
 abstract class AbstractCommonDatatable extends DataTable
 {
+    const DEFAULT_CLASSNAME = 'btn btn-sm no-corner';
     protected $permissionPrefix = '';
 
     /**
@@ -62,12 +63,12 @@ abstract class AbstractCommonDatatable extends DataTable
     {
         $buttons = [];
         if (auth()->user()->can('create '.$this->permissionPrefix)) {
-            $buttons[] = ['extend' => 'create', 'className' => 'btn btn-sm no-corner', 'text'=> '<i class="fa fa-plus"></i> '.\Lang::get('datatable.create')];
+            $buttons[] = ['extend' => 'create', 'className' => self::DEFAULT_CLASSNAME, 'text'=> '<i class="fa fa-plus"></i> '.\Lang::get('datatable.create')];
         }
-        $buttons[] = ['extend' => 'excel', 'className' => 'btn btn-sm no-corner', 'text'=> '<i class="fa fa-file-excel-o"></i> '.\Lang::get('datatable.excel')];
-        $buttons[] = ['extend' => 'print', 'className' => 'btn btn-sm no-corner', 'text'=> '<i class="fa fa-print"></i> '.\Lang::get('datatable.print')];
-        $buttons[] = ['extend' => 'reset', 'className' => 'btn btn-sm no-corner', 'text'=> '<i class="fa fa-undo"></i> '.\Lang::get('datatable.reset')];
-        $buttons[] = ['extend' => 'reload', 'className' => 'btn btn-sm no-corner', 'text'=> '<i class="fa fa-refresh"></i> '.\Lang::get('datatable.reload')];
+        $buttons[] = ['extend' => 'excel', 'className' => self::DEFAULT_CLASSNAME, 'text'=> '<i class="fa fa-file-excel-o"></i> '.\Lang::get('datatable.excel')];
+        $buttons[] = ['extend' => 'print', 'className' => self::DEFAULT_CLASSNAME, 'text'=> '<i class="fa fa-print"></i> '.\Lang::get('datatable.print')];
+        $buttons[] = ['extend' => 'reset', 'className' => self::DEFAULT_CLASSNAME, 'text'=> '<i class="fa fa-undo"></i> '.\Lang::get('datatable.reset')];
+        $buttons[] = ['extend' => 'reload', 'className' => self::DEFAULT_CLASSNAME, 'text'=> '<i class="fa fa-refresh"></i> '.\Lang::get('datatable.reload')];
 
         return [
             'dom' => [

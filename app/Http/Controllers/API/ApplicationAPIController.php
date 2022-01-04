@@ -9,6 +9,7 @@ use App\Http\Resources\ApplicationResource;
 use App\Models\Application;
 use App\Repositories\ApplicationRepository;
 use Illuminate\Http\Request;
+use Lang;
 use Response;
 
 /**
@@ -64,7 +65,7 @@ class ApplicationAPIController extends AppBaseController
             $request->get('limit')
         );
 
-        return $this->sendResponse(ApplicationResource::collection($applications), 'Applications retrieved successfully');
+        return $this->sendResponse(ApplicationResource::collection($applications), Lang::get('application.show_confirm'));
     }
 
     /**
@@ -111,7 +112,7 @@ class ApplicationAPIController extends AppBaseController
 
         $application = $this->applicationRepository->create($input);
 
-        return $this->sendResponse(new ApplicationResource($application), 'Application saved successfully');
+        return $this->sendResponse(new ApplicationResource($application), Lang::get('application.saved_confirm'));
     }
 
     /**
@@ -158,10 +159,10 @@ class ApplicationAPIController extends AppBaseController
         $application = $this->applicationRepository->find($id);
 
         if (empty($application)) {
-            return $this->sendError('Application not found');
+            return $this->sendError(Lang::get('application.not_found'));
         }
 
-        return $this->sendResponse(new ApplicationResource($application), 'Application retrieved successfully');
+        return $this->sendResponse(new ApplicationResource($application), Lang::get('application.show_confirm'));
     }
 
     /**
@@ -218,12 +219,12 @@ class ApplicationAPIController extends AppBaseController
         $application = $this->applicationRepository->find($id);
 
         if (empty($application)) {
-            return $this->sendError('Application not found');
+            return $this->sendError(Lang::get('application.not_found'));
         }
 
         $application = $this->applicationRepository->update($input, $id);
 
-        return $this->sendResponse(new ApplicationResource($application), 'Application updated successfully');
+        return $this->sendResponse(new ApplicationResource($application), Lang::get('application.update_confirm'));
     }
 
     /**
@@ -270,11 +271,11 @@ class ApplicationAPIController extends AppBaseController
         $application = $this->applicationRepository->find($id);
 
         if (empty($application)) {
-            return $this->sendError('Application not found');
+            return $this->sendError(Lang::get('application.not_found'));
         }
 
         $application->delete();
 
-        return $this->sendSuccess('Application deleted successfully');
+        return $this->sendSuccess(Lang::get('application.delete_confirm'));
     }
 }
