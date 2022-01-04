@@ -113,7 +113,7 @@ class ServiceInstance extends Model implements Auditable
      */
     public static function getMainEnvironnement(): array
     {
-        $env = self::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first();
+        $env = self::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first()->toArray();
 
         if (empty($env)) {
             $tmpEnv = Environnement::first();
