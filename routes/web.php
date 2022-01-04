@@ -79,3 +79,17 @@ Route::group(['middleware' => 'auth'], function () {
         '\InfyOm\GeneratorBuilder\Controllers\GeneratorBuilderController@generateFromFile'
     )->name('io_generator_builder_generate_from_file');
 });
+
+// API Route used for the front
+Route::group(['middleware' => 'auth', 'prefix' => 'api'], function () {
+    Route::resource('environnements', App\Http\Controllers\API\EnvironnementAPIController::class, ['names' => 'api.web']);
+    Route::resource('hostingTypes', App\Http\Controllers\API\HostingTypeAPIController::class, ['names' => 'api.web']);
+    Route::resource('hostings', App\Http\Controllers\API\HostingAPIController::class, ['names' => 'api.web']);
+    Route::resource('teams', App\Http\Controllers\API\TeamAPIController::class, ['names' => 'api.web']);
+    Route::resource('applications', App\Http\Controllers\API\ApplicationAPIController::class, ['names' => 'api.web']);
+    Route::resource('services', App\Http\Controllers\API\ServiceAPIController::class, ['names' => 'api.web']);
+    Route::resource('serviceVersions', App\Http\Controllers\API\ServiceVersionAPIController::class, ['names' => 'api.web']);
+    Route::resource('service_version_dependencies', App\Http\Controllers\API\ServiceVersionDependenciesAPIController::class, ['names' => 'api.web']);
+    Route::resource('service_instances', App\Http\Controllers\API\ServiceInstanceAPIController::class, ['names' => 'api.web']);
+    Route::resource('serviceInstanceDependencies', App\Http\Controllers\API\ServiceInstanceDependenciesAPIController::class, ['names' => 'api.web']);
+});
