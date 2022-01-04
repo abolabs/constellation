@@ -8,7 +8,7 @@ return [
     'login' => 'Connexion',
     'forgot_password' => 'Mot de passe oublié&nbsp;?',
     'signup_title' => 'Créer un compte',
-    'signup_description' => 'Commencer à modéliser vos dépendances applicatives sur '.env('APP_NAME').'.',
+    'signup_description' => 'Commencer à modéliser vos dépendances applicatives sur ' . env('APP_NAME') . '.',
     'email_placeholder' => 'E-mail',
     'password_placeholder' => 'Mot de passe',
     'register_button' => 'S\'inscrire maintenant!',

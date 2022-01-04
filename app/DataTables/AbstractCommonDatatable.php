@@ -6,7 +6,7 @@ use Yajra\DataTables\Services\DataTable;
 
 abstract class AbstractCommonDatatable extends DataTable
 {
-    const DEFAULT_CLASSNAME = 'btn btn-sm no-corner';
+    public const DEFAULT_CLASSNAME = 'btn btn-sm no-corner';
     protected $permissionPrefix = '';
 
     /**
