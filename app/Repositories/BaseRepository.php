@@ -89,7 +89,7 @@ abstract class BaseRepository
         if (count($search)) {
             foreach ($search as $key => $value) {
                 if (in_array($key, $this->getFieldsSearchable())) {
-                    $query->orWhere($key, 'like', '%'.$value.'%');
+                    $query->orWhere($key, 'like', '%' . $value . '%');
                 }
             }
         }

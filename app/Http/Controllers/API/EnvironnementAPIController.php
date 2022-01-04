@@ -64,7 +64,7 @@ class EnvironnementAPIController extends AppBaseController
             $request->get('limit')
         );
 
-        return $this->sendResponse(EnvironnementResource::collection($environnements), 'Environnements retrieved successfully');
+        return $this->sendResponse(EnvironnementResource::collection($environnements), \Lang::get('environnement.show_confirm'));
     }
 
     /**
@@ -111,7 +111,7 @@ class EnvironnementAPIController extends AppBaseController
 
         $environnement = $this->environnementRepository->create($input);
 
-        return $this->sendResponse(new EnvironnementResource($environnement), 'Environnement saved successfully');
+        return $this->sendResponse(new EnvironnementResource($environnement), \Lang::get('environnement.saved_confirm'));
     }
 
     /**
@@ -158,10 +158,10 @@ class EnvironnementAPIController extends AppBaseController
         $environnement = $this->environnementRepository->find($id);
 
         if (empty($environnement)) {
-            return $this->sendError('Environnement not found');
+            return $this->sendError(\Lang::get('environnement.not_found'));
         }
 
-        return $this->sendResponse(new EnvironnementResource($environnement), 'Environnement retrieved successfully');
+        return $this->sendResponse(new EnvironnementResource($environnement), \Lang::get('environnement.show_confirm'));
     }
 
     /**
@@ -218,12 +218,12 @@ class EnvironnementAPIController extends AppBaseController
         $environnement = $this->environnementRepository->find($id);
 
         if (empty($environnement)) {
-            return $this->sendError('Environnement not found');
+            return $this->sendError(\Lang::get('environnement.not_found'));
         }
 
         $environnement = $this->environnementRepository->update($input, $id);
 
-        return $this->sendResponse(new EnvironnementResource($environnement), 'Environnement updated successfully');
+        return $this->sendResponse(new EnvironnementResource($environnement), \Lang::get('environnement.update_confirm'));
     }
 
     /**
@@ -270,11 +270,11 @@ class EnvironnementAPIController extends AppBaseController
         $environnement = $this->environnementRepository->find($id);
 
         if (empty($environnement)) {
-            return $this->sendError('Environnement not found');
+            return $this->sendError(\Lang::get('environnement.not_found'));
         }
 
         $environnement->delete();
 
-        return $this->sendSuccess('Environnement deleted successfully');
+        return $this->sendSuccess(\Lang::get('environnement.delete_confirm'));
     }
 }

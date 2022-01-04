@@ -10,7 +10,9 @@ use Tests\TestCase;
 
 class ServiceApiTest extends TestCase
 {
-    use ApiTestTrait, WithoutMiddleware, DatabaseTransactions;
+    use ApiTestTrait;
+    use WithoutMiddleware;
+    use DatabaseTransactions;
 
     /**
      * @test
@@ -21,7 +23,8 @@ class ServiceApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/services', $service
+            '/api/services',
+            $service
         );
 
         $this->assertApiResponse($service);
@@ -36,7 +39,7 @@ class ServiceApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/services/'.$service->id
+            '/api/services/' . $service->id
         );
 
         $this->assertApiResponse($service->toArray());
@@ -52,7 +55,7 @@ class ServiceApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/services/'.$service->id,
+            '/api/services/' . $service->id,
             $editedService
         );
 
@@ -68,13 +71,13 @@ class ServiceApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-             '/api/services/'.$service->id
-         );
+            '/api/services/' . $service->id
+        );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/services/'.$service->id
+            '/api/services/' . $service->id
         );
 
         $this->response->assertStatus(404);

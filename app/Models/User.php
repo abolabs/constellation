@@ -11,7 +11,11 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements Auditable
 {
-    use HasFactory, HasApiTokens, Notifiable, HasRoles, \OwenIt\Auditing\Auditable;
+    use HasFactory;
+    use HasApiTokens;
+    use Notifiable;
+    use HasRoles;
+    use \OwenIt\Auditing\Auditable;
 
     /**
      * The attributes that are mass assignable.

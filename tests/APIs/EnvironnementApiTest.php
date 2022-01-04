@@ -10,7 +10,9 @@ use Tests\TestCase;
 
 class EnvironnementApiTest extends TestCase
 {
-    use ApiTestTrait, WithoutMiddleware, DatabaseTransactions;
+    use ApiTestTrait;
+    use WithoutMiddleware;
+    use DatabaseTransactions;
 
     /**
      * @test
@@ -21,7 +23,8 @@ class EnvironnementApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/environnements', $environnement
+            '/api/environnements',
+            $environnement
         );
 
         $this->assertApiResponse($environnement);
@@ -36,7 +39,7 @@ class EnvironnementApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/environnements/'.$environnement->id
+            '/api/environnements/' . $environnement->id
         );
 
         $this->assertApiResponse($environnement->toArray());
@@ -52,7 +55,7 @@ class EnvironnementApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/environnements/'.$environnement->id,
+            '/api/environnements/' . $environnement->id,
             $editedEnvironnement
         );
 
@@ -68,13 +71,13 @@ class EnvironnementApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-             '/api/environnements/'.$environnement->id
-         );
+            '/api/environnements/' . $environnement->id
+        );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/environnements/'.$environnement->id
+            '/api/environnements/' . $environnement->id
         );
 
         $this->response->assertStatus(404);

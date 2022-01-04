@@ -10,7 +10,8 @@ use Tests\TestCase;
 
 class EnvironnementRepositoryTest extends TestCase
 {
-    use ApiTestTrait, DatabaseTransactions;
+    use ApiTestTrait;
+    use DatabaseTransactions;
 
     /**
      * @var EnvironnementRepository

@@ -75,6 +75,6 @@ class ServiceVersionDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'service_versions_datatable_'.time();
+        return 'service_versions_datatable_' . time();
     }
 }

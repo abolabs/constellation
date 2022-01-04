@@ -41,13 +41,13 @@ class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'id'=> new Column([
+            'id' => new Column([
                 'title' => Lang::get('infra.id'),
                 'data'  => 'service_version.id',
                 'name'  => 'serviceVersion.id',
             ]),
-            'service_version_name'=> new Column([
-                'title' => '# '.Lang::get('infra.service'),
+            'service_version_name' => new Column([
+                'title' => '# ' . Lang::get('infra.service'),
                 'data'  => 'service_version.service.name',
                 'name'  => 'serviceVersion.service.name',
             ]),
@@ -56,8 +56,8 @@ class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
                 'data'  => 'service_version.version',
                 'name'  => 'serviceVersion.version',
             ]),
-            'service_version_dependency_id'=> new Column([
-                'title' => '# '.Lang::get('infra.service_dependency'),
+            'service_version_dependency_id' => new Column([
+                'title' => '# ' . Lang::get('infra.service_dependency'),
                 'data'  => 'service_version_dep.service.name',
                 'name'  => 'serviceVersionDep.service.name',
             ]),
@@ -76,6 +76,6 @@ class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'service_version_dependencies_datatable_'.time();
+        return 'service_version_dependencies_datatable_' . time();
     }
 }
