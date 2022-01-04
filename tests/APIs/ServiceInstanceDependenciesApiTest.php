@@ -10,7 +10,9 @@ use Tests\TestCase;
 
 class ServiceInstanceDependenciesApiTest extends TestCase
 {
-    use ApiTestTrait, WithoutMiddleware, DatabaseTransactions;
+    use ApiTestTrait;
+    use WithoutMiddleware;
+    use DatabaseTransactions;
 
     /**
      * @test
@@ -21,7 +23,8 @@ class ServiceInstanceDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/serviceInstanceDependencies', $serviceInstanceDependencies
+            '/api/serviceInstanceDependencies',
+            $serviceInstanceDependencies
         );
 
         $this->assertApiResponse($serviceInstanceDependencies);
@@ -36,7 +39,7 @@ class ServiceInstanceDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/serviceInstanceDependencies/'.$serviceInstanceDependencies->id
+            '/api/serviceInstanceDependencies/' . $serviceInstanceDependencies->id
         );
 
         $this->assertApiResponse($serviceInstanceDependencies->toArray());
@@ -52,7 +55,7 @@ class ServiceInstanceDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/serviceInstanceDependencies/'.$serviceInstanceDependencies->id,
+            '/api/serviceInstanceDependencies/' . $serviceInstanceDependencies->id,
             $editedServiceInstanceDependencies
         );
 
@@ -68,13 +71,13 @@ class ServiceInstanceDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-             '/api/serviceInstanceDependencies/'.$serviceInstanceDependencies->id
-         );
+            '/api/serviceInstanceDependencies/' . $serviceInstanceDependencies->id
+        );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/serviceInstanceDependencies/'.$serviceInstanceDependencies->id
+            '/api/serviceInstanceDependencies/' . $serviceInstanceDependencies->id
         );
 
         $this->response->assertStatus(404);

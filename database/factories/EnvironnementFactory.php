@@ -22,7 +22,7 @@ class EnvironnementFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'Env '.$this->faker->word,
+            'name' => 'Env ' . $this->faker->word,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
         ];

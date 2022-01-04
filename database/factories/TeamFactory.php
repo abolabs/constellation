@@ -22,7 +22,7 @@ class TeamFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'Team '.$this->faker->colorName,
+            'name' => 'Team ' . $this->faker->colorName,
             'manager' => $this->faker->name,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
