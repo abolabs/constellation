@@ -2,10 +2,24 @@ grumphp:
     tasks:
       composer: null
       phpversion:
-            project: '8.0'
+        project: '8.0'
       phpcs:
-            standard:
-                - "PSR12"
-            error_severity: 1
-            warning_severity: 8
-            ignore_patterns: [./tests/*, ./resources/*, ./database/*, ./bootstrap/*, ./vendor/*, ./node_modules/*, ./doc/*]
+        standard:
+            - "PSR12"
+        error_severity: 1
+        warning_severity: 8
+        ignore_patterns: [./tests/*, ./resources/*, ./database/*, ./bootstrap/*, ./vendor/*, ./node_modules/*, ./doc/*]
+      securitychecker_roave:
+        jsonfile: ./composer.json
+        lockfile: ./composer.lock
+        run_always: false
+      git_blacklist:
+        keywords:
+            - "die\\("
+            - "var_dump\\("
+            - "exit;"
+            - "dd\\("
+        whitelist_patterns: []
+        triggered_by: ['php']
+        regexp_type: G
+        match_word: true
