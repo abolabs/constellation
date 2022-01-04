@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // API Route used for the front
-Route::group(['middleware' => 'web'], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::resource('environnements', EnvironnementAPIController::class);
     Route::resource('hostingTypes', HostingTypeAPIController::class);
     Route::resource('hostings', HostingAPIController::class);
