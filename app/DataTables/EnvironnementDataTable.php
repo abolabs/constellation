@@ -70,6 +70,6 @@ class EnvironnementDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'environnements_datatable_'.time();
+        return 'environnements_datatable_' . time();
     }
 }

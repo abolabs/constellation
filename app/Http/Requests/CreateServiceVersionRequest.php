@@ -29,7 +29,7 @@ class CreateServiceVersionRequest extends FormRequest
                 ...ServiceVersion::$rules['service_id'],
             ],
             'version' => [
-                'unique:service_version,version,NULL,service_id,service_id,'.$this->service_id,
+                'unique:service_version,version,NULL,service_id,service_id,' . $this->service_id,
                 ...ServiceVersion::$rules['version'],
             ],
         ];

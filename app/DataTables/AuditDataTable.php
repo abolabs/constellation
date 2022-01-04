@@ -84,27 +84,27 @@ class AuditDataTable extends AbstractCommonDatatable
                 'data'  => 'auditable_id',
                 'name'  => 'auditable_id',
             ]),
-            'auditable_type'=> new Column([
+            'auditable_type' => new Column([
                 'title' => Lang::get('audit.auditable_type'),
                 'data'  => 'auditable_type',
                 'name'  => 'auditable_type',
             ]),
-            'event'=> new Column([
+            'event' => new Column([
                 'title' => Lang::get('audit.event'),
                 'data'  => 'event',
                 'name'  => 'event',
             ]),
-            'old_values'=> new Column([
+            'old_values' => new Column([
                 'title' => Lang::get('audit.old_values'),
                 'data'  => 'old_values',
                 'name'  => 'old_values',
             ]),
-            'new_values'=> new Column([
+            'new_values' => new Column([
                 'title' => Lang::get('audit.new_values'),
                 'data'  => 'new_values',
                 'name'  => 'new_values',
             ]),
-            'created_at'=> new Column([
+            'created_at' => new Column([
                 'title' => Lang::get('common.field_created_at'),
                 'data'  => 'created_at',
                 'name'  => 'created_at',
@@ -119,6 +119,6 @@ class AuditDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'audits_datatable_'.time();
+        return 'audits_datatable_' . time();
     }
 }

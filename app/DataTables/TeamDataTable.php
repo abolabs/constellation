@@ -75,6 +75,6 @@ class TeamDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'teams_datatable_'.time();
+        return 'teams_datatable_' . time();
     }
 }

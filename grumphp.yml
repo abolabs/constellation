@@ -1,0 +1,9 @@
+grumphp:
+    tasks:
+      composer: null
+      phpcs:
+            standard:
+                - "PSR12"
+            error_severity: 1
+            warning_severity: 8
+            ignore_patterns: [./tests/*, ./resources/*, ./database/*, ./bootstrap/*, ./vendor/*, ./node_modules/*, ./doc/*]

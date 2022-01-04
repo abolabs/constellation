@@ -55,7 +55,7 @@ class HostingDataTable extends AbstractCommonDatatable
                 'data'  => 'id',
                 'name'  => 'hosting.id',
             ]),
-            'name'=> new Column([
+            'name' => new Column([
                 'title' => Lang::get('hosting.name'),
                 'data'  => 'name',
                 'name'  => 'name',
@@ -65,7 +65,7 @@ class HostingDataTable extends AbstractCommonDatatable
                 'data'  => 'hosting_type.name',
                 'name'  => 'hostingType.name',
             ]),
-            'localisation'=>  new Column([
+            'localisation' =>  new Column([
                 'title' => Lang::get('hosting.localisation'),
                 'data'  => 'localisation',
                 'name'  => 'hosting.localisation',
@@ -80,6 +80,6 @@ class HostingDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'hostings_datatable_'.time();
+        return 'hostings_datatable_' . time();
     }
 }
