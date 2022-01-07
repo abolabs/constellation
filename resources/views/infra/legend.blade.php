@@ -16,8 +16,8 @@
             </select>
         </p>
     </div>
-        <!-- Application Id Field -->
-        <div class="form-group col-sm-12">
+    <!-- Application Id Field -->
+    <div class="form-group col-sm-12">
         <h5>{{ __('infra.applications') }}</h5>
         <select name="application_id" id="application_id" class="form-control">
         @if (isset($serviceInstance->application->id))
@@ -26,6 +26,15 @@
         </select>
         <script>
             window.selector.make("#application_id", "/api/applications", "id", "name", {}, true)
+        </script>
+    </div>
+     <!-- Team Id Field -->
+     <div class="form-group col-sm-12">
+        <h5>{{ __('infra.team') }}</h5>
+        <select name="team_id" id="team_id" class="form-control">
+        </select>
+        <script>
+            window.selector.make("#team_id", "/api/teams", "id", "name", {}, true)
         </script>
     </div>
     @if (!isset($appMapOnly) || $appMapOnly !== true)

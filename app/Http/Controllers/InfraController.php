@@ -8,6 +8,7 @@ use App\Models\Hosting;
 use App\Models\Service;
 use App\Models\ServiceInstance;
 use App\Models\ServiceInstanceDependencies;
+use Illuminate\Database\Eloquent\Builder;
 
 class InfraController extends Controller
 {
@@ -70,12 +71,17 @@ class InfraController extends Controller
     {
         $nodesData = [];
 
-        $instanceByApplicationsQuery = ServiceInstance::select('application_id')->with('application')
+        $instanceByApplicationsQuery = ServiceInstance::select('application_id')->with(['application'])
                             ->where('environnement_id', $request->environnement_id);
 
         // app filter
         if (! empty($request->application_id)) {
             $instanceByApplicationsQuery->whereIn('application_id', $request->application_id);
+        }
+        if (! empty($request->team_id)) {
+            $instanceByApplicationsQuery->whereHas('application',  function(Builder $query) use ($request) {
+                $query->whereIn('team_id', $request->team_id);
+            });
         }
         if (! empty($request->hosting_id)) {
             $instanceByApplicationsQuery->whereIn('hosting_id', $request->hosting_id);
@@ -110,7 +116,11 @@ class InfraController extends Controller
                 $query->whereIn('target.application_id', $request->application_id);
             }
         });
-
+        if (! empty($request->team_id)) {
+            $depByApp->whereHas('serviceInstance.application',  function(Builder $query) use ($request) {
+                $query->whereIn('team_id', $request->team_id);
+            });
+        }
         if (! empty($request->application_id)) {
             $depByApp->whereIn('source.application_id', $request->application_id);
             $depByApp->whereIn('target.application_id', $request->application_id);
@@ -148,6 +158,11 @@ class InfraController extends Controller
         if (! empty($request->application_id)) {
             $instanceByApplicationsQuery->whereIn('application_id', $request->application_id);
         }
+        if (! empty($request->team_id)) {
+            $instanceByApplicationsQuery->whereHas('application',  function(Builder $query) use ($request) {
+                $query->whereIn('team_id', $request->team_id);
+            });
+        }
         if (! empty($request->hosting_id)) {
             $instanceByApplicationsQuery->whereIn('hosting_id', $request->hosting_id);
         }
@@ -169,6 +184,11 @@ class InfraController extends Controller
         // app filter
         if (! empty($request->application_id)) {
             $instancesQuery->whereIn('application_id', $request->application_id);
+        }
+        if (! empty($request->team_id)) {
+            $instancesQuery->whereHas('application',  function(Builder $query) use ($request) {
+                $query->whereIn('team_id', $request->team_id);
+            });
         }
         if (! empty($request->hosting_id)) {
             $instancesQuery->whereIn('hosting_id', $request->hosting_id);
@@ -221,6 +241,11 @@ class InfraController extends Controller
         if (! empty($request->application_id)) {
             $instanceByHostingsQuery->whereIn('application_id', $request->application_id);
         }
+        if (! empty($request->team_id)) {
+            $instanceByHostingsQuery->whereHas('application',  function(Builder $query) use ($request) {
+                $query->whereIn('team_id', $request->team_id);
+            });
+        }
         if (! empty($request->hosting_id)) {
             $instanceByHostingsQuery->whereIn('hosting_id', $request->hosting_id);
         }
@@ -241,6 +266,11 @@ class InfraController extends Controller
         // app filter
         if (! empty($request->application_id)) {
             $instancesQuery->whereIn('application_id', $request->application_id);
+        }
+        if (! empty($request->team_id)) {
+            $instancesQuery->whereHas('application',  function(Builder $query) use ($request) {
+                $query->whereIn('team_id', $request->team_id);
+            });
         }
         if (! empty($request->hosting_id)) {
             $instancesQuery->whereIn('hosting_id', $request->hosting_id);
@@ -310,7 +340,7 @@ class InfraController extends Controller
      */
     private function getServiceInstanceDependencies(GetGraphServicesByAppRequest $request, $serviceInstance)
     {
-        return ServiceInstanceDependencies::join('service_instance as source', function ($query) use ($request) {
+        $depQuery = ServiceInstanceDependencies::join('service_instance as source', function ($query) use ($request) {
             $query->on('source.id', '=', 'service_instance_dep.instance_id');
 
             $query->where('source.environnement_id', $request->environnement_id);
@@ -332,7 +362,13 @@ class InfraController extends Controller
                 $query->whereIn('target.hosting_id', $request->hosting_id);
             }
         })
-        ->where('instance_id', $serviceInstance->id)
-        ->get();
+        ->where('instance_id', $serviceInstance->id);
+
+        if (! empty($request->team_id)) {
+            $depQuery->whereHas('serviceInstance.application',  function(Builder $query) use ($request) {
+                $query->whereIn('team_id', $request->team_id);
+            });
+        }
+        return $depQuery->get();
     }
 }
