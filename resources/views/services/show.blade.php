@@ -43,8 +43,18 @@
                             @foreach ($service->versions as $serviceVersion )
                             <div class="col-sm-6 col-md-4 col-lg-3">
                                 <div class="card">
+                                    @can("delete serviceVersion")
+                                    {!! Form::open(['route' => ['serviceVersions.destroy', $serviceVersion->id], 'method' => 'delete']) !!}
                                     <div class="card-header text-white bg-primary">v. {{ $serviceVersion->version }}
+                                        <input type="hidden" name="redirect_to_version" value="1" />
+                                        @if (count($serviceByApplication[$serviceVersion->id]) == 0)
+                                        <button type="submit" class="btn btn-transparent btn-sm pull-right" onclick="return confirm('{{ __('common.ask_confirm') }}')">
+                                            <span class="badge badge-warning"><i class="fa fa-trash"></i></span>
+                                        </button>
+                                        @endif
                                     </div>
+                                    {!! Form::close() !!}
+                                    @endcan
                                     <div class="card-body">
 
                                         <div class="form-group">

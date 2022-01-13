@@ -9,6 +9,7 @@ use App\Models\ServiceInstance;
 use App\Models\ServiceVersion;
 use App\Repositories\ServiceVersionRepository;
 use Flash;
+use Illuminate\Http\Request;
 use Response;
 
 class ServiceVersionController extends AppBaseController
@@ -129,8 +130,10 @@ class ServiceVersionController extends AppBaseController
      * @param  ServiceVersion  $serviceVersion
      * @return Response
      */
-    public function destroy(ServiceVersion $serviceVersion)
+    public function destroy(ServiceVersion $serviceVersion, Request $request)
     {
+        $input = $request->all();
+
         if (empty($serviceVersion)) {
             Flash::error('Service Version not found');
 
@@ -145,6 +148,10 @@ class ServiceVersionController extends AppBaseController
         $this->serviceVersionRepository->delete($serviceVersion->id);
 
         Flash::success('Service Version deleted successfully.');
+
+        if (! empty($input['redirect_to_version'])) {
+            return redirect(route('services.show', $serviceVersion->service->id));
+        }
 
         return redirect(route('serviceVersions.index'));
     }
