@@ -6,6 +6,7 @@ use App\DataTables\ServiceDataTable;
 use App\Http\Requests\CreateServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
+use App\Models\ServiceVersion;
 use App\Repositories\ServiceRepository;
 use Flash;
 use Response;
@@ -140,6 +141,12 @@ class ServiceController extends AppBaseController
     {
         if (empty($service)) {
             Flash::error('Service not found');
+
+            return redirect(route('services.index'));
+        }
+
+        if (ServiceVersion::where('service_id', $service->id)->count() > 0) {
+            Flash::error('Service has version(s), delete them firstly.');
 
             return redirect(route('services.index'));
         }

@@ -51,7 +51,7 @@
                         });
 
                         var timeout;
-                        $('#env,#application_id,#hosting_id').change((e) => {
+                        $('#env,#application_id,#hosting_id,#team_id').change((e) => {
                             clearTimeout(timeout);
                             timeout = setTimeout(function(){
                                 refreshGraph();
@@ -72,6 +72,7 @@
                                 tag: $('input[name=tagRadio]:checked').val(),
                                 application_id: $('#application_id').val(),
                                 hosting_id: $('#hosting_id').val(),
+                                team_id: $('#team_id').val(),
                             };
 
                             window.Graph.getNodesByHosting(params).then((graphData) => {

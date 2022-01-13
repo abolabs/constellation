@@ -49,7 +49,7 @@
                         });
 
                         var timeout;
-                        $('#env,#application_id').change((e) => {
+                        $('#env,#application_id,#team_id').change((e) => {
                             clearTimeout(timeout);
                             timeout = setTimeout(function(){
                                 refreshGraph();
@@ -61,6 +61,7 @@
                             const params = {
                                 environnement_id: $('#env').val(),
                                 application_id: $('#application_id').val(),
+                                team_id: $('#team_id').val(),
                             };
                             window.Graph.getNodesAppMap(params).then((graphData) => {
                                 if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
