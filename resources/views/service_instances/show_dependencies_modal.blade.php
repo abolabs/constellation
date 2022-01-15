@@ -19,10 +19,10 @@
             <input type="hidden" name="redirect_to_back" value="1" />
             @if($instanceKey == 'serviceInstanceDep')
                 <input type="hidden" name="instance_id" value="{{ $serviceInstance->id }}" />
-                @include('service_instance_dependencies.fields', ['noButton' => true, 'ignoreSourceInstance' => true ,'idPrefix' => $modalId])
+                @include('service_instance_dependencies.fields', ['noButton' => true, 'ignoreSourceInstance' => true ,'idPrefix' => $modalId, 'serviceInstance' =>  $serviceInstance ])
             @else
                 <input type="hidden" name="instance_dep_id" value="{{ $serviceInstance->id }}" />
-                @include('service_instance_dependencies.fields', ['noButton' => true, 'ignoreTargetInstance' => true,'idPrefix' => $modalId])
+                @include('service_instance_dependencies.fields', ['noButton' => true, 'ignoreTargetInstance' => true,'idPrefix' => $modalId, 'serviceInstance' => $serviceInstance ])
             @endif
         </div>
         <div class="modal-footer">
