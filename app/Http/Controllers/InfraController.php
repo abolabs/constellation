@@ -79,7 +79,7 @@ class InfraController extends Controller
             $instanceByApplicationsQuery->whereIn('application_id', $request->application_id);
         }
         if (! empty($request->team_id)) {
-            $instanceByApplicationsQuery->whereHas('application',  function(Builder $query) use ($request) {
+            $instanceByApplicationsQuery->whereHas('application', function (Builder $query) use ($request) {
                 $query->whereIn('team_id', $request->team_id);
             });
         }
@@ -117,7 +117,7 @@ class InfraController extends Controller
             }
         });
         if (! empty($request->team_id)) {
-            $depByApp->whereHas('serviceInstance.application',  function(Builder $query) use ($request) {
+            $depByApp->whereHas('serviceInstance.application', function (Builder $query) use ($request) {
                 $query->whereIn('team_id', $request->team_id);
             });
         }
@@ -159,7 +159,7 @@ class InfraController extends Controller
             $instanceByApplicationsQuery->whereIn('application_id', $request->application_id);
         }
         if (! empty($request->team_id)) {
-            $instanceByApplicationsQuery->whereHas('application',  function(Builder $query) use ($request) {
+            $instanceByApplicationsQuery->whereHas('application', function (Builder $query) use ($request) {
                 $query->whereIn('team_id', $request->team_id);
             });
         }
@@ -186,7 +186,7 @@ class InfraController extends Controller
             $instancesQuery->whereIn('application_id', $request->application_id);
         }
         if (! empty($request->team_id)) {
-            $instancesQuery->whereHas('application',  function(Builder $query) use ($request) {
+            $instancesQuery->whereHas('application', function (Builder $query) use ($request) {
                 $query->whereIn('team_id', $request->team_id);
             });
         }
@@ -242,7 +242,7 @@ class InfraController extends Controller
             $instanceByHostingsQuery->whereIn('application_id', $request->application_id);
         }
         if (! empty($request->team_id)) {
-            $instanceByHostingsQuery->whereHas('application',  function(Builder $query) use ($request) {
+            $instanceByHostingsQuery->whereHas('application', function (Builder $query) use ($request) {
                 $query->whereIn('team_id', $request->team_id);
             });
         }
@@ -268,7 +268,7 @@ class InfraController extends Controller
             $instancesQuery->whereIn('application_id', $request->application_id);
         }
         if (! empty($request->team_id)) {
-            $instancesQuery->whereHas('application',  function(Builder $query) use ($request) {
+            $instancesQuery->whereHas('application', function (Builder $query) use ($request) {
                 $query->whereIn('team_id', $request->team_id);
             });
         }
@@ -365,7 +365,7 @@ class InfraController extends Controller
         ->where('instance_id', $serviceInstance->id);
 
         if (! empty($request->team_id)) {
-            $depQuery->whereHas('serviceInstance.application',  function(Builder $query) use ($request) {
+            $depQuery->whereHas('serviceInstance.application', function (Builder $query) use ($request) {
                 $query->whereIn('team_id', $request->team_id);
             });
         }

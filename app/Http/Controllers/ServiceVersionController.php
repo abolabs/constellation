@@ -150,7 +150,7 @@ class ServiceVersionController extends AppBaseController
         Flash::success('Service Version deleted successfully.');
 
         if (! empty($input['redirect_to_version'])) {
-            return redirect(route('services.show',  $serviceVersion->service->id));
+            return redirect(route('services.show', $serviceVersion->service->id));
         }
 
         return redirect(route('serviceVersions.index'));
