@@ -1,3 +1,11 @@
+@php
+    $envQuery = "";
+@endphp
+@if (isset($serviceInstance->environnement->id))
+    @php
+        $envQuery = "?environnement_id={$serviceInstance->environnement->id}";
+    @endphp
+@endif
 @if( !isset($ignoreSourceInstance) || $ignoreSourceInstance !== true)
 <!-- Instance Id Field -->
 <div class="form-group col-sm-12">
@@ -16,7 +24,7 @@
     @endif
     </select>
     <script>
-        window.selector.make("#instance_id{{$modalId}}", "/api/service_instances", "id", ["environnement_name", "hosting_name","application_name","service_version_name","service_version","role"])
+        window.selector.make("#instance_id{{$modalId}}", "/api/service_instances{{$envQuery}}", "id", ["environnement_name", "hosting_name","application_name","service_version_name","service_version","role"])
     </script>
 </div>
 @endif
@@ -39,7 +47,7 @@
     @endif
     </select>
     <script>
-        window.selector.make("#instance_dep_id{{ $modalId }}", "/api/service_instances", "id", ["environnement_name", "hosting_name","application_name","service_version_name","service_version","role"])
+        window.selector.make("#instance_dep_id{{ $modalId }}", "/api/service_instances{{ $envQuery }}", "id", ["environnement_name", "hosting_name","application_name","service_version_name","service_version","role"])
     </script>
 </div>
 @endif
