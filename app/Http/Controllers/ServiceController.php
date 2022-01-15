@@ -145,7 +145,7 @@ class ServiceController extends AppBaseController
             return redirect(route('services.index'));
         }
 
-        if (ServiceVersion::where('service_id',  $service->id)->count() > 0) {
+        if (ServiceVersion::where('service_id', $service->id)->count() > 0) {
             Flash::error('Service has version(s), delete them firstly.');
 
             return redirect(route('services.index'));
