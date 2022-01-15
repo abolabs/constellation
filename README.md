@@ -26,6 +26,8 @@
 
 <!-- PROJECT LOGO -->
 <br />
+Proxy repo - link to the original project : https://gitlab.com/abolabs/constellation
+
 <div align="center">
   <a href="https://gitlab.com/abolabs/constellation">
     <img src="doc/images/logo.png" alt="Logo" width="80" height="80">
