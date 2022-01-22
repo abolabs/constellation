@@ -203,7 +203,7 @@ class InfraController extends Controller
                 $classStatut = 'disabled';
             }
 
-            switch($request->tag){
+            switch ($request->tag) {
                 case 'hosting':
                     $tag = $serviceInstance->hosting->name;
                     break;
@@ -287,7 +287,7 @@ class InfraController extends Controller
         foreach ($instances as $serviceInstance) {
             $serviceInstance->serviceVersion->load('service');
 
-            switch($request->tag){
+            switch ($request->tag) {
                 case 'application':
                     $tag = $serviceInstance->application->name;
                     break;
