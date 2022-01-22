@@ -80,7 +80,7 @@
                     if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
                         console.log("no data");
                     }
-                    graph.load("cy",graphData.data);
+                    graph.load("cy",graphData.data, false);
                 }).catch((exception) => {
                     console.log(exception);
                 });
