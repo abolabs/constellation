@@ -26,7 +26,7 @@ class ServiceFactory extends Factory
             'team_id' => function () {
                 return Team::factory()->create()->id;
             },
-            'name' => "Service ".$this->faker->word,
+            'name' => "Service " . $this->faker->word,
             'git_repo' => $this->faker->randomElement(['http://', 'https://']) . $this->faker->domainName . '/',
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
