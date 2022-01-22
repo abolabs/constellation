@@ -48,5 +48,6 @@ return [
     'manager' => 'Responsable',
     'no_dep_required' => "L'instance ne requière aucune dépendance.",
     'is_not_a_requirement' => "Aucune instance de service ne requière l'instance.",
+    'impacts_detection' => 'Détection des impacts',
 
 ];

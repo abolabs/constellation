@@ -47,4 +47,5 @@ return [
     'manager' => 'Responsible',
     'no_dep_required' => 'The instance does not require any dependencies.',
     'is_not_a_requirement' => 'No service instance requires the instance.',
+    'impacts_detection' => 'Impact detection',
 ];
