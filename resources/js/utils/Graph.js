@@ -150,6 +150,14 @@ class Graph {
                     }
                 },
                 {
+                    selector: 'node.focused',
+                    style: {
+                        'border-color': '#d02536',
+                        'border-width': 20,
+                        'color': '#084C61',
+                    }
+                },
+                {
                     selector: 'edge',
                     css: {
                         'curve-style': 'unbundled-bezier',
@@ -252,8 +260,7 @@ class Graph {
 
         var edge_style_added = false;
         cy.bind('tap', 'node', function(event) {
-            cy.edges().removeClass('selected')
-            cy.nodes().removeClass('selected')
+            currentGraph.resetFocusedElts();
 
             event.target.addClass('selected');
             event.target.connectedEdges().map(edge => {
@@ -265,8 +272,7 @@ class Graph {
         $('#cy').click( (event) => {
             // Suppression edge style si clic background
             if (!edge_style_added) {
-                cy.edges().removeClass('selected')
-                cy.nodes().removeClass('selected')
+                currentGraph.resetFocusedElts();
             }
             edge_style_added = false;
         })
@@ -280,15 +286,22 @@ class Graph {
             selector: 'node',
             commands: [
                 {
-                    content: '<span><i class="fa fa-flash"></i> Détail</span>',
-                    select: function (ele) {
+                    content: '<span><i class="fa fa-flash"></i> '+window.lang.get('common.details') + '</span>',
+                    select: (ele) => {
                         const eltData = ele.id().split("_");
                         window.location.href = '/' + eltData[0] + "s/" + eltData[1];
                     }
                 },
                 {
+                    content: '<span><i class="fa fa-bomb"></i> '+window.lang.get('infra.impacts_detection')+' </span>',
+                    select: (ele) => {
+                        currentGraph.resetFocusedElts();
+                        return currentGraph.recursiveConnectedEdges(ele, null);
+                    }
+                },
+                {
                     content: '<span class="fa fa-ban fa-2x"></span>',
-                    select: function (ele) {
+                    select: (ele) => {
                         //console.log( ele.data('name') );
                     },
                     enabled: false
@@ -316,6 +329,28 @@ class Graph {
             ]
         });
 
+    }
+
+    resetFocusedElts(){
+        cy.edges().removeClass('selected');
+        cy.nodes().removeClass('selected');
+        cy.nodes().removeClass('focused');
+    }
+
+    recursiveConnectedEdges(node, sourceNode, detectedNodes = [], delay=500){
+        let currentGraph = this;
+
+        node.delay( delay, function(){
+            node.addClass('focused');
+        });
+
+        detectedNodes.push(node.data('id'));
+        //console.log("Start for "+ node.data('id')+" - "+node.data('name'));
+        node.connectedEdges(function(el){
+            if(!el.source().anySame( sourceNode ) && detectedNodes.indexOf(el.source().data('id')) < 0){
+                currentGraph.recursiveConnectedEdges(el.source(), node, detectedNodes, delay+500);
+            }
+        });
     }
 
     manageTags(showTags){
