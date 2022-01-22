@@ -87,7 +87,6 @@
                         {
                             const params = {
                                 environnement_id: env_id,
-                                tag: 'hosting'
                             }
                             window.Graph.getNodesByApplication(params).then((graphData) => {
                                 if(typeof graphData?.data == "undefined",  graphData?.data?.length == 0){
