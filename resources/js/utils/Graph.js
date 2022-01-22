@@ -345,7 +345,6 @@ class Graph {
         });
 
         detectedNodes.push(node.data('id'));
-        //console.log("Start for "+ node.data('id')+" - "+node.data('name'));
         node.connectedEdges(function(el){
             if(!el.source().anySame( sourceNode ) && detectedNodes.indexOf(el.source().data('id')) < 0){
                 currentGraph.recursiveConnectedEdges(el.source(), node, detectedNodes, delay+500);

@@ -203,13 +203,15 @@ class InfraController extends Controller
                 $classStatut = 'disabled';
             }
 
-            $tag = "";
-            switch ($request->tag) {
+            switch($request->tag){
                 case 'hosting':
                     $tag = $serviceInstance->hosting->name;
                     break;
                 case 'version':
                     $tag = 'v' . $serviceInstance->serviceVersion->version;
+                    break;
+                default:
+                    $tag = "";
                     break;
             }
 
@@ -285,13 +287,15 @@ class InfraController extends Controller
         foreach ($instances as $serviceInstance) {
             $serviceInstance->serviceVersion->load('service');
 
-            $tag = "";
-            switch ($request->tag) {
+            switch($request->tag){
                 case 'application':
                     $tag = $serviceInstance->application->name;
                     break;
                 case 'version':
                     $tag = 'v' . $serviceInstance->serviceVersion->version;
+                    break;
+                default:
+                    $tag = "";
                     break;
             }
 

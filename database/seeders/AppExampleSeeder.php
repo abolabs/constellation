@@ -20,10 +20,7 @@ class AppExampleSeeder extends Seeder
      */
     public function run()
     {
-        $application = Application::create([
-            'name' => 'Example Laravel App',
-            'team_id' => Team::first()->id,
-        ]);
+        $application = Application::factory()->create();
 
         $envs = [
             'Dev' => Environnement::where('name', 'Dev')->first()->id,
