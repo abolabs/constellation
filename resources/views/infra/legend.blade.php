@@ -54,7 +54,7 @@
         <h5>{{ __('infra.tags') }}</h5>
         @if( !isset($showTagHosting) || $showTagHosting === true)
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="hosting" checked>
+            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="hosting">
             <label class="form-check-label" for="tagRadio1">
                 {{ __('infra.hostings') }}
             </label>
@@ -62,7 +62,7 @@
         @endIf
         @if( !isset($showTagApp) || $showTagApp === true)
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="application" checked>
+            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio1" value="application">
             <label class="form-check-label" for="tagRadio1">
                 {{ __('infra.application') }}
             </label>
@@ -75,7 +75,7 @@
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio3" value="hide">
+            <input class="form-check-input" type="radio" name="tagRadio" id="tagRadio3" value="hide" checked>
             <label class="form-check-label" for="tagRadio3">
                 {{ __('infra.aucun') }}
             </label>

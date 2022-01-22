@@ -89,7 +89,6 @@
                         {
                             const params = {
                                 environnement_id: env_id,
-                                tag: $('input[name=tagRadio]').val(),
                                 application_id: $('#application_id').val()
                             }
                             window.Graph.getNodesByHosting(params).then((graphData) => {

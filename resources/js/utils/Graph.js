@@ -1,6 +1,88 @@
 import {hideAll} from 'tippy.js';
 class Graph {
 
+    static baseLayoutConfig = {
+        name: 'fcose',
+         // 'draft', 'default' or 'proof'
+        // - "draft" only applies spectral layout
+        // - "default" improves the quality with incremental layout (fast cooling rate)
+        // - "proof" improves the quality with incremental layout (slow cooling rate)
+        quality: "proof",
+        // Use random node positions at beginning of layout
+        // if this is set to false, then quality option must be "proof"
+        randomize: false,
+        // Whether or not to animate the layout
+        animate: false,
+        // Duration of animation in ms, if enabled
+        animationDuration: 1000,
+        // Easing of animation, if enabled
+        animationEasing: undefined,
+        // Fit the viewport to the repositioned nodes
+        fit: true,
+        // Padding around layout
+        padding: 30,
+        // Whether to include labels in node dimensions. Valid in "proof" quality
+        nodeDimensionsIncludeLabels: true,
+        // Whether or not simple nodes (non-compound nodes) are of uniform dimensions
+        uniformNodeDimensions: true,
+        // Whether to pack disconnected components - cytoscape-layout-utilities extension should be registered and initialized
+        packComponents: true,
+        // Layout step - all, transformed, enforced, cose - for debug purpose only
+        step: "all",
+
+        /* spectral layout options */
+
+        // False for random, true for greedy sampling
+        samplingType: true,
+        // Sample size to construct distance matrix
+        sampleSize: 250,
+        // Separation amount between nodes
+        nodeSeparation: 150,
+        // Power iteration tolerance
+        piTol: 0.00000001,
+
+        /* incremental layout options */
+
+        // Node repulsion (non overlapping) multiplier
+        nodeRepulsion: node => 100,
+        // Ideal edge (non nested) length
+        idealEdgeLength: edge => 350,
+        // Divisor to compute edge forces
+        edgeElasticity: edge => 0.45,
+        // Nesting factor (multiplier) to compute ideal edge length for nested edges
+        nestingFactor: 0.1,
+        // Maximum number of iterations to perform - this is a suggested value and might be adjusted by the algorithm as required
+        numIter: 2500,
+        // For enabling tiling
+        tile: true,
+        // Represents the amount of the vertical space to put between the zero degree members during the tiling operation(can also be a function)
+        tilingPaddingVertical: 10,
+        // Represents the amount of the horizontal space to put between the zero degree members during the tiling operation(can also be a function)
+        tilingPaddingHorizontal: 10,
+        // Gravity force (constant)
+        gravity: 0.25,
+        // Gravity range (constant) for compounds
+        gravityRangeCompound: 1.5,
+        // Gravity force (constant) for compounds
+        gravityCompound: 1.0,
+        // Gravity range (constant)
+        gravityRange: 3.8,
+        // Initial cooling factor for incremental layout
+        initialEnergyOnIncremental: 1.3,
+
+        /* constraint options */
+
+        // Fix desired nodes to predefined positions
+        // [{nodeId: 'n1', position: {x: 100, y: 200}}, {...}]
+        fixedNodeConstraint: undefined,
+        // Align desired nodes in vertical/horizontal direction
+        // {vertical: [['n1', 'n2'], [...]], horizontal: [['n2', 'n4'], [...]]}
+        alignmentConstraint: undefined,
+        // Place two nodes relatively in vertical/horizontal direction
+        // [{top: 'n1', bottom: 'n2', gap: 100}, {left: 'n3', right: 'n4', gap: 75}, {...}]
+        relativePlacementConstraint: undefined,
+    }
+
     constructor(cy){
         this.cy = cy;
     }
@@ -14,18 +96,12 @@ class Graph {
     }
 
     refreshLayout(){
-        this.cy.layout({
-            name: 'fcose',
-            animate: false,
-            nodeRepulsion: 4500,
-            idealEdgeLength: 200,
-            edgeElasticity: 0.45,
-            randomize: false,
-        }).run();
+        this.cy.layout(Graph.baseLayoutConfig).run();
     }
 
     load(selector, loadNodesCallback, showTags=true) {
 
+        let currentGraph = this;
         this.cy = window.cy = window.cytoscape({
             container: document.getElementById(selector),
 
@@ -34,21 +110,16 @@ class Graph {
                     desiredAspectRatio: this.width() / this.height()
                 });
 
-                this.layout({
-                    name: 'fcose',
-                    animate: false,
-                    nodeRepulsion: 5500,
-                    idealEdgeLength: 200,
-                    edgeElasticity: 0.45,
-                    randomize: true,
-                }).run();
+                let initLayoutConfig = Graph.baseLayoutConfig;
+                initLayoutConfig.randomize = true;
+                this.layout(initLayoutConfig).run();
             },
             zoom: 0.7,
-            minZoom: 0.7,
-            maxZoom: 1.25,
-            wheelSensitivity: 0.25,
-            refresh: 20,
-            padding:150,
+            minZoom: 0.25,
+            maxZoom: 1.00,
+            wheelSensitivity: 0.15,
+            refresh: 50,
+            padding:200,
             style: [
                 {
                     selector: 'node',
@@ -59,7 +130,8 @@ class Graph {
                         "text-valign": "top",
                         "opacity": "1",
                         'font-family': '"Nunito", sans-serif',
-                        'color': '#FDFFFC'
+                        'color': '#FDFFFC',
+                        'font-size': '3em',
                     },
                 },
                 {
@@ -73,10 +145,7 @@ class Graph {
                     selector: 'node.selected',
                     style: {
                         'border-color': '#177E89',
-                        'border-width': 4,
-                        'border-style': 'dotted',
-                        'text-outline-width': 2,
-                        'text-outline-color': '#FDFFFC',
+                        'border-width': 20,
                         'color': '#084C61',
                     }
                 },
@@ -87,8 +156,8 @@ class Graph {
                         'target-arrow-shape': 'triangle',
                         'target-arrow-color': '#DB3A34',
                         'source-arrow-color': '#177E89',
-                        'line-opacity': 0.85,
-                        'width': 2,
+                        'line-opacity': 0.75,
+                        'width': 8,
                         'font-family': '"Nunito", sans-serif',
                     }
                 },
@@ -96,7 +165,7 @@ class Graph {
                     selector: 'edge.selected',
                     css: {
                         'line-style': 'dashed',
-                        'width': 3,
+                        'width': 6,
                     }
                 },
                 {
@@ -120,16 +189,23 @@ class Graph {
                 {
                     selector: 'node.serviceInstance',
                     style: {
+                        "shape": "ellipse",
                         'background-color': '#084C61',
                         //'border-width': '2',
                         'text-wrap': 'wrap',
-                        'text-valign': 'center',
-                        'text-halign': 'center',
-                        'text-max-width': '100px',
-                        'label': 'data(name)',
-                        'width': 'label',
-                        //'height': 'label',
-                        'padding': 10,
+                        //'text-valign': 'center',
+                        //'text-halign': 'center',
+                        'text-max-width': '150px',
+                        //'label': 'data(name)',
+                        //'width': (node) => { return node.data('name').length * 15 },
+                        //'height': (node) => { return node.data('name').length * 15 },
+                        'padding': 50,
+                        'color': '#323031',
+                        'text-background-color': '#FDFFFC',
+                        'text-background-opacity': 0.25,
+                        'text-background-shape': 'round-rectangle',
+                        'text-background-padding': '0.5em',
+                        "text-margin-y": "-1em",
                     }
                 },
                 {
@@ -139,9 +215,13 @@ class Graph {
                         "shape": "roundrectangle",
                         "text-margin-y": "0px",
                         "font-weight" : "bold",
-                        "padding": 30,
+                        "padding": 75,
                         "border-color": "#555555",
-                        'color': '#323031'
+                        'color': '#323031',
+                        'overlay-color': '#FDFFFC',
+                        'overlay-opacity': 0.25,
+
+
                     }
                 },
                 {
@@ -167,12 +247,7 @@ class Graph {
         }))
 
         cy.on('layoutready',( (event) => {
-            const serviceInstances =  cy.nodes(`.serviceInstance`);
-            if(showTags){
-                serviceInstances.map((elt) => {
-                    Graph.generateTag(elt, elt.data('tag')).show();
-                });
-            }
+            currentGraph.manageTags(showTags);
         }))
 
         var edge_style_added = false;
@@ -197,12 +272,7 @@ class Graph {
         })
 
         cy.ready(function() {
-            const serviceInstances =  cy.nodes(`.serviceInstance`);
-            if(showTags){
-                serviceInstances.map((elt) => {
-                    Graph.generateTag(elt, elt.data('tag')).show();
-                });
-            }
+            currentGraph.manageTags(showTags);
         })
 
         // Menu contextuel
@@ -246,6 +316,17 @@ class Graph {
             ]
         });
 
+    }
+
+    manageTags(showTags){
+        const serviceInstances =  cy.nodes(`.serviceInstance`);
+        if(showTags){
+            serviceInstances.map((elt) => {
+                if(elt.data('tag') != ''){
+                    Graph.generateTag(elt, elt.data('tag')).show();
+                }
+            });
+        }
     }
 
     static generateTag(ele, text, placement='bottom', theme='material', arrow=false){
