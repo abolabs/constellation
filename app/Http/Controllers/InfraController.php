@@ -204,7 +204,7 @@ class InfraController extends Controller
             }
 
             $tag = "";
-            switch($request->tag){
+            switch ($request->tag) {
                 case 'hosting':
                     $tag = $serviceInstance->hosting->name;
                     break;
@@ -286,7 +286,7 @@ class InfraController extends Controller
             $serviceInstance->serviceVersion->load('service');
 
             $tag = "";
-            switch($request->tag){
+            switch ($request->tag) {
                 case 'application':
                     $tag = $serviceInstance->application->name;
                     break;
