@@ -90,7 +90,7 @@ Constellation is an application mapping interface allowing any IT structure to v
     * **Critical** 
     In the event of unavailability: impact of major functionality (s) without a workaround resulting in general unavailability of the application
 
-<img src="doc/images/Screenshot.png" alt="Screenshot" height="350px">
+<img src="doc/images/Screenshot.png" alt="Screenshot" width="500px">
 
 * **3 types of visualizations possible** 
     * Dependencies between applications
@@ -210,15 +210,15 @@ With the default configuration, the application will be accessible locally from 
 Examples of uses
 ### Visualization of application dependencies
 
-<img src="doc/images/Screenshot_2.png" alt="Visualization of application dependencies" height="450px">
+<img src="doc/images/Screenshot_2.png" alt="Visualization of application dependencies" width="500px">
 
 ### Viewing service dependencies by application
 
-<img src="doc/images/Screenshot.png" alt="Viewing service dependencies by application" height="450px">
+<img src="doc/images/Screenshot.png" alt="Viewing service dependencies by application" width="500px">
 
 ### Visualization of service dependencies by hosting solution
 
-<img src="doc/images/Screenshot.png" alt="Visualization of service dependencies by hosting solution" height="450px">
+<img src="doc/images/Screenshot.png" alt="Visualization of service dependencies by hosting solution" width="500px">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
