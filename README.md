@@ -90,7 +90,7 @@ Constellation est une interface de cartographie applicative permettant à toute 
     * **Critique** 
     En cas d'indisponibilité : impact de fonctionnalité(s) majeure(s) sans solution de contournement entrainant une indisponibilité générale de l'application
 
-<img src="doc/images/Screenshot.png" alt="Screenshot" height="350px">
+<img src="doc/images/Screenshot.png" alt="Screenshot" max-height="350px">
 
 * **3 types de visualisations possibles** 
     * Dépendances entre les applications
@@ -209,15 +209,15 @@ Avec la configuration par défaut, l'application sera accessible en local depuis
 Exemples d'usages
 ### Visualisation des dépendances applicatives
 
-<img src="doc/images/Screenshot_2.png" alt="Visualisation dépendances applicatives" height="450px">
+<img src="doc/images/Screenshot_2.png" alt="Visualisation dépendances applicatives" max-height="450px">
 
 ### Visualisation des dépendances de service par application
 
-<img src="doc/images/Screenshot.png" alt="Visualisation dépendances de service par application" height="450px">
+<img src="doc/images/Screenshot.png" alt="Visualisation dépendances de service par application" max-height="450px">
 
 ### Visualisation des dépendances de service par solution d'hébergement
 
-<img src="doc/images/Screenshot.png" alt="Visualisation dépendances de service par solution d'hébergement" height="450px">
+<img src="doc/images/Screenshot.png" alt="Visualisation dépendances de service par solution d'hébergement" max-height="450px">
 
 <p align="right">(<a href="#top">revenir en haut</a>)</p>
 
