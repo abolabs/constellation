@@ -10,7 +10,7 @@ use App\Models\HostingType;
 use App\Repositories\HostingTypeRepository;
 use Illuminate\Http\Request;
 use Response;
-use \Lang;
+use Lang;
 
 /**
  * Class HostingTypeController.
