@@ -10,7 +10,7 @@ use App\Models\ServiceInstance;
 use App\Repositories\HostingRepository;
 use Flash;
 use Response;
-use \Lang;
+use Lang;
 
 class HostingController extends AppBaseController
 {

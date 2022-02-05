@@ -10,7 +10,7 @@ use App\Repositories\ServiceInstanceDependenciesRepository;
 use Flash;
 use Illuminate\Http\Request;
 use Response;
-use \Lang;
+use Lang;
 
 class ServiceInstanceDependenciesController extends AppBaseController
 {

@@ -11,7 +11,7 @@ use App\Models\ServiceInstance;
 use App\Repositories\ApplicationRepository;
 use Flash;
 use Response;
-use \Lang;
+use Lang;
 
 class ApplicationController extends AppBaseController
 {
