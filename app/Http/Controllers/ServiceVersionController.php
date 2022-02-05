@@ -117,7 +117,7 @@ class ServiceVersionController extends AppBaseController
             return redirect(route('serviceVersions.index'));
         }
 
-        $serviceVersion = $this->serviceVersionRepository->update($request->all(), $serviceVersion->id);
+        $this->serviceVersionRepository->update($request->all(), $serviceVersion->id);
 
         Flash::success('Service Version updated successfully.');
 

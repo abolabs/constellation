@@ -10,6 +10,7 @@ use App\Models\Hosting;
 use App\Repositories\HostingRepository;
 use Illuminate\Http\Request;
 use Response;
+use \Lang;
 
 /**
  * Class HostingController.
@@ -64,7 +65,7 @@ class HostingAPIController extends AppBaseController
             $request->get('limit')
         );
 
-        return $this->sendResponse(HostingResource::collection($hostings), 'Hostings retrieved successfully');
+        return $this->sendResponse(HostingResource::collection($hostings), Lang::get('hosting.index_confirm'));
     }
 
     /**
@@ -111,7 +112,7 @@ class HostingAPIController extends AppBaseController
 
         $hosting = $this->hostingRepository->create($input);
 
-        return $this->sendResponse(new HostingResource($hosting), 'Hosting saved successfully');
+        return $this->sendResponse(new HostingResource($hosting), Lang::get('hosting.store_confirm'));
     }
 
     /**
@@ -161,7 +162,7 @@ class HostingAPIController extends AppBaseController
             return $this->sendError('Hosting not found');
         }
 
-        return $this->sendResponse(new HostingResource($hosting), 'Hosting retrieved successfully');
+        return $this->sendResponse(new HostingResource($hosting), Lang::get('hosting.show_confirm'));
     }
 
     /**
@@ -218,12 +219,12 @@ class HostingAPIController extends AppBaseController
         $hosting = $this->hostingRepository->find($id);
 
         if (empty($hosting)) {
-            return $this->sendError('Hosting not found');
+            return $this->sendError(Lang::get('hosting.not_found'));
         }
 
         $hosting = $this->hostingRepository->update($input, $id);
 
-        return $this->sendResponse(new HostingResource($hosting), 'Hosting updated successfully');
+        return $this->sendResponse(new HostingResource($hosting), Lang::get('hosting.update_confirm'));
     }
 
     /**
@@ -270,11 +271,11 @@ class HostingAPIController extends AppBaseController
         $hosting = $this->hostingRepository->find($id);
 
         if (empty($hosting)) {
-            return $this->sendError('Hosting not found');
+            return $this->sendError(Lang::get('hosting.not_found'));
         }
 
         $hosting->delete();
 
-        return $this->sendSuccess('Hosting deleted successfully');
+        return $this->sendSuccess(Lang::get('hosting.destroy_confirm'));
     }
 }
