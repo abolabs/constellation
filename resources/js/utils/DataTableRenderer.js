@@ -5,15 +5,15 @@ class DataTableRenderer {
         const column_name = column;
 
         return function (column_name) {
-            let mode = '';
+            let mode = ''
 
             if (this[column] || this[column] === "1" ) {
-                mode = 'checked';
+                mode = 'checked'
             }
             return '<label class="switch switch-label switch-success">' +
                         '<input type="checkbox" class="switch-input" disabled '+mode+'> '+
                         '<span class="switch-slider" data-checked="On" data-unchecked="Off"></span> '+
-                    '</label>';
+                    '</label>'
         };
     };
 
@@ -22,26 +22,25 @@ class DataTableRenderer {
         const column_name = column;
 
         return function (column_name) {
-            let mode = '';
-            let bg = '';
+            let bg = ''
 
             switch(this[column]) {
                 case 1:
-                    bg = 'success';
+                    bg = 'success'
                     break;
                 case 2:
-                    bg = 'warning';
+                    bg = 'warning'
                     break;
                 case 3:
-                    bg = 'danger';
+                    bg = 'danger'
                     break;
                 default:
                     console.log('invalid level - ',this[column]);
-                    return this[column];
+                    return this[column]
             }
             let label = window.lang.get('service_instance_dependencies.level.'+this[column]);
 
-            return '<span class="badge badge-'+bg+'"> '+label+'</span>';
+            return '<span class="badge badge-'+bg+'"> '+label+'</span>'
         };
     };
 }

@@ -51,7 +51,7 @@ class ServiceVersionDependenciesController extends AppBaseController
     {
         $input = $request->all();
 
-        $serviceVersionDependencies = $this->serviceVersionDependenciesRepository->create($input);
+        $this->serviceVersionDependenciesRepository->create($input);
 
         Flash::success('Service Version Dependencies saved successfully.');
 
@@ -113,7 +113,7 @@ class ServiceVersionDependenciesController extends AppBaseController
             return redirect(route('serviceVersionDependencies.index'));
         }
 
-        $serviceVersionDependencies = $this->serviceVersionDependenciesRepository->update($request->all(), $id);
+        $this->serviceVersionDependenciesRepository->update($request->all(), $id);
 
         Flash::success('Service Version Dependencies updated successfully.');
 
