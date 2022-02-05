@@ -9,6 +9,7 @@ use App\Models\HostingType;
 use App\Repositories\HostingTypeRepository;
 use Flash;
 use Response;
+use \Lang;
 
 class HostingTypeController extends AppBaseController
 {
@@ -52,9 +53,9 @@ class HostingTypeController extends AppBaseController
     {
         $input = $request->all();
 
-        $hostingType = $this->hostingTypeRepository->create($input);
+        $this->hostingTypeRepository->create($input);
 
-        Flash::success('Hosting Type saved successfully.');
+        Flash::success(Lang::get('hosting_type.store_confirm'));
 
         return redirect(route('hostingTypes.index'));
     }
@@ -68,7 +69,7 @@ class HostingTypeController extends AppBaseController
     public function show(HostingType $hostingType)
     {
         if (empty($hostingType)) {
-            Flash::error('Hosting Type not found');
+            Flash::error(Lang::get('hosting_type.not_found'));
 
             return redirect(route('hostingTypes.index'));
         }
@@ -85,7 +86,7 @@ class HostingTypeController extends AppBaseController
     public function edit(HostingType $hostingType)
     {
         if (empty($hostingType)) {
-            Flash::error('Hosting Type not found');
+            Flash::error(Lang::get('hosting_type.not_found'));
 
             return redirect(route('hostingTypes.index'));
         }
@@ -103,14 +104,14 @@ class HostingTypeController extends AppBaseController
     public function update(HostingType $hostingType, UpdateHostingTypeRequest $request)
     {
         if (empty($hostingType)) {
-            Flash::error('Hosting Type not found');
+            Flash::error(Lang::get('hosting_type.not_found'));
 
             return redirect(route('hostingTypes.index'));
         }
 
         $hostingType = $this->hostingTypeRepository->update($request->all(), $hostingType->id);
 
-        Flash::success('Hosting Type updated successfully.');
+        Flash::success(Lang::get('hosting_type.update_confirm'));
 
         return redirect(route('hostingTypes.index'));
     }
@@ -124,14 +125,14 @@ class HostingTypeController extends AppBaseController
     public function destroy(HostingType $hostingType)
     {
         if (empty($hostingType)) {
-            Flash::error('Hosting Type not found');
+            Flash::error(Lang::get('hosting_type.not_found'));
 
             return redirect(route('hostingTypes.index'));
         }
 
         $this->hostingTypeRepository->delete($hostingType->id);
 
-        Flash::success('Hosting Type deleted successfully.');
+        Flash::success(Lang::get('hosting_type.destroy_confirm'));
 
         return redirect(route('hostingTypes.index'));
     }

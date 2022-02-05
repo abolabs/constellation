@@ -53,7 +53,7 @@ class ServiceController extends AppBaseController
     {
         $input = $request->all();
 
-        $service = $this->serviceRepository->create($input);
+        $this->serviceRepository->create($input);
 
         Flash::success('Service saved successfully.');
 

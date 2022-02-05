@@ -23,7 +23,7 @@
                                 <th scope="col">{{ __('infra.name') }}</th>
                                 <th scope="col">{{ __('user.email') }}</th>
                                 <th scope="col">{{ __('infra.roles') }}</th>
-                                <th scope="col" width="280px">{{ __('datatable.action') }}</th>
+                                <th scope="col" class="col-3">{{ __('datatable.action') }}</th>
                             </tr>
                             @foreach ($data as $key => $user)
                             <tr>

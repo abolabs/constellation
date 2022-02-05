@@ -16,4 +16,5 @@ return [
         2 => 'warning',
         3 => 'danger',
     ],
+    'not_found' => 'Dépendance d\'instance de service introuvable.',
 ];

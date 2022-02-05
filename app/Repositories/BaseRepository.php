@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 
 abstract class BaseRepository
 {
@@ -51,13 +52,13 @@ abstract class BaseRepository
      */
     public function makeModel()
     {
-        $model = $this->app->make($this->model());
+        $tmpModel = $this->app->make($this->model());
 
-        if (! $model instanceof Model) {
-            throw new \Exception("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
+        if (! $tmpModel instanceof Model) {
+            throw new InvalidArgumentException("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
         }
 
-        return $this->model = $model;
+        return $this->model = $tmpModel;
     }
 
     /**
@@ -129,11 +130,11 @@ abstract class BaseRepository
      */
     public function create($input)
     {
-        $model = $this->model->newInstance($input);
+        $tmpModel = $this->model->newInstance($input);
 
-        $model->save();
+        $tmpModel->save();
 
-        return $model;
+        return $tmpModel;
     }
 
     /**
@@ -161,13 +162,13 @@ abstract class BaseRepository
     {
         $query = $this->model->newQuery();
 
-        $model = $query->findOrFail($id);
+        $tmpModel = $query->findOrFail($id);
 
-        $model->fill($input);
+        $tmpModel->fill($input);
 
-        $model->save();
+        $tmpModel->save();
 
-        return $model;
+        return $tmpModel;
     }
 
     /**
@@ -180,8 +181,8 @@ abstract class BaseRepository
     {
         $query = $this->model->newQuery();
 
-        $model = $query->findOrFail($id);
+        $tmpModel = $query->findOrFail($id);
 
-        return $model->delete();
+        return $tmpModel->delete();
     }
 }

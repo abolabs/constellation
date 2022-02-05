@@ -83,6 +83,134 @@ class Graph {
         relativePlacementConstraint: undefined,
     }
 
+    static style = [
+        {
+            selector: 'node',
+            css: {
+                'content': 'data(name)',
+                "shape": "roundrectangle",
+                "text-halign": "center",
+                "text-valign": "top",
+                "opacity": "1",
+                'font-family': '"Nunito", sans-serif',
+                'color': '#FDFFFC',
+                'font-size': '3em',
+            },
+        },
+        {
+            selector: 'node:selected',
+            style: {
+                'background-color': '#343a40',
+                'border-color': '#FDFFFC',
+            }
+        },
+        {
+            selector: 'node.selected',
+            style: {
+                'border-color': '#177E89',
+                'border-width': 20,
+                'color': '#084C61',
+            }
+        },
+        {
+            selector: 'node.focused',
+            style: {
+                'border-color': '#d02536',
+                'border-width': 20,
+                'color': '#084C61',
+            }
+        },
+        {
+            selector: 'edge',
+            css: {
+                'curve-style': 'unbundled-bezier',
+                'target-arrow-shape': 'triangle',
+                'target-arrow-color': '#DB3A34',
+                'source-arrow-color': '#177E89',
+                'line-opacity': 0.75,
+                'width': 8,
+                'font-family': '"Nunito", sans-serif',
+            }
+        },
+        {
+            selector: 'edge.selected',
+            css: {
+                'line-style': 'dashed',
+                'width': 6,
+            }
+        },
+        {
+            selector: '.level_1',
+            css: {
+                'line-color': '#177E89',
+            }
+        },
+        {
+            selector: '.level_2',
+            css: {
+                'line-color': '#FFC857',
+            }
+        },
+        {
+            selector: '.level_3',
+            css: {
+                'line-color': '#DB3A34',
+            }
+        },
+        {
+            selector: 'node.serviceInstance',
+            style: {
+                "shape": "ellipse",
+                'background-color': '#084C61',
+                //'border-width': '2',
+                'text-wrap': 'wrap',
+                //'text-valign': 'center',
+                //'text-halign': 'center',
+                'text-max-width': '150px',
+                //'label': 'data(name)',
+                //'width': (node) => { return node.data('name').length * 15 },
+                //'height': (node) => { return node.data('name').length * 15 },
+                'padding': 50,
+                'color': '#323031',
+                'text-background-color': '#FDFFFC',
+                'text-background-opacity': 0.25,
+                'text-background-shape': 'round-rectangle',
+                'text-background-padding': '0.5em',
+                "text-margin-y": "-1em",
+            }
+        },
+        {
+            selector: '.container',
+            style: {
+                "text-valign": "top",
+                "shape": "roundrectangle",
+                "text-margin-y": "0px",
+                "font-weight" : "bold",
+                "padding": 75,
+                "border-color": "#555555",
+                'color': '#323031',
+                'overlay-color': '#FDFFFC',
+                'overlay-opacity': 0.25,
+
+
+            }
+        },
+        {
+            selector: '.dark',
+            style: {
+                "color": "#858d94",
+            }
+        },
+        {
+            selector: '.disabled',
+            style: {
+                "background-color": "#FFC857",
+                "border-color": "#f8d999",
+                "color": "#6c757d",
+            }
+        }
+    ]
+
     constructor(cy){
         this.cy = cy;
     }
@@ -106,7 +234,7 @@ class Graph {
             container: document.getElementById(selector),
 
             ready: function () {
-                let layoutUtilities = this.layoutUtilities({
+                this.layoutUtilities({
                     desiredAspectRatio: this.width() / this.height()
                 });
 
@@ -120,133 +248,7 @@ class Graph {
             wheelSensitivity: 0.15,
             refresh: 50,
             padding:200,
-            style: [
-                {
-                    selector: 'node',
-                    css: {
-                        'content': 'data(name)',
-                        "shape": "roundrectangle",
-                        "text-halign": "center",
-                        "text-valign": "top",
-                        "opacity": "1",
-                        'font-family': '"Nunito", sans-serif',
-                        'color': '#FDFFFC',
-                        'font-size': '3em',
-                    },
-                },
-                {
-                    selector: 'node:selected',
-                    style: {
-                        'background-color': '#343a40',
-                        'border-color': '#FDFFFC',
-                    }
-                },
-                {
-                    selector: 'node.selected',
-                    style: {
-                        'border-color': '#177E89',
-                        'border-width': 20,
-                        'color': '#084C61',
-                    }
-                },
-                {
-                    selector: 'node.focused',
-                    style: {
-                        'border-color': '#d02536',
-                        'border-width': 20,
-                        'color': '#084C61',
-                    }
-                },
-                {
-                    selector: 'edge',
-                    css: {
-                        'curve-style': 'unbundled-bezier',
-                        'target-arrow-shape': 'triangle',
-                        'target-arrow-color': '#DB3A34',
-                        'source-arrow-color': '#177E89',
-                        'line-opacity': 0.75,
-                        'width': 8,
-                        'font-family': '"Nunito", sans-serif',
-                    }
-                },
-                {
-                    selector: 'edge.selected',
-                    css: {
-                        'line-style': 'dashed',
-                        'width': 6,
-                    }
-                },
-                {
-                    selector: '.level_1',
-                    css: {
-                        'line-color': '#177E89',
-                    }
-                },
-                {
-                    selector: '.level_2',
-                    css: {
-                        'line-color': '#FFC857',
-                    }
-                },
-                {
-                    selector: '.level_3',
-                    css: {
-                        'line-color': '#DB3A34',
-                    }
-                },
-                {
-                    selector: 'node.serviceInstance',
-                    style: {
-                        "shape": "ellipse",
-                        'background-color': '#084C61',
-                        //'border-width': '2',
-                        'text-wrap': 'wrap',
-                        //'text-valign': 'center',
-                        //'text-halign': 'center',
-                        'text-max-width': '150px',
-                        //'label': 'data(name)',
-                        //'width': (node) => { return node.data('name').length * 15 },
-                        //'height': (node) => { return node.data('name').length * 15 },
-                        'padding': 50,
-                        'color': '#323031',
-                        'text-background-color': '#FDFFFC',
-                        'text-background-opacity': 0.25,
-                        'text-background-shape': 'round-rectangle',
-                        'text-background-padding': '0.5em',
-                        "text-margin-y": "-1em",
-                    }
-                },
-                {
-                    selector: '.container',
-                    style: {
-                        "text-valign": "top",
-                        "shape": "roundrectangle",
-                        "text-margin-y": "0px",
-                        "font-weight" : "bold",
-                        "padding": 75,
-                        "border-color": "#555555",
-                        'color': '#323031',
-                        'overlay-color': '#FDFFFC',
-                        'overlay-opacity': 0.25,
-
-
-                    }
-                },
-                {
-                    selector: '.dark',
-                    style: {
-                        "color": "#858d94",
-                    }
-                },
-                {
-                    selector: '.disabled',
-                    style: {
-                        "background-color": "#FFC857",
-                        "border-color": "#f8d999",
-                        "color": "#6c757d",
-                    }
-                }
-            ],
+            style: Graph.style,
            elements: loadNodesCallback
         });
 
@@ -369,7 +371,7 @@ class Graph {
         // Since tippy constructor requires DOM element/elements, create a placeholder
         var dummyDomEle = document.createElement('div');
 
-        var tip = tippy( dummyDomEle, {
+        return tippy( dummyDomEle, {
             getReferenceClientRect: ref.getBoundingClientRect,
             trigger: 'manual', // mandatory
             // dom element inside the tippy:
@@ -386,9 +388,7 @@ class Graph {
             interactive: false,
             appendTo: document.body // or append dummyDomEle to document.body
         } );
-
-        return tip;
-    };
+    }
 
     static hideAllTag(){
         hideAll();

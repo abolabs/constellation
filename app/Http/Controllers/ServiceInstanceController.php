@@ -54,7 +54,7 @@ class ServiceInstanceController extends AppBaseController
     {
         $input = $request->all();
 
-        $serviceInstance = $this->serviceInstanceRepository->create($input);
+        $this->serviceInstanceRepository->create($input);
 
         Flash::success('Service Instance saved successfully.');
 

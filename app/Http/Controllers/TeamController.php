@@ -52,7 +52,7 @@ class TeamController extends AppBaseController
     {
         $input = $request->all();
 
-        $team = $this->teamRepository->create($input);
+        $this->teamRepository->create($input);
 
         Flash::success('Team saved successfully.');
 

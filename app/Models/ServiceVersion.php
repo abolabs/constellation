@@ -95,8 +95,6 @@ class ServiceVersion extends Model implements Auditable
 
     public function newQuery()
     {
-        $query = parent::newQuery()->with(['service']);
-
-        return $query;
+        return parent::newQuery()->with(['service']);
     }
 }
