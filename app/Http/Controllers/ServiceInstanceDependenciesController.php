@@ -10,6 +10,7 @@ use App\Repositories\ServiceInstanceDependenciesRepository;
 use Flash;
 use Illuminate\Http\Request;
 use Response;
+use Lang;
 
 class ServiceInstanceDependenciesController extends AppBaseController
 {
@@ -57,7 +58,7 @@ class ServiceInstanceDependenciesController extends AppBaseController
         $this->authorize('create', ServiceInstanceDependencies::class);
         $input = $request->all();
 
-        $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->create($input);
+        $this->serviceInstanceDependenciesRepository->create($input);
 
         Flash::success('Service Instance Dependencies saved successfully.');
 
@@ -79,7 +80,7 @@ class ServiceInstanceDependenciesController extends AppBaseController
         $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->find($id);
 
         if (empty($serviceInstanceDependencies)) {
-            Flash::error('Service Instance Dependencies not found');
+            Flash::error(Lang::get('service_instance_dependencies.not_found'));
 
             return redirect(route('serviceInstanceDependencies.index'));
         }
@@ -102,7 +103,7 @@ class ServiceInstanceDependenciesController extends AppBaseController
         $serviceInstanceDependencies->load('serviceInstance.serviceVersion');
 
         if (empty($serviceInstanceDependencies)) {
-            Flash::error('Service Instance Dependencies not found');
+            Flash::error(Lang::get('service_instance_dependencies.not_found'));
 
             return redirect(route('serviceInstanceDependencies.index'));
         }
@@ -124,7 +125,7 @@ class ServiceInstanceDependenciesController extends AppBaseController
         $input = $request->all();
 
         if (empty($serviceInstanceDependencies)) {
-            Flash::error('Service Instance Dependencies not found');
+            Flash::error(Lang::get('service_instance_dependencies.not_found'));
 
             return redirect(route('serviceInstanceDependencies.index'));
         }
@@ -153,7 +154,7 @@ class ServiceInstanceDependenciesController extends AppBaseController
         $input = $request->all();
 
         if (empty($serviceInstanceDependencies)) {
-            Flash::error('Service Instance Dependencies not found');
+            Flash::error(Lang::get('service_instance_dependencies.not_found'));
 
             return redirect(route('serviceInstanceDependencies.index'));
         }

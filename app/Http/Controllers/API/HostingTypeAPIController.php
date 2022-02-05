@@ -10,6 +10,7 @@ use App\Models\HostingType;
 use App\Repositories\HostingTypeRepository;
 use Illuminate\Http\Request;
 use Response;
+use Lang;
 
 /**
  * Class HostingTypeController.
@@ -64,7 +65,7 @@ class HostingTypeAPIController extends AppBaseController
             $request->get('limit')
         );
 
-        return $this->sendResponse(HostingTypeResource::collection($hostingTypes), 'Hosting Types retrieved successfully');
+        return $this->sendResponse(HostingTypeResource::collection($hostingTypes), Lang::get('hosting_type.index_confirm'));
     }
 
     /**
@@ -111,7 +112,7 @@ class HostingTypeAPIController extends AppBaseController
 
         $hostingType = $this->hostingTypeRepository->create($input);
 
-        return $this->sendResponse(new HostingTypeResource($hostingType), 'Hosting Type saved successfully');
+        return $this->sendResponse(new HostingTypeResource($hostingType), Lang::get('hosting_type.store_confirm'));
     }
 
     /**
@@ -158,10 +159,10 @@ class HostingTypeAPIController extends AppBaseController
         $hostingType = $this->hostingTypeRepository->find($id);
 
         if (empty($hostingType)) {
-            return $this->sendError('Hosting Type not found');
+            return $this->sendError(Lang::get('hosting_type.not_found'));
         }
 
-        return $this->sendResponse(new HostingTypeResource($hostingType), 'Hosting Type retrieved successfully');
+        return $this->sendResponse(new HostingTypeResource($hostingType), Lang::get('hosting_type.show_confirm'));
     }
 
     /**
@@ -218,12 +219,12 @@ class HostingTypeAPIController extends AppBaseController
         $hostingType = $this->hostingTypeRepository->find($id);
 
         if (empty($hostingType)) {
-            return $this->sendError('Hosting Type not found');
+            return $this->sendError(Lang::get('hosting_type.not_found'));
         }
 
         $hostingType = $this->hostingTypeRepository->update($input, $id);
 
-        return $this->sendResponse(new HostingTypeResource($hostingType), 'HostingType updated successfully');
+        return $this->sendResponse(new HostingTypeResource($hostingType), Lang::get('hosting_type.update_confirm'));
     }
 
     /**
@@ -270,11 +271,11 @@ class HostingTypeAPIController extends AppBaseController
         $hostingType = $this->hostingTypeRepository->find($id);
 
         if (empty($hostingType)) {
-            return $this->sendError('Hosting Type not found');
+            return $this->sendError(Lang::get('hosting_type.not_found'));
         }
 
         $hostingType->delete();
 
-        return $this->sendSuccess('Hosting Type deleted successfully');
+        return $this->sendSuccess(Lang::get('hosting_type.destroy_confirm'));
     }
 }

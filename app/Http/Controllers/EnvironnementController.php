@@ -9,6 +9,7 @@ use App\Models\Environnement;
 use App\Repositories\EnvironnementRepository;
 use Flash;
 use Response;
+use Lang;
 
 class EnvironnementController extends AppBaseController
 {
@@ -52,9 +53,9 @@ class EnvironnementController extends AppBaseController
     {
         $input = $request->all();
 
-        $environnement = $this->environnementRepository->create($input);
+        $this->environnementRepository->create($input);
 
-        Flash::success('Environnement saved successfully.');
+        Flash::success(Lang::get('environnement.saved_confirm'));
 
         return redirect(route('environnements.index'));
     }
@@ -68,7 +69,7 @@ class EnvironnementController extends AppBaseController
     public function show(Environnement $environnement)
     {
         if (empty($environnement)) {
-            Flash::error('Environnement not found');
+            Flash::error(Lang::get('environnement.not_found'));
 
             return redirect(route('environnements.index'));
         }
@@ -85,7 +86,7 @@ class EnvironnementController extends AppBaseController
     public function edit(Environnement $environnement)
     {
         if (empty($environnement)) {
-            Flash::error('Environnement not found');
+            Flash::error(Lang::get('environnement.not_found'));
 
             return redirect(route('environnements.index'));
         }
@@ -103,14 +104,14 @@ class EnvironnementController extends AppBaseController
     public function update(Environnement $environnement, UpdateEnvironnementRequest $request)
     {
         if (empty($environnement)) {
-            Flash::error('Environnement not found');
+            Flash::error(Lang::get('environnement.not_found'));
 
             return redirect(route('environnements.index'));
         }
 
         $environnement = $this->environnementRepository->update($request->all(), $environnement->id);
 
-        Flash::success('Environnement updated successfully.');
+        Flash::success(Lang::get('environnement.update_confirm'));
 
         return redirect(route('environnements.index'));
     }
@@ -124,14 +125,14 @@ class EnvironnementController extends AppBaseController
     public function destroy(Environnement $environnement)
     {
         if (empty($environnement)) {
-            Flash::error('Environnement not found');
+            Flash::error(Lang::get('environnement.not_found'));
 
             return redirect(route('environnements.index'));
         }
 
         $this->environnementRepository->delete($environnement->id);
 
-        Flash::success('Environnement deleted successfully.');
+        Flash::success(Lang::get('environnement.delete_confirm'));
 
         return redirect(route('environnements.index'));
     }

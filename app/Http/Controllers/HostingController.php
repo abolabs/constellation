@@ -10,6 +10,7 @@ use App\Models\ServiceInstance;
 use App\Repositories\HostingRepository;
 use Flash;
 use Response;
+use Lang;
 
 class HostingController extends AppBaseController
 {
@@ -53,9 +54,9 @@ class HostingController extends AppBaseController
     {
         $input = $request->all();
 
-        $hosting = $this->hostingRepository->create($input);
+        $this->hostingRepository->create($input);
 
-        Flash::success('Hosting saved successfully.');
+        Flash::success(Lang::get('hosting.store_confirm'));
 
         return redirect(route('hostings.index'));
     }
@@ -69,7 +70,7 @@ class HostingController extends AppBaseController
     public function show(Hosting $hosting)
     {
         if (empty($hosting)) {
-            Flash::error('Hosting not found');
+            Flash::error(Lang::get('hosting.not_found'));
 
             return redirect(route('hostings.index'));
         }
@@ -87,7 +88,7 @@ class HostingController extends AppBaseController
     public function edit(Hosting $hosting)
     {
         if (empty($hosting)) {
-            Flash::error('Hosting not found');
+            Flash::error(Lang::get('hosting.not_found'));
 
             return redirect(route('hostings.index'));
         }
@@ -105,14 +106,14 @@ class HostingController extends AppBaseController
     public function update(Hosting $hosting, UpdateHostingRequest $request)
     {
         if (empty($hosting)) {
-            Flash::error('Hosting not found');
+            Flash::error(Lang::get('hosting.not_found'));
 
             return redirect(route('hostings.index'));
         }
 
         $hosting = $this->hostingRepository->update($request->all(), $hosting->id);
 
-        Flash::success('Hosting updated successfully.');
+        Flash::success(Lang::get('hosting.update_confirm'));
 
         return redirect(route('hostings.index'));
     }
@@ -126,14 +127,14 @@ class HostingController extends AppBaseController
     public function destroy(Hosting $hosting)
     {
         if (empty($hosting)) {
-            Flash::error('Hosting not found');
+            Flash::error(Lang::get('hosting.not_found'));
 
             return redirect(route('hostings.index'));
         }
 
         $this->hostingRepository->delete($hosting->id);
 
-        Flash::success('Hosting deleted successfully.');
+        Flash::success(Lang::get('hosting.destroy_confirm'));
 
         return redirect(route('hostings.index'));
     }

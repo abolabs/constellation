@@ -23,12 +23,12 @@
                                 <tr>
                                     <th scope="col">{{ __('infra.id') }}</th>
                                     <th scope="col">{{ __('infra.name') }}</th>
-                                    <th scope="col" width="280px">{{ __('datatable.action') }}</th>
+                                    <th scope="col" class="col-4">{{ __('datatable.action') }}</th>
                                 </tr>
                                 @foreach ($roles as $key => $role)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-                                    <td scope="row">{{ $role->name }}</td>
+                                    <td>{{ $role->name }}</td>
                                     <td>
                                         <a class="btn btn-info" href="{{ route('roles.show',$role->id) }}">{{ __('datatable.view') }}</a>
                                         @can('role-edit')
