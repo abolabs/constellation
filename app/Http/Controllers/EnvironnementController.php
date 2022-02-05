@@ -9,7 +9,7 @@ use App\Models\Environnement;
 use App\Repositories\EnvironnementRepository;
 use Flash;
 use Response;
-use \Lang;
+use Lang;
 
 class EnvironnementController extends AppBaseController
 {

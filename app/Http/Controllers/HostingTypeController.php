@@ -9,7 +9,7 @@ use App\Models\HostingType;
 use App\Repositories\HostingTypeRepository;
 use Flash;
 use Response;
-use \Lang;
+use Lang;
 
 class HostingTypeController extends AppBaseController
 {
