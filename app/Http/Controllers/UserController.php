@@ -9,12 +9,21 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Role;
+use App\DataTables\UserDataTable;
+use App\Http\Requests\CreateUserRequest;
+use App\Repositories\UserRepository;
+use Flash;
+use Lang;
 
-class UserController extends Controller
+class UserController extends AppBaseController
 {
-    public function __construct()
+    /** @var UserRepository */
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepo)
     {
         $this->authorizeResource(User::class);
+        $this->userRepository = $userRepo;
     }
 
     /**
@@ -22,12 +31,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(UserDataTable $userDataTable)
     {
-        $data = User::orderBy('id', 'DESC')->paginate(5);
-
-        return view('users.index', compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        return $userDataTable->render('users.index');
     }
 
     /**
@@ -75,23 +81,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required',
-        ]);
-
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
 
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('users.index')
-                        ->with('success', 'User created successfully');
+        Flash::success(Lang::get('user.store_confirm'));
+
+        return redirect()->route('users.index');
     }
 
     /**
