@@ -6,6 +6,7 @@
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 include:
 - template: Security/Secret-Detection.gitlab-ci.yml
+- template: Security/License-Scanning.gitlab-ci.yml
 
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
@@ -84,6 +85,8 @@ phpunit:
     name: "$CI_COMMIT_REF_SLUG"
     untracked: true
     expire_in: 1 day
+    reports:
+      junit: reports/logfile.xml
     paths:
       - reports/
 
@@ -100,6 +103,3 @@ sonarcloud-check:
     - merge_requests
     - master
     - develop
-
-
-
