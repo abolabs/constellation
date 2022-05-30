@@ -84,6 +84,8 @@ phpunit:
     name: "$CI_COMMIT_REF_SLUG"
     untracked: true
     expire_in: 1 day
+    reports:
+      junit: reports/logfile.xml
     paths:
       - reports/
 
