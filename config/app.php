@@ -165,8 +165,6 @@ return [
         /*
          * Package Service Providers...
          */
-        InfyOm\GeneratorBuilder\GeneratorBuilderServiceProvider::class,
-        InfyOm\RoutesExplorer\RoutesExplorerServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         OwenIt\Auditing\AuditingServiceProvider::class,
         Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
