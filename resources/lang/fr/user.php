@@ -10,4 +10,5 @@ return [
     'account' => 'Mon Compte',
     'edit_profile' => 'Editer le profile',
     'language' => 'Langage',
+    'store_confirm' => 'Utilisateur correctement sauvegardé',
 ];

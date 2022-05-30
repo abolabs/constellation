@@ -10,4 +10,5 @@ return [
     'account' => 'My account',
     'edit_profile' => 'Edit profile',
     'language' => 'Language',
+    'store_confirm' => 'User saved successfully.',
 ];
