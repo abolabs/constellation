@@ -33,5 +33,6 @@ class AppServiceProvider extends ServiceProvider
                 );
             });
         }
+        $this->loadViewsFrom(__DIR__ . '/../resources/views/vendor/coreui-templates', 'coreui-templates');
     }
 }
