@@ -1,10 +1,15 @@
-FROM php:8.0-fpm
+# syntax = docker/dockerfile:1.2
+
+############################
+# NPM build assets
+FROM php:8.0-fpm as constellation-base-image
 
 LABEL maintainer="Alexandre BORDIN <bordin.alexandre@gmail.com>"
 
 # Get user arg
 ARG MYUSER=${MYUSER}
 ARG GIT_BRANCH=${GIT_BRANCH}
+ARG APP_PATH=/var/www/constellation
 
 # Update packages
 RUN apt-get update -yqq \
@@ -49,15 +54,23 @@ RUN docker-php-ext-install ldap mbstring pdo_mysql curl intl gd xml zip bz2 opca
 # COMPOSER
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# COPY SOURCE
-RUN rm -rf /var/www
-RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b ${GIT_BRANCH} /var/www
+############################
+# BASE IMAGE
+FROM constellation-base-image as constellation-build
 
-RUN chown -R ${MYUSER}:www-data /var/www
-RUN chown -R www-data: /var/www/storage
+# Get user arg
+ARG MYUSER=${MYUSER}
+ARG GIT_BRANCH=${GIT_BRANCH}
+ARG APP_PATH=/var/www/constellation
+
+# COPY SOURCE
+RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRANCH $APP_PATH
+
+RUN chown -R ${MYUSER}:www-data $APP_PATH
+RUN chown -R www-data: $APP_PATH/storage
 
 # Define workdir
-WORKDIR /var/www
+WORKDIR $APP_PATH
 RUN rm -rf !$/.git
 
 # INIT APP
