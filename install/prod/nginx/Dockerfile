@@ -5,7 +5,8 @@ FROM registry.gitlab.com/abolabs/constellation/fpm:${TAG_NAME} as fpm-build
 
 FROM nginx:latest
 
-COPY --from=fpm-build $APP_PATH $APP_PATH
+RUN mkdir -p $APP_PATH
+COPY --from=fpm-build $APP_PATH/public $APP_PATH/public
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
 
