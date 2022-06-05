@@ -224,8 +224,8 @@ push_tag:
   script:
     - *script-docker-registry-login
     - docker pull $CI_REGISTRY_IMAGE/fpm:latest
-    - docker tag $CI_REGISTRY_IMAGE/fpm:latest $CI_REGISTRY_IMAGE/fpm:$CI_BUILD_REF_SLUG
-    - docker push $CI_REGISTRY_IMAGE/fpm:$CI_BUILD_REF_SLUG
+    - docker tag $CI_REGISTRY_IMAGE/fpm:latest $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_REF_NAME
     - docker pull $CI_REGISTRY_IMAGE/nginx:latest
-    - docker tag $CI_REGISTRY_IMAGE/nginx:latest $CI_REGISTRY_IMAGE/nginx:$CI_BUILD_REF_SLUG
-    - docker push $CI_REGISTRY_IMAGE/nginx:$CI_BUILD_REF_SLUG
+    - docker tag $CI_REGISTRY_IMAGE/nginx:latest $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME
