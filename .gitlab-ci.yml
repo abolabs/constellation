@@ -52,6 +52,30 @@ stages:
   - echo -n $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
 
 
+.script-docker-build: &script-docker-build
+  # fetches the latest image (not failing if image is not found)
+  - docker pull $CI_REGISTRY_IMAGE/${SERVICE_NAME}:latest || true
+  # builds the project, using OCI labels
+  # notice the cache-from, which is going to use the image we just pulled locally
+  # the built image is tagged locally with the commit SHA, and then pushed to
+  # the GitLab registry
+  - >
+    docker build
+    --pull
+    --cache-from $CI_REGISTRY_IMAGE/${SERVICE_NAME}:latest
+    --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
+    --label "org.opencontainers.image.url=$CI_PROJECT_URL"
+    --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
+    --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
+    --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
+    --tag $CI_REGISTRY_IMAGE/${SERVICE_NAME}:$CI_COMMIT_SHA
+    --build-arg GIT_BRANCH="${CI_COMMIT_REF_NAME}"
+    --build-arg MYUSER="constellation_user"
+    --build-arg TAG_NAME="${CI_COMMIT_SHA}"
+    ./install/prod/${SERVICE_NAME}
+  - docker push $CI_REGISTRY_IMAGE/${SERVICE_NAME}:$CI_COMMIT_SHA
+
+
 .script-prepare: &script-prepare
   # Copy over testing configuration.
   # Don't forget to set the database config in .env.testing correctly
@@ -119,30 +143,11 @@ build_fpm:
   image: docker:20
   services:
     - docker:20-dind
+  variables:
+    SERVICE_NAME: "fpm"
   script:
     - *script-docker-registry-login
-    # fetches the latest image (not failing if image is not found)
-    - docker pull $CI_REGISTRY_IMAGE/fpm:latest || true
-    # builds the project, using OCI labels
-    # notice the cache-from, which is going to use the image we just pulled locally
-    # the built image is tagged locally with the commit SHA, and then pushed to
-    # the GitLab registry
-    - >
-      docker build
-      --pull
-      --cache-from $CI_REGISTRY_IMAGE/fpm:latest
-      --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
-      --label "org.opencontainers.image.url=$CI_PROJECT_URL"
-      --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
-      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
-      --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
-      --tag $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA
-      --build-arg GIT_BRANCH="${CI_COMMIT_REF_NAME}"
-      --build-arg MYUSER="constellation_user"
-      --build-arg TAG_NAME="${CI_COMMIT_SHA}"
-      --target=constellation-build
-      ./install/prod/fpm
-    - docker push $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA
+    - *script-docker-build
   only:
     - merge_requests
     - master
@@ -155,29 +160,11 @@ build_nginx:
     - docker:20-dind
   needs:
     - build_fpm
+  variables:
+    SERVICE_NAME: "nginx"
   script:
     - *script-docker-registry-login
-    # fetches the latest image (not failing if image is not found)
-    - docker pull $CI_REGISTRY_IMAGE/nginx:latest || true
-    # builds the project, using OCI labels
-    # notice the cache-from, which is going to use the image we just pulled locally
-    # the built image is tagged locally with the commit SHA, and then pushed to
-    # the GitLab registry
-    - >
-      docker build
-      --pull
-      --cache-from $CI_REGISTRY_IMAGE/nginx:latest
-      --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
-      --label "org.opencontainers.image.url=$CI_PROJECT_URL"
-      --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
-      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
-      --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
-      --tag $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
-      --build-arg GIT_BRANCH="${CI_COMMIT_REF_NAME}"
-      --build-arg MYUSER="constellation_user"
-      --build-arg TAG_NAME="${CI_COMMIT_SHA}"
-      ./install/prod/nginx
-    - docker push $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
+    - *script-docker-build
   only:
     - merge_requests
     - master
