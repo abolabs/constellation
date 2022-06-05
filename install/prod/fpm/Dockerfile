@@ -1,8 +1,6 @@
 # syntax = docker/dockerfile:1.2
 
-############################
-# NPM build assets
-FROM php:8.0-fpm as constellation-base-image
+FROM php:8.0-fpm
 
 LABEL maintainer="Alexandre BORDIN <bordin.alexandre@gmail.com>"
 
@@ -53,15 +51,6 @@ RUN docker-php-ext-install ldap mbstring pdo_mysql curl intl gd xml zip bz2 opca
 
 # COMPOSER
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-
-############################
-# BASE IMAGE
-FROM constellation-base-image as constellation-build
-
-# Get user arg
-ARG MYUSER=${MYUSER}
-ARG GIT_BRANCH=${GIT_BRANCH}
-ARG APP_PATH=/var/www/constellation
 
 # COPY SOURCE
 RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRANCH $APP_PATH
