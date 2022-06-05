@@ -209,8 +209,7 @@ push_latest:
     # Only "master" should be tagged "latest"
     - master
 
-# Finally, the goal here is to Docker tag any Git tag
-# GitLab will start a new pipeline everytime a Git tag is created, which is pretty awesome
+# create tagged image from latest
 push_tag:
   variables:
     # Again, we do not need the source code here. Just playing with Docker.
@@ -224,9 +223,9 @@ push_tag:
     - tags
   script:
     - *script-docker-registry-login
-    - docker pull $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/fpm:$CI_BUILD_REF_SLUG
-    - docker push $CI_REGISTRY_IMAGE/fpm:$CI_BUILD_REF_SLUG
-    - docker pull $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
-    - docker tag $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/nginx:$CI_BUILD_REF_SLUG
-    - docker push $CI_REGISTRY_IMAGE/nginx:$CI_BUILD_REF_SLUG
+    - docker pull $CI_REGISTRY_IMAGE/fpm:latest
+    - docker tag $CI_REGISTRY_IMAGE/fpm:latest $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_REF_NAME
+    - docker pull $CI_REGISTRY_IMAGE/nginx:latest
+    - docker tag $CI_REGISTRY_IMAGE/nginx:latest $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME
