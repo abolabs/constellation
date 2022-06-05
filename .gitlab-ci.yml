@@ -159,12 +159,12 @@ build_fpm:
     - develop
 
 build:
-  dependencies:
+  needs:
   - build_fpm
 
 container_scanning:
   stage: security
-  dependencies:
+  needs:
     - build
 
 build_nginx:
