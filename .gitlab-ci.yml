@@ -8,6 +8,8 @@ include:
 - template: Security/Secret-Detection.gitlab-ci.yml
 - template: Security/License-Scanning.gitlab-ci.yml
 - template: Security/Dependency-Scanning.gitlab-ci.yml
+- template: Jobs/Build.gitlab-ci.yml
+- template: Security/Container-Scanning.gitlab-ci.yml
 
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
@@ -152,6 +154,10 @@ build_fpm:
     - merge_requests
     - master
     - develop
+
+container_scanning:
+  variables:
+    CS_DEFAULT_BRANCH_IMAGE: $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA
 
 build_nginx:
   stage: build
