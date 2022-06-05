@@ -141,25 +141,23 @@ sonarcloud-check:
     - master
     - develop
 
-build_fpm:
+build:
   stage: build
   image: docker:20
   services:
     - docker:20-dind
   variables:
     SERVICE_NAME: "fpm"
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
   script:
     - *script-docker-registry-login
     - *script-docker-build
-  only:
-    - merge_requests
-    - master
-    - develop
 
 container_scanning:
   stage: security
   needs:
-    - build_fpm
+    - build
   variables:
     CS_DEFAULT_BRANCH_IMAGE: $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA
 
@@ -169,7 +167,7 @@ build_nginx:
   services:
     - docker:20-dind
   dependencies:
-    - build_fpm
+    - build
   variables:
     SERVICE_NAME: "nginx"
   script:
