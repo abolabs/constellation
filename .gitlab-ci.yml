@@ -166,7 +166,7 @@ build_nginx:
   image: docker:20
   services:
     - docker:20-dind
-  dependencies:
+  needs:
     - build
   variables:
     SERVICE_NAME: "nginx"
