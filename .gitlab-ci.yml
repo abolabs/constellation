@@ -10,6 +10,7 @@ include:
 - template: Security/Dependency-Scanning.gitlab-ci.yml
 - template: Jobs/Build.gitlab-ci.yml
 - template: Security/Container-Scanning.gitlab-ci.yml
+- template: Security/SAST-IaC.latest.gitlab-ci.yml
 
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
