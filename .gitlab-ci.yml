@@ -8,6 +8,8 @@ include:
 - template: Security/Secret-Detection.gitlab-ci.yml
 - template: Security/License-Scanning.gitlab-ci.yml
 - template: Security/Dependency-Scanning.gitlab-ci.yml
+- template: Jobs/Build.gitlab-ci.yml
+- template: Security/Container-Scanning.gitlab-ci.yml
 
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
@@ -21,6 +23,8 @@ variables:
   Host: redis
   REDIS_PORT: 6379
   SECRET_DETECTION_EXCLUDED_PATHS: vendor/**,node_modules/**
+  CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/fpm
+  DOCKER_IMAGE: $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -37,6 +41,7 @@ stages:
   - test
   - scan
   - build
+  - security
   - push
 
 .base:
@@ -138,7 +143,7 @@ sonarcloud-check:
     - master
     - develop
 
-build_fpm:
+build:
   stage: build
   image: docker:20
   services:
@@ -148,10 +153,13 @@ build_fpm:
   script:
     - *script-docker-registry-login
     - *script-docker-build
-  only:
-    - merge_requests
-    - master
-    - develop
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
+
+container_scanning:
+  stage: security
+  needs:
+    - build
 
 build_nginx:
   stage: build
@@ -159,7 +167,7 @@ build_nginx:
   services:
     - docker:20-dind
   needs:
-    - build_fpm
+    - build
   variables:
     SERVICE_NAME: "nginx"
   script:
