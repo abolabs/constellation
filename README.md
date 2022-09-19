@@ -140,7 +140,7 @@ cp ./install/prod/.env.example .env
 
 #### 2. Editer le fichier d'environnement de la stack Docker
 
-* `MYUSER` Nom de l'utilisateur dans le conteneur fpm. 
+* `MYUSER` Nom de l'utilisateur dans le conteneur api. 
 * `DATA_VOLUME` Répertoire de partage pour le stockage des données des services (Mariadb, Nginx, Redis).
 * Mariadb - Les informations ci-dessous devront correspondre à celles du `.env` Laravel, à la racine du projet).
     * `MARIADB_ROOT_PASSWORD` Mot de passe root
@@ -170,15 +170,15 @@ Si des ports sont déjà utilisés par d'autres services, modifiez la configurat
     ```
 * Editez le fichier d'environnement Laravel
   * Générer une nouvelle clé applicative (il est déconseillé d'utiliser celle utilisée pour la construction de l'image Docker).
-  `docker-compose exec fpm php artisan key:generate`
+  `docker-compose exec api php artisan key:generate`
   * Editer les variables commençant `DB_` pour correspondre à ce qui a été défini dans le fichier `./install/dev/.env`.
-  `docker-compose exec fpm nano .env`
+  `docker-compose exec api nano .env`
   Vous pouvez également modifier les autres variables en fonction de votre environnement (voir https://laravel.com/docs/8.x/configuration).
 
 * Initialisez la base de données    
     * Editez l'administrateur.     
     Modifier le fichier `./database/seeders/CreateAdminUserSeeder.php`.
-    `docker-compose exec fpm nano database/seeders/CreateAdminUserSeeder.php`
+    `docker-compose exec api nano database/seeders/CreateAdminUserSeeder.php`
     Editez le nom, l'email et mot de passe à votre convenance 
     ```php
     'name' => 'Super Admin',
@@ -187,11 +187,11 @@ Si des ports sont déjà utilisés par d'autres services, modifiez la configurat
     ```
     * Initialisation des tables
     ```sh
-    docker-compose exec fpm php artisan migrate --seed
+    docker-compose exec api php artisan migrate --seed
     ```
     * (Optionnel) Chargez des applications d'exemple
     ```sh
-    docker-compose exec fpm php artisan db:seed --class=AppExampleSeeder
+    docker-compose exec api php artisan db:seed --class=AppExampleSeeder
     ```
 #### 5. Finalisation
 

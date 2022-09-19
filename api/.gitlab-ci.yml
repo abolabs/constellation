@@ -25,8 +25,8 @@ variables:
   Host: redis
   REDIS_PORT: 6379
   SECRET_DETECTION_EXCLUDED_PATHS: vendor/**,node_modules/**
-  CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/fpm
-  DOCKER_IMAGE: $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA
+  CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/api
+  DOCKER_IMAGE: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
   SAST_EXCLUDED_PATHS: vendor/**,node_modules/**,public/**
 
 cache:
@@ -48,7 +48,7 @@ stages:
   - push
 
 .base:
-  image: registry.gitlab.com/abolabs/constellation/fpm:ci
+  image: registry.gitlab.com/abolabs/constellation/api:ci
   services:
   - mariadb:10.5
   - redis:3.0.6
@@ -152,7 +152,7 @@ build:
   services:
     - docker:20-dind
   variables:
-    SERVICE_NAME: "fpm"
+    SERVICE_NAME: "api"
   script:
     - *script-docker-registry-login
     - *script-docker-build
@@ -195,13 +195,13 @@ push_latest:
     - *script-docker-registry-login
     # Because we have no guarantee that this job will be picked up by the same runner
     # that built the image in the previous step, we pull it again locally
-    - docker pull $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA
+    - docker pull $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
     - docker pull $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
     # Then we tag it "latest"
-    - docker tag $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/fpm:latest
+    - docker tag $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/api:latest
     - docker tag $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/nginx:latest
     # Annnd we push it.
-    - docker push $CI_REGISTRY_IMAGE/fpm:latest
+    - docker push $CI_REGISTRY_IMAGE/api:latest
     - docker push $CI_REGISTRY_IMAGE/nginx:latest
   only:
     # Only "master" should be tagged "latest"
@@ -221,9 +221,9 @@ push_tag:
     - tags
   script:
     - *script-docker-registry-login
-    - docker pull $CI_REGISTRY_IMAGE/fpm:latest
-    - docker tag $CI_REGISTRY_IMAGE/fpm:latest $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_REF_NAME
-    - docker push $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_REF_NAME
+    - docker pull $CI_REGISTRY_IMAGE/api:latest
+    - docker tag $CI_REGISTRY_IMAGE/api:latest $CI_REGISTRY_IMAGE/api:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/api:$CI_COMMIT_REF_NAME
     - docker pull $CI_REGISTRY_IMAGE/nginx:latest
     - docker tag $CI_REGISTRY_IMAGE/nginx:latest $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME

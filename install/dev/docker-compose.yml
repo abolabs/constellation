@@ -29,6 +29,7 @@ services:
         - "${HTTP}:3000"
       volumes:
         -  ${FRONT_SOURCE_VOLUME}:/var/www
+
   nginx:
       image: nginx:latest
       ports:
@@ -37,10 +38,10 @@ services:
         -  ${API_SOURCE_VOLUME}/public:/var/www/public
         - ${DATA_VOLUME}/nginx:/var/log/nginx
         - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-  fpm:
+  api:
       build:
         context: .
-        dockerfile: fpm/Dockerfile
+        dockerfile: api/Dockerfile
         args:
         - MYUSER=${MYUSER}
       volumes:
