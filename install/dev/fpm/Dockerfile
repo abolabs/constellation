@@ -10,13 +10,9 @@ RUN apt-get update -yqq
 
 RUN apt-get install -yqq gnupg software-properties-common
 
-# Add Node
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-
 # Install libs
 RUN apt-get install -yqq git \
                         zip unzip libzip-dev \
-                        nodejs \
                         libonig-dev \
                         libcurl4-gnutls-dev \
                         libicu-dev \
@@ -58,7 +54,7 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php && \
 
 
 # Add user
-RUN useradd -ms /bin/bash -G www-data ${MYUSER}
+RUN useradd -ms /bin/bash -G www-data ${MYUSER} || echo "User already exists."
 
 # Expose port
 EXPOSE 80 443
