@@ -39,7 +39,7 @@ class ServiceInstanceAPIController extends AppBaseController
             $request->page,
             $request->sort
         );
-        return $this->sendResponse(ServiceInstanceResource::collection($serviceInstances), 'Service Instances retrieved successfully',$serviceInstances->total());
+        return $this->sendResponse(ServiceInstanceResource::collection($serviceInstances), 'Service Instances retrieved successfully', $serviceInstances->total());
     }
 
     /**

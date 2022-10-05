@@ -17,7 +17,7 @@ class ResponseUtil
             'data'    => $data,
             'message' => $message,
         ];
-        if(!is_null($total)){
+        if (!is_null($total)) {
             $response['total'] = $total;
         }
         return $response;
