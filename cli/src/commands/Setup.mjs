@@ -21,15 +21,9 @@ import * as path from 'path';
 import {selectAction} from './Base.mjs';
 import { spinner } from 'zx/experimental';
 import Environment from '../utils/Environment.mjs';
+import AbstractCommand from './AbstractCommand.mjs';
 
-export default class Setup {
-
-    constructor(args) {
-        this.action = args?.additionnal?.[0];
-
-        this.additionnal = args?.additionnal.splice(1);
-        this.cliEnv = args?.cliEnv;
-    }
+export default class Setup extends AbstractCommand {
 
     actions() {
         return {
@@ -61,18 +55,6 @@ export default class Setup {
 
         `
         Console.log(usageText);
-    }
-
-    async run(){
-        if(!Object.keys(this.actions()).includes(this.action)){
-            this.usage();
-            this.action = await selectAction(Object.keys(this.actions()));
-        }
-
-        cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
-        if(this.action){
-            this.actions()[this.action](this.additionnal);
-        }
     }
 
     async up() {

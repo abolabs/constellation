@@ -19,6 +19,7 @@
 import Console from '../utils/Console.mjs';
 import * as path from 'path';
 import {selectAction} from './Base.mjs';
+import AbstractCommand from './AbstractCommand.mjs';
 
 const actions = [
     'build',
@@ -48,14 +49,7 @@ const actions = [
     'version'
 ];
 
-export default class Docker {
-
-    constructor(args){
-        this.action = args?.additionnal?.[0];
-
-        this.additionnal = args?.additionnal.splice(1);
-        this.cliEnv = args?.cliEnv;
-    }
+export default class Docker extends AbstractCommand {
 
     usage() {
         const usageText = `
