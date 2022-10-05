@@ -140,7 +140,7 @@ cp ./install/prod/.env.example .env
 
 #### 2. Edit the Docker stack environment file
 
-* `MYUSER` Username in the fpm container.
+* `MYUSER` Username in the api container.
 * `DATA_VOLUME` Sharing directory for storing service data (Mariadb, Nginx, Redis).
 * `SOURCE_VOLUME` Location of application sources (ex.: `/home/myname/project/Constellation`).
 * Mariadb - The information below must match that of the `.env` Laravel file, at the root of the project).
@@ -171,15 +171,15 @@ If the ports are already in use by other services, change the configuration.
     ```
 * Edit the Laravel environment file.
     * Generate a new application key (it is not recommended to use the one used for building the Docker image).
-    `docker-compose exec fpm php artisan key:generate`
+    `docker-compose exec api php artisan key:generate`
     * Edit variables starting `DB_` to match what has been defined in the file `./install/dev/.env`.
-    `docker-compose exec fpm nano .env`
+    `docker-compose exec api nano .env`
     You can also modify the other variables according to your environment (see https://laravel.com/docs/8.x/configuration).
 
 * Initialize the database
     * Edit the administrator. 
     Edit file `./database/seeders/CreateAdminUserSeeder.php`.
-    `docker-compose exec fpm nano database/seeders/CreateAdminUserSeeder.php`
+    `docker-compose exec api nano database/seeders/CreateAdminUserSeeder.php`
     Edit the name, email and password at your convenience 
     ```php
     'name' => 'Super Admin',
@@ -188,11 +188,11 @@ If the ports are already in use by other services, change the configuration.
     ```
     * Initialization of tables
     ```sh
-    docker-compose exec fpm php artisan migrate --seed
+    docker-compose exec api php artisan migrate --seed
     ```
     * (Optional) Load example applications
     ```sh
-    docker-compose exec fpm php artisan db:seed --class=AppExampleSeeder
+    docker-compose exec api php artisan db:seed --class=AppExampleSeeder
     ```
 #### 5. Finalization
 

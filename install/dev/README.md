@@ -6,7 +6,7 @@ cp ./install/dev/.env.example .env
 
 #### 2. Edit the Docker stack environment file
 
-* `MYUSER` Username in the fpm container.
+* `MYUSER` Username in the api container.
 * `COMPOSE_PROJECT_NAME` Name of the stack in Docker.
 * `DATA_VOLUME` Sharing directory for storing service data (Mariadb, Nginx, Redis).
 * `SOURCE_VOLUME` Location of application sources (ex.: `/home/myname/project/Constellation`).
@@ -31,9 +31,9 @@ If the ports are already in used by other services, change the configuration.
 
 #### 4. Application initialization
 
-* Enter the fpm container on CLI.
+* Enter the api container on CLI.
     ```sh
-    docker exec -it constellation_fpm_1 bash
+    docker exec -it constellation_api_1 bash
     ```
 * Switch to app user
     ```sh
@@ -74,7 +74,7 @@ If the ports are already in used by other services, change the configuration.
 
 Generate the OAuth2 keys and client.
 
-* Always inside the fpm container, setup the Passport keys with `php artisan passport:install`.
+* Always inside the api container, setup the Passport keys with `php artisan passport:install`.
 
 * Generate a client with passport grant with `php artisan passport:client --password`.
 
