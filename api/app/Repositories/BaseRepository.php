@@ -135,9 +135,9 @@ abstract class BaseRepository
     {
         $fullTextSearch = [];
         $filter = [];
-        if(isset($search['filter'])){
-            if(isset($search['filter']['q'])){
-                foreach($this->getFieldsSearchable() as $field) {
+        if (isset($search['filter'])) {
+            if (isset($search['filter']['q'])) {
+                foreach ($this->getFieldsSearchable() as $field) {
                     $fullTextSearch[$field] = $search['filter']['q'];
                 }
                 unset($search['filter']['q']);
@@ -147,17 +147,17 @@ abstract class BaseRepository
 
         $query = $this->allQuery($fullTextSearch);
 
-        foreach($filter as $searchKey => $searchValue){
-            if(in_array($searchKey, $this->getFieldsSearchable())){
-                if(is_array($searchValue)){
+        foreach ($filter as $searchKey => $searchValue) {
+            if (in_array($searchKey, $this->getFieldsSearchable())) {
+                if (is_array($searchValue)) {
                     $query->whereIn($searchKey, $searchValue);
-                }else{
+                } else {
                     $query->where($searchKey, $searchValue);
                 }
             }
         }
 
-        if(!is_null($order)){
+        if (!is_null($order)) {
             $orderConfig = explode("-", $order);
             $orderType = count($orderConfig) > 1 ? "DESC" : "ASC";
             $query->orderBy(end($orderConfig), $orderType);
