@@ -47,6 +47,8 @@ export default class Setup extends AbstractCommand {
             Options
 
             --fresh         Fresh database after mounting.
+            --seed          Php artisan db:seed
+            --logs          Display front logs at the end of the setup.
 
         down        Alias for docker compose down
 
@@ -87,7 +89,7 @@ export default class Setup extends AbstractCommand {
                     process.exit(1);
                 }
                 await $`docker compose restart front-app`
-                await $`docker compose logs -f -t 100 front-app`
+                await $`docker compose logs -f -t 100  --no-log-prefix front-app`
             }
 
         }catch(e){

@@ -27,8 +27,9 @@ import FrontApp from './src/commands/FrontApp.mjs';
 import CI from './src/commands/CI.mjs';
 import * as dotenv from 'dotenv';
 import { $ } from 'zx/core';
+import path from 'path';
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '/.env') });
 
 $.verbose ? Base.printTitle() : null;
 
