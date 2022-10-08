@@ -3,9 +3,7 @@ import jwt_decode from "jwt-decode";
 
 const AuthProvider = {
   login: async ({ email, password }) => {
-    console.log("login", email);
-
-    const response = await axios.post('http://localhost:8080/oauth/token',
+    const response = await axios.post(`${process.env.REACT_APP_ISSUER}/oauth/token`,
       {
         grant_type: "password",
         username: email,
@@ -26,8 +24,6 @@ const AuthProvider = {
       throw new Error(response.statusText);
     }
     localStorage.setItem('auth', response.data.access_token);
-
-    console.log(response);
 
     return Promise.resolve(response.data.access_token);
   },
