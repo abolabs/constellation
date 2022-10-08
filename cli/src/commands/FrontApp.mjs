@@ -17,8 +17,6 @@
 
 
 import Console from '../utils/Console.mjs';
-import * as path from 'path';
-import {selectAction} from './Base.mjs';
 import AbstractCommand from './AbstractCommand.mjs';
 
 export default class Api extends AbstractCommand {

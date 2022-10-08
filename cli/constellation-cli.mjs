@@ -25,8 +25,12 @@ import Setup from './src/commands/Setup.mjs';
 import Api from './src/commands/Api.mjs';
 import FrontApp from './src/commands/FrontApp.mjs';
 import CI from './src/commands/CI.mjs';
+import * as dotenv from 'dotenv';
+import { $ } from 'zx/core';
 
-$.verbose ? Base.printTitle() : Console.log(">>> Constellation CLI <<<");
+dotenv.config();
+
+$.verbose ? Base.printTitle() : null;
 
 await Environment.initEnv();
 

@@ -18,6 +18,7 @@
 
 import gradient from 'gradient-string';
 import prompts from 'prompts';
+import { $ } from 'zx/core';
 
 function log(...message){
     const firstMessage = message?.[0];
@@ -33,12 +34,16 @@ function log(...message){
 }
 
 function debug(message){
-    console.log(message);
+    if($.verbose){
+        console.log(message);
+    }
 }
 
 function info(...message){
-    const infoGradient = gradient(['#084C61','#177E89','#084C61']);
-    printGradient(infoGradient, '[Info]', ...message);
+    if($.verbose){
+        const infoGradient = gradient(['#084C61','#177E89','#084C61']);
+        printGradient(infoGradient, '[Info]', ...message);
+    }
 }
 
 function warn(...message){
