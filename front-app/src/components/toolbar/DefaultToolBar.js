@@ -10,7 +10,7 @@ const DefaultToolBar = () => (
     <FilterButton/>
     <CreateButton />
     <ExportButton />
-  </TopToolbar >
+  </TopToolbar>
 );
 
 export default DefaultToolBar;

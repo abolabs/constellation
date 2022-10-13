@@ -1,14 +1,20 @@
+// external-lib
 import * as React from 'react';
 import { Logout, UserMenu, useUserMenu, useLocaleState, AppBar } from 'react-admin';
-
+import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 
-// Icons
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LanguageIcon from '@mui/icons-material/Language';
 import SettingsIcon from '@mui/icons-material/Settings';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import IconButton from '@mui/material/IconButton';
+// local
+import ColorModeContext from "@contexts/ColorModeContext";
 
 // It's important to pass the ref to allow MUI to manage the keyboard navigation
 const ConfigurationMenu = React.forwardRef((props, ref) => {
@@ -65,6 +71,38 @@ const AppUserMenu = props => (
   </UserMenu>
 );
 
-const DefaultAppBar = props => <AppBar {...props} userMenu={<AppUserMenu />} />;
+
+const ToggleThemeButton = (props) => {
+  const theme = useTheme();
+  const colorMode = React.useContext(ColorModeContext);
+
+  return (
+    <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+      </IconButton>
+  );
+};
+
+ 
+
+const DefaultAppBar = props => {
+  const theme = useTheme();
+  return (
+    <AppBar 
+      sx={{
+        background: 'transparent',
+        color: theme.palette.primary.main,
+        boxShadow: 'none',
+      }}
+      {...props} 
+      userMenu={<AppUserMenu />} 
+    >      
+      <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
+        Constellation
+      </Typography>         
+      <ToggleThemeButton /> 
+    </AppBar>
+  );
+};
 
 export default DefaultAppBar;

@@ -4,18 +4,14 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-
-function handleClick(event) {
-  event.preventDefault();
-  console.info('You clicked a breadcrumb.');
-}
+import HomeIcon from '@mui/icons-material/Home';
 
 export default function AppBreadCrumd(props) {
   const routePrefix = "/#/";
 
   const breadcrumbs = [
     <Link underline="hover" key="route-0" color="inherit" href="/">
-      Dashboard
+      <HomeIcon fontSize="small" />
     </Link>
   ];
 
@@ -45,6 +41,10 @@ export default function AppBreadCrumd(props) {
   return (
     <Stack spacing={2}>
       <Breadcrumbs
+        sx={{
+          lineHeight: 1,
+          mb: 0.5,
+        }}
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"
       >
