@@ -1,18 +1,24 @@
 // external-lib
-import * as React from 'react';
-import { Logout, UserMenu, useUserMenu, useLocaleState, AppBar } from 'react-admin';
-import { useTheme } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
+import * as React from "react";
+import {
+  Logout,
+  UserMenu,
+  useUserMenu,
+  useLocaleState,
+  AppBar,
+} from "react-admin";
+import { useTheme } from "@mui/material/styles";
+import { Link } from "react-router-dom";
+import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
 
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import LanguageIcon from '@mui/icons-material/Language';
-import SettingsIcon from '@mui/icons-material/Settings';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import IconButton from '@mui/material/IconButton';
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import LanguageIcon from "@mui/icons-material/Language";
+import SettingsIcon from "@mui/icons-material/Settings";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
+import IconButton from "@mui/material/IconButton";
 // local
 import ColorModeContext from "@contexts/ColorModeContext";
 
@@ -29,9 +35,7 @@ const ConfigurationMenu = React.forwardRef((props, ref) => {
       <ListItemIcon>
         <SettingsIcon />
       </ListItemIcon>
-      <ListItemText>
-        Configuration
-      </ListItemText>
+      <ListItemText>Configuration</ListItemText>
     </MenuItem>
   );
 });
@@ -47,23 +51,21 @@ const SwitchLanguage = React.forwardRef((props, ref) => {
       ref={ref}
       // It's important to pass the props to allow MUI to manage the keyboard navigation
       {...props}
-      sx={{ color: 'text.secondary' }}
-      onClick={event => {
-        setLocale(locale === 'en' ? 'fr' : 'en');
+      sx={{ color: "text.secondary" }}
+      onClick={(event) => {
+        setLocale(locale === "en" ? "fr" : "en");
         onClose(); // Close the menu
       }}
     >
       <ListItemIcon sx={{ minWidth: 5 }}>
         <LanguageIcon />
       </ListItemIcon>
-      <ListItemText>
-        Switch Language
-      </ListItemText>
+      <ListItemText>Switch Language</ListItemText>
     </MenuItem>
   );
 });
 
-const AppUserMenu = props => (
+const AppUserMenu = (props) => (
   <UserMenu {...props}>
     <ConfigurationMenu />
     <SwitchLanguage />
@@ -71,36 +73,41 @@ const AppUserMenu = props => (
   </UserMenu>
 );
 
-
 const ToggleThemeButton = (props) => {
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
 
   return (
-    <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-      </IconButton>
+    <IconButton
+      sx={{ ml: 1 }}
+      onClick={colorMode.toggleColorMode}
+      color="inherit"
+    >
+      {theme.palette.mode === "dark" ? (
+        <Brightness7Icon />
+      ) : (
+        <Brightness4Icon />
+      )}
+    </IconButton>
   );
 };
 
- 
-
-const DefaultAppBar = props => {
+const DefaultAppBar = (props) => {
   const theme = useTheme();
   return (
-    <AppBar 
+    <AppBar
       sx={{
-        background: 'transparent',
+        background: "transparent",
         color: theme.palette.primary.main,
-        boxShadow: 'none',
+        boxShadow: "none",
       }}
-      {...props} 
-      userMenu={<AppUserMenu />} 
-    >      
+      {...props}
+      userMenu={<AppUserMenu />}
+    >
       <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
         Constellation
-      </Typography>         
-      <ToggleThemeButton /> 
+      </Typography>
+      <ToggleThemeButton />
     </AppBar>
   );
 };

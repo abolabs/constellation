@@ -14,15 +14,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import apiClient from "ra-laravel-client";
 
-const dataProvider = apiClient(`${process.env.REACT_APP_API_URL}/v1`,
+const dataProvider = apiClient(
+  `${process.env.REACT_APP_API_URL}/v1`,
   {
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
     },
-    offsetPageNum: 0
+    offsetPageNum: 0,
   },
-  "auth");
+  "auth"
+);
 
-
-export default  dataProvider;
+export default dataProvider;

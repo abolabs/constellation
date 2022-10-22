@@ -1,16 +1,16 @@
 // in src/App.js
 import * as React from "react";
-import { Admin, Resource, ListGuesser, Title } from 'react-admin';
-import AuthProvider from '@providers/AuthProvider';
-import LoginPage from '@pages/LoginPage';
-import ApplicationList from '@pages/application/ApplicationList';
+import { Admin, Resource, ListGuesser, Title } from "react-admin";
+import AuthProvider from "@providers/AuthProvider";
+import LoginPage from "@pages/LoginPage";
+import ApplicationList from "@pages/application/ApplicationList";
 import LightTheme from "@themes/LightTheme";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import AppLayout from "@layouts/AppLayout";
 import dataProvider from "@providers/DataProvider";
-import { responsiveFontSizes, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { responsiveFontSizes, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import DarkTheme from "@themes/DarkTheme";
 import ColorModeContext from "@contexts/ColorModeContext";
 
@@ -21,38 +21,35 @@ const Dashboard = () => {
       <Title title="Welcome to Constellation" />
       <CardContent>Lorem ipsum sic dolor amet...</CardContent>
     </Card>
-  )
+  );
 };
 
 const App = () => {
-
-  const [mode, setMode] = React.useState('light');
+  const [mode, setMode] = React.useState("light");
   const colorMode = React.useMemo(
     () => ({
       // The dark mode switch would invoke this method
       toggleColorMode: () => {
-        setMode((prevMode) =>
-          prevMode === 'light' ? 'dark' : 'light',
-        );
+        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
       },
     }),
-    [],
+    []
   );
   const getDesignTokens = (mode) => {
     const themes = {
       light: LightTheme,
-      dark: DarkTheme
-    }
+      dark: DarkTheme,
+    };
     return themes[mode];
   };
 
   const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   return (
-    <ColorModeContext.Provider value={colorMode}>    
+    <ColorModeContext.Provider value={colorMode}>
       <CssBaseline />
-      <Admin 
-        layout={AppLayout}      
+      <Admin
+        layout={AppLayout}
         title="Constellation"
         theme={responsiveFontSizes(theme)}
         dashboard={Dashboard}
@@ -74,8 +71,7 @@ const App = () => {
         <Resource name="roles" list={ListGuesser} />
       </Admin>
     </ColorModeContext.Provider>
-  )
+  );
 };
-
 
 export default App;

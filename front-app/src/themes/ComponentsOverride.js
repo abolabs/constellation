@@ -6,44 +6,44 @@ const componentsOverride = (theme) => {
         styleOverrides: {
           root: {
             //boxShadow: theme.palette.shadows[1],
-            boxShadow: 'none',
-          }
-        }
+            boxShadow: "none",
+          },
+        },
       },
       Table: {
         styleOverrides: {
           root: {
-            boxShadow: 'none',
-          }
-        }
+            boxShadow: "none",
+          },
+        },
       },
       MuiCard: {
         styleOverrides: {
           root: {
-            boxShadow: 'none',
-          }
-        }
+            boxShadow: "none",
+          },
+        },
       },
       MuiOutlinedInput: {
         styleOverrides: {
           root: {
-            '& .MuiOutlinedInput-notchedOutline': {
+            "& .MuiOutlinedInput-notchedOutline": {
               borderColor: theme?.palette?.primary?.main,
-            },            
-          }
-        }
+            },
+          },
+        },
       },
       RaLayout: {
         styleOverrides: {
           root: {
-            '& .RaLayout-content': {
-              padding: '0.5rem',
-            }
-          }
-        }
-      }
-    }
+            "& .RaLayout-content": {
+              padding: "0.5rem",
+            },
+          },
+        },
+      },
+    },
   };
-}
+};
 
 export default componentsOverride;

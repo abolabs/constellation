@@ -3,11 +3,11 @@ import {
   FilterButton,
   CreateButton,
   ExportButton,
-} from 'react-admin';
+} from "react-admin";
 
 const DefaultToolBar = () => (
   <TopToolbar>
-    <FilterButton/>
+    <FilterButton />
     <CreateButton />
     <ExportButton />
   </TopToolbar>

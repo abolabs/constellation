@@ -1,10 +1,10 @@
-import * as React from 'react';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import HomeIcon from '@mui/icons-material/Home';
+import * as React from "react";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
+import Stack from "@mui/material/Stack";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import HomeIcon from "@mui/icons-material/Home";
 
 export default function AppBreadCrumd(props) {
   const routePrefix = "/#/";
@@ -12,16 +12,22 @@ export default function AppBreadCrumd(props) {
   const breadcrumbs = [
     <Link underline="hover" key="route-0" color="inherit" href="/">
       <HomeIcon fontSize="small" />
-    </Link>
+    </Link>,
   ];
 
   try {
-    const paths = props.location.pathname.split('/');
-    var i = 1, len = paths.length;
+    const paths = props.location.pathname.split("/");
+    var i = 1,
+      len = paths.length;
     while (i < len) {
       if (i < len - 1) {
         breadcrumbs.push(
-          <Link underline="hover" key="route-{i}" color="inherit" href={routePrefix+paths[i]}>
+          <Link
+            underline="hover"
+            key="route-{i}"
+            color="inherit"
+            href={routePrefix + paths[i]}
+          >
             {paths[i]}
           </Link>
         );
@@ -32,7 +38,7 @@ export default function AppBreadCrumd(props) {
           </Typography>
         );
       }
-      i++
+      i++;
     }
   } catch (e) {
     console.log(e);
