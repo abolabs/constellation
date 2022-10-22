@@ -52,6 +52,9 @@ const ApplicationList = (props) => {
           "& .MuiTable-root": {
             boxShadow: theme.palette.shadows[1],
           },
+          "& .MuiButtonBase-root": {
+            color: theme?.palette?.primary?.main,
+          }
         }}
       >
         {isSmall ? (
