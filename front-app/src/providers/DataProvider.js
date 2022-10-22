@@ -15,7 +15,7 @@
 import apiClient from "ra-laravel-client";
 
 const dataProvider = apiClient(
-  `${process.env.REACT_APP_API_URL}/v1`,
+  `${window.env.REACT_APP_API_URL}/v1`,
   {
     headers: {
       "Access-Control-Allow-Origin": "*",

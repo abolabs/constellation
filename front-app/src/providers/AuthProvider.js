@@ -5,14 +5,14 @@ const AuthProvider = {
   login: async ({ email, password }) => {
     const response = await axios
       .post(
-        `${process.env.REACT_APP_ISSUER}/oauth/token`,
+        `${window.env.REACT_APP_ISSUER}/oauth/token`,
         {
           grant_type: "password",
           username: email,
           password: password,
           scope: "*",
-          client_id: process.env.REACT_APP_CLIENT_ID,
-          client_secret: process.env.REACT_APP_CLIENT_SECRET,
+          client_id: window.env.REACT_APP_CLIENT_ID,
+          client_secret: window.env.REACT_APP_CLIENT_SECRET,
         },
         {
           headers: {

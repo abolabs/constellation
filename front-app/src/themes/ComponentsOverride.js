@@ -10,13 +10,28 @@ const componentsOverride = (theme) => {
           },
         },
       },
-      Table: {
+      RaList: {
         styleOverrides: {
           root: {
-            boxShadow: "none",
-          },
-        },
-      },
+            "& .MuiTableSortLabel-root": {
+              fontSize: 16,
+            },
+            "& .TableHead > .MuiTableRow-head": {
+              borderTop: 1,
+              borderColor: "#000",
+            },
+            "& .MuiTable-root": {
+              boxShadow: theme.palette.shadows[1],
+            },
+            "& .MuiButtonBase-root": {
+              color: theme?.palette?.primary?.main,
+            },
+            "& .MuiTableCell-root": {
+              borderBottom: 0,
+            }
+          }
+        }
+      },      
       MuiCard: {
         styleOverrides: {
           root: {
@@ -42,8 +57,15 @@ const componentsOverride = (theme) => {
           },
         },
       },
+      Table: {
+        styleOverrides: {
+          root: {
+            boxShadow: "none",
+          },
+        },
+      },
     },
-  };
+  }
 };
 
-export default componentsOverride;
+export default componentsOverride ;

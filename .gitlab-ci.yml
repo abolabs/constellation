@@ -13,6 +13,10 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
+# --------------------------
+#     Templates includes
+
 # You can override the included template(s) by including variable overrides
 # SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
 # Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
@@ -28,6 +32,10 @@ include:
 - template: Security/SAST-IaC.latest.gitlab-ci.yml
 - template: Security/SAST.gitlab-ci.yml
 
+
+# --------------------------
+#         CI Init
+
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
@@ -41,7 +49,6 @@ variables:
   REDIS_PORT: 6379
   SECRET_DETECTION_EXCLUDED_PATHS: vendor/**,node_modules/**
   CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/api
-  DOCKER_IMAGE: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
   SAST_EXCLUDED_PATHS: vendor/**,node_modules/**,public/**
 
 cache:
@@ -57,11 +64,14 @@ cache:
   - .sonar/cache
 
 stages:
-  - test
-  - scan
+  - test  
   - build
+  - scan
   - security
   - push
+
+# --------------------------
+# Base api service defintion
 
 .base:
   image: registry.gitlab.com/abolabs/constellation/api:ci
@@ -69,12 +79,14 @@ stages:
   - mariadb:10.5
   - redis:3.0.6
 
+# --------------------------
+#      Shared scripts
+
 .script-docker-registry-login: &script-docker-registry-login
   # docker login asks for the password to be passed through stdin for security
   # we use $CI_REGISTRY_PASSWORD here which is a special variable provided by GitLab
   # https://docs.gitlab.com/ce/ci/variables/predefined_variables.html
   - echo -n $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
-
 
 .script-docker-build: &script-docker-build
   # fetches the latest image (not failing if image is not found)
@@ -99,7 +111,6 @@ stages:
     ./install/prod/${SERVICE_NAME}
   - docker push $CI_REGISTRY_IMAGE/${SERVICE_NAME}:$CI_COMMIT_SHA
 
-
 .script-prepare-api: &script-prepare-api
   # Copy over testing configuration.
   # Don't forget to set the database config in .env.testing correctly
@@ -114,17 +125,10 @@ stages:
   - php artisan config:clear
   - php artisan key:generate
   - php artisan config:cache
-  - php artisan route:cache
+  - php artisan route:cache  
 
-  # Install Node dependencies.
-  # comment this out if you don't have a node dependency
-  - npm install
-
-  # Run npm build
-  # comment this out if you don't have a frontend build
-  # you can change this to to your frontend building script like
-  # npm run build
-  - npm run development
+# --------------------------
+#           Test
 
 phpunit:
   stage: test
@@ -149,6 +153,9 @@ phpunit:
     paths:
       - reports/
 
+# --------------------------
+#           Scan
+
 sonarcloud-check:
   stage: scan
   image:
@@ -163,6 +170,8 @@ sonarcloud-check:
     - master
     - develop
 
+# --------------------------
+#           Build
 build:
   stage: build
   image: docker:20
@@ -174,14 +183,9 @@ build:
     - *script-docker-registry-login
     - *script-docker-build
   rules:
-    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"   
 
-container_scanning:
-  stage: security
-  needs:
-    - build
-
-build_nginx:
+build_nginx_fpm:
   stage: build
   image: docker:20
   services:
@@ -189,16 +193,55 @@ build_nginx:
   needs:
     - build
   variables:
+    SERVICE_NAME: "nginx-fpm"
+  script:
+    - *script-docker-registry-login
+    - *script-docker-build
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
+
+build_nginx:
+  stage: build
+  image: docker:20
+  services:
+    - docker:20-dind  
+  variables:
     SERVICE_NAME: "nginx"
   script:
     - *script-docker-registry-login
     - *script-docker-build
-  only:
-    - merge_requests
-    - master
-    - develop
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
 
-# Here, the goal is to tag the "master" branch as "latest"
+# --------------------------
+#  Containers security scan
+
+container_scanning:
+  stage: security  
+  variables:
+    CS_IMAGE: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
+  needs:
+    - build  
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"  
+
+container_scanning_nginx_fpm:
+  extends: container_scanning
+  variables:
+    CS_IMAGE: $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_SHA
+  needs:
+    - build_nginx_fpm  
+
+container_scanning_nginx:
+  extends: container_scanning
+  variables:
+    CS_IMAGE: $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA     
+  needs:
+    - build_nginx  
+
+# --------------------------
+#        Push images
+
 push_latest:
   variables:
     # We are just playing with Docker here.
@@ -213,12 +256,15 @@ push_latest:
     # Because we have no guarantee that this job will be picked up by the same runner
     # that built the image in the previous step, we pull it again locally
     - docker pull $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
+    - docker pull $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_SHA
     - docker pull $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
     # Then we tag it "latest"
     - docker tag $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/api:latest
+    - docker tag $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/nginx-fpm:latest
     - docker tag $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/nginx:latest
-    # Annnd we push it.
+    # And we push it.
     - docker push $CI_REGISTRY_IMAGE/api:latest
+    - docker push $CI_REGISTRY_IMAGE/nginx-fpm:latest
     - docker push $CI_REGISTRY_IMAGE/nginx:latest
   only:
     # Only "master" should be tagged "latest"
@@ -238,9 +284,15 @@ push_tag:
     - tags
   script:
     - *script-docker-registry-login
+    # api
     - docker pull $CI_REGISTRY_IMAGE/api:latest
     - docker tag $CI_REGISTRY_IMAGE/api:latest $CI_REGISTRY_IMAGE/api:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_IMAGE/api:$CI_COMMIT_REF_NAME
+    # nginx fpm
+    - docker pull $CI_REGISTRY_IMAGE/nginx-fpm:latest
+    - docker tag $CI_REGISTRY_IMAGE/nginx-fpm:latest $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_REF_NAME
+    # nginx front
     - docker pull $CI_REGISTRY_IMAGE/nginx:latest
     - docker tag $CI_REGISTRY_IMAGE/nginx:latest $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME

@@ -9,17 +9,10 @@ ARG MYUSER=${MYUSER}
 ARG GIT_BRANCH=${GIT_BRANCH}
 ARG APP_PATH=/var/www/constellation
 
-# Update packages
-RUN apt-get update -yqq \
-    && apt-get install -yqq gnupg software-properties-common
-
-# Add Node
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-
-# Install libs
-RUN apt-get install -yqq git \
-                        zip unzip libzip-dev \
-                        nodejs \
+# Install packages
+RUN apt-get update -yqq && \
+    apt-get install -yqq git \
+                        zip unzip libzip-dev \                        
                         libonig-dev \
                         libcurl4-gnutls-dev \
                         libicu-dev \
@@ -67,13 +60,13 @@ RUN rm -rf !$/.git
 RUN cp .env.example .env
 RUN composer  install --no-progress --no-interaction --no-cache --optimize-autoloader
 RUN php artisan key:generate
-RUN npm install --force --no-optional && npm run production
 
 # Expose port
 EXPOSE 80 443
 
 # Clean
 # Clear cache
+RUN apt-get remove git -yqq
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
