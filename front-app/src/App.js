@@ -24,13 +24,21 @@ const Dashboard = () => {
   );
 };
 
-const App = () => {
-  const [mode, setMode] = React.useState("light");
+const App = () => {  
+  const defaultMode = React.useMemo(() => localStorage.getItem('themeMode') ?? "light");
+  const [mode, setMode] = React.useState(defaultMode);
   const colorMode = React.useMemo(
     () => ({
       // The dark mode switch would invoke this method
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+        setMode((prevMode) => {
+          let nextMode = "light";
+          if (prevMode === "light") {
+            nextMode = "dark";
+          }
+          localStorage.setItem('themeMode', nextMode);
+          return nextMode;
+        });
       },
     }),
     []
@@ -44,6 +52,7 @@ const App = () => {
   };
 
   const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  console.log("mode", mode);
 
   return (
     <ColorModeContext.Provider value={colorMode}>

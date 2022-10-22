@@ -8,6 +8,11 @@ const AppLayout = (props) => (
   <>
     <Layout
       sx={{
+        transition: "background-color 1s",
+
+        "& .RaLayout-content": {
+          transition: "background-color 1s",
+        },
         ".RaLayout-appFrame": {
           marginTop: 5,
         },
