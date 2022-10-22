@@ -55,11 +55,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # COPY SOURCE
 RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRANCH $APP_PATH
 
-RUN chown -R ${MYUSER}:www-data $APP_PATH
-RUN chown -R www-data: $APP_PATH/storage
+RUN cd $APP_PATH && rm -r front-app doc cli 
+RUN chown -R ${MYUSER}:www-data $APP_PATH/api
+RUN chown -R www-data: $APP_PATH/api/storage
 
 # Define workdir
-WORKDIR $APP_PATH
+WORKDIR $APP_PATH/api
 RUN rm -rf !$/.git
 
 # INIT APP

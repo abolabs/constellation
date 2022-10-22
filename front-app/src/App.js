@@ -25,7 +25,7 @@ const Dashboard = () => {
 };
 
 const App = () => {  
-  const defaultMode = React.useMemo(() => localStorage.getItem('themeMode') ?? "light");
+  const defaultMode = React.useMemo(() => localStorage.getItem('themeMode') ?? "light", [ ]);
   const [mode, setMode] = React.useState(defaultMode);
   const colorMode = React.useMemo(
     () => ({

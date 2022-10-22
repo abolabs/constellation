@@ -60,7 +60,7 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php && \
 
 
 # Add user
-RUN useradd -ms /bin/bash -G www-data ${MYUSER}
+RUN useradd -ms /bin/bash -G www-data ${MYUSER} || echo "User already exists."
 
 # Expose port
 EXPOSE 80 443
