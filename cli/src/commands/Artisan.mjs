@@ -19,6 +19,7 @@
 import Console from '../utils/Console.mjs';
 import * as path from 'path';
 import {selectAction} from './Base.mjs';
+import AbstractCommand from './AbstractCommand.mjs';
 
 const actions = [
     'clear-compiled',
@@ -160,14 +161,7 @@ const actions = [
     'view:clear'
 ];
 
-export default class Artisan {
-
-    constructor(args){
-        this.action = args?.additionnal?.[0];
-
-        this.additionnal = args?.additionnal.splice(1);
-        this.cliEnv = args?.cliEnv;
-    }
+export default class Artisan extends AbstractCommand {
 
     usage() {
         const usageText = `

@@ -24,8 +24,14 @@ import * as Environment from './src/utils/Environment.mjs';
 import Setup from './src/commands/Setup.mjs';
 import Api from './src/commands/Api.mjs';
 import FrontApp from './src/commands/FrontApp.mjs';
+import CI from './src/commands/CI.mjs';
+import * as dotenv from 'dotenv';
+import { $ } from 'zx/core';
+import path from 'path';
 
-$.verbose ? Base.printTitle() : Console.log(">>> Constellation CLI <<<");
+dotenv.config({ path: path.join(__dirname, '/.env') });
+
+$.verbose ? Base.printTitle() : null;
 
 await Environment.initEnv();
 
@@ -48,6 +54,10 @@ switch(args?.main){
         break;
     case 'artisan':
         new Artisan(args).run();
+        break;
+    // CI
+    case 'ci':
+        new CI(args).run();
         break;
     default:
         usage();
@@ -78,6 +88,8 @@ function usage() {
         docker-compose  Wrapper for ./install/{env}/docker-compose.yml files.
         artisan         Run artisan command on the API service.
 
+    CI
+        ci              Commands for CI environment.
 
     `
     Console.log(usageText);

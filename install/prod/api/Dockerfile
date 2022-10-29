@@ -9,17 +9,10 @@ ARG MYUSER=${MYUSER}
 ARG GIT_BRANCH=${GIT_BRANCH}
 ARG APP_PATH=/var/www/constellation
 
-# Update packages
-RUN apt-get update -yqq \
-    && apt-get install -yqq gnupg software-properties-common
-
-# Add Node
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-
-# Install libs
-RUN apt-get install -yqq git \
-                        zip unzip libzip-dev \
-                        nodejs \
+# Install packages
+RUN apt-get update -yqq && \
+    apt-get install -yqq git \
+                        zip unzip libzip-dev \                        
                         libonig-dev \
                         libcurl4-gnutls-dev \
                         libicu-dev \
@@ -55,24 +48,25 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # COPY SOURCE
 RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRANCH $APP_PATH
 
-RUN chown -R ${MYUSER}:www-data $APP_PATH
-RUN chown -R www-data: $APP_PATH/storage
+RUN cd $APP_PATH && rm -r front-app doc cli 
+RUN chown -R ${MYUSER}:www-data $APP_PATH/api
+RUN chown -R www-data: $APP_PATH/api/storage
 
 # Define workdir
-WORKDIR $APP_PATH
+WORKDIR $APP_PATH/api
 RUN rm -rf !$/.git
 
 # INIT APP
 RUN cp .env.example .env
 RUN composer  install --no-progress --no-interaction --no-cache --optimize-autoloader
 RUN php artisan key:generate
-RUN npm install --force --no-optional && npm run production
 
 # Expose port
 EXPOSE 80 443
 
 # Clean
 # Clear cache
+RUN apt-get remove git -yqq
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 

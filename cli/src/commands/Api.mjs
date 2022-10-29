@@ -17,17 +17,9 @@
 
 
 import Console from '../utils/Console.mjs';
-import * as path from 'path';
-import {selectAction} from './Base.mjs';
+import AbstractCommand from './AbstractCommand.mjs';
 
-export default class Api {
-
-    constructor(args) {
-        this.action = args?.additionnal?.[0];
-
-        this.additionnal = args?.additionnal.splice(1);
-        this.cliEnv = args?.cliEnv;
-    }
+export default class Api extends AbstractCommand {
 
     actions() {
         return {
@@ -55,16 +47,6 @@ export default class Api {
 
         `
         Console.log(usageText);
-    }
-
-    async run(){
-        if(!Object.keys(this.actions()).includes(this.action)){
-            this.usage();
-            this.action = await selectAction(Object.keys(this.actions()));
-        }
-
-        cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
-        this.actions()[this.action](this.additionnal);
     }
 
     async logs() {

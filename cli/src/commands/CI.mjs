@@ -15,15 +15,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import Console from '../utils/Console.mjs';
 import AbstractCommand from './AbstractCommand.mjs';
 
-export default class Api extends AbstractCommand {
+export default class CI extends AbstractCommand {
 
     actions() {
         return {
-            logs: () => this.logs(),
+            prepare: () => this.prepare(),
         };
     }
 
@@ -31,7 +30,7 @@ export default class Api extends AbstractCommand {
         const usageText = `
         Constellation CLI utils.
 
-        Usage: constellation-cli front-app [OPTIONS] COMMAND
+        Usage: constellation-cli CI [OPTIONS] COMMAND
 
         Options:
 
@@ -40,18 +39,20 @@ export default class Api extends AbstractCommand {
 
         Management Commands:
 
-        logs          displays npm logs
+        prepare          prepare env for CI setup
 
         `
         Console.log(usageText);
     }
 
-    async logs() {
+    async prepare() {
         try{
-            await $`docker compose logs -f -t 100 --no-log-prefix front-app`;
+
+
+
         }catch(e){
             Console.printError(e);
         }
-        Console.confirm('up done');
+        Console.confirm('prepare done');
     }
 }

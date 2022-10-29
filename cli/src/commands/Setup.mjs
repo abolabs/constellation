@@ -17,19 +17,11 @@
 
 
 import Console from '../utils/Console.mjs';
-import * as path from 'path';
-import {selectAction} from './Base.mjs';
 import { spinner } from 'zx/experimental';
 import Environment from '../utils/Environment.mjs';
+import AbstractCommand from './AbstractCommand.mjs';
 
-export default class Setup {
-
-    constructor(args) {
-        this.action = args?.additionnal?.[0];
-
-        this.additionnal = args?.additionnal.splice(1);
-        this.cliEnv = args?.cliEnv;
-    }
+export default class Setup extends AbstractCommand {
 
     actions() {
         return {
@@ -55,24 +47,14 @@ export default class Setup {
             Options
 
             --fresh         Fresh database after mounting.
+            --seed          Php artisan db:seed
+            --logs          Display front logs at the end of the setup.
 
         down        Alias for docker compose down
 
 
         `
         Console.log(usageText);
-    }
-
-    async run(){
-        if(!Object.keys(this.actions()).includes(this.action)){
-            this.usage();
-            this.action = await selectAction(Object.keys(this.actions()));
-        }
-
-        cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
-        if(this.action){
-            this.actions()[this.action](this.additionnal);
-        }
     }
 
     async up() {
@@ -107,7 +89,7 @@ export default class Setup {
                     process.exit(1);
                 }
                 await $`docker compose restart front-app`
-                await $`docker compose logs -f -t 100 front-app`
+                await $`docker compose logs -f -t 100  --no-log-prefix front-app`
             }
 
         }catch(e){
