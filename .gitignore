@@ -1,7 +1,7 @@
 .env
 .env.backup
 cli/node_modules
-install/dev/front-app/env.config.js
 install/prod/nginx/env.config.js
 install/prod/api/oauth-public.key
 install/prod/api/oauth-private.key
+front-app/public/env.config.js

@@ -23,7 +23,8 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRANCH /tmp/
 
 # Copy Front
-RUN cd /tmp/front-app && \    
+RUN cd /tmp/front-app && \
+    rm /tmp/front-app/public/env.config.example.js && \
     npm install --production && \
     npm run build
 RUN mv /tmp/front-app/build /var/www

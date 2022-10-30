@@ -14,26 +14,42 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+import { useMediaQuery } from "@mui/material";
 
 const AppMenu = () => {
   const theme = useTheme();
   const [open] = useSidebarState();
+  const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   return (
     <Menu
       sx={{
         marginTop: 0,
-        h3: {
+        background: theme.palette.secondary.dark,
+        borderRadius: isSmall ? 0 : 1,
+        mr: 3,
+        pt: 0.5,
+        pb:0.5,
+        h4: {
           textAlign: "center",
-          color: theme.palette.secondary.main,
-          mt: 1,
-          mb: 1,
+          color: theme.palette.secondary.light,
+          mt: 0.5,
+          mb: 0.5,
         },
-        "&.RaMenu-closed": {
-          opacity: 0.8,
-          ".MuiMenuItem-root": {
+        "&.RaMenu-open": {
+          width: isSmall ? "100%" : "14rem",
+          height: isSmall ? "100%" : "auto",
+          ml: isSmall ? 0 : 1,
+          p: isSmall ? 0 : "default",
+          m: isSmall ? 0 : "default",
+        },
+        "&.RaMenu-closed":{
+          ml:0.5,
+          width: "2.5rem",
+          ".MuiMenuItem-root":{
             m: 0,
-          },
+            padding: "0.25rem",
+          }
         },
         ".MuiSvgIcon-root": {
           background: theme.palette.background.paper,
@@ -47,8 +63,9 @@ const AppMenu = () => {
         },
         ".MuiMenuItem-root": {
           borderRadius: 1,
-          m: "0.25rem 1rem",
+          m: "0.25rem 0",
           fontSize: "0.85rem",
+          color: theme.palette.primary.contrastText,
         },
         ".MuiButtonBase-root": {
           ".MuiListItemIcon-root": {
@@ -57,15 +74,10 @@ const AppMenu = () => {
         },
         ".RaMenuItemLink-active": {
           boxShadow: theme.palette.shadows[1],
+          color: theme.palette.primary.contrastText,
           ".MuiSvgIcon-root": {
             background: theme.palette.primary.main,
             color: theme.palette.secondary.contrastText,
-          },
-        },
-        ".MuiListItem-button": {
-          ml: "1rem",
-          ".MuiListItemText-root": {
-            pl: 0,
           },
         },
       }}
@@ -92,7 +104,7 @@ const AppMenu = () => {
         leftIcon={<SettingsSystemDaydreamIcon />}
       />
       {open ? (
-        <Typography variant="h3">Administration</Typography>
+        <Typography variant="h4">Administration</Typography>
       ) : (
         <Divider />
       )}

@@ -27,8 +27,7 @@ services:
         - MYUSER=${MYUSER}
       ports:
         - "${HTTP}:3000"
-      volumes:
-        - ./front-app/env.config.js:/var/www/public/env.config.js
+      volumes:        
         -  ${FRONT_SOURCE_VOLUME}:/var/www
 
   nginx:

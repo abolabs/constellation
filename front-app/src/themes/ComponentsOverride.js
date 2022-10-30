@@ -31,7 +31,7 @@ const componentsOverride = (theme) => {
             }
           }
         }
-      },      
+      },
       MuiCard: {
         styleOverrides: {
           root: {
@@ -44,15 +44,6 @@ const componentsOverride = (theme) => {
           root: {
             "& .MuiOutlinedInput-notchedOutline": {
               borderColor: theme?.palette?.primary?.main,
-            },
-          },
-        },
-      },
-      RaLayout: {
-        styleOverrides: {
-          root: {
-            "& .RaLayout-content": {
-              padding: "0.5rem",
             },
           },
         },

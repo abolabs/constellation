@@ -9,12 +9,12 @@ const AppLayout = (props) => (
     <Layout
       sx={{
         transition: "background-color 1s",
-
         "& .RaLayout-content": {
           transition: "background-color 1s",
+          padding: "0 1rem",
         },
         ".RaLayout-appFrame": {
-          marginTop: 5,
+          marginTop: 4,
         },
         ".MuiDrawer-root": {
           height: "auto",

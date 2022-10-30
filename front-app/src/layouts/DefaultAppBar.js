@@ -100,6 +100,9 @@ const DefaultAppBar = (props) => {
         background: "transparent",
         color: theme.palette.primary.main,
         boxShadow: "none",
+        ".RaAppBar-toolbar": {
+          minHeight: 0,
+        }
       }}
       {...props}
       userMenu={<AppUserMenu />}
