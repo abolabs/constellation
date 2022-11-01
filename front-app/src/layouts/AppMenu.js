@@ -74,7 +74,7 @@ const AppMenu = () => {
         },
         ".RaMenuItemLink-active": {
           boxShadow: theme.palette.shadows[1],
-          color: theme.palette.primary.contrastText,
+          color: `${theme.palette.primary.contrastText} !important`,
           ".MuiSvgIcon-root": {
             background: theme.palette.primary.main,
             color: theme.palette.secondary.contrastText,
