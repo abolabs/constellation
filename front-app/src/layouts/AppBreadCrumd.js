@@ -45,11 +45,12 @@ export default function AppBreadCrumd(props) {
   }
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={5}>
       <Breadcrumbs
         sx={{
           lineHeight: 1,
-          mb: 0.5,
+          mb: 1,
+          mt: 1,
         }}
         separator={<NavigateNextIcon fontSize="small" />}
         aria-label="breadcrumb"

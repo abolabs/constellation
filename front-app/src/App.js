@@ -52,7 +52,6 @@ const App = () => {
   };
 
   const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-  console.log("mode", mode);
 
   return (
     <ColorModeContext.Provider value={colorMode}>

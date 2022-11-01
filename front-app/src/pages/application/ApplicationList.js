@@ -14,6 +14,7 @@ import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import { useLocation } from "react-router-dom";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
 
 const applicationFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -29,7 +30,8 @@ const applicationFilters = [
 
 const ApplicationList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
-  const location = useLocation();  
+  const location = useLocation();
+  const theme = useTheme();
 
   return (
     <>
@@ -38,7 +40,29 @@ const ApplicationList = (props) => {
       <List
         {...props}
         filters={applicationFilters}
-        actions={<DefaultToolBar />}        
+        actions={<DefaultToolBar />}
+        sx={{
+          [theme.breakpoints.down('md')]: {
+            "& .MuiToolbar-root": {
+              background: "none",
+            }
+          },
+          [theme.breakpoints.down('sm')]: {
+            "& .MuiToolbar-root": {
+              backgroundColor: "none",
+              minHeight: "3rem",
+            }
+          },
+          "& .filter-field": {
+            [theme.breakpoints.down('md')]: {
+              width: "100%",
+              "& .MuiFormControl-root": {
+                width: "100%",
+              },
+
+            },
+          }
+        }}
       >
         {isSmall ? (
           <SimpleList

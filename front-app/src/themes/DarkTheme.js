@@ -20,13 +20,13 @@ const theme = createTheme(
         main: "#51a9b9",
         light: "#85dbeb",
         dark: "#0f7a89",
-        contrastText: "#000",
+        contrastText: "#fff",
       },
       secondary: {
         main: "#45888e",
         light: "#45888e",
         dark: "#003137",
-        contrastText: "#000",
+        contrastText: "#fff",
       },
       error: {
         main: "#d02536",
