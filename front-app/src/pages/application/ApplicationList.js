@@ -8,6 +8,7 @@ import {
   TextInput,
   ReferenceInput,
   SelectInput,
+  BulkExportButton,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
@@ -15,6 +16,7 @@ import { useLocation } from "react-router-dom";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
+import { Fragment } from "react";
 
 const applicationFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -27,6 +29,13 @@ const applicationFilters = [
     <SelectInput optionText="name" variant="outlined" />
   </ReferenceInput>,
 ];
+
+const ApplicationBulkActionButtons = () => (
+  <Fragment>
+      <BulkExportButton />
+  </Fragment>
+);
+
 
 const ApplicationList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
@@ -77,7 +86,7 @@ const ApplicationList = (props) => {
             }
           />
         ) : (
-          <Datagrid rowClick="edit" sx={{}}>
+          <Datagrid rowClick="edit" sx={{}} bulkActionButtons={<ApplicationBulkActionButtons />}>
             <TextField source="id" />
             <TextField source="name" />
             <ReferenceField source="team_id" reference="teams">
