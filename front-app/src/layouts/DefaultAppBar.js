@@ -7,11 +7,11 @@ import {
   useLocaleState,
   AppBar,
 } from "react-admin";
-import { useTheme } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+
+import { useTheme } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
-
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LanguageIcon from "@mui/icons-material/Language";
@@ -66,7 +66,7 @@ const SwitchLanguage = React.forwardRef((props, ref) => {
 });
 
 const AppUserMenu = (props) => (
-  <UserMenu {...props}>
+  <UserMenu {...props} icon={<SettingsIcon />}>
     <ConfigurationMenu />
     <SwitchLanguage />
     <Logout />

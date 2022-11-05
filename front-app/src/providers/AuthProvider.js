@@ -53,10 +53,9 @@ const AuthProvider = {
   getIdentity: () => {
     try {
       const token = localStorage.getItem("auth");
-      console.log("token", jwt_decode(token));
       const jwt = jwt_decode(token);
       console.log("getIdentity ", jwt);
-      const identity = { id: "my-profile", fullName: jwt.name };
+      const identity = { id: "my-profile", fullName: jwt.name, email: jwt.email };
       return Promise.resolve(identity);
     } catch (e) {
       console.log(" ball in the pâté ", e);
@@ -65,6 +64,7 @@ const AuthProvider = {
     return Promise.resolve({
       id: "my-profile",
       fullName: "Unknown",
+      email: ""
     });
   },
   getPermissions: () => Promise.resolve(""),

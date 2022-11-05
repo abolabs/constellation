@@ -14,12 +14,14 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { useMediaQuery } from "@mui/material";
+import { useMediaQuery, Avatar, Grid } from "@mui/material";
+import { useGetIdentity } from 'ra-core';
 
 const AppMenu = () => {
   const theme = useTheme();
   const [open] = useSidebarState();
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const { isLoading, identity } = useGetIdentity();
 
   return (
     <Menu
@@ -36,6 +38,15 @@ const AppMenu = () => {
           mt: 0.5,
           mb: 0.5,
         },
+        h5: {
+          textAlign: "center",
+          color: theme.palette.secondary.light,
+          mt: 0.5,
+          mb: 0.5,
+        },
+        "& .SidebarAvatar":{
+          pt: 1,
+        },
         "&.RaMenu-open": {
           width: isSmall ? "100%" : "14rem",
           height: isSmall ? "100%" : "auto",
@@ -51,13 +62,13 @@ const AppMenu = () => {
             padding: "0.25rem",
           }
         },
-        ".MuiSvgIcon-root": {
+        ".MuiButtonBase-root .MuiSvgIcon-root": {
           background: theme.palette.background.paper,
           color: theme.palette.secondary.main,
           width: "2rem",
           height: "2rem",
           borderRadius: 1,
-          mr: "1rem",
+          mr: "0.5rem",
           p: 0.5,
           boxShadow: 1,
         },
@@ -82,6 +93,22 @@ const AppMenu = () => {
         },
       }}
     >
+      {!isLoading && open ?
+        (
+          <Grid container direction="column" alignItems="center" className="SidebarAvatar">
+            <Grid item>
+              <Avatar
+                  className="RaUserMenu-avatar"
+                  src={identity.avatar}
+                  alt={identity.fullName}
+              />
+            </Grid>
+            <Grid item>
+              <Typography variant="h5" align="center">{identity.fullName}</Typography>
+            </Grid>
+          </Grid>
+        ) : null
+      }
       <Menu.DashboardItem />
       <Menu.Item
         to="/applications"
