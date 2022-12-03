@@ -39,6 +39,14 @@ const componentsOverride = (theme) => {
           },
         },
       },
+      MuiDialogTitle: {
+        styleOverrides: {
+          root: {
+            backgroundColor: theme?.palette?.primary?.main,
+            color: theme?.palette?.primary?.contrastText,
+          }
+        }
+      },
       MuiOutlinedInput: {
         styleOverrides: {
           root: {

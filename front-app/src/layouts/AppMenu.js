@@ -26,21 +26,19 @@ const AppMenu = () => {
   return (
     <Menu
       sx={{
+        color: theme.palette.primary.main,
         marginTop: 0,
-        background: theme.palette.secondary.dark,
         borderRadius: isSmall ? 0 : 1,
         mr: 3,
         pt: 0.5,
         pb:0.5,
         h4: {
           textAlign: "center",
-          color: theme.palette.secondary.light,
           mt: 0.5,
           mb: 0.5,
         },
         h5: {
           textAlign: "center",
-          color: theme.palette.secondary.light,
           mt: 0.5,
           mb: 0.5,
         },
@@ -62,7 +60,7 @@ const AppMenu = () => {
             padding: "0.25rem",
           }
         },
-        ".MuiButtonBase-root .MuiSvgIcon-root": {
+        "& .MuiButtonBase-root .MuiSvgIcon-root": {
           background: theme.palette.background.paper,
           color: theme.palette.secondary.main,
           width: "2rem",
@@ -72,20 +70,20 @@ const AppMenu = () => {
           p: 0.5,
           boxShadow: 1,
         },
-        ".MuiMenuItem-root": {
+        "& .MuiMenuItem-root": {
           borderRadius: 1,
           m: "0.25rem 0",
           fontSize: "0.85rem",
-          color: theme.palette.primary.contrastText,
+          color: theme.palette.primary.main,
         },
-        ".MuiButtonBase-root": {
+        "& .MuiButtonBase-root": {
           ".MuiListItemIcon-root": {
             minWidth: 0,
           },
         },
-        ".RaMenuItemLink-active": {
-          boxShadow: theme.palette.shadows[1],
-          color: `${theme.palette.primary.contrastText} !important`,
+
+        "& .RaMenuItemLink-active": {
+          color: `${theme.palette.primary.main}`,
           ".MuiSvgIcon-root": {
             background: theme.palette.primary.main,
             color: theme.palette.secondary.contrastText,
@@ -95,7 +93,7 @@ const AppMenu = () => {
     >
       {!isLoading && open ?
         (
-          <Grid container direction="column" alignItems="center" className="SidebarAvatar">
+          <Grid container direction="column" alignItems="center" className="SidebarAvatar" mb={2}>
             <Grid item>
               <Avatar
                   className="RaUserMenu-avatar"
@@ -131,7 +129,7 @@ const AppMenu = () => {
         leftIcon={<SettingsSystemDaydreamIcon />}
       />
       {open ? (
-        <Typography variant="h4">Administration</Typography>
+        <Typography variant="h4" pt={2}>Administration</Typography>
       ) : (
         <Divider />
       )}

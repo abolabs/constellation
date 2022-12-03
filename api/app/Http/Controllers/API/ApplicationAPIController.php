@@ -22,7 +22,10 @@ use App\Http\Requests\API\CreateApplicationAPIRequest;
 use App\Http\Requests\API\GetListAppBaseAPIRequest;
 use App\Http\Requests\API\UpdateApplicationAPIRequest;
 use App\Http\Resources\ApplicationResource;
+use App\Http\Resources\ServiceInstanceResource;
 use App\Models\Application;
+use App\Models\Environnement;
+use App\Models\ServiceInstance;
 use App\Repositories\ApplicationRepository;
 use Illuminate\Http\Request;
 use Lang;
@@ -170,16 +173,28 @@ class ApplicationAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show(Application $application)
     {
         /** @var Application $application */
-        $application = $this->applicationRepository->find($id);
-
         if (empty($application)) {
             return $this->sendError(Lang::get('application.not_found'));
         }
+        $serviceInstances = ServiceInstance::where('application_id', $application->id)->with(['serviceVersion', 'serviceVersion.service', 'environnement'])->orderBy('environnement_id')->get();
 
-        return $this->sendResponse(new ApplicationResource($application), Lang::get('application.show_confirm'));
+        $countByEnv = Environnement::withCount(['serviceInstances' => function ($query) use ($application) {
+            $query->where('application_id', $application->id);
+        }])
+            ->join('service_instance', 'environnement.id', '=', 'service_instance.environnement_id')
+            ->where('service_instance.application_id', $application->id)
+            ->get()->keyBy('id')->toArray();
+
+        return $this->sendResponse(
+            (new ApplicationResource($application))->additional([
+                'serviceInstances' => ServiceInstanceResource::collection($serviceInstances),
+                'countByEnv' => $countByEnv
+            ]),
+            Lang::get('application.show_confirm')
+        );
     }
 
     /**

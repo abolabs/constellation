@@ -35,6 +35,7 @@ class ApplicationResource extends JsonResource
             'team_id' => $this->team_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'meta' => $this->additional
         ];
     }
 }
