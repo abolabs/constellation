@@ -58,7 +58,7 @@ const theme = createTheme(
         paper: "#FFFFFF",
       },
       shadows: {
-        1: "0rem 1.25rem 1.6875rem 0rem rgba(0, 0, 0, 0.05)",
+        1: "0rem 1.25rem 1.6875rem 0rem rgba(0, 0, 0, 0.01)",
       },
       text: {
         primary: "#003137",
@@ -98,7 +98,7 @@ const theme = createTheme(
       },
     },
     shape: {
-      borderRadius: 10,
+      borderRadius: 6,
     },
     props: {
       AppBar: {

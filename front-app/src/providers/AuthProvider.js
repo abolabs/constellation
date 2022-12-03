@@ -37,13 +37,12 @@ const AuthProvider = {
     return Promise.resolve();
   },
   checkAuth: () => {
-    console.log("checkAuth", localStorage.getItem("auth"));
     return localStorage.getItem("auth") ? Promise.resolve() : Promise.reject();
   },
   checkError: (error) => {
     const status = error.status;
-    console.log("checkError", status);
     if (status === 401 || status === 403) {
+      console.error("unauthenticated");
       localStorage.removeItem("auth");
       return Promise.reject();
     }
@@ -54,11 +53,10 @@ const AuthProvider = {
     try {
       const token = localStorage.getItem("auth");
       const jwt = jwt_decode(token);
-      console.log("getIdentity ", jwt);
       const identity = { id: "my-profile", fullName: jwt.name, email: jwt.email };
       return Promise.resolve(identity);
     } catch (e) {
-      console.log(" ball in the pâté ", e);
+      console.error("getIdentity", e);
     }
 
     return Promise.resolve({

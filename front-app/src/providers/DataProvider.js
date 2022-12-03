@@ -12,9 +12,9 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-import apiClient from "ra-laravel-client";
+import laravelDataProvider from "./LaravelDataProvider";
 
-const dataProvider = apiClient(
+const dataProvider = laravelDataProvider(
   `${window.env.REACT_APP_API_URL}/v1`,
   {
     headers: {

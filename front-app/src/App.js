@@ -1,9 +1,10 @@
 // in src/App.js
 import * as React from "react";
-import { Admin, Resource, ListGuesser, Title } from "react-admin";
+import { Admin, Resource, ListGuesser, Title, ShowGuesser, EditGuesser } from "react-admin";
 import AuthProvider from "@providers/AuthProvider";
 import LoginPage from "@pages/LoginPage";
 import ApplicationList from "@pages/application/ApplicationList";
+import ApplicationShow from "@pages/application/ApplicationShow";
 import LightTheme from "@themes/LightTheme";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -24,7 +25,7 @@ const Dashboard = () => {
   );
 };
 
-const App = () => {  
+const App = () => {
   const defaultMode = React.useMemo(() => localStorage.getItem('themeMode') ?? "light", [ ]);
   const [mode, setMode] = React.useState(defaultMode);
   const colorMode = React.useMemo(
@@ -43,6 +44,7 @@ const App = () => {
     }),
     []
   );
+
   const getDesignTokens = (mode) => {
     const themes = {
       light: LightTheme,
@@ -66,8 +68,18 @@ const App = () => {
         dataProvider={dataProvider}
         disableTelemetry
       >
-        <Resource name="applications" list={ApplicationList} />
-        <Resource name="service_instances" list={ListGuesser} />
+        <Resource
+          name="applications"
+          list={ApplicationList}
+          edit={EditGuesser}
+          show={ApplicationShow}
+        />
+        <Resource
+          name="service_instances"
+          list={ListGuesser}
+          edit={EditGuesser}
+          show={ShowGuesser}
+        />
         <Resource name="services" list={ListGuesser} />
         <Resource name="hostings" list={ListGuesser} />
         <Resource name="service_instance_dependencies" list={ListGuesser} />

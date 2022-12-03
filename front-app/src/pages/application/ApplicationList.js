@@ -16,7 +16,6 @@ import { useLocation } from "react-router-dom";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
-import { Fragment } from "react";
 
 const applicationFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -31,9 +30,9 @@ const applicationFilters = [
 ];
 
 const ApplicationBulkActionButtons = () => (
-  <Fragment>
-      <BulkExportButton />
-  </Fragment>
+  <>
+    <BulkExportButton />
+  </>
 );
 
 
@@ -86,7 +85,7 @@ const ApplicationList = (props) => {
             }
           />
         ) : (
-          <Datagrid rowClick="edit" sx={{}} bulkActionButtons={<ApplicationBulkActionButtons />}>
+          <Datagrid rowClick="show" bulkActionButtons={<ApplicationBulkActionButtons />}>
             <TextField source="id" />
             <TextField source="name" />
             <ReferenceField source="team_id" reference="teams">

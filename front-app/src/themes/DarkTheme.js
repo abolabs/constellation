@@ -29,9 +29,9 @@ const theme = createTheme(
         contrastText: "#fff",
       },
       error: {
-        main: "#d02536",
-        light: "#ff5f60",
-        dark: "#970010",
+        main: "#ff454e",
+        light: "#ff7c7a",
+        dark: "#c50026",
         contrastText: "#fff",
       },
       warning: {
@@ -57,7 +57,7 @@ const theme = createTheme(
         paper: "#454a4d",
       },
       shadows: {
-        1: "0rem 1.25rem 1.6875rem 0rem rgba(0, 0, 0, 0.05)",
+        1: "0rem 1.25rem 1.6875rem 0rem rgba(255, 255, 255, 0.05)",
       },
       text: {
         primary: "rgba(232, 230, 227, 0.95)",
@@ -98,7 +98,7 @@ const theme = createTheme(
       },
     },
     shape: {
-      borderRadius: 10,
+      borderRadius: 6,
     },
     props: {
       AppBar: {
