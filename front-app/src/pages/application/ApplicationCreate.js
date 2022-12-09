@@ -15,7 +15,7 @@ const ApplicationCreate = () => {
         name: yup.string()
           .required('Please select a service')
           .typeError('Please select a service')
-          .max(255),
+          .max(254),
         team_id: yup.number()
           .required('Please select a team')
           .typeError('Please select a team')
