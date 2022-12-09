@@ -108,7 +108,7 @@ const laravelDataProvider = (apiURL, customSettings = {}, tokenName = 'token') =
       const res = await client.put(url, data);
 
       return {
-        data: { ...res.data }
+        data: { ...res.data?.data }
       }
     },
     updateMany: (resource, params) => Promise,
