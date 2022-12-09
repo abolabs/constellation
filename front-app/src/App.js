@@ -1,19 +1,24 @@
 // in src/App.js
 import * as React from "react";
 import { Admin, Resource, ListGuesser, Title, ShowGuesser, EditGuesser } from "react-admin";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+
+import { responsiveFontSizes, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+import LightTheme from "@themes/LightTheme";
+import DarkTheme from "@themes/DarkTheme";
+import ColorModeContext from "@contexts/ColorModeContext";
+
 import AuthProvider from "@providers/AuthProvider";
+import dataProvider from "@providers/DataProvider";
+
+import AppLayout from "@layouts/AppLayout";
 import LoginPage from "@pages/LoginPage";
 import ApplicationList from "@pages/application/ApplicationList";
 import ApplicationShow from "@pages/application/ApplicationShow";
-import LightTheme from "@themes/LightTheme";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import AppLayout from "@layouts/AppLayout";
-import dataProvider from "@providers/DataProvider";
-import { responsiveFontSizes, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import DarkTheme from "@themes/DarkTheme";
-import ColorModeContext from "@contexts/ColorModeContext";
+import ApplicationCreate from "@pages/application/ApplicationCreate";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -70,6 +75,7 @@ const App = () => {
       >
         <Resource
           name="applications"
+          create={ApplicationCreate}
           list={ApplicationList}
           edit={EditGuesser}
           show={ApplicationShow}

@@ -91,7 +91,7 @@ class Application extends Model implements Auditable
      * @var array
      */
     public static $rules = [
-        'name' => 'required',
+        'name' => 'required|string|max:255',
         'team_id' => 'required|exists:team,id',
     ];
 
