@@ -38,7 +38,7 @@ class ApplicationFactory extends Factory
     public function definition()
     {
         return [
-            'name' => "App " . $this->faker->word,
+            'name' => "App " . $this->faker->text(254),
             'team_id' => function () {
                 return Team::factory()->create()->id;
             },

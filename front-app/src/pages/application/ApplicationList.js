@@ -29,13 +29,6 @@ const applicationFilters = [
   </ReferenceInput>,
 ];
 
-const ApplicationBulkActionButtons = () => (
-  <>
-    <BulkExportButton />
-  </>
-);
-
-
 const ApplicationList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
@@ -85,7 +78,7 @@ const ApplicationList = (props) => {
             }
           />
         ) : (
-          <Datagrid rowClick="show" bulkActionButtons={<ApplicationBulkActionButtons />}>
+          <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
             <TextField source="id" />
             <TextField source="name" />
             <ReferenceField source="team_id" reference="teams">

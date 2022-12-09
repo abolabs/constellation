@@ -1,15 +1,15 @@
 # Copyright (C) 2022 Abolabs (https://gitlab.com/abolabs/)
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
 # published by the Free Software Foundation, either version 3 of the
 # License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -54,17 +54,17 @@ variables:
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-  - api/vendor/  
+  - api/vendor/
   - api/.env
   - api/composer.lock
   - api/bootstrap/
   - front-app/.env
   - front-app/node_modules/
-  - front-app/package-lock.json  
+  - front-app/package-lock.json
   - .sonar/cache
 
 stages:
-  - test  
+  - test
   - build
   - scan
   - security
@@ -125,7 +125,7 @@ stages:
   - php artisan config:clear
   - php artisan key:generate
   - php artisan config:cache
-  - php artisan route:cache  
+  - php artisan route:cache
 
 # --------------------------
 #           Test
@@ -149,9 +149,9 @@ phpunit:
     untracked: true
     expire_in: 1 day
     reports:
-      junit: reports/logfile.xml
+      junit: api/reports/logfile.xml
     paths:
-      - reports/
+      - api/reports/
 
 # --------------------------
 #           Scan
@@ -183,7 +183,7 @@ build:
     - *script-docker-registry-login
     - *script-docker-build
   rules:
-    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"   
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
 
 build_nginx_fpm:
   stage: build
@@ -204,7 +204,7 @@ build_nginx:
   stage: build
   image: docker:20
   services:
-    - docker:20-dind  
+    - docker:20-dind
   variables:
     SERVICE_NAME: "nginx"
   script:
@@ -217,27 +217,27 @@ build_nginx:
 #  Containers security scan
 
 container_scanning:
-  stage: security  
+  stage: security
   variables:
     CS_IMAGE: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
   needs:
-    - build  
+    - build
   rules:
-    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"  
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
 
 container_scanning_nginx_fpm:
   extends: container_scanning
   variables:
     CS_IMAGE: $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_SHA
   needs:
-    - build_nginx_fpm  
+    - build_nginx_fpm
 
 container_scanning_nginx:
   extends: container_scanning
   variables:
-    CS_IMAGE: $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA     
+    CS_IMAGE: $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
   needs:
-    - build_nginx  
+    - build_nginx
 
 # --------------------------
 #        Push images

@@ -66,8 +66,8 @@ const CreateInstanceModal = ({applicationData, environnementId, handleClose, ope
         hosting_id: yup.number()
           .required('Please select an hosting')
           .typeError('Please select an hosting'),
-        url: yup.string().nullable().url().max(255),
-        role: yup.string().nullable().max(255),
+        url: yup.string().nullable().url().max(254),
+        role: yup.string().nullable().max(254),
     })
     .required();
 

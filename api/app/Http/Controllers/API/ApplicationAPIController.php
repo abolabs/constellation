@@ -173,9 +173,11 @@ class ApplicationAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show(Application $application)
+    public function show($id)
     {
         /** @var Application $application */
+        $application = $this->applicationRepository->find($id);
+
         if (empty($application)) {
             return $this->sendError(Lang::get('application.not_found'));
         }
