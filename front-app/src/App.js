@@ -19,6 +19,7 @@ import LoginPage from "@pages/LoginPage";
 import ApplicationList from "@pages/application/ApplicationList";
 import ApplicationShow from "@pages/application/ApplicationShow";
 import ApplicationCreate from "@pages/application/ApplicationCreate";
+import ApplicationEdit from "@pages/application/ApplicationEdit";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -77,7 +78,7 @@ const App = () => {
           name="applications"
           create={ApplicationCreate}
           list={ApplicationList}
-          edit={EditGuesser}
+          edit={ApplicationEdit}
           show={ApplicationShow}
         />
         <Resource

@@ -21,16 +21,18 @@ export default function AppBreadCrumd(props) {
       len = paths.length;
     while (i < len) {
       if (i < len - 1) {
-        breadcrumbs.push(
-          <Link
-            underline="hover"
-            key="route-{i}"
-            color="inherit"
-            href={routePrefix + paths[i]}
-          >
-            {paths[i]}
-          </Link>
-        );
+        if (isNaN(paths[i])) {
+          breadcrumbs.push(
+            <Link
+              underline="hover"
+              key="route-{i}"
+              color="inherit"
+              href={routePrefix + paths[i]}
+            >
+              {paths[i]}
+            </Link>
+          );
+        }
       } else {
         breadcrumbs.push(
           <Typography key="3" color="text.primary">
