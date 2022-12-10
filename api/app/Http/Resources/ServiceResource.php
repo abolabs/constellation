@@ -36,6 +36,7 @@ class ServiceResource extends JsonResource
             'git_repo' => $this->git_repo,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'meta' => $this->additional,
         ];
     }
 }

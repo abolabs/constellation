@@ -13,7 +13,12 @@ const AlertError = (error) => {
   }
   return (
     <Stack sx={{ width: "100%" }} spacing={2}>
-      <Alert severity="error">
+      <Alert
+        severity="error"
+        sx={{
+          borderRadius: 0,
+         }}
+      >
         <AlertTitle>Error</AlertTitle>
         {errorMsg}
       </Alert>
