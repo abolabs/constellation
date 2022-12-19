@@ -1,17 +1,15 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+  Badge,
   Box,
   Button,
   Card,
-  CardActions,
   CardHeader,
   CardContent,
-  Chip,
   Grid,
   Fade,
   LinearProgress,
-  Link,
   List,
   ListItem,
   ListItemButton,
@@ -32,18 +30,15 @@ import {
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import EditIcon from "@mui/icons-material/Edit";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import { grey } from "@mui/material/colors";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
-import CreateServiceInstanceModal from "@pages/serviceInstance/CreateServiceInstanceModal";
+import CreateVersionModal from "@pages/serviceVersion/CreateVersionModal";
 
-const ApplicationShow = () => {
+const ServiceShow = () => {
   const location = useLocation();
   const theme = useTheme();
-  const { error, isLoading, record } = useShowController();
-  const [currentEnvId, setCurrentEnvId] = useState(1);
+  const { error, isLoading, record, refetch } = useShowController();
   const [openModal, setOpenModal] = useState(false);
 
   if (isLoading) {
@@ -66,18 +61,18 @@ const ApplicationShow = () => {
           mb: 2,
         }}
       >
-        Application
+        Service
       </Typography>
 
       <Show actions={<></>}>
-        <ApplicationShowLayout />
+        <ServiceShowLayout />
       </Show>
 
       <Grid container mt={2}>
         <Grid item xs={12}>
           <Card>
             <CardHeader
-              title="Instance de service"
+              title="Version(s)"
               titleTypographyProps={{
                 variant: "h5",
               }}
@@ -100,36 +95,21 @@ const ApplicationShow = () => {
               }}
             >
               <Grid container>
-                <Grid item xs={4} md={3} lg={2}>
-                  <EnvironmentSelector
-                    record={record}
-                    currentEnvId={currentEnvId}
-                    setCurrentEnvId={setCurrentEnvId}
-                  />
-                </Grid>
-                <Grid item xs={8} md={9} lg={10} p={2}
-                  sx={{
-                    borderLeft: 1,
-                    borderColor: grey[300],
-                  }}
-                >
+                <Grid item xs={12} p={2}>
                   <Grid
                     container
                     direction="row"
                     justifyContent="flex-start"
                     alignItems="stretch"
-                    spacing={{ xs: 2, md: 3 }}
+                    spacing={{ xs: 2, md: 4, lg: 4 }}
                     columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
                   >
-                  {record?.meta?.serviceInstances?.map((instance) => (
-                    instance?.environnement_id === currentEnvId
-                      ? (
-                        <Fade key={instance?.id} in={true} timeout={500}>
-                          <Grid item xs={8} sm={8} md={4} lg={3}>
-                              <InstanceCard key={instance?.id} {...instance} {...currentEnvId}/>
-                          </Grid>
-                        </Fade>
-                      ) :null
+                  {record?.meta?.serviceByApplication?.map((versionObj) => (
+                    <Fade key={versionObj?.id} in={true} timeout={500}>
+                      <Grid item xs={8} sm={8} md={4} lg={3}>
+                          <VersionCard key={versionObj?.id} {...versionObj}/>
+                      </Grid>
+                    </Fade>
                   ))}
                   </Grid>
                 </Grid>
@@ -138,41 +118,32 @@ const ApplicationShow = () => {
           </Card>
         </Grid>
       </Grid>
-      <CreateServiceInstanceModal
-        applicationData={record}
-        environnementId={currentEnvId}
+      <CreateVersionModal
+        serviceID={record?.id}
         open={openModal}
-        handleClose={() => setOpenModal(false)}
+        handleClose={() => {
+          setOpenModal(false);
+          refetch();
+        }}
       />
     </>
   );
-};
+}
 
-const InstanceCard = (instance) => {
+const VersionCard = (versionObj) => {
   const navigate = useNavigate();
   const theme = useTheme();
-
-  const onClick= useCallback(() => {
-    navigate(`/service_instances/${instance?.id}/show`);
-  }, [instance?.id]);
 
   return (
     <Card sx={{
       height: '26vh',
     }}>
       <CardHeader
-        title={instance?.service_version_name}
+        title={`v. ${versionObj?.version}`}
         sx={{
           background: theme?.palette?.secondary?.main,
           color: theme?.palette?.secondary?.contrastText,
         }}
-        action={
-          <Chip
-            label={`Version ${instance?.service_version}`}
-            color="primary"
-            size="small"
-          />
-        }
       />
       <CardContent sx={{
         height: "60%",
@@ -187,64 +158,67 @@ const InstanceCard = (instance) => {
             },
           }}
         >
-          <ListItem sx={{flexWrap: "wrap"}}>
-            <Chip label={`ID: ${instance?.id}`} color="primary" size="small" />
-            &nbsp;
-            <Chip
-              label={`Statut: ${instance?.statut ? 'Active' : 'Inactive'}`}
-              color={instance?.statut ? 'success' : 'warning'}
-              size="small"
-            />
-            &nbsp;
-            {instance?.role ? <Chip label={`Role: ${instance?.role}`} color="secondary" size="small" /> : null}
-          </ListItem>
           <ListItem>
             <ListItemText
-              primary="Hébergement"
-              secondary={instance?.hosting_name}
+              primary="Creation date"
+              secondary={<DateField source="created_at" record={versionObj}/>}
             />
           </ListItem>
           <ListItem>
             <ListItemText
-              primary="Dépôt Git"
+              primary="Updated date"
+              secondary={<DateField source="updated_at" record={versionObj}/>}
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              primary="Nb instances par application"
+              secondaryTypographyProps={{
+                component: 'div'
+              }}
               secondary={
-                <Link href={instance?.url}>
-                  {instance?.url}
-                </Link>
+                <List>
+                  {Object.keys(versionObj?.apps).map((index) => (
+                    <ListItem key={index}>
+                      <ListItemButton
+                        onClick={() => navigate(`/applications/${versionObj?.apps[index]?.id}/show`)}
+                      >
+                          <ListItemText
+                            primary={
+                              <Badge
+                                badgeContent={versionObj?.apps[index]?.total}
+                                color="secondary"
+                                anchorOrigin={{
+                                  vertical: 'top',
+                                  horizontal: 'right',
+                                }}
+                                sx={{
+                                  width: '100%',
+                                  '& .MuiBadge-badge': {
+                                    top: '0.5rem',
+                                    border: `2px solid ${theme.palette.background.paper}`,
+                                    padding: '0 1rem',
+                                  },
+                                }}
+                              >
+                                {versionObj?.apps[index]?.name}
+                              </Badge>
+                            }
+                          />
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
+                </List>
               }
             />
           </ListItem>
         </List>
       </CardContent>
-      <CardActions style={{justifyContent: 'center'}}>
-        <Button
-          variant="outlined"
-          endIcon={<KeyboardArrowRightIcon />}
-          onClick={onClick}
-        >
-          Voir plus
-        </Button>
-      </CardActions>
     </Card>
   );
 };
 
-const EnvironmentSelector = ({record, currentEnvId, setCurrentEnvId}) => (
-  <List>
-    {record?.meta?.countByEnv && record?.meta?.countByEnv.map((env) => (
-      <ListItem key={env?.id}>
-        <ListItemButton onClick={() => setCurrentEnvId(env?.id)} selected={currentEnvId === env?.id}>
-          <ListItemText>
-            <Chip label={env?.service_instances_count} color="primary" size="small" />
-          </ListItemText>
-          <ListItemText primary={env?.name} />
-        </ListItemButton>
-      </ListItem>
-    ))}
-  </List>
-);
-
-const ApplicationShowLayout = () => {
+const ServiceShowLayout = () => {
   const { record } = useShowContext();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -270,7 +244,7 @@ const ApplicationShowLayout = () => {
                 <>
                   <DeleteWithConfirmButton />
                   <Button
-                    onClick={() => navigate(`/applications/${record.id}/edit`)}
+                    onClick={() => navigate(`/services/${record.id}/edit`)}
                   >
                     <EditIcon />
                     &nbsp;&nbsp;Edit
@@ -312,6 +286,12 @@ const ApplicationShowLayout = () => {
                 </ListItem>
                 <ListItem>
                   <ListItemText
+                    primary="Git Repo"
+                    secondary={<NumberField source="git_repo" />}
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
                     primary="Creation date"
                     secondary={<DateField source="created_at" />}
                   />
@@ -331,4 +311,4 @@ const ApplicationShowLayout = () => {
   );
 };
 
-export default ApplicationShow;
+export default ServiceShow;

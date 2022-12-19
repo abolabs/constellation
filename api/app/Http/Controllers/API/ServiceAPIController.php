@@ -25,6 +25,7 @@ use App\Models\Service;
 use App\Repositories\ServiceRepository;
 use Illuminate\Http\Request;
 use Response;
+use stdClass;
 
 /**
  * Class ServiceController.
@@ -177,7 +178,36 @@ class ServiceAPIController extends AppBaseController
             return $this->sendError('Service not found');
         }
 
-        return $this->sendResponse(new ServiceResource($service), 'Service retrieved successfully');
+        $service->load('versions', 'versions.instances.application');
+
+        $serviceByApplication = [];
+        foreach ($service->versions as $version) {
+            $appList = [];
+            foreach ($version->instances as $instance) {
+                if (!isset($appList[$instance->application->id])) {
+                    $appList[$instance->application->id] = (object) [
+                        'id'   => $instance->application->id,
+                        'name' => $instance->application->name,
+                        'total' => 0,
+                    ];
+                }
+                $appList[$instance->application->id]->total++;
+            }
+            $serviceByApplication[$version->id] = (object) [
+                'id'        => $version->id,
+                'version'   => $version->version,
+                'created_at'=> $version->created_at,
+                'updated_at'=> $version->updated_at,
+                'apps'      => $appList
+            ];
+        }
+
+        return $this->sendResponse(
+            (new ServiceResource($service))->additional([
+                'serviceByApplication' => $serviceByApplication
+            ]),
+            'Service retrieved successfully'
+        );
     }
 
     /**
