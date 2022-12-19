@@ -38,7 +38,7 @@ import CreateVersionModal from "@pages/serviceVersion/CreateVersionModal";
 const ServiceShow = () => {
   const location = useLocation();
   const theme = useTheme();
-  const { error, isLoading, record } = useShowController();
+  const { error, isLoading, record, refetch } = useShowController();
   const [openModal, setOpenModal] = useState(false);
 
   if (isLoading) {
@@ -121,7 +121,10 @@ const ServiceShow = () => {
       <CreateVersionModal
         serviceID={record?.id}
         open={openModal}
-        handleClose={() => setOpenModal(false)}
+        handleClose={() => {
+          setOpenModal(false);
+          refetch();
+        }}
       />
     </>
   );
