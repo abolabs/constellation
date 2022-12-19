@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -152,6 +152,10 @@ const InstanceCard = (instance) => {
   const navigate = useNavigate();
   const theme = useTheme();
 
+  const onClick= useCallback(() => {
+    navigate(`/service_instances/${instance?.id}/show`);
+  }, [instance?.id]);
+
   return (
     <Card sx={{
       height: '26vh',
@@ -216,7 +220,7 @@ const InstanceCard = (instance) => {
         <Button
           variant="outlined"
           endIcon={<KeyboardArrowRightIcon />}
-          onClick={() => navigate(`/service_instances/${instance?.id}/show`)}
+          onClick={onClick}
         >
           Voir plus
         </Button>
