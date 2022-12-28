@@ -10,6 +10,7 @@ import {
   Grid,
   Fade,
   LinearProgress,
+  Link,
   List,
   ListItem,
   ListItemButton,
@@ -287,7 +288,11 @@ const ServiceShowLayout = () => {
                 <ListItem>
                   <ListItemText
                     primary="Git Repo"
-                    secondary={<NumberField source="git_repo" />}
+                    secondary={
+                      <Link href={record?.git_repo}>
+                        {record?.git_repo}
+                      </Link>
+                    }
                   />
                 </ListItem>
                 <ListItem>
