@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -6,13 +5,11 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Chip,
   Grid,
   Fade,
   LinearProgress,
   List,
   ListItem,
-  ListItemButton,
   ListItemText,
   Typography,
   useTheme,
@@ -29,20 +26,15 @@ import {
 } from "react-admin";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import EditIcon from "@mui/icons-material/Edit";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import { grey } from "@mui/material/colors";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
-import CreateServiceInstanceModal from "@pages/serviceInstance/CreateServiceInstanceModal";
-import ServiceInstanceCard from "../serviceInstance/ServiceInstanceCard";
+import ServiceInstanceCard from "@pages/serviceInstance/ServiceInstanceCard";
 
-const ApplicationShow = () => {
+const HostingShow = () => {
   const location = useLocation();
   const theme = useTheme();
   const { error, isLoading, record } = useShowController();
-  const [currentEnvId, setCurrentEnvId] = useState(1);
-  const [openModal, setOpenModal] = useState(false);
 
   if (isLoading) {
     return (
@@ -64,18 +56,18 @@ const ApplicationShow = () => {
           mb: 2,
         }}
       >
-        Application
+        Hosting
       </Typography>
 
       <Show actions={<></>}>
-        <ApplicationShowLayout />
+        <HostingShowLayout />
       </Show>
 
       <Grid container mt={2}>
         <Grid item xs={12}>
           <Card>
             <CardHeader
-              title="Instance de service"
+              title="Instances"
               titleTypographyProps={{
                 variant: "h5",
               }}
@@ -86,11 +78,6 @@ const ApplicationShow = () => {
                   color: theme?.palette?.primary?.contrastText,
                 },
               }}
-              action={
-                <Button onClick={() => { setOpenModal(true); }}>
-                  <AddBoxIcon />
-                </Button>
-              }
             />
             <CardContent
               sx={{
@@ -98,36 +85,21 @@ const ApplicationShow = () => {
               }}
             >
               <Grid container>
-                <Grid item xs={4} md={3} lg={2}>
-                  <EnvironmentSelector
-                    record={record}
-                    currentEnvId={currentEnvId}
-                    setCurrentEnvId={setCurrentEnvId}
-                  />
-                </Grid>
-                <Grid item xs={8} md={9} lg={10} p={2}
-                  sx={{
-                    borderLeft: 1,
-                    borderColor: grey[300],
-                  }}
-                >
+                <Grid item xs={12} p={2}>
                   <Grid
                     container
                     direction="row"
                     justifyContent="flex-start"
                     alignItems="stretch"
-                    spacing={{ xs: 2, md: 3 }}
+                    spacing={{ xs: 2, md: 4, lg: 4 }}
                     columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
                   >
                   {record?.meta?.serviceInstances?.map((instance) => (
-                    instance?.environnement_id === currentEnvId
-                      ? (
-                        <Fade key={instance?.id} in={true} timeout={500}>
-                          <Grid item xs={8} sm={8} md={4} lg={3}>
-                              <ServiceInstanceCard key={instance?.id} {...instance} {...currentEnvId}/>
-                          </Grid>
-                        </Fade>
-                      ) :null
+                    <Fade key={instance?.id} in={true} timeout={500}>
+                      <Grid item xs={8} sm={8} md={4} lg={3}>
+                          <ServiceInstanceCard key={instance?.id} {...instance} />
+                      </Grid>
+                    </Fade>
                   ))}
                   </Grid>
                 </Grid>
@@ -136,32 +108,11 @@ const ApplicationShow = () => {
           </Card>
         </Grid>
       </Grid>
-      <CreateServiceInstanceModal
-        applicationData={record}
-        environnementId={currentEnvId}
-        open={openModal}
-        handleClose={() => setOpenModal(false)}
-      />
     </>
   );
-};
+}
 
-const EnvironmentSelector = ({record, currentEnvId, setCurrentEnvId}) => (
-  <List>
-    {record?.meta?.countByEnv && record?.meta?.countByEnv.map((env) => (
-      <ListItem key={env?.id}>
-        <ListItemButton onClick={() => setCurrentEnvId(env?.id)} selected={currentEnvId === env?.id}>
-          <ListItemText>
-            <Chip label={env?.service_instances_count} color="primary" size="small" />
-          </ListItemText>
-          <ListItemText primary={env?.name} />
-        </ListItemButton>
-      </ListItem>
-    ))}
-  </List>
-);
-
-const ApplicationShowLayout = () => {
+const HostingShowLayout = () => {
   const { record } = useShowContext();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -187,7 +138,7 @@ const ApplicationShowLayout = () => {
                 <>
                   <DeleteWithConfirmButton />
                   <Button
-                    onClick={() => navigate(`/applications/${record.id}/edit`)}
+                    onClick={() => navigate(`/services/${record.id}/edit`)}
                   >
                     <EditIcon />
                     &nbsp;&nbsp;Edit
@@ -219,12 +170,18 @@ const ApplicationShowLayout = () => {
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="Team"
+                    primary="Hosting type"
                     secondary={
-                      <ReferenceField source="team_id" reference="teams">
+                      <ReferenceField source="hosting_type_id" reference="hosting_types">
                         <TextField source="name" />
                       </ReferenceField>
                     }
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="Localisation"
+                    secondary={<TextField source="localisation" />}
                   />
                 </ListItem>
                 <ListItem>
@@ -248,4 +205,4 @@ const ApplicationShowLayout = () => {
   );
 };
 
-export default ApplicationShow;
+export default HostingShow;

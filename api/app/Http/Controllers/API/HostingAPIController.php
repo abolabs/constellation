@@ -21,7 +21,9 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateHostingAPIRequest;
 use App\Http\Requests\API\UpdateHostingAPIRequest;
 use App\Http\Resources\HostingResource;
+use App\Http\Resources\ServiceInstanceResource;
 use App\Models\Hosting;
+use App\Models\ServiceInstance;
 use App\Repositories\HostingRepository;
 use Illuminate\Http\Request;
 use Response;
@@ -178,7 +180,14 @@ class HostingAPIController extends AppBaseController
             return $this->sendError('Hosting not found');
         }
 
-        return $this->sendResponse(new HostingResource($hosting), Lang::get('hosting.show_confirm'));
+        $serviceInstances = ServiceInstance::where('hosting_id', $hosting->id)->with(['serviceVersion', 'serviceVersion.service', 'environnement'])->get();
+
+        return $this->sendResponse(
+            (new HostingResource($hosting))->additional([
+                'serviceInstances' => ServiceInstanceResource::collection($serviceInstances)
+            ]),
+            Lang::get('hosting.show_confirm')
+        );
     }
 
     /**
