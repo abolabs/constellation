@@ -77,18 +77,16 @@ function usage() {
         -f, --flag      Some flag description.
         -p, --param     Some param description.
 
-    Management Commands:
-
-    Services
+    Services commands:
         setup           Shorcuts to mount/unmout/update the environment.
         api             Globals utils for the API service.
         front-app       Front App commands.
 
-    Wrappers
-        docker-compose  Wrapper for ./install/{env}/docker-compose.yml files.
+    Wrappers commands:
+        docker          Wrapper for ./install/{env}/docker-compose.yml files.
         artisan         Run artisan command on the API service.
 
-    CI
+    CI commands:
         ci              Commands for CI environment.
 
     `

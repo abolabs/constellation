@@ -24,6 +24,7 @@ export default class Api extends AbstractCommand {
     actions() {
         return {
             logs: () => this.logs(),
+            test: () => this.test(),
         };
     }
 
@@ -45,6 +46,8 @@ export default class Api extends AbstractCommand {
 
             --nginx   Display Nginx logs
 
+        test          executes phpunit tests
+
         `
         Console.log(usageText);
     }
@@ -62,5 +65,14 @@ export default class Api extends AbstractCommand {
             Console.printError(e);
         }
         Console.confirm('up done');
+    }
+
+    async test() {
+        try{
+            cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
+            await $`docker compose exec -it api ./vendor/bin/phpunit`;
+        }catch(e){
+            Console.printError(e);
+        }
     }
 }

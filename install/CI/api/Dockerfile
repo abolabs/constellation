@@ -1,4 +1,4 @@
-FROM php:8.0-fpm
+FROM php:8.2-fpm
 
 LABEL maintainer="Alexandre BORDIN <bordin.alexandre@gmail.com>"
 
