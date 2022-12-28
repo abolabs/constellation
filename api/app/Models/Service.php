@@ -99,7 +99,7 @@ class Service extends Model implements Auditable
      */
     public static $rules = [
         'team_id' => 'required|exists:team,id',
-        'git_repo' => 'required|url',
+        'git_repo' => 'required|url|max:255',
     ];
 
     /**

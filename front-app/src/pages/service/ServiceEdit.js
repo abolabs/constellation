@@ -13,14 +13,20 @@ import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 
-const ApplicationEdit = () => {
+const ServiceEdit = () => {
   const location = useLocation();
 
   const schema = yup.object()
     .shape({
         name: yup.string()
-          .required('Please select a service')
-          .typeError('Please select a service')
+          .required('Please define a service name')
+          .typeError('Please define a service name')
+          .max(254),
+        git_repo: yup.string()
+          .required('Please define a git url')
+          .typeError('Please define a git url')
+          .url()
+          .nullable()
           .max(254),
         team_id: yup.number()
           .required('Please select a team')
@@ -33,10 +39,11 @@ const ApplicationEdit = () => {
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Application</Typography>
+      <Typography variant="h3">Service</Typography>
       <Edit>
         <SimpleForm resolver={yupResolver(schema)}>
           <TextInput source="name" fullWidth />
+          <TextInput source="git_repo" fullWidth />
           <ReferenceInput
             source="team_id"
             reference="teams"
@@ -54,4 +61,4 @@ const ApplicationEdit = () => {
   );
 };
 
-export default ApplicationEdit;
+export default ServiceEdit;
