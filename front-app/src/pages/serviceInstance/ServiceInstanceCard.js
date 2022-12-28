@@ -22,7 +22,7 @@ const ServiceInstanceCard = (instance) => {
 
   const onClick= useCallback(() => {
     navigate(`/service_instances/${instance?.id}/show`);
-  }, [instance?.id]);
+  }, [instance?.id, navigate]);
 
   return (
     <Card sx={{
