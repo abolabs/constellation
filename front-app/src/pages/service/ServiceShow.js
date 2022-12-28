@@ -20,7 +20,6 @@ import {
 } from "@mui/material";
 import {
   DateField,
-  DeleteWithConfirmButton,
   NumberField,
   ReferenceField,
   Show,
@@ -28,13 +27,12 @@ import {
   useShowContext,
   useShowController,
 } from "react-admin";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import EditIcon from "@mui/icons-material/Edit";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
 import CreateVersionModal from "@pages/serviceVersion/CreateVersionModal";
+import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 
 const ServiceShow = () => {
   const location = useLocation();
@@ -222,42 +220,13 @@ const VersionCard = (versionObj) => {
 
 const ServiceShowLayout = () => {
   const { record } = useShowContext();
-  const navigate = useNavigate();
-  const theme = useTheme();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <CardHeader
-              title={record.name}
-              titleTypographyProps={{
-                variant: "h5",
-              }}
-              sx={{
-                background: theme?.palette?.primary?.main,
-                color: theme?.palette?.primary?.contrastText,
-                "& .MuiButton-root": {
-                  color: theme?.palette?.primary?.contrastText,
-                },
-              }}
-              action={
-                <>
-                  <DeleteWithConfirmButton />
-                  <Button
-                    onClick={() => navigate(`/services/${record.id}/edit`)}
-                  >
-                    <EditIcon />
-                    &nbsp;&nbsp;Edit
-                  </Button>
-                  <Button onClick={() => navigate(-1)}>
-                    <ChevronLeftIcon />
-                    &nbsp;&nbsp;Go back
-                  </Button>
-                </>
-              }
-            />
+            <DefaultCardHeader record={record} title={record?.name}/>
             <CardContent>
               <List
                 sx={{

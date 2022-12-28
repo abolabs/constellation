@@ -6,7 +6,6 @@ import {
   CardActions,
   CardHeader,
   CardContent,
-  Chip,
   Link,
   List,
   ListItem,
@@ -15,6 +14,7 @@ import {
 } from "@mui/material";
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import Tag from "@components/styled/Tag";
 
 const ServiceInstanceCard = (instance) => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const ServiceInstanceCard = (instance) => {
           color: theme?.palette?.secondary?.contrastText,
         }}
         action={
-          <Chip
+          <Tag
             label={`Version ${instance?.service_version}`}
             color="primary"
             size="small"
@@ -56,15 +56,15 @@ const ServiceInstanceCard = (instance) => {
           }}
         >
           <ListItem sx={{flexWrap: "wrap"}}>
-            <Chip label={`ID: ${instance?.id}`} color="primary" size="small" />
+            <Tag label={`ID: ${instance?.id}`} color="primary" size="small" />
             &nbsp;
-            <Chip
+            <Tag
               label={`Statut: ${instance?.statut ? 'Active' : 'Inactive'}`}
               color={instance?.statut ? 'success' : 'warning'}
               size="small"
             />
             &nbsp;
-            {instance?.role ? <Chip label={`Role: ${instance?.role}`} color="secondary" size="small" /> : null}
+            {instance?.role ? <Tag label={`Role: ${instance?.role}`} color="secondary" size="small" /> : null}
           </ListItem>
           <ListItem>
             <ListItemText

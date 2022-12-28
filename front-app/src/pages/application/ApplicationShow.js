@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
   Box,
   Button,
   Card,
   CardHeader,
   CardContent,
-  Chip,
   Grid,
   Fade,
   LinearProgress,
@@ -19,7 +18,6 @@ import {
 } from "@mui/material";
 import {
   DateField,
-  DeleteWithConfirmButton,
   NumberField,
   ReferenceField,
   Show,
@@ -27,15 +25,15 @@ import {
   useShowContext,
   useShowController,
 } from "react-admin";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import EditIcon from "@mui/icons-material/Edit";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { grey } from "@mui/material/colors";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
 import CreateServiceInstanceModal from "@pages/serviceInstance/CreateServiceInstanceModal";
-import ServiceInstanceCard from "../serviceInstance/ServiceInstanceCard";
+import ServiceInstanceCard from "@pages/serviceInstance/ServiceInstanceCard";
+import DefaultCardHeader from "@components/styled/DefaultCardHeader";
+import Tag from "@components/styled/Tag";
 
 const ApplicationShow = () => {
   const location = useLocation();
@@ -152,7 +150,7 @@ const EnvironmentSelector = ({record, currentEnvId, setCurrentEnvId}) => (
       <ListItem key={env?.id}>
         <ListItemButton onClick={() => setCurrentEnvId(env?.id)} selected={currentEnvId === env?.id}>
           <ListItemText>
-            <Chip label={env?.service_instances_count} color="primary" size="small" />
+            <Tag label={env?.service_instances_count} color="primary" size="small" />
           </ListItemText>
           <ListItemText primary={env?.name} />
         </ListItemButton>
@@ -163,42 +161,13 @@ const EnvironmentSelector = ({record, currentEnvId, setCurrentEnvId}) => (
 
 const ApplicationShowLayout = () => {
   const { record } = useShowContext();
-  const navigate = useNavigate();
-  const theme = useTheme();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <CardHeader
-              title={record.name}
-              titleTypographyProps={{
-                variant: "h5",
-              }}
-              sx={{
-                background: theme?.palette?.primary?.main,
-                color: theme?.palette?.primary?.contrastText,
-                "& .MuiButton-root": {
-                  color: theme?.palette?.primary?.contrastText,
-                },
-              }}
-              action={
-                <>
-                  <DeleteWithConfirmButton />
-                  <Button
-                    onClick={() => navigate(`/applications/${record.id}/edit`)}
-                  >
-                    <EditIcon />
-                    &nbsp;&nbsp;Edit
-                  </Button>
-                  <Button onClick={() => navigate(-1)}>
-                    <ChevronLeftIcon />
-                    &nbsp;&nbsp;Go back
-                  </Button>
-                </>
-              }
-            />
+            <DefaultCardHeader record={record} title={record?.name}/>
             <CardContent>
               <List
                 sx={{
