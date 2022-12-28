@@ -13,40 +13,40 @@ import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
+import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
 
-const servicesFilters = [
+const hostingFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
   <ReferenceInput
-    label="Team"
-    source="team_id"
-    reference="teams"
+    label="Hosting type"
+    source="hosting_type_id"
+    reference="hosting_types"
     sort={{ field: "name", order: "ASC" }}
   >
     <SelectInput optionText="name" variant="outlined" />
   </ReferenceInput>,
 ];
 
-const ServiceList = (props) => {
+const HostingList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Service</Typography>
+      <Typography variant="h3">Hosting</Typography>
       <DefaultList
         {...props}
-        filters={servicesFilters}
+        filters={hostingFilters}
         actions={<DefaultToolBar />}
       >
         {isSmall ? (
           <SimpleList
             primaryText={(record) => "#" + record.id + " - " + record.name}
             secondaryText={
-              <ReferenceField source="team_id" reference="teams" link={false}>
+              <ReferenceField source="hosting_type_id" reference="hosting_types" link={false}>
                 <TextField source="name" />
               </ReferenceField>
             }
@@ -56,14 +56,14 @@ const ServiceList = (props) => {
           />
         ) : (
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
-              <TextField source="id" />
+            <TextField source="id" />
+            <TextField source="name" />
+            <ReferenceField source="hosting_type_id" reference="hosting_types" >
               <TextField source="name" />
-              <TextField source="git_repo" />
-              <ReferenceField source="team_id" reference="teams">
-                <TextField source="name" />
-              </ReferenceField>
-              <DateField source="created_at" />
-              <DateField source="updated_at" />
+            </ReferenceField>
+            <TextField source="localisation" />
+            <DateField source="created_at" />
+            <DateField source="updated_at" />
           </Datagrid>
         )}
       </DefaultList>
@@ -71,4 +71,4 @@ const ServiceList = (props) => {
   );
 };
 
-export default ServiceList;
+export default HostingList;

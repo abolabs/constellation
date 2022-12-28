@@ -1,7 +1,6 @@
 import {
   Datagrid,
   DateField,
-  List,
   ReferenceField,
   SimpleList,
   TextField,
@@ -11,11 +10,12 @@ import {
   BulkExportButton,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
-import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import { useLocation } from "react-router-dom";
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
+
+import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import DefaultToolBar from "@components/toolbar/DefaultToolBar";
+import DefaultList from "@components/styled/DefaultList";
 
 const applicationFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -32,38 +32,15 @@ const applicationFilters = [
 const ApplicationList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
-  const theme = useTheme();
 
   return (
     <>
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Application</Typography>
-      <List
+      <DefaultList
         {...props}
         filters={applicationFilters}
         actions={<DefaultToolBar />}
-        sx={{
-          [theme.breakpoints.down('md')]: {
-            "& .MuiToolbar-root": {
-              background: "none",
-            }
-          },
-          [theme.breakpoints.down('sm')]: {
-            "& .MuiToolbar-root": {
-              backgroundColor: "none",
-              minHeight: "3rem",
-            }
-          },
-          "& .filter-field": {
-            [theme.breakpoints.down('md')]: {
-              width: "100%",
-              "& .MuiFormControl-root": {
-                width: "100%",
-              },
-
-            },
-          }
-        }}
       >
         {isSmall ? (
           <SimpleList
@@ -88,7 +65,7 @@ const ApplicationList = (props) => {
             <DateField source="updated_at" />
           </Datagrid>
         )}
-      </List>
+      </DefaultList>
     </>
   );
 };
