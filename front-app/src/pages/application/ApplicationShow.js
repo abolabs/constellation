@@ -6,7 +6,6 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Chip,
   Grid,
   Fade,
   LinearProgress,
@@ -34,6 +33,7 @@ import AlertError from "@components/alerts/AlertError";
 import CreateServiceInstanceModal from "@pages/serviceInstance/CreateServiceInstanceModal";
 import ServiceInstanceCard from "@pages/serviceInstance/ServiceInstanceCard";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
+import Tag from "@components/styled/Tag";
 
 const ApplicationShow = () => {
   const location = useLocation();
@@ -150,7 +150,7 @@ const EnvironmentSelector = ({record, currentEnvId, setCurrentEnvId}) => (
       <ListItem key={env?.id}>
         <ListItemButton onClick={() => setCurrentEnvId(env?.id)} selected={currentEnvId === env?.id}>
           <ListItemText>
-            <Chip label={env?.service_instances_count} color="primary" size="small" />
+            <Tag label={env?.service_instances_count} color="primary" size="small" />
           </ListItemText>
           <ListItemText primary={env?.name} />
         </ListItemButton>
