@@ -137,7 +137,7 @@ const VersionCard = (versionObj) => {
 
   return (
     <Card sx={{
-      height: '26vh',
+      height: '100%',
     }}>
       <CardHeader
         title={`v. ${versionObj?.version}`}
