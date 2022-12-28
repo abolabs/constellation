@@ -10,6 +10,7 @@ import {
   Grid,
   Fade,
   LinearProgress,
+  Link,
   List,
   ListItem,
   ListItemButton,
@@ -196,6 +197,7 @@ const VersionCard = (versionObj) => {
                                   width: '100%',
                                   '& .MuiBadge-badge': {
                                     top: '0.5rem',
+                                    right: '0.5rem',
                                     border: `2px solid ${theme.palette.background.paper}`,
                                     padding: '0 1rem',
                                   },
@@ -287,7 +289,11 @@ const ServiceShowLayout = () => {
                 <ListItem>
                   <ListItemText
                     primary="Git Repo"
-                    secondary={<NumberField source="git_repo" />}
+                    secondary={
+                      <Link href={record?.git_repo}>
+                        {record?.git_repo}
+                      </Link>
+                    }
                   />
                 </ListItem>
                 <ListItem>

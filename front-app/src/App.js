@@ -22,6 +22,8 @@ import ApplicationCreate from "@pages/application/ApplicationCreate";
 import ApplicationEdit from "@pages/application/ApplicationEdit";
 import ServiceList from "@pages/service/ServiceList";
 import ServiceShow from "@pages/service/ServiceShow";
+import ServiceEdit from "@pages/service/ServiceEdit";
+import ServiceCreate from "@pages/service/ServiceCreate";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -91,8 +93,10 @@ const App = () => {
         />
         <Resource
           name="services"
+          create={ServiceCreate}
           list={ServiceList}
           show={ServiceShow}
+          edit={ServiceEdit}
         />
         <Resource name="hostings" list={ListGuesser} />
         <Resource name="service_instance_dependencies" list={ListGuesser} />
