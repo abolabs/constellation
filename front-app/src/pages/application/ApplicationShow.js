@@ -167,7 +167,7 @@ const ApplicationShowLayout = () => {
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <DefaultCardHeader record={record} title={record?.name}/>
+            <DefaultCardHeader object="applications" record={record} title={record?.name}/>
             <CardContent>
               <List
                 sx={{

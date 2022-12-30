@@ -12,6 +12,7 @@ import { useLocation } from 'react-router-dom';
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import DefaultEditToolBar from '@components/toolbar/DefaultEditToolBar';
 
 const ApplicationEdit = () => {
   const location = useLocation();
@@ -35,7 +36,10 @@ const ApplicationEdit = () => {
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Application</Typography>
       <Edit>
-        <SimpleForm resolver={yupResolver(schema)}>
+        <SimpleForm
+          resolver={yupResolver(schema)}
+          toolbar={<DefaultEditToolBar />}
+        >
           <TextInput source="name" fullWidth />
           <ReferenceInput
             source="team_id"

@@ -109,4 +109,12 @@ class Hosting extends Model implements Auditable
     {
         return $this->belongsTo(\App\Models\HostingType::class, 'hosting_type_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     **/
+    public function serviceInstances()
+    {
+        return $this->hasMany(\App\Models\ServiceInstance::class, 'hosting_id');
+    }
 }

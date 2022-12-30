@@ -11,7 +11,10 @@ import { useLocation } from 'react-router-dom';
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import DefaultEditToolBar from '@components/toolbar/DefaultEditToolBar';
+
 import ServiceDefaultSchema from './ServiceDefaultSchema';
+
 
 const ServiceEdit = () => {
   const location = useLocation();
@@ -23,7 +26,10 @@ const ServiceEdit = () => {
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Service</Typography>
       <Edit>
-        <SimpleForm resolver={yupResolver(ServiceDefaultSchema)}>
+        <SimpleForm
+          resolver={yupResolver(ServiceDefaultSchema)}
+          toolbar={<DefaultEditToolBar />}
+        >
           <TextInput source="name" fullWidth />
           <TextInput source="git_repo" fullWidth />
           <ReferenceInput

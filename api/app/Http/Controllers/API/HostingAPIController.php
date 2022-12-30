@@ -28,6 +28,7 @@ use App\Repositories\HostingRepository;
 use Illuminate\Http\Request;
 use Response;
 use Lang;
+use Symfony\Component\HttpFoundation\Response as HttpCode;
 
 /**
  * Class HostingController.
@@ -297,6 +298,10 @@ class HostingAPIController extends AppBaseController
 
         if (empty($hosting)) {
             return $this->sendError(Lang::get('hosting.not_found'));
+        }
+        $hosting->load('serviceInstances');
+        if (count($hosting->serviceInstances) > 0) {
+            return $this->sendError('Hosting is currently used, please delete associated instances before.', HttpCode::HTTP_PRECONDITION_FAILED);
         }
 
         $hosting->delete();
