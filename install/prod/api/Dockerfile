@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.2
 
-FROM php:8.0-fpm
+FROM php:8.2-fpm
 
 LABEL maintainer="Alexandre BORDIN <bordin.alexandre@gmail.com>"
 
@@ -12,7 +12,7 @@ ARG APP_PATH=/var/www/constellation
 # Install packages
 RUN apt-get update -yqq && \
     apt-get install -yqq git \
-                        zip unzip libzip-dev \                        
+                        zip unzip libzip-dev \
                         libonig-dev \
                         libcurl4-gnutls-dev \
                         libicu-dev \
@@ -48,7 +48,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # COPY SOURCE
 RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRANCH $APP_PATH
 
-RUN cd $APP_PATH && rm -r front-app doc cli 
+RUN cd $APP_PATH && rm -r front-app doc cli
 RUN chown -R ${MYUSER}:www-data $APP_PATH/api
 RUN chown -R www-data: $APP_PATH/api/storage
 
