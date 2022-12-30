@@ -8,7 +8,7 @@ import {
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import EditIcon from "@mui/icons-material/Edit";
 
-const DefaultCardHeader = (props) => {
+const DefaultCardHeader = ({object, record, ...props}) => {
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -27,9 +27,12 @@ const DefaultCardHeader = (props) => {
       }}
       action={
         <>
-          <DeleteWithConfirmButton />
+          { !props.hasOwnProperty('canDelete') || props?.canDelete
+            ? <DeleteWithConfirmButton />
+            : null
+          }
           <Button
-            onClick={() => navigate(`/services/${props?.record.id}/edit`)}
+            onClick={() => navigate(`/${object}/${record.id}/edit`)}
           >
             <EditIcon />
             &nbsp;&nbsp;Edit

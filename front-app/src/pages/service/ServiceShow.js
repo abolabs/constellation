@@ -226,7 +226,7 @@ const ServiceShowLayout = () => {
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <DefaultCardHeader record={record} title={record?.name}/>
+            <DefaultCardHeader object="services" record={record} title={record?.name} canDelete={!record?.meta?.serviceByApplication?.length}/>
             <CardContent>
               <List
                 sx={{

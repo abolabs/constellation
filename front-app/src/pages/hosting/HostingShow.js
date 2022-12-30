@@ -117,7 +117,7 @@ const HostingShowLayout = () => {
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <DefaultCardHeader record={record} title={record?.name}/>
+            <DefaultCardHeader object="hostings" record={record} title={record?.name} canDelete={!record?.meta?.serviceInstances?.length}/>
             <CardContent>
               <List
                 sx={{
