@@ -1,12 +1,9 @@
 import {
   Datagrid,
   DateField,
-  ReferenceField,
   SimpleList,
   TextField,
   TextInput,
-  ReferenceInput,
-  SelectInput,
   BulkExportButton,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
