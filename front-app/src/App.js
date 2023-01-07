@@ -29,6 +29,7 @@ import HostingList from "@pages/hosting/HostingList";
 import HostingShow from "@pages/hosting/HostingShow";
 import HostingEdit from "@pages/hosting/HostingEdit";
 import HostingCreate from "@pages/hosting/HostingCreate";
+import HostingTypeList from "@pages/admin/hostingType/HostingTypeList";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -83,36 +84,36 @@ const App = () => {
         dataProvider={dataProvider}
         disableTelemetry
       >
-        <Resource
-          name="applications"
-          create={ApplicationCreate}
+        <Resource name="applications"
           list={ApplicationList}
-          edit={ApplicationEdit}
           show={ApplicationShow}
+          create={ApplicationCreate}
+          edit={ApplicationEdit}
         />
-        <Resource
-          name="service_instances"
+        <Resource name="service_instances"
           list={ListGuesser}
           edit={EditGuesser}
           show={ShowGuesser}
         />
-        <Resource
-          name="services"
-          create={ServiceCreate}
+        <Resource name="services"
           list={ServiceList}
           show={ServiceShow}
+          create={ServiceCreate}
           edit={ServiceEdit}
         />
         <Resource name="hostings"
           create={HostingCreate}
           list={HostingList}
           show={HostingShow}
+          create={HostingCreate}
           edit={HostingEdit}
         />
         <Resource name="service_instance_dependencies" list={ListGuesser} />
         <Resource name="environnements" list={ListGuesser} />
         <Resource name="service_versions" list={ListGuesser} />
-        <Resource name="hosting_types" list={ListGuesser} />
+        <Resource name="hosting_types"
+          list={HostingTypeList}
+        />
         <Resource name="teams" list={ListGuesser} />
         <Resource name="users" list={ListGuesser} />
         <Resource name="roles" list={ListGuesser} />
