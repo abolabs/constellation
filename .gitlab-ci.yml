@@ -64,6 +64,7 @@ cache:
   - .sonar/cache
 
 stages:
+  - prebuild
   - test
   - build
   - scan
@@ -126,6 +127,33 @@ stages:
   - php artisan key:generate
   - php artisan config:cache
   - php artisan route:cache
+
+# --------------------------
+#         Pre-Build
+prebuild-api:
+  stage: prebuild
+  image: docker:20
+  services:
+    - docker:20-dind
+  script:
+    - *script-docker-registry-login
+    - docker pull $CI_REGISTRY_IMAGE/api:ci || true
+    # builds the project, using OCI labels
+    # notice the cache-from, which is going to use the image we just pulled locally
+    # the built image is tagged locally with the commit SHA, and then pushed to
+    # the GitLab registry
+    - >
+      docker build
+      --pull
+      --cache-from $CI_REGISTRY_IMAGE/api:ci
+      --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
+      --label "org.opencontainers.image.url=$CI_PROJECT_URL"
+      --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
+      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
+      --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
+      --tag $CI_REGISTRY_IMAGE/api:ci
+      ./install/CI/api
+    - docker push $CI_REGISTRY_IMAGE/api:ci
 
 # --------------------------
 #           Test
