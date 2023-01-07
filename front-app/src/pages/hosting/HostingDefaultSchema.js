@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const ServiceDefaultSchema = yup.object()
+const HostingDefaultSchema = yup.object()
     .shape({
         name: yup.string()
           .required('Please define a service name')
@@ -15,4 +15,4 @@ const ServiceDefaultSchema = yup.object()
     })
     .required();
 
-export default ServiceDefaultSchema;
+export default HostingDefaultSchema;
