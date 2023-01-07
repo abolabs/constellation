@@ -12,6 +12,8 @@ import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultEditToolBar from '@/components/toolbar/DefaultEditToolBar';
+import OptionalFieldTitle from "@components/form/OptionalFieldTitle";
+
 import HostingDefaultSchema from './HostingDefaultSchema';
 
 const HostingEdit = () => {
@@ -40,7 +42,7 @@ const HostingEdit = () => {
               fullWidth
             />
           </ReferenceInput>
-          <TextInput source="localisation" fullWidth />
+          <TextInput source="localisation" label={<OptionalFieldTitle label="Localisation" />} fullWidth />
         </SimpleForm>
       </Edit>
     </>
