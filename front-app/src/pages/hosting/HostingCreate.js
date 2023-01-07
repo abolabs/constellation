@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {
   AutocompleteInput,
-  Edit,
+  Create,
   ReferenceInput,
   SimpleForm,
   TextInput,
@@ -12,11 +12,10 @@ import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultEditToolBar from '@/components/toolbar/DefaultEditToolBar';
+import HostingDefaultSchema from './HostingDefaultSchema';
 import OptionalFieldTitle from "@components/form/OptionalFieldTitle";
 
-import HostingDefaultSchema from './HostingDefaultSchema';
-
-const HostingEdit = () => {
+const HostingCreate = () => {
   const location = useLocation();
 
   const HostingTypeOptionText = (data) =>  `#${data.id} - ${data.name}`;
@@ -25,7 +24,7 @@ const HostingEdit = () => {
     <>
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Hosting</Typography>
-      <Edit>
+      <Create>
         <SimpleForm
           resolver={yupResolver(HostingDefaultSchema)}
           toolbar={<DefaultEditToolBar />}
@@ -44,9 +43,9 @@ const HostingEdit = () => {
           </ReferenceInput>
           <TextInput source="localisation" label={<OptionalFieldTitle label="Localisation" />} fullWidth />
         </SimpleForm>
-      </Edit>
+      </Create>
     </>
   );
 };
 
-export default HostingEdit;
+export default HostingCreate;

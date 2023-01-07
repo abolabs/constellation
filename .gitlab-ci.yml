@@ -64,7 +64,7 @@ cache:
   - .sonar/cache
 
 stages:
-  - pre-build
+  - prebuild
   - test
   - build
   - scan
@@ -130,14 +130,13 @@ stages:
 
 # --------------------------
 #         Pre-Build
-prebuild-api-ci:
-  stage: pre-build
+prebuild-api:
+  stage: prebuild
   image: docker:20
   services:
     - docker:20-dind
   script:
     - *script-docker-registry-login
-    - # fetches the latest image (not failing if image is not found)
     - docker pull $CI_REGISTRY_IMAGE/api:ci || true
     # builds the project, using OCI labels
     # notice the cache-from, which is going to use the image we just pulled locally
