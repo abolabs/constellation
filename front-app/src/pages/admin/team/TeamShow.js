@@ -9,9 +9,9 @@ import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
 import DefaultShowLayout from "@components/DefaultShowLayout";
 
-const HostingTypeShow = () => {
+const TeamShow = () => {
   const location = useLocation();
-  const { error, isLoading, record } = useShowController();
+  const { error, isLoading } = useShowController();
 
   if (isLoading) {
     return (
@@ -27,21 +27,21 @@ const HostingTypeShow = () => {
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Hosting Type</Typography>
+      <Typography variant="h3">Team</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
         <DefaultShowLayout
-          object="hosting_types"
-          title="Hosting Type"
+          object="teams"
+          title="Team"
         >
-          <TextField source="id" />
-          <TextField source="name" />
-          <TextField source="description" />
-          <DateField source="created_at" />
-          <DateField source="updated_at" />
+            <TextField source="id" />
+            <TextField source="name" />
+            <TextField source="manager" />
+            <DateField source="created_at" />
+            <DateField source="updated_at" />
         </DefaultShowLayout>
       </Show>
     </>
   );
 };
 
-export default HostingTypeShow;
+export default TeamShow;
