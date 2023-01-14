@@ -1,20 +1,16 @@
 import { LinearProgress, SimpleShowLayout, useShowContext } from "react-admin";
-import { useLocation } from "react-router-dom";
 import {
   Box,
   Card,
   CardContent,
   Grid,
-  Typography
 } from "@mui/material";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 import AlertError from "@components/alerts/AlertError";
 
-const DefaultShowLayout = ({object, title, children}) => {
-  const location = useLocation();
-  const { error, isLoading, record } = useShowContext();
+const DefaultShowLayout = ({children}) => {
+  const { error, isLoading, record, resource } = useShowContext();
 
   if (isLoading) {
     return (
@@ -32,7 +28,7 @@ const DefaultShowLayout = ({object, title, children}) => {
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <DefaultCardHeader object={object} record={record} title={record?.name}/>
+            <DefaultCardHeader object={resource} record={record} title={record?.name}/>
             <CardContent
               sx={{
                 "& .RaLabeled-label": {

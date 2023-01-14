@@ -11,7 +11,7 @@ import DefaultShowLayout from "@components/DefaultShowLayout";
 
 const HostingTypeShow = () => {
   const location = useLocation();
-  const { error, isLoading, record } = useShowController();
+  const { error, isLoading } = useShowController();
 
   if (isLoading) {
     return (
@@ -29,10 +29,7 @@ const HostingTypeShow = () => {
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Hosting Type</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
-        <DefaultShowLayout
-          object="hosting_types"
-          title="Hosting Type"
-        >
+        <DefaultShowLayout>
           <TextField source="id" />
           <TextField source="name" />
           <TextField source="description" />

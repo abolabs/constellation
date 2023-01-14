@@ -29,10 +29,7 @@ const TeamShow = () => {
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Team</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
-        <DefaultShowLayout
-          object="teams"
-          title="Team"
-        >
+        <DefaultShowLayout>
             <TextField source="id" />
             <TextField source="name" />
             <TextField source="manager" />
