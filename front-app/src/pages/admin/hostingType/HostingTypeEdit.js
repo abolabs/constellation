@@ -1,8 +1,6 @@
 import * as React from 'react';
 import {
-  AutocompleteInput,
   Edit,
-  ReferenceInput,
   SimpleForm,
   TextInput,
 } from "react-admin";
@@ -17,8 +15,6 @@ import HostingTypeDefaultSchema from './HostingTypeDefaultSchema';
 
 const HostingTypeEdit = () => {
   const location = useLocation();
-
-  const HostingTypeOptionText = (data) =>  `#${data.id} - ${data.name}`;
 
   return (
     <>
