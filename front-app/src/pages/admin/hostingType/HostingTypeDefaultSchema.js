@@ -3,8 +3,8 @@ import * as yup from 'yup';
 const HostingTypeDefaultSchema = yup.object()
     .shape({
         name: yup.string()
-          .required('Please define a service name')
-          .typeError('Please define a service name')
+          .required('Please define a hosting type name')
+          .typeError('Please define a hosting type name')
           .max(254),
         description: yup.string()
           .required('Please define a description')
