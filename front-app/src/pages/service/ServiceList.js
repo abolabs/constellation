@@ -18,9 +18,8 @@ import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import DefaultList from "@components/styled/DefaultList";
 
 const servicesFilters = [
-  <TextInput key="search_filter" label="Search" source="q" alwaysOn variant="outlined" />,
+  <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
   <ReferenceInput
-    key="team_id"
     label="Team"
     source="team_id"
     reference="teams"

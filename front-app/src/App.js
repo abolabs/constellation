@@ -31,6 +31,7 @@ import HostingEdit from "@pages/hosting/HostingEdit";
 import HostingCreate from "@pages/hosting/HostingCreate";
 import HostingTypeList from "@pages/admin/hostingType/HostingTypeList";
 import HostingTypeCreate from "@pages/admin/hostingType/HostingTypeCreate";
+import HostingTypeShow from "@pages/admin/hostingType/HostingTypeShow";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -114,6 +115,7 @@ const App = () => {
         <Resource name="hosting_types"
           list={HostingTypeList}
           create={HostingTypeCreate}
+          show={HostingTypeShow}
         />
         <Resource name="teams" list={ListGuesser} />
         <Resource name="users" list={ListGuesser} />
