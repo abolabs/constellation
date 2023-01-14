@@ -39,6 +39,7 @@ import TeamCreate from "@pages/admin/team/TeamCreate";
 import TeamShow from "@pages/admin/team/TeamShow";
 import EnvironmentList from "@pages/admin/Environment/EnvironmentList";
 import EnvironmentShow from "@pages/admin/Environment/EnvironmentShow";
+import EnvironmentCreate from "@pages/admin/Environment/EnvironmentCreate";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -120,6 +121,7 @@ const App = () => {
         <Resource name="environnements"
           list={EnvironmentList}
           show={EnvironmentShow}
+          create={EnvironmentCreate}
         />
         <Resource name="service_versions" list={ListGuesser} />
         <Resource name="hosting_types"
