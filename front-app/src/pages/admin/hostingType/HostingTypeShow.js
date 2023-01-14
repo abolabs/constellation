@@ -34,7 +34,7 @@ const HostingTypeShow = () => {
       <Box sx={{ flexGrow: 1, mt: "1rem" }}>
         <Grid container>
           <Grid item xs={12}>
-            <Show>
+            <Show actions={null}>
               <Card>
                 <DefaultCardHeader object="hosting_types" record={record} title={record?.name}/>
                 <CardContent
