@@ -37,10 +37,11 @@ import TeamList from "@pages/admin/team/TeamList";
 import TeamEdit from "@pages/admin/team/TeamEdit";
 import TeamCreate from "@pages/admin/team/TeamCreate";
 import TeamShow from "@pages/admin/team/TeamShow";
-import EnvironmentList from "@pages/admin/Environment/EnvironmentList";
-import EnvironmentShow from "@pages/admin/Environment/EnvironmentShow";
-import EnvironmentCreate from "@pages/admin/Environment/EnvironmentCreate";
-import EnvironmentEdit from "@pages/admin/Environment/EnvironmentEdit";
+import EnvironmentList from "@pages/admin/environment/EnvironmentList";
+import EnvironmentShow from "@pages/admin/environment/EnvironmentShow";
+import EnvironmentCreate from "@pages/admin/environment/EnvironmentCreate";
+import EnvironmentEdit from "@pages/admin/environment/EnvironmentEdit";
+import ServiceVersionList from "@pages/admin/serviceVersion/ServiceVersionList";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -125,7 +126,9 @@ const App = () => {
           create={EnvironmentCreate}
           edit={EnvironmentEdit}
         />
-        <Resource name="service_versions" list={ListGuesser} />
+        <Resource name="service_versions"
+          list={ServiceVersionList}
+        />
         <Resource name="hosting_types"
           list={HostingTypeList}
           show={HostingTypeShow}
