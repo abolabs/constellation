@@ -35,6 +35,7 @@ import HostingTypeShow from "@pages/admin/hostingType/HostingTypeShow";
 import HostingTypeEdit from "@pages/admin/hostingType/HostingTypeEdit";
 import TeamList from "@pages/admin/team/TeamList";
 import TeamEdit from "@pages/admin/team/TeamEdit";
+import TeamCreate from "@pages/admin/team/TeamCreate";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -123,6 +124,7 @@ const App = () => {
         />
         <Resource name="teams"
           list={TeamList}
+          create={TeamCreate}
           edit={TeamEdit}
         />
         <Resource name="users" list={ListGuesser} />
