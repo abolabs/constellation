@@ -3,8 +3,8 @@ import * as yup from 'yup';
 const TeamDefaultSchema = yup.object()
     .shape({
         name: yup.string()
-          .required('Please define a service name')
-          .typeError('Please define a service name')
+          .required('Please define a team name')
+          .typeError('Please define a team name')
           .max(254),
         manager: yup.string()
           .required('Please define a manager')
