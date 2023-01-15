@@ -42,6 +42,7 @@ import EnvironmentShow from "@pages/admin/environment/EnvironmentShow";
 import EnvironmentCreate from "@pages/admin/environment/EnvironmentCreate";
 import EnvironmentEdit from "@pages/admin/environment/EnvironmentEdit";
 import ServiceVersionList from "@pages/admin/serviceVersion/ServiceVersionList";
+import ServiceVersionShow from "@pages/admin/serviceVersion/ServiceVersionShow";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -128,6 +129,7 @@ const App = () => {
         />
         <Resource name="service_versions"
           list={ServiceVersionList}
+          show={ServiceVersionShow}
         />
         <Resource name="hosting_types"
           list={HostingTypeList}
