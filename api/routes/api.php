@@ -26,4 +26,5 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1/'], function () {
     Route::resource('service_instance_dependencies', ServiceInstanceDependenciesAPIController::class, ['names' => 'v1.serviceInstanceDependencies']);
     Route::resource('roles', RoleAPIController::class, ['names' => 'v1.roles']);
     Route::resource('users', UserAPIController::class, ['names' => 'v1.users']);
+    Route::resource('audits', AuditAPIController::class, ['names' => 'v1.audits']);
 });

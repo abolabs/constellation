@@ -18,6 +18,7 @@
 namespace Database\Factories;
 
 use App\Models\Audit;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AuditFactory extends Factory
@@ -38,14 +39,16 @@ class AuditFactory extends Factory
     {
         return [
             'user_type' => $this->faker->word,
-            'user_id' => $this->faker->word,
+            'user_id' =>  function () {
+                return User::factory()->create()->id;
+            },
             'event' => $this->faker->word,
             'auditable_type' => $this->faker->word,
-            'auditable_id' => $this->faker->word,
+            'auditable_id' => $this->faker->numberBetween(1,1000),
             'old_values' => $this->faker->text,
             'new_values' => $this->faker->text,
             'url' => $this->faker->text,
-            'ip_address' => $this->faker->word,
+            'ip_address' => $this->faker->ipv4,
             'user_agent' => $this->faker->word,
             'tags' => $this->faker->word,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\APIs;
+namespace Tests\APIs\v1;
 
 use App\Models\Hosting;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -14,6 +14,8 @@ class HostingApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
+    const ROUTE_PREFIX = '/api/v1/hostings';
+
     /**
      * @test
      */
@@ -23,7 +25,7 @@ class HostingApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/hostings',
+            self::ROUTE_PREFIX,
             $hosting
         );
 
@@ -39,7 +41,7 @@ class HostingApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/hostings/' . $hosting->id
+            self::ROUTE_PREFIX . '/' . $hosting->id
         );
 
         $this->assertApiResponse($hosting->toArray());
@@ -55,7 +57,7 @@ class HostingApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/hostings/' . $hosting->id,
+            self::ROUTE_PREFIX . '/' . $hosting->id,
             $editedHosting
         );
 
@@ -71,13 +73,13 @@ class HostingApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            '/api/hostings/' . $hosting->id
+            self::ROUTE_PREFIX . '/' . $hosting->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/hostings/' . $hosting->id
+            self::ROUTE_PREFIX . '/' . $hosting->id
         );
 
         $this->response->assertStatus(404);

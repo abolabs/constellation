@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\APIs;
+namespace Tests\APIs\v1;
 
 use App\Models\ServiceInstance;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -14,6 +14,8 @@ class ServiceInstanceApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
+    const ROUTE_PREFIX = '/api/v1/service_instances';
+
     /**
      * @test
      */
@@ -23,7 +25,7 @@ class ServiceInstanceApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/service_instances',
+            self::ROUTE_PREFIX,
             $serviceInstance
         );
 
@@ -39,7 +41,7 @@ class ServiceInstanceApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/service_instances/' . $serviceInstance->id
+            self::ROUTE_PREFIX . '/' . $serviceInstance->id
         );
 
         $this->assertApiResponse($serviceInstance->toArray());
@@ -55,7 +57,7 @@ class ServiceInstanceApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/service_instances/' . $serviceInstance->id,
+            self::ROUTE_PREFIX . '/' . $serviceInstance->id,
             $editedServiceInstance
         );
 
@@ -71,13 +73,13 @@ class ServiceInstanceApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            '/api/service_instances/' . $serviceInstance->id
+            self::ROUTE_PREFIX . '/' . $serviceInstance->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/service_instances/' . $serviceInstance->id
+            self::ROUTE_PREFIX . '/' . $serviceInstance->id
         );
 
         $this->response->assertStatus(404);
