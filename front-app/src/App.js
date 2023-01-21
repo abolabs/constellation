@@ -43,6 +43,7 @@ import EnvironmentCreate from "@pages/admin/environment/EnvironmentCreate";
 import EnvironmentEdit from "@pages/admin/environment/EnvironmentEdit";
 import ServiceVersionList from "@pages/admin/serviceVersion/ServiceVersionList";
 import ServiceVersionShow from "@pages/admin/serviceVersion/ServiceVersionShow";
+import AuditList from "@pages/admin/audit/AuditList";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -120,7 +121,10 @@ const App = () => {
           create={HostingCreate}
           edit={HostingEdit}
         />
-        <Resource name="service_instance_dependencies" list={ListGuesser} />
+        <Resource
+          name="service_instance_dependencies"
+          list={ListGuesser}
+        />
         <Resource name="environnements"
           list={EnvironmentList}
           show={EnvironmentShow}
@@ -145,6 +149,9 @@ const App = () => {
         />
         <Resource name="users" list={ListGuesser} />
         <Resource name="roles" list={ListGuesser} />
+        <Resource name="audits"
+          list={AuditList}
+        />
       </Admin>
     </ColorModeContext.Provider>
   );

@@ -14,7 +14,7 @@ class TeamApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
-    const ROUTE_PREFIX = '/api/v1/teams';
+    private const ROUTE_PREFIX = '/api/v1/teams';
 
     /**
      * @test

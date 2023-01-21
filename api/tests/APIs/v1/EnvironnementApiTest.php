@@ -14,7 +14,7 @@ class EnvironnementApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
-    const ROUTE_PREFIX = '/api/v1/environnements';
+    private const ROUTE_PREFIX = '/api/v1/environnements';
 
     /**
      * @test

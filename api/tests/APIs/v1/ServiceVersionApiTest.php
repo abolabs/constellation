@@ -14,7 +14,7 @@ class ServiceVersionApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
-    const ROUTE_PREFIX = '/api/v1/service_versions';
+    private const ROUTE_PREFIX = '/api/v1/service_versions';
 
     /**
      * @test

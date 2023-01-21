@@ -44,7 +44,7 @@ class AuditFactory extends Factory
             },
             'event' => $this->faker->word,
             'auditable_type' => $this->faker->word,
-            'auditable_id' => $this->faker->numberBetween(1,1000),
+            'auditable_id' => $this->faker->numberBetween(1, 1000),
             'old_values' => $this->faker->text,
             'new_values' => $this->faker->text,
             'url' => $this->faker->text,

@@ -14,7 +14,7 @@ class HostingTypeApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
-    const ROUTE_PREFIX = '/api/v1/hosting_types';
+    private const ROUTE_PREFIX = '/api/v1/hosting_types';
 
     /**
      * @test

@@ -14,7 +14,7 @@ class ServiceInstanceApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
-    const ROUTE_PREFIX = '/api/v1/service_instances';
+    private const ROUTE_PREFIX = '/api/v1/service_instances';
 
     /**
      * @test

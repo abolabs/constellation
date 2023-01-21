@@ -14,7 +14,7 @@ class ApplicationApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
-    const ROUTE_PREFIX = '/api/v1/applications';
+    private const ROUTE_PREFIX = '/api/v1/applications';
 
     /**
      * @test
@@ -57,7 +57,7 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX .'/' . $application->id,
+            self::ROUTE_PREFIX . '/' . $application->id,
             $editedApplication
         );
 
@@ -73,13 +73,13 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX . '/' .$application->id
+            self::ROUTE_PREFIX . '/' . $application->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' .$application->id
+            self::ROUTE_PREFIX . '/' . $application->id
         );
 
         $this->response->assertStatus(404);

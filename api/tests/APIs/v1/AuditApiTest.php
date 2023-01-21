@@ -15,7 +15,7 @@ class AuditApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
-    const ROUTE_PREFIX = '/api/v1/audits';
+    private const ROUTE_PREFIX = '/api/v1/audits';
 
     /**
      * @test
@@ -57,7 +57,7 @@ class AuditApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX. '/' . $audit->id
+            self::ROUTE_PREFIX . '/' . $audit->id
         );
 
         $this->response->assertStatus(HttpCode::HTTP_NOT_IMPLEMENTED);
@@ -72,7 +72,7 @@ class AuditApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX. '/' . $audit->id
+            self::ROUTE_PREFIX . '/' . $audit->id
         );
 
         $this->response->assertStatus(HttpCode::HTTP_NOT_IMPLEMENTED);
