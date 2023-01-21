@@ -8,7 +8,7 @@ import {
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import EditIcon from "@mui/icons-material/Edit";
 
-const DefaultCardHeader = ({object, record, ...props}) => {
+const DefaultCardHeader = ({object, record, canDelete=true, canEdit=true, ...props}) => {
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -27,16 +27,20 @@ const DefaultCardHeader = ({object, record, ...props}) => {
       }}
       action={
         <>
-          { !props.hasOwnProperty('canDelete') || props?.canDelete
+          { canDelete
             ? <DeleteWithConfirmButton />
             : null
           }
-          <Button
-            onClick={() => navigate(`/${object}/${record.id}/edit`)}
-          >
-            <EditIcon />
-            &nbsp;&nbsp;Edit
-          </Button>
+          { canEdit
+           ?
+            <Button
+              onClick={() => navigate(`/${object}/${record.id}/edit`)}
+            >
+              <EditIcon />
+              &nbsp;&nbsp;Edit
+            </Button>
+           : null
+          }
           <Button onClick={() => navigate(-1)}>
             <ChevronLeftIcon />
             &nbsp;&nbsp;Go back

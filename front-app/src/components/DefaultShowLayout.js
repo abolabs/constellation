@@ -9,7 +9,7 @@ import {
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 import AlertError from "@components/alerts/AlertError";
 
-const DefaultShowLayout = ({title=null, children}) => {
+const DefaultShowLayout = ({title=null, canDelete=true, canEdit=true, children}) => {
   const { error, isLoading, record, resource } = useShowContext();
 
   if (isLoading) {
@@ -28,7 +28,13 @@ const DefaultShowLayout = ({title=null, children}) => {
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <DefaultCardHeader object={resource} record={record} title={title || record?.name}/>
+            <DefaultCardHeader
+              object={resource}
+              record={record}
+              title={title || record?.name}
+              canDelete={canDelete}
+              canEdit={canEdit}
+            />
             <CardContent
               sx={{
                 "& .RaLabeled-label": {
