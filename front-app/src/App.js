@@ -44,6 +44,7 @@ import EnvironmentEdit from "@pages/admin/environment/EnvironmentEdit";
 import ServiceVersionList from "@pages/admin/serviceVersion/ServiceVersionList";
 import ServiceVersionShow from "@pages/admin/serviceVersion/ServiceVersionShow";
 import AuditList from "@pages/admin/audit/AuditList";
+import AuditShow from "@pages/admin/audit/AuditShow";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -151,6 +152,7 @@ const App = () => {
         <Resource name="roles" list={ListGuesser} />
         <Resource name="audits"
           list={AuditList}
+          show={AuditShow}
         />
       </Admin>
     </ColorModeContext.Provider>
