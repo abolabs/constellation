@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\APIs;
+namespace Tests\APIs\v1;
 
 use App\Models\Environnement;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -14,6 +14,8 @@ class EnvironnementApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
+    private const ROUTE_PREFIX = '/api/v1/environnements';
+
     /**
      * @test
      */
@@ -23,7 +25,7 @@ class EnvironnementApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/environnements',
+            self::ROUTE_PREFIX,
             $environnement
         );
 
@@ -39,7 +41,7 @@ class EnvironnementApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/environnements/' . $environnement->id
+            self::ROUTE_PREFIX . '/' . $environnement->id
         );
 
         $this->assertApiResponse($environnement->toArray());
@@ -55,7 +57,7 @@ class EnvironnementApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/environnements/' . $environnement->id,
+            self::ROUTE_PREFIX . '/' . $environnement->id,
             $editedEnvironnement
         );
 
@@ -71,13 +73,13 @@ class EnvironnementApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            '/api/environnements/' . $environnement->id
+            self::ROUTE_PREFIX . '/' . $environnement->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/environnements/' . $environnement->id
+            self::ROUTE_PREFIX . '/' . $environnement->id
         );
 
         $this->response->assertStatus(404);

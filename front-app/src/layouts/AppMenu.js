@@ -11,9 +11,12 @@ import StorageIcon from "@mui/icons-material/Storage";
 import GroupsIcon from "@mui/icons-material/Groups";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import PersonIcon from "@mui/icons-material/Person";
-import { useTheme } from "@mui/material/styles";
+import HistoryIcon from '@mui/icons-material/History';
+
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+
+import { useTheme } from "@mui/material/styles";
 import { useMediaQuery, Avatar, Grid } from "@mui/material";
 import { useGetIdentity } from 'ra-core';
 
@@ -163,6 +166,11 @@ const AppMenu = () => {
         to="/roles"
         primaryText="Roles"
         leftIcon={<LocalOfferIcon />}
+      />
+      <Menu.Item
+        to="/audits"
+        primaryText="Audits"
+        leftIcon={<HistoryIcon />}
       />
     </Menu>
   );

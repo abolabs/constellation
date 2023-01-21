@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\APIs;
+namespace Tests\APIs\v1;
 
 use App\Models\ServiceVersionDependencies;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -14,6 +14,8 @@ class ServiceVersionDependenciesApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
+    private const ROUTE_PREFIX = '/api/v1/service_version_dependencies';
+
     /**
      * @test
      */
@@ -23,7 +25,7 @@ class ServiceVersionDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/service_version_dependencies',
+            self::ROUTE_PREFIX,
             $serviceVersionDependencies
         );
 
@@ -39,7 +41,7 @@ class ServiceVersionDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/service_version_dependencies/' . $serviceVersionDependencies->id
+            self::ROUTE_PREFIX . '/' . $serviceVersionDependencies->id
         );
 
         $this->assertApiResponse($serviceVersionDependencies->toArray());
@@ -55,7 +57,7 @@ class ServiceVersionDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/service_version_dependencies/' . $serviceVersionDependencies->id,
+            self::ROUTE_PREFIX . '/' . $serviceVersionDependencies->id,
             $editedServiceVersionDependencies
         );
 
@@ -71,13 +73,13 @@ class ServiceVersionDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            '/api/service_version_dependencies/' . $serviceVersionDependencies->id
+            self::ROUTE_PREFIX . '/' . $serviceVersionDependencies->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/service_version_dependencies/' . $serviceVersionDependencies->id
+            self::ROUTE_PREFIX . '/' . $serviceVersionDependencies->id
         );
 
         $this->response->assertStatus(404);

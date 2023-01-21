@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\APIs;
+namespace Tests\APIs\v1;
 
 use App\Models\ServiceInstanceDependencies;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -14,6 +14,8 @@ class ServiceInstanceDependenciesApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
+    private const ROUTE_PREFIX = '/api/v1/service_instance_dependencies';
+
     /**
      * @test
      */
@@ -23,7 +25,7 @@ class ServiceInstanceDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/serviceInstanceDependencies',
+            self::ROUTE_PREFIX,
             $serviceInstanceDependencies
         );
 
@@ -39,7 +41,7 @@ class ServiceInstanceDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/serviceInstanceDependencies/' . $serviceInstanceDependencies->id
+            self::ROUTE_PREFIX . '/' . $serviceInstanceDependencies->id
         );
 
         $this->assertApiResponse($serviceInstanceDependencies->toArray());
@@ -55,7 +57,7 @@ class ServiceInstanceDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/serviceInstanceDependencies/' . $serviceInstanceDependencies->id,
+            self::ROUTE_PREFIX . '/' . $serviceInstanceDependencies->id,
             $editedServiceInstanceDependencies
         );
 
@@ -71,13 +73,13 @@ class ServiceInstanceDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            '/api/serviceInstanceDependencies/' . $serviceInstanceDependencies->id
+            self::ROUTE_PREFIX . '/' . $serviceInstanceDependencies->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/serviceInstanceDependencies/' . $serviceInstanceDependencies->id
+            self::ROUTE_PREFIX . '/' . $serviceInstanceDependencies->id
         );
 
         $this->response->assertStatus(404);

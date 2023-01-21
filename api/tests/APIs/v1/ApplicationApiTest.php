@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\APIs;
+namespace Tests\APIs\v1;
 
 use App\Models\Application;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -14,6 +14,8 @@ class ApplicationApiTest extends TestCase
     use WithoutMiddleware;
     use DatabaseTransactions;
 
+    private const ROUTE_PREFIX = '/api/v1/applications';
+
     /**
      * @test
      */
@@ -23,7 +25,7 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'POST',
-            '/api/applications',
+            self::ROUTE_PREFIX,
             $application
         );
 
@@ -39,7 +41,7 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            '/api/applications/' . $application->id
+            self::ROUTE_PREFIX . '/' . $application->id
         );
 
         $this->assertApiResponse($application->toArray());
@@ -55,7 +57,7 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            '/api/applications/' . $application->id,
+            self::ROUTE_PREFIX . '/' . $application->id,
             $editedApplication
         );
 
@@ -71,13 +73,13 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            '/api/applications/' . $application->id
+            self::ROUTE_PREFIX . '/' . $application->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            '/api/applications/' . $application->id
+            self::ROUTE_PREFIX . '/' . $application->id
         );
 
         $this->response->assertStatus(404);
