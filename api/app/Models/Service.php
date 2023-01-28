@@ -21,6 +21,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Laravel\Scout\Searchable;
 
 /**
  * @SWG\Definition(
@@ -65,10 +66,9 @@ use OwenIt\Auditing\Contracts\Auditable;
 class Service extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-
     use SoftDeletes;
-
     use HasFactory;
+    use Searchable;
 
     public $table = 'service';
 
@@ -113,5 +113,20 @@ class Service extends Model implements Auditable
     public function versions()
     {
         return $this->hasMany(ServiceVersion::class, 'service_id');
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'team_id' => $this->team_id,
+            'name' => $this->name,
+            'git_repo' => $this->git_repo,
+        ];
     }
 }

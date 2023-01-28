@@ -33,6 +33,7 @@ class HostingResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'hosting_type_id' => $this->hosting_type_id,
+            'hosting_type_name' => $this->hostingType?->name,
             'localisation' => $this->localisation,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

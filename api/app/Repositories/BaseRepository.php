@@ -20,6 +20,7 @@ namespace App\Repositories;
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
+use MeiliSearch\Endpoints\Indexes;
 
 abstract class BaseRepository
 {
@@ -148,28 +149,30 @@ abstract class BaseRepository
      */
     public function apiAll(array $search = [], ?int $perPage = 10, ?int $page = 0, ?string $order = null, array $columns = ['*'])
     {
-        $fullTextSearch = [];
-        $filter = [];
+        $fullTextSearch = "";
+        $filters = [];
         if (isset($search['filter'])) {
             if (isset($search['filter']['q'])) {
-                foreach ($this->getFieldsSearchable() as $field) {
-                    $fullTextSearch[$field] = $search['filter']['q'];
-                }
+                $fullTextSearch = $search['filter']['q'];
                 unset($search['filter']['q']);
             }
-            $filter = $search['filter'];
-        }
 
-        $query = $this->allQuery($fullTextSearch);
-
-        foreach ($filter as $searchKey => $searchValue) {
-            if (in_array($searchKey, $this->getFieldsSearchable())) {
+            foreach ($search['filter'] as $filterKey => $searchValue) {
                 if (is_array($searchValue)) {
-                    $query->whereIn($searchKey, $searchValue);
+                    $filters[] = $filterKey . " = '" . implode("' OR " . $filterKey . " = '", $searchValue) . "'";
                 } else {
-                    $query->where($searchKey, $searchValue);
+                    $filters[$filterKey] =  $filterKey . " = '" . $searchValue . "'";
                 }
             }
+        }
+
+        if (count($filters) > 0) {
+            $query = $this->model->search($fullTextSearch, function (Indexes $index, $query, $options) use ($filters) {
+                $options['filter'] = implode(' AND ', $filters);
+                return $index->rawSearch($query, $options);
+            });
+        } else {
+            $query = $this->model->search($fullTextSearch);
         }
 
         if (!is_null($order)) {

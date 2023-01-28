@@ -21,6 +21,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Laravel\Scout\Searchable;
 
 /**
  * @SWG\Definition(
@@ -59,10 +60,9 @@ use OwenIt\Auditing\Contracts\Auditable;
 class HostingType extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-
     use SoftDeletes;
-
     use HasFactory;
+    use Searchable;
 
     public $table = 'hosting_type';
 
@@ -93,4 +93,18 @@ class HostingType extends Model implements Auditable
         'name' => 'required',
         'description' => 'required',
     ];
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+        ];
+    }
 }

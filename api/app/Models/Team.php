@@ -21,6 +21,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Laravel\Scout\Searchable;
 
 /**
  * @SWG\Definition(
@@ -59,10 +60,9 @@ use OwenIt\Auditing\Contracts\Auditable;
 class Team extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-
     use SoftDeletes;
-
     use HasFactory;
+    use Searchable;
 
     public $table = 'team';
 
@@ -93,4 +93,17 @@ class Team extends Model implements Auditable
         'name' => 'required',
         'manager' => 'required',
     ];
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+        ];
+    }
 }

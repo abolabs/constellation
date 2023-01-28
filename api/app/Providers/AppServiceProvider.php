@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
         if (env('APP_DEBUG') && env('DEBUG_SQL_QUERY')) {
             // Add in boot function
             \DB::listen(function ($query) {
-                \Log::debug($query->sql, $query->bindings, $query->time);
+                \Log::debug(json_encode([$query->sql, $query->bindings, $query->time]));
             });
         }
         $this->loadViewsFrom(__DIR__ . '/../resources/views/vendor/coreui-templates', 'coreui-templates');

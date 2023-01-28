@@ -19,8 +19,8 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Contracts\Auditable;
+use Laravel\Scout\Searchable;
 
 /**
  * @SWG\Definition(
@@ -59,8 +59,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 class Role extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-
     use HasFactory;
+    use Searchable;
 
     public $table = 'roles';
 
@@ -86,4 +86,17 @@ class Role extends Model implements Auditable
     public static $rules = [
         'name' => 'required',
     ];
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+        ];
+    }
 }

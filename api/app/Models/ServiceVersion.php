@@ -20,6 +20,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
+use Laravel\Scout\Searchable;
 
 /**
  * @SWG\Definition(
@@ -59,8 +60,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 class ServiceVersion extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-
     use HasFactory;
+    use Searchable;
 
     public $table = 'service_version';
 
@@ -106,6 +107,20 @@ class ServiceVersion extends Model implements Auditable
     public function instances()
     {
         return $this->hasMany(\App\Models\ServiceInstance::class, 'service_version_id');
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'service_id' => $this->service_id,
+            'version' => $this->version,
+        ];
     }
 
     public function newQuery()

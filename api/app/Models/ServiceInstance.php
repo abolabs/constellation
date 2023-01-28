@@ -22,6 +22,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Contracts\Auditable;
+use Laravel\Scout\Searchable;
+use Laravel\Scout\Attributes\SearchUsingFullText;
+use Laravel\Scout\Attributes\SearchUsingPrefix;
 
 /**
  * Class ServiceInstance.
@@ -44,6 +47,8 @@ class ServiceInstance extends Model implements Auditable
     use SoftDeletes;
 
     use HasFactory;
+
+    use Searchable;
 
     public $table = 'service_instance';
 
@@ -122,6 +127,51 @@ class ServiceInstance extends Model implements Auditable
     }
 
     /**
+     * Get the value used to index the model.
+     *
+     * @return mixed
+     */
+    public function getScoutKey()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get the key name used to index the model.
+     *
+     * @return mixed
+     */
+    public function getScoutKeyName()
+    {
+        return 'id';
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    #[SearchUsingPrefix(['id', 'service_version'])]
+    #[SearchUsingFullText(['application_name', 'service_name', 'hosting_name'])]
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'application_id' => $this->application_id,
+            'application_name' => $this->application->name,
+            'service_version_id' => $this->service_version_id,
+            'service_version' => $this->serviceVersion->version,
+            'service_name' => $this->serviceVersion->service->name,
+            'environnement_id' => $this->environnement_id,
+            'environnement_name' => $this->environnement->name,
+            'hosting_id' => $this->hosting_id,
+            'hosting_name' => $this->hosting->name,
+            'role' => $this->role,
+            'statut' => $this->statut
+        ];
+    }
+
+    /**
      * Get the most used environnement.
      *
      * @return array
@@ -129,7 +179,12 @@ class ServiceInstance extends Model implements Auditable
     public static function getMainEnvironnement(): array
     {
         try {
-            $env = self::select('environnement_id', DB::raw('count(*) as total'))->with('environnement')->orderBy('total', 'desc')->groupBy('environnement_id')->first()->toArray();
+            $env = self::select('environnement_id', DB::raw('count(*) as total'))
+                    ->with('environnement')
+                    ->orderBy('total', 'desc')
+                    ->groupBy('environnement_id')
+                    ->first()
+                    ->toArray();
         } catch (\Throwable $e) {
             \Log::debug(" getMainEnvironnement " . $e);
         }
