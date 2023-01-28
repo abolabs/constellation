@@ -45,6 +45,7 @@ import ServiceVersionList from "@pages/admin/serviceVersion/ServiceVersionList";
 import ServiceVersionShow from "@pages/admin/serviceVersion/ServiceVersionShow";
 import AuditList from "@pages/admin/audit/AuditList";
 import AuditShow from "@pages/admin/audit/AuditShow";
+import ServiceVersionEdit from "@pages/admin/serviceVersion/ServiceVersionEdit";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -135,6 +136,7 @@ const App = () => {
         <Resource name="service_versions"
           list={ServiceVersionList}
           show={ServiceVersionShow}
+          edit={ServiceVersionEdit}
         />
         <Resource name="hosting_types"
           list={HostingTypeList}
