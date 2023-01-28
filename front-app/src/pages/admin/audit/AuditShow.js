@@ -12,7 +12,7 @@ import DefaultShowLayout from "@components/DefaultShowLayout";
 
 const AuditShow = () => {
   const location = useLocation();
-  const { error, isLoading } = useShowController();
+  const { error, isLoading, record } = useShowController();
 
   if (isLoading) {
     return (
@@ -30,7 +30,7 @@ const AuditShow = () => {
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Audit</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
-        <DefaultShowLayout canDelete={false} canEdit={false}>
+        <DefaultShowLayout title={record?.auditable_type} canDelete={false} canEdit={false}>
             <NumberField source="id" />
             <TextField source="user_type" />
             <NumberField source="user_id" />
