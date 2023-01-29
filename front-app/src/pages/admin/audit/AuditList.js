@@ -55,11 +55,11 @@ const AuditList = (props) => {
         ) : (
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
             <NumberField source="id" />
-            <NumberField source="user_name" />
+            <TextField source="user_name" />
             <TextField source="auditable_id" />
             <TextField source="auditable_type" />
             <TextField source="event" />
-            <TextField source="ip" />
+            <TextField source="ip_address" />
             <DateField source="created_at" />
           </Datagrid>
         )}

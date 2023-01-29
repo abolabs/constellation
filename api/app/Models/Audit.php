@@ -19,6 +19,7 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
 
 /**
  * Class Audit.
@@ -40,6 +41,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Audit extends Model
 {
     use HasFactory;
+    use Searchable;
 
     public $table = 'audits';
 
@@ -111,5 +113,30 @@ class Audit extends Model
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id');
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'user_type' => $this->user_type,
+            'user_id' => $this->user_id,
+            'user_name' => $this->user?->name,
+            'event' => $this->event,
+            'auditable_type' => $this->auditable_type,
+            'auditable_id' => $this->auditable_id,
+            'old_values' => $this->old_values,
+            'new_values' => $this->new_values,
+            'url' => $this->url,
+            'ip_address' => $this->ip_address,
+            'user_agent' => $this->user_agent,
+            'tags' => $this->tags,
+            'created_at' => $this->created_at,
+        ];
     }
 }

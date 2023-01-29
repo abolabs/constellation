@@ -23,6 +23,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable implements Auditable
 {
@@ -31,6 +32,7 @@ class User extends Authenticatable implements Auditable
     use Notifiable;
     use HasRoles;
     use \OwenIt\Auditing\Auditable;
+    use Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -61,4 +63,18 @@ class User extends Authenticatable implements Auditable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+        ];
+    }
 }

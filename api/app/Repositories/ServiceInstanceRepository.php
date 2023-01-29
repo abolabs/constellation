@@ -32,10 +32,11 @@ class ServiceInstanceRepository extends BaseRepository
     protected $fieldSearchable = [
         'id',
         'application_id',
+        'hosting_id',
         'service_version_id',
         'environnement_id',
         'url',
-        'statut',
+        'statut'
     ];
 
     /**

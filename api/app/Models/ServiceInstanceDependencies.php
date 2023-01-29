@@ -20,6 +20,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
+use Laravel\Scout\Searchable;
 
 /**
  * @SWG\Definition(
@@ -60,8 +61,8 @@ use OwenIt\Auditing\Contracts\Auditable;
 class ServiceInstanceDependencies extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-
     use HasFactory;
+    use Searchable;
 
     public $table = 'service_instance_dep';
 
@@ -129,5 +130,21 @@ class ServiceInstanceDependencies extends Model implements Auditable
     public function serviceInstanceDeps()
     {
         return $this->hasMany(\App\Models\ServiceInstance::class, 'id', 'instance_dep_id');
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'instance_id' => $this->instance_id,
+            'instance_dep_id' => $this->instance_dep_id,
+            'level' => $this->level,
+            'description' => $this->description,
+        ];
     }
 }
