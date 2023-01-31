@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   CardActions,
-  CardHeader,
   CardContent,
   Link,
   List,
@@ -15,6 +14,7 @@ import {
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Tag from "@components/styled/Tag";
+import ItemCardHeader from "@components/styled/ItemCardHeader";
 
 const ServiceInstanceCard = (instance) => {
   const navigate = useNavigate();
@@ -28,8 +28,8 @@ const ServiceInstanceCard = (instance) => {
     <Card sx={{
       height: '26vh',
     }}>
-      <CardHeader
-        title={instance?.service_version_name}
+      <ItemCardHeader
+        title={instance?.service_name}
         sx={{
           background: theme?.palette?.secondary?.main,
           color: theme?.palette?.secondary?.contrastText,

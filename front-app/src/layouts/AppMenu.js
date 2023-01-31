@@ -19,12 +19,18 @@ import Divider from "@mui/material/Divider";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery, Avatar, Grid } from "@mui/material";
 import { useGetIdentity } from 'ra-core';
+import { useEffect } from "react";
 
 const AppMenu = () => {
   const theme = useTheme();
-  const [open] = useSidebarState();
+  const isMediumOrUpper = useMediaQuery((theme) => theme.breakpoints.up("md"));
+  const [open, setOpen] = useSidebarState(isMediumOrUpper);
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const { isLoading, identity } = useGetIdentity();
+
+  useEffect(( ) => {
+    setOpen(isMediumOrUpper);
+  }, [isMediumOrUpper, setOpen])
 
   return (
     <Menu

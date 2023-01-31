@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import HomeIcon from "@mui/icons-material/Home";
 
-export default function AppBreadCrumd(props) {
+const AppBreadCrumd = (props) => {
   const routePrefix = "/#/";
 
   const breadcrumbs = [
@@ -43,7 +43,7 @@ export default function AppBreadCrumd(props) {
       i++;
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 
   return (
@@ -62,3 +62,5 @@ export default function AppBreadCrumd(props) {
     </Stack>
   );
 }
+
+export default AppBreadCrumd;

@@ -34,7 +34,8 @@ class ServiceInstanceResource extends JsonResource
             'application_id' => $this->application_id,
             'application_name' => $this->application->name,
             'service_version_id' => $this->service_version_id,
-            'service_version_name' => $this->serviceVersion->service->name,
+            'service_name' => $this->serviceVersion->service->name,
+            'service_id' => $this->serviceVersion->service->id,
             'service_version' => $this->serviceVersion->version,
             'environnement_id' => $this->environnement_id,
             'environnement_name' => $this->environnement->name,
@@ -45,6 +46,7 @@ class ServiceInstanceResource extends JsonResource
             'statut' => $this->statut,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'meta' => $this->additional,
         ];
     }
 }

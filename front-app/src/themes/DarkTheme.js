@@ -1,5 +1,6 @@
 import { defaultTheme } from "react-admin";
 import { createTheme } from "@mui/material/styles";
+import { grey, blueGrey } from '@mui/material/colors';
 import componentsOverride from "./ComponentsOverride";
 
 const theme = createTheme(
@@ -17,22 +18,19 @@ const theme = createTheme(
     palette: {
       type: "dark",
       primary: {
-        main: "#51a9b9",
-        light: "#85dbeb",
-        dark: "#0f7a89",
-        contrastText: "#fff",
+        main: "#51d7ee",
+        light: "#9fefff",
+        dark: "#004e59",
+        contrastText: "#00363e",
       },
       secondary: {
-        main: "#45888e",
-        light: "#45888e",
-        dark: "#003137",
-        contrastText: "#fff",
+        main: "#4dd9e4",
+        light: "#7bf4ff",
+        dark: "#004f54",
+        contrastText: "#00363a",
       },
       error: {
-        main: "#ff454e",
-        light: "#ff7c7a",
-        dark: "#c50026",
-        contrastText: "#fff",
+        main: "#93000a",
       },
       warning: {
         main: "#ffc857",
@@ -41,10 +39,7 @@ const theme = createTheme(
         contrastText: "#000",
       },
       info: {
-        main: "#54aeb9",
-        light: "#88e0eb",
-        dark: "#167e89",
-        contrastText: "#000",
+        main: "#3c4665",
       },
       success: {
         main: "#177E89",
@@ -53,8 +48,8 @@ const theme = createTheme(
         contrastText: "#fff",
       },
       background: {
-        default: "#181a1b",
-        paper: "#454a4d",
+        default: grey[900],
+        paper: blueGrey[900],
       },
       shadows: {
         1: "0rem 1.25rem 1.6875rem 0rem rgba(255, 255, 255, 0.05)",
@@ -65,7 +60,6 @@ const theme = createTheme(
         disabled: "#e8e6e3",
         hint: "#e8e6e3",
       },
-
       divider: "#e8e6e3",
       contrastThreshold: 3,
       tonalOffset: 0.2,
@@ -88,10 +82,10 @@ const theme = createTheme(
         lineHeight: 1.25,
       },
       h4: {
-        fontSize: "1.2rem",
+        fontSize: "1.1rem",
       },
       h5: {
-        fontSize: "1.1rem",
+        fontSize: "1.05rem",
       },
       h6: {
         fontSize: "1.0rem",

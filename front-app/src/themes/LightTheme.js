@@ -53,7 +53,6 @@ const theme = createTheme(
         contrastText: "#fff",
       },
       background: {
-        //default: '#fff',
         default: "#F7F9FB",
         paper: "#FFFFFF",
       },
@@ -88,10 +87,10 @@ const theme = createTheme(
         lineHeight: 1.25,
       },
       h4: {
-        fontSize: "1.2rem",
+        fontSize: "1.1rem",
       },
       h5: {
-        fontSize: "1.1rem",
+        fontSize: "1.05rem",
       },
       h6: {
         fontSize: "1.0rem",
