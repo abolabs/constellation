@@ -230,6 +230,7 @@ return [
                     'environnement_id',
                     'hosting_name',
                     'hosting_id',
+                    'application_name',
                 ],
                 'sortableAttributes' => [
                     'id',

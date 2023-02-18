@@ -1,6 +1,6 @@
 // in src/App.js
 import * as React from "react";
-import { Admin, Resource, ListGuesser, Title, ShowGuesser, EditGuesser } from "react-admin";
+import { Admin, Resource, ListGuesser, Title, EditGuesser } from "react-admin";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
@@ -47,6 +47,7 @@ import AuditList from "@pages/admin/audit/AuditList";
 import AuditShow from "@pages/admin/audit/AuditShow";
 import ServiceVersionEdit from "@pages/admin/serviceVersion/ServiceVersionEdit";
 import ServiceInstanceList from "@pages/serviceInstance/ServiceInstanceList";
+import ServiceInstanceShow from "@pages/serviceInstance/ServiceInstanceShow";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -110,7 +111,7 @@ const App = () => {
         <Resource name="service_instances"
           list={ServiceInstanceList}
           edit={EditGuesser}
-          show={ShowGuesser}
+          show={ServiceInstanceShow}
         />
         <Resource name="services"
           list={ServiceList}

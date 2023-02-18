@@ -1,29 +1,30 @@
-import axios from 'axios';
-import { stringify } from 'qs';
-import {
-  getIds,
-  getQueryFromParams,
-} from './helpers';
+import axios from "axios";
+import { stringify } from "qs";
+import { getIds, getQueryFromParams } from "./helpers";
 
 const defaultSettings = {
   headers: {
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json",
   },
   initPage: 1,
-  updateMethod: 'PUT',
-  arrayFormat: 'brackets',
+  updateMethod: "PUT",
+  arrayFormat: "brackets",
 };
 
-const laravelDataProvider = (apiURL, customSettings = {}, tokenName = 'token') => {
-  let url = '';
-  const settings = {...customSettings, ...defaultSettings};
+const laravelDataProvider = (
+  apiURL,
+  customSettings = {},
+  tokenName = "token"
+) => {
+  let url = "";
+  const settings = { ...customSettings, ...defaultSettings };
   const options = {
     headers: settings.headers,
   };
 
   const client = axios.create({
     baseURL: apiURL,
-    ...settings
+    ...settings,
   });
 
   client.interceptors.request.use(
@@ -39,10 +40,10 @@ const laravelDataProvider = (apiURL, customSettings = {}, tokenName = 'token') =
 
       return newConfig;
     },
-    err => Promise.reject(err),
+    (err) => Promise.reject(err)
   );
 
-  return ({
+  return {
     getList: async (resource, params) => {
       const query = getQueryFromParams({ ...params, ...customSettings });
 
@@ -51,15 +52,15 @@ const laravelDataProvider = (apiURL, customSettings = {}, tokenName = 'token') =
       const res = await client({ url, ...options });
 
       return {
-        data: res.data.data.map(item => item),
-        total: res.data.total
-      }
+        data: res.data.data.map((item) => item),
+        total: res.data.total,
+      };
     },
     getOne: async (resource, params) => {
       url = `${apiURL}/${resource}/${params.id}`;
 
       const res = await client.get(url);
-      return { data: { ...res.data?.data  } }
+      return { data: { ...res.data?.data } };
     },
     getMany: async (resource, params) => {
       const query = getIds(params);
@@ -69,9 +70,9 @@ const laravelDataProvider = (apiURL, customSettings = {}, tokenName = 'token') =
       const res = await client({ url, ...options });
 
       return {
-        data: res.data.data.map(item => item),
-        total: res.data.total
-      }
+        data: res.data.data.map((item) => item),
+        total: res.data.total,
+      };
     },
     getManyReference: async (resource, params) => {
       const query = getQueryFromParams({ ...params, ...customSettings });
@@ -81,19 +82,20 @@ const laravelDataProvider = (apiURL, customSettings = {}, tokenName = 'token') =
       const res = await client({ url, ...options });
 
       return {
-        data: res.data.data.map(item => item),
-        total: res.data.total
-      }
+        data: res.data.data.map((item) => item),
+        total: res.data.total,
+      };
     },
     create: async (resource, params) => {
       url = `${apiURL}/${resource}`;
 
       const res = await client.post(url, params.data);
-      const { id, attributes  } = res.data;
+      const { id, attributes } = res.data;
 
       return {
         data: {
-          id, ...attributes,
+          id,
+          ...attributes,
         },
       };
     },
@@ -102,14 +104,14 @@ const laravelDataProvider = (apiURL, customSettings = {}, tokenName = 'token') =
       const attributes = params.data;
       delete attributes.id;
       const data = {
-        ...attributes
+        ...attributes,
       };
 
       const res = await client.put(url, data);
 
       return {
-        data: { ...res.data?.data }
-      }
+        data: { ...res.data?.data },
+      };
     },
     updateMany: (resource, params) => Promise,
     delete: async (resource, params) => {
@@ -117,7 +119,7 @@ const laravelDataProvider = (apiURL, customSettings = {}, tokenName = 'token') =
 
       const res = await client.delete(url);
 
-      return { data: { ...res.data } }
+      return { data: { ...res.data } };
     },
     deleteMany: async (resource, params) => {
       const query = getIds(params, settings.arrayFormat);
@@ -125,7 +127,7 @@ const laravelDataProvider = (apiURL, customSettings = {}, tokenName = 'token') =
 
       const res = await client.delete(url);
 
-      return { data: { ...res.data } }
+      return { data: { ...res.data } };
     },
     get: async (endpoint) => {
       url = `${apiURL}/${endpoint}`;
@@ -135,14 +137,13 @@ const laravelDataProvider = (apiURL, customSettings = {}, tokenName = 'token') =
       return res.data;
     },
     post: async (endpoint, data) => {
-
       url = `${apiURL}/${endpoint}`;
 
       const res = await client.post(url, data);
 
       return res.data;
-    }
-  });
-}
+    },
+  };
+};
 
 export default laravelDataProvider;

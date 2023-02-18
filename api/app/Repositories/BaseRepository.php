@@ -157,6 +157,19 @@ abstract class BaseRepository
                 unset($search['filter']['q']);
             }
 
+            $excludeFilters = [];
+            if (isset($search['filter']['_exclude']) && ($excludeFilters = $search['filter']['_exclude'])) {
+                unset($search['filter']['_exclude']);
+            }
+
+            foreach ($excludeFilters as $filterKey => $excludedValue) {
+                if (is_array($excludedValue)) {
+                    $filters[] = $filterKey . " != '" . implode("' AND " . $filterKey . " != '", $excludedValue) . "'";
+                } else {
+                    $filters[$filterKey] =  $filterKey . " != '" . $excludedValue . "'";
+                }
+            }
+
             foreach ($search['filter'] as $filterKey => $searchValue) {
                 if (is_array($searchValue)) {
                     $filters[] = $filterKey . " = '" . implode("' OR " . $filterKey . " = '", $searchValue) . "'";

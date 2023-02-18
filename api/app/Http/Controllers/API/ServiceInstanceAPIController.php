@@ -20,8 +20,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateServiceInstanceAPIRequest;
 use App\Http\Requests\API\UpdateServiceInstanceAPIRequest;
+use App\Http\Resources\ServiceInstanceDependenciesResource;
 use App\Http\Resources\ServiceInstanceResource;
 use App\Models\ServiceInstance;
+use App\Models\ServiceInstanceDependencies;
 use App\Repositories\ServiceInstanceRepository;
 use Illuminate\Http\Request;
 use Response;
@@ -89,7 +91,31 @@ class ServiceInstanceAPIController extends AppBaseController
             return $this->sendError('Service Instance not found');
         }
 
-        return $this->sendResponse(new ServiceInstanceResource($serviceInstance), 'Service Instance retrieved successfully');
+        $instanceDependencies = ServiceInstanceDependencies::where('instance_id', $serviceInstance->id)
+            ->with([
+                'serviceInstanceDep',
+                'serviceInstanceDep.hosting',
+                'serviceInstanceDep.application',
+                'serviceInstanceDep.serviceVersion',
+                'serviceInstanceDep.serviceVersion.service',
+            ])->get();
+
+        $instanceDependenciesSource = ServiceInstanceDependencies::where('instance_dep_id', $serviceInstance->id)
+            ->with([
+                'serviceInstance',
+                'serviceInstance.hosting',
+                'serviceInstance.application',
+                'serviceInstance.serviceVersion',
+                'serviceInstance.serviceVersion.service',
+            ])->get();
+
+        return $this->sendResponse(
+            (new ServiceInstanceResource($serviceInstance))->additional([
+                'instanceDependencies' => $instanceDependencies,
+                'instanceDependenciesSource' => $instanceDependenciesSource
+            ]),
+            'Service Instance retrieved successfully'
+        );
     }
 
     /**
