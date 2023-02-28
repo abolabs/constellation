@@ -40,7 +40,7 @@ const ServiceEdit = () => {
     <>
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Service</Typography>
-      <Edit>
+      <Edit redirect="show">
         <SimpleForm
           resolver={yupResolver(ServiceDefaultSchema)}
           toolbar={<DefaultEditToolBar />}

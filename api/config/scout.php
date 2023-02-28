@@ -148,10 +148,12 @@ return [
         'index-settings' => [
             Application::class => [
                 'filterableAttributes'=> [
+                    'id',
                     'team_id',
                 ],
                 'sortableAttributes' => [
                     'id',
+                    'name',
                     'user_type',
                     'user_id',
                     'user_name',
@@ -264,6 +266,7 @@ return [
                     'id',
                     'service_id',
                     'version',
+                    'service_name',
                 ],
             ],
             Team::class => [

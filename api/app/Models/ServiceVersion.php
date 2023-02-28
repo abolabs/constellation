@@ -120,6 +120,7 @@ class ServiceVersion extends Model implements Auditable
             'id' => $this->id,
             'service_id' => $this->service_id,
             'version' => $this->version,
+            'service_name' => $this->service->name,
         ];
     }
 

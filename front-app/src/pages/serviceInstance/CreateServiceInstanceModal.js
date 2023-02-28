@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -29,24 +29,27 @@ import {
   TextInput,
   useCreate,
   useNotify,
+  useRefresh,
 } from "react-admin";
 import CloseIcon from '@mui/icons-material/Close';
-import { useFormContext, useWatch } from "react-hook-form";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import AlertError from "@components/alerts/AlertError";
 import OptionalFieldTitle from "@components/form/OptionalFieldTitle";
+import ServiceVersionInput from "./ServiceVersionInput";
 
 const CreateInstanceModal = ({applicationData, environnementId, handleClose, open = false}) => {
   const [create, { isLoading }] = useCreate();
   const notify = useNotify();
+  const refresh = useRefresh();
   const [defaultValues, setDefaultValues] = useState({});
   const [lastError, setLastError] = useState();
 
-  const onSuccess = (data) => {
+  const onSuccess = (_data) => {
     notify(`Instance de service créée`, { type: 'success' })
     handleClose();
+    refresh();
   };
 
   const handleSubmit =  async(data) => {
@@ -63,15 +66,10 @@ const CreateInstanceModal = ({applicationData, environnementId, handleClose, ope
     }
   };
 
-  const serviceOptionText = (data) =>  `#${data.id} - ${data.name}`;
-
   const hostingOptionText = (data) =>  `#${data.id} - ${data.name}`;
 
   const schema = yup.object()
     .shape({
-        service: yup.number()
-          .required('Please select a service')
-          .typeError('Please select a service'),
         service_version_id: yup.number()
           .required('Please select a service version')
           .typeError('Please select a service version'),
@@ -118,17 +116,13 @@ const CreateInstanceModal = ({applicationData, environnementId, handleClose, ope
       </DialogTitle>
       <DialogContent sx={{padding: 0}}>
         { lastError ? <AlertError {...lastError} /> : null}
-        <Create resource="service_instances">
+        <Create resource="service_instances" mutationMode="pessimistic">
           <SimpleForm
             resolver={yupResolver(schema)}
             onSubmit={handleSubmit}
             defaultValues={defaultValues}
             sx={{padding: "0 2rem"}}
           >
-            <ReferenceInput source="service" reference="services" sort={{field:"name", order:"ASC"}} >
-              <AutocompleteInput label="Service" optionText={serviceOptionText} fullWidth/>
-            </ReferenceInput>
-
             <ServiceVersionInput />
 
             <ReferenceInput source="environnement_id" reference="environnements" sort={{field:"name", order:"ASC"}} >
@@ -150,20 +144,5 @@ const CreateInstanceModal = ({applicationData, environnementId, handleClose, ope
     </Dialog>
   );
 };
-
-const ServiceVersionInput = () => {
-  const { resetField } = useFormContext();
-  const service = useWatch({ name: 'service' });
-
-  useEffect(() => {
-    resetField('service_version_id');
-  }, [service, resetField]);
-
-  return (
-    <ReferenceInput source="service_version_id" reference="service_versions" filter={{ service_id: service }}>
-      <AutocompleteInput label="Version du service" optionText="version" fullWidth/>
-    </ReferenceInput>
-  );
-}
 
 export default CreateInstanceModal;
