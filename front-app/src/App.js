@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from "react";
-import { Admin, Resource, ListGuesser, Title, EditGuesser } from "react-admin";
+import { Admin, Resource, ListGuesser, Title } from "react-admin";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
@@ -62,6 +62,7 @@ import AuditShow from "@pages/admin/audit/AuditShow";
 import ServiceVersionEdit from "@pages/admin/serviceVersion/ServiceVersionEdit";
 import ServiceInstanceList from "@pages/serviceInstance/ServiceInstanceList";
 import ServiceInstanceShow from "@pages/serviceInstance/ServiceInstanceShow";
+import ServiceInstanceEdit from "@pages/serviceInstance/ServiceInstanceEdit";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -124,7 +125,7 @@ const App = () => {
         />
         <Resource name="service_instances"
           list={ServiceInstanceList}
-          edit={EditGuesser}
+          edit={ServiceInstanceEdit}
           show={ServiceInstanceShow}
         />
         <Resource name="services"
