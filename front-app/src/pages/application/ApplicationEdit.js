@@ -21,28 +21,16 @@ import {
   SimpleForm,
   TextInput,
 } from "react-admin";
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useLocation } from 'react-router-dom';
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultEditToolBar from '@components/toolbar/DefaultEditToolBar';
+import ApplicationDefaultSchema from './ApplicationDefaultSchema';
 
 const ApplicationEdit = () => {
   const location = useLocation();
-
-  const schema = yup.object()
-    .shape({
-        name: yup.string()
-          .required('Please select a service')
-          .typeError('Please select a service')
-          .max(254),
-        team_id: yup.number()
-          .required('Please select a team')
-          .typeError('Please select a team')
-    })
-    .required();
 
   const TeamOptionText = (data) =>  `#${data.id} - ${data.name}`;
 
@@ -50,9 +38,9 @@ const ApplicationEdit = () => {
     <>
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Application</Typography>
-      <Edit>
+      <Edit redirect="show">
         <SimpleForm
-          resolver={yupResolver(schema)}
+          resolver={yupResolver(ApplicationDefaultSchema)}
           toolbar={<DefaultEditToolBar />}
         >
           <TextInput source="name" fullWidth />
