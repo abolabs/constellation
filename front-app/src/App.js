@@ -63,6 +63,7 @@ import ServiceVersionEdit from "@pages/admin/serviceVersion/ServiceVersionEdit";
 import ServiceInstanceList from "@pages/serviceInstance/ServiceInstanceList";
 import ServiceInstanceShow from "@pages/serviceInstance/ServiceInstanceShow";
 import ServiceInstanceEdit from "@pages/serviceInstance/ServiceInstanceEdit";
+import UserList from "./pages/admin/user/UserList";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -167,7 +168,9 @@ const App = () => {
           create={TeamCreate}
           edit={TeamEdit}
         />
-        <Resource name="users" list={ListGuesser} />
+        <Resource name="users"
+          list={UserList}
+        />
         <Resource name="roles" list={ListGuesser} />
         <Resource name="audits"
           list={AuditList}
