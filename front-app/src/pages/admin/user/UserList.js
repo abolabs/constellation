@@ -20,7 +20,14 @@ import {
   TextField,
   TextInput,
   BulkExportButton,
+  ArrayField,
+  SingleFieldList,
+  useRecordContext,
+  useGetOne,
 } from "react-admin";
+import {
+  Chip
+} from "@mui/material";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
@@ -61,6 +68,11 @@ const UserList = (props) => {
             <TextField source="id" />
             <TextField source="name" />
             <TextField source="email" />
+            <ArrayField source="roles">
+              <SingleFieldList>
+                  <TagsField source="id" />
+              </SingleFieldList>
+            </ArrayField>
             <DateField source="created_at" />
             <DateField source="updated_at" />
           </Datagrid>
@@ -68,6 +80,16 @@ const UserList = (props) => {
       </DefaultList>
     </>
   );
+};
+
+const TagsField = () => {
+  const record = useRecordContext();
+  const { data: role, isLoading, error } = useGetOne('roles', { id: record });
+
+  if (isLoading) return null;
+  if (error) return null;
+
+  return <Chip key={role.id} label={role.name} />
 };
 
 export default UserList;

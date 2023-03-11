@@ -23,7 +23,7 @@ use DB;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 use App\DataTables\UserDataTable;
 use App\Http\Requests\CreateUserRequest;
 use App\Repositories\UserRepository;

@@ -24,6 +24,9 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Response;
 
 /**
@@ -36,6 +39,7 @@ class UserAPIController extends AppBaseController
 
     public function __construct(UserRepository $userRepo)
     {
+        $this->authorizeResource(User::class);
         $this->userRepository = $userRepo;
     }
 
@@ -73,14 +77,14 @@ class UserAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $Users = $this->userRepository->apiAll(
+        $users = $this->userRepository->apiAll(
             $request->except(['perPage', 'page', 'sort']),
             $request->perPage,
             $request->page,
             $request->sort
         );
 
-        return $this->sendResponse(UserResource::collection($Users), 'Users retrieved successfully', $Users->total());
+        return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully', $users->total());
     }
 
     /**
@@ -124,10 +128,12 @@ class UserAPIController extends AppBaseController
     public function store(CreateUserAPIRequest $request)
     {
         $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
 
-        $User = $this->userRepository->create($input);
+        $user = $this->userRepository->create($input);
+        $user->assignRole($request->input('roles'));
 
-        return $this->sendResponse(new UserResource($User), 'User saved successfully');
+        return $this->sendResponse(new UserResource($user), 'User saved successfully');
     }
 
     /**
@@ -168,16 +174,13 @@ class UserAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show(User $user)
     {
-        /** @var User $User */
-        $User = $this->userRepository->find($id);
-
-        if (empty($User)) {
+        if (empty($user)) {
             return $this->sendError('User not found');
         }
 
-        return $this->sendResponse(new UserResource($User), 'User retrieved successfully');
+        return $this->sendResponse(new UserResource($user), 'User retrieved successfully');
     }
 
     /**
@@ -226,20 +229,21 @@ class UserAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, Request $request)
+    public function update(User $user, UpdateUserAPIRequest $request)
     {
         $input = $request->all();
-
-        /** @var User $User */
-        $User = $this->userRepository->find($id);
-
-        if (empty($User)) {
-            return $this->sendError('User not found');
+        if (! empty($input['password'])) {
+            $input['password'] = Hash::make($input['password']);
+        } else {
+            $input = Arr::except($input, ['password']);
         }
 
-        $User = $this->userRepository->update($input, $id);
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id', $user->id)->delete();
 
-        return $this->sendResponse(new UserResource($User), 'User updated successfully');
+        $user->assignRole($request->input('roles'));
+
+        return $this->sendResponse(new UserResource($user), 'User updated successfully');
     }
 
     /**
@@ -280,16 +284,13 @@ class UserAPIController extends AppBaseController
      *      )
      * )
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        /** @var User $User */
-        $User = $this->userRepository->find($id);
-
-        if (empty($User)) {
+        if (empty($user)) {
             return $this->sendError('User not found');
         }
 
-        $User->delete();
+        $user->delete();
 
         return $this->sendSuccess('User deleted successfully');
     }

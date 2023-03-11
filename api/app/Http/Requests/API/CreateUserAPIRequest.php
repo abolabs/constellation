@@ -17,9 +17,10 @@
 
 namespace App\Http\Requests\API;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\User;
+use InfyOm\Generator\Request\APIRequest;
 
-class CreateUserAPIRequest extends FormRequest
+class CreateUserAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -38,11 +39,8 @@ class CreateUserAPIRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required',
-        ];
+        $rules = User::$rules;
+
+        return $rules;
     }
 }
