@@ -81,7 +81,7 @@ const ServiceInstanceList = (props) => {
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
               <TextField source="id" />
               <TextField source="application_name" />
-              <TextField source="service_version_name" />
+              <TextField source="service_name" />
               <TextField source="service_version" />
               <TextField source="environnement_name" />
               <TextField source="hosting_name" />
