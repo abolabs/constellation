@@ -17,7 +17,6 @@
 
 namespace App\Models;
 
-use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use Laravel\Scout\Searchable;
@@ -56,7 +55,7 @@ use Laravel\Scout\Searchable;
  *      )
  * )
  */
-class Role extends Model implements Auditable
+class Role extends \Spatie\Permission\Models\Role implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
@@ -98,5 +97,10 @@ class Role extends Model implements Auditable
             'id' => $this->id,
             'name' => $this->name,
         ];
+    }
+
+    public function guardName()
+    {
+        return 'api';
     }
 }

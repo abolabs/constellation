@@ -65,6 +65,8 @@ import ServiceInstanceShow from "@pages/serviceInstance/ServiceInstanceShow";
 import ServiceInstanceEdit from "@pages/serviceInstance/ServiceInstanceEdit";
 import UserList from "./pages/admin/user/UserList";
 import UserShow from "./pages/admin/user/UserShow";
+import UserCreate from "./pages/admin/user/UserCreate";
+import UserEdit from "./pages/admin/user/UserEdit";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -172,6 +174,8 @@ const App = () => {
         <Resource name="users"
           list={UserList}
           show={UserShow}
+          create={UserCreate}
+          edit={UserEdit}
         />
         <Resource name="roles" list={ListGuesser} />
         <Resource name="audits"
