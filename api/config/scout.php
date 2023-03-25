@@ -208,6 +208,7 @@ return [
             Role::class => [
                 'filterableAttributes'=> [
                     'id',
+                    'name',
                 ],
                 'sortableAttributes' => [
                     'id',
