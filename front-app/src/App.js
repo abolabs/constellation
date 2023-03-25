@@ -63,10 +63,11 @@ import ServiceVersionEdit from "@pages/admin/serviceVersion/ServiceVersionEdit";
 import ServiceInstanceList from "@pages/serviceInstance/ServiceInstanceList";
 import ServiceInstanceShow from "@pages/serviceInstance/ServiceInstanceShow";
 import ServiceInstanceEdit from "@pages/serviceInstance/ServiceInstanceEdit";
-import UserList from "./pages/admin/user/UserList";
-import UserShow from "./pages/admin/user/UserShow";
-import UserCreate from "./pages/admin/user/UserCreate";
-import UserEdit from "./pages/admin/user/UserEdit";
+import UserList from "@pages/admin/user/UserList";
+import UserShow from "@pages/admin/user/UserShow";
+import UserCreate from "@pages/admin/user/UserCreate";
+import UserEdit from "@pages/admin/user/UserEdit";
+import RoleList from "@pages/admin/role/RoleList";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -177,7 +178,9 @@ const App = () => {
           create={UserCreate}
           edit={UserEdit}
         />
-        <Resource name="roles" list={ListGuesser} />
+        <Resource name="roles"
+          list={RoleList}
+        />
         <Resource name="audits"
           list={AuditList}
           show={AuditShow}
