@@ -68,6 +68,7 @@ import UserShow from "@pages/admin/user/UserShow";
 import UserCreate from "@pages/admin/user/UserCreate";
 import UserEdit from "@pages/admin/user/UserEdit";
 import RoleList from "@pages/admin/role/RoleList";
+import RoleShow from "@pages/admin/role/RoleShow";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -180,6 +181,7 @@ const App = () => {
         />
         <Resource name="roles"
           list={RoleList}
+          show={RoleShow}
         />
         <Resource name="audits"
           list={AuditList}

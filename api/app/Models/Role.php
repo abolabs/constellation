@@ -20,6 +20,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use Laravel\Scout\Searchable;
+use Spatie\Permission\Models\Permission;
 
 /**
  * @SWG\Definition(

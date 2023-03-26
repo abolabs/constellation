@@ -74,14 +74,14 @@ class RoleAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $Roles = $this->roleRepository->apiAll(
+        $roles = $this->roleRepository->apiAll(
             $request->except(['perPage', 'page', 'sort']),
             $request->perPage,
             $request->page,
             $request->sort
         );
 
-        return $this->sendResponse(RoleResource::collection($Roles), 'Roles retrieved successfully', $Roles->total());
+        return $this->sendResponse(RoleResource::collection($roles), 'Roles retrieved successfully', $roles->total());
     }
 
     /**
@@ -126,9 +126,9 @@ class RoleAPIController extends AppBaseController
     {
         $input = $request->all();
 
-        $Role = $this->roleRepository->create($input);
+        $role = $this->roleRepository->create($input);
 
-        return $this->sendResponse(new RoleResource($Role), 'Role saved successfully');
+        return $this->sendResponse(new RoleResource($role), 'Role saved successfully');
     }
 
     /**
@@ -172,13 +172,11 @@ class RoleAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Role $Role */
-        $Role = $this->roleRepository->find($id);
-
-        if (empty($Role)) {
+        $role = $this->roleRepository->find($id);
+        if (empty($role)) {
             return $this->sendError('Role not found');
         }
-
-        return $this->sendResponse(new RoleResource($Role), 'Role retrieved successfully');
+        return $this->sendResponse(new RoleResource($role), 'Role retrieved successfully');
     }
 
     /**
@@ -232,15 +230,15 @@ class RoleAPIController extends AppBaseController
         $input = $request->all();
 
         /** @var Role $Role */
-        $Role = $this->roleRepository->find($id);
+        $role = $this->roleRepository->find($id);
 
-        if (empty($Role)) {
+        if (empty($role)) {
             return $this->sendError('Role not found');
         }
 
-        $Role = $this->roleRepository->update($input, $id);
+        $role = $this->roleRepository->update($input, $id);
 
-        return $this->sendResponse(new RoleResource($Role), 'Role updated successfully');
+        return $this->sendResponse(new RoleResource($role), 'Role updated successfully');
     }
 
     /**
@@ -284,13 +282,13 @@ class RoleAPIController extends AppBaseController
     public function destroy($id)
     {
         /** @var Role $Role */
-        $Role = $this->roleRepository->find($id);
+        $role = $this->roleRepository->find($id);
 
-        if (empty($Role)) {
+        if (empty($role)) {
             return $this->sendError('Role not found');
         }
 
-        $Role->delete();
+        $role->delete();
 
         return $this->sendSuccess('Role deleted successfully');
     }
