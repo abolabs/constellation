@@ -24,6 +24,7 @@ use MeiliSearch\Endpoints\Indexes;
 
 abstract class BaseRepository
 {
+    public const DEFAULT_LIMIT = 100;
     /**
      * @var Model
      */
@@ -84,7 +85,7 @@ abstract class BaseRepository
      * @param  array  $columns
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function paginate(int $perPage = 10, $columns = ['*'])
+    public function paginate(int $perPage = self::DEFAULT_LIMIT, $columns = ['*'])
     {
         $query = $this->allQuery();
 
@@ -147,7 +148,7 @@ abstract class BaseRepository
      * @param  array  $columns
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function apiAll(array $search = [], ?int $perPage = 10, ?int $page = 0, ?string $order = null, array $columns = ['*'])
+    public function apiAll(array $search = [], ?int $perPage = self::DEFAULT_LIMIT, ?int $page = 0, ?string $order = null, array $columns = ['*'])
     {
         $fullTextSearch = "";
         $filters = [];
@@ -180,8 +181,9 @@ abstract class BaseRepository
         }
 
         if (count($filters) > 0) {
-            $query = $this->model->search($fullTextSearch, function (Indexes $index, $query, $options) use ($filters) {
+            $query = $this->model->search($fullTextSearch, function (Indexes $index, $query, $options) use ($filters, $perPage) {
                 $options['filter'] = implode(' AND ', $filters);
+                $options['limit'] = $perPage ?? BaseRepository::DEFAULT_LIMIT;
                 return $index->rawSearch($query, $options);
             });
         } else {
@@ -189,9 +191,11 @@ abstract class BaseRepository
         }
 
         if (!is_null($order)) {
-            $orderConfig = explode("-", $order);
-            $orderType = count($orderConfig) > 1 ? "DESC" : "ASC";
-            $query->orderBy(end($orderConfig), $orderType);
+            $orderList = explode("-", $order);
+            if (count($orderList) > 0) {
+                $orderType = isset($orderList[0]) && $orderList[0] == "DESC" ? $orderList[0] : "ASC";
+                $query->orderBy(end($orderList), $orderType);
+            }
         }
 
         return $query->paginate($perPage, $columns, null, $page);

@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { ArrayField, ChipField, DateField, LinearProgress, Show, SingleFieldList, TextField, useShowController } from "react-admin";
+import { ChipField, DateField, LinearProgress, ReferenceArrayField, Show, SingleFieldList, TextField, useShowController } from "react-admin";
 import { useLocation } from "react-router-dom";
 import {
   Box,
@@ -47,11 +47,11 @@ const RoleShow = () => {
         <DefaultShowLayout>
             <TextField source="id" />
             <TextField source="name" />
-            <ArrayField source="permissions">
+            <ReferenceArrayField source="permissions" reference="permissions">
               <SingleFieldList sx={{ p: 1 }}>
-                <ChipField source="name" />
+                  <ChipField source="name" />
               </SingleFieldList>
-            </ArrayField>
+            </ReferenceArrayField>
             <DateField source="created_at" />
             <DateField source="updated_at" />
         </DefaultShowLayout>

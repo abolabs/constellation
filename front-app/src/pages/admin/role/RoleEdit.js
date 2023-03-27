@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import React from 'react';
 import {
-  Create,
+  Edit,
   ReferenceArrayInput,
   SelectArrayInput,
   SimpleForm,
@@ -29,26 +29,26 @@ import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultEditToolBar from '@/components/toolbar/DefaultEditToolBar';
 import RoleDefaultSchema from './RoleDefaultSchema';
 
-const RoleCreate = () => {
+const RoleEdit = () => {
   const location = useLocation();
 
   return (
     <>
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Role</Typography>
-      <Create>
+      <Edit>
         <SimpleForm
           resolver={yupResolver(RoleDefaultSchema)}
           toolbar={<DefaultEditToolBar />}
         >
           <TextInput source="name" fullWidth />
-          <ReferenceArrayInput source="permissions" reference="permissions">
+          <ReferenceArrayInput source="permissions" reference="permissions" >
             <SelectArrayInput optionText="name" optionValue="id" fullWidth />
           </ReferenceArrayInput>
         </SimpleForm>
-      </Create>
+      </Edit>
     </>
   );
 };
 
-export default RoleCreate;
+export default RoleEdit;

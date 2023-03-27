@@ -82,7 +82,7 @@ class Permission extends SpatiePermission implements Auditable
      * @var array
      */
     public static $rules = [
-        'name' => 'required',
+        'name' => 'required|string',
     ];
 
     /**
