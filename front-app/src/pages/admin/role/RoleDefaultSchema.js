@@ -1,6 +1,4 @@
-<?php
-
-// Copyright (C) 2022 Abolabs (https://gitlab.com/abolabs/)
+// Copyright (C) 2023 Abolabs (https://gitlab.com/abolabs/)
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -15,28 +13,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace App\Http\Resources;
+import * as yup from 'yup';
 
-use Illuminate\Http\Resources\Json\JsonResource;
+const RoleDefaultSchema = yup.object()
+    .shape({
+        name: yup.string()
+          .required('Please define a team name')
+          .typeError('Please define a team name')
+          .max(254),
+        permissions: yup.array()
+          .ensure()
+          .compact()
+          .of(yup.string())
+          .min(1)
+          .required('Please select at least one permission')
+          .typeError('Please select at least one permission')
+    })
+    .required();
 
-class RoleResource extends JsonResource
-{
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function toArray($request)
-    {
-        $this->load('permissions');
-
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'permissions' => $this->permissions,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-        ];
-    }
-}
+export default RoleDefaultSchema;

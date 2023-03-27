@@ -40,6 +40,7 @@ class CreateRoleAPIRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
+            'permissions' => 'required|array|min:1',
         ];
     }
 }

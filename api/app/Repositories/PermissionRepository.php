@@ -15,28 +15,39 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace App\Http\Resources;
+namespace App\Repositories;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Permission;
 
-class RoleResource extends JsonResource
+/**
+ * Class HostingRepository.
+ *
+ * @version September 4, 2021, 3:53 pm UTC
+ */
+class PermissionRepository extends BaseRepository
 {
     /**
-     * Transform the resource into an array.
+     * @var array
+     */
+    protected $fieldSearchable = [
+        'name',
+    ];
+
+    /**
+     * Return searchable fields.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function getFieldsSearchable()
     {
-        $this->load('permissions');
+        return $this->fieldSearchable;
+    }
 
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'permissions' => $this->permissions,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-        ];
+    /**
+     * Configure the Model.
+     **/
+    public function model()
+    {
+        return Permission::class;
     }
 }

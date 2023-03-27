@@ -5,6 +5,7 @@ use App\Models\Audit;
 use App\Models\Environnement;
 use App\Models\Hosting;
 use App\Models\HostingType;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Service;
 use App\Models\ServiceInstance;
@@ -203,6 +204,16 @@ return [
                     'id',
                     'name',
                     'description',
+                ],
+            ],
+            Permission::class => [
+                'filterableAttributes'=> [
+                    'id',
+                    'name',
+                ],
+                'sortableAttributes' => [
+                    'id',
+                    'name',
                 ],
             ],
             Role::class => [
