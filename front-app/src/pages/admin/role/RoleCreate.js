@@ -16,16 +16,23 @@
 import * as React from 'react';
 import {
   Create,
+  LinearProgress,
+  SelectArrayInput,
   SimpleForm,
   TextInput,
+  useGetList,
 } from "react-admin";
+import {
+  Box,
+} from "@mui/material";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useLocation } from 'react-router-dom';
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultEditToolBar from '@/components/toolbar/DefaultEditToolBar';
-import TeamDefaultSchema from './TeamDefaultSchema';
+import AlertError from "@components/alerts/AlertError";
+import RoleDefaultSchema from './RoleDefaultSchema';
 
 const RoleCreate = () => {
   const location = useLocation();
@@ -44,21 +51,21 @@ const RoleCreate = () => {
       </Box>
     );
   }
-  if (errorGetRolesList) {
-    return <AlertError error={errorGetRolesList} />;
+  if (errorGetPermissionsList) {
+    return <AlertError error={errorGetPermissionsList} />;
   }
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Team</Typography>
+      <Typography variant="h3">Role</Typography>
       <Create>
         <SimpleForm
-          resolver={yupResolver(TeamDefaultSchema)}
+          resolver={yupResolver(RoleDefaultSchema)}
           toolbar={<DefaultEditToolBar />}
         >
           <TextInput source="name" fullWidth />
-          <SelectArrayInput source="permissions" optionText="name" choices={rolesList}/>
+          <SelectArrayInput source="permissions" optionValue="name" optionText="name" choices={permissionsList}/>
         </SimpleForm>
       </Create>
     </>

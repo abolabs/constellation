@@ -124,9 +124,12 @@ class RoleAPIController extends AppBaseController
      */
     public function store(CreateRoleAPIRequest $request)
     {
-        $input = $request->all();
+        $role = $this->roleRepository->create([
+            'name' => $request->input('name'),
+            'guard_name' => 'api'
+        ]);
 
-        $role = $this->roleRepository->create($input);
+        $role->syncPermissions($request->input('permissions'));
 
         return $this->sendResponse(new RoleResource($role), 'Role saved successfully');
     }

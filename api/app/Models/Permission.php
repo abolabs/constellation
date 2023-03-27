@@ -20,7 +20,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 use Laravel\Scout\Searchable;
-use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Permission as SpatiePermission;
 
 /**
  * @SWG\Definition(
@@ -56,17 +56,14 @@ use Spatie\Permission\Models\Permission;
  *      )
  * )
  */
-class Role extends \Spatie\Permission\Models\Role implements Auditable
+class Permission extends SpatiePermission implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use Searchable;
 
-    public $table = 'roles';
-
     public $fillable = [
         'name',
-        'guard_name'
     ];
 
     /**

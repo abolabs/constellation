@@ -15,32 +15,25 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace App\Http\Requests\API;
+namespace App\Http\Resources;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class CreateRoleAPIRequest extends FormRequest
+class PermissionResource extends JsonResource
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Transform the resource into an array.
      *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function rules()
+    public function toArray($request)
     {
         return [
-            'name' => 'required|string',
-            'permissions' => 'required|array|min:1',
+            'id' => $this->id,
+            'name' => $this->name,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

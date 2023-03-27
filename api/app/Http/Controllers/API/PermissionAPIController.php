@@ -15,21 +15,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
+use App\Http\Resources\PermissionResource;
+use App\Repositories\PermissionRepository;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
+use Symfony\Component\HttpFoundation\Response as HttpCode;
 
-class PermissionController extends Controller
+class PermissionAPIController extends AppBaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function __construct()
+    /** @var PermissionRepository */
+    private $permissionRepository;
+
+    public function __construct(PermissionRepository $permissionRepository)
     {
         $this->middleware(['role:Admin']);
+        $this->permissionRepository = $permissionRepository;
     }
 
     /**
@@ -39,10 +41,14 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
-        $permissions = Permission::orderBy('id', 'DESC')->paginate(5);
+        $permissions = $this->permissionRepository->apiAll(
+            $request->except(['perPage', 'page', 'sort']),
+            $request->perPage,
+            $request->page,
+            $request->sort
+        );
 
-        return view('roles.index', compact('permissions'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        return $this->sendResponse(PermissionResource::collection($permissions), 'Roles retrieved successfully', $permissions->total());
     }
 
     /**
@@ -52,7 +58,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-
+        return $this->sendError('Not implemented', HttpCode::HTTP_NOT_IMPLEMENTED);
     }
 
     /**
@@ -63,7 +69,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-
+        return $this->sendError('Not implemented', HttpCode::HTTP_NOT_IMPLEMENTED);
     }
 
     /**
@@ -74,7 +80,7 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-
+        return $this->sendError('Not implemented', HttpCode::HTTP_NOT_IMPLEMENTED);
     }
 
     /**
@@ -85,7 +91,7 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-
+        return $this->sendError('Not implemented', HttpCode::HTTP_NOT_IMPLEMENTED);
     }
 
     /**
@@ -97,7 +103,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        return $this->sendError('Not implemented', HttpCode::HTTP_NOT_IMPLEMENTED);
     }
 
     /**
@@ -108,6 +114,6 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-
+        return $this->sendError('Not implemented', HttpCode::HTTP_NOT_IMPLEMENTED);
     }
 }

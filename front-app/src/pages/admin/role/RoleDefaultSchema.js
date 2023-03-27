@@ -1,6 +1,4 @@
-<?php
-
-// Copyright (C) 2022 Abolabs (https://gitlab.com/abolabs/)
+// Copyright (C) 2023 Abolabs (https://gitlab.com/abolabs/)
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -15,32 +13,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace App\Http\Requests\API;
+import * as yup from 'yup';
 
-use Illuminate\Foundation\Http\FormRequest;
+const RoleDefaultSchema = yup.object()
+    .shape({
+        name: yup.string()
+          .required('Please define a team name')
+          .typeError('Please define a team name')
+          .max(254),
+        permissions: yup.array()
+          .ensure()
+          .compact()
+          .of(yup.string())
+          .min(1)
+          .required('Please select at least one permission')
+          .typeError('Please select at least one permission')
+    })
+    .required();
 
-class CreateRoleAPIRequest extends FormRequest
-{
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            'name' => 'required|string',
-            'permissions' => 'required|array|min:1',
-        ];
-    }
-}
+export default RoleDefaultSchema;

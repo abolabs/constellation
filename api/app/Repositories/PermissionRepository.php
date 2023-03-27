@@ -15,32 +15,39 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace App\Http\Requests\API;
+namespace App\Repositories;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Permission;
 
-class CreateRoleAPIRequest extends FormRequest
+/**
+ * Class HostingRepository.
+ *
+ * @version September 4, 2021, 3:53 pm UTC
+ */
+class PermissionRepository extends BaseRepository
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
+     * @var array
      */
-    public function authorize()
-    {
-        return true;
-    }
+    protected $fieldSearchable = [
+        'name',
+    ];
 
     /**
-     * Get the validation rules that apply to the request.
+     * Return searchable fields.
      *
      * @return array
      */
-    public function rules()
+    public function getFieldsSearchable()
     {
-        return [
-            'name' => 'required|string',
-            'permissions' => 'required|array|min:1',
-        ];
+        return $this->fieldSearchable;
+    }
+
+    /**
+     * Configure the Model.
+     **/
+    public function model()
+    {
+        return Permission::class;
     }
 }
