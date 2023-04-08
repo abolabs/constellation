@@ -191,14 +191,12 @@ abstract class BaseRepository
         }
 
         if (!is_null($order)) {
-            $orderList = explode("-", $order);
-            if (count($orderList) > 0) {
-                $orderType = isset($orderList[0]) && $orderList[0] == "DESC" ? $orderList[0] : "ASC";
-                $query->orderBy(end($orderList), $orderType);
-            }
+            $orderConfig = explode("-", $order);
+            $orderType = count($orderConfig) > 1 ? "DESC" : "ASC";
+            $query->orderBy(end($orderConfig), $orderType);
         }
 
-        return $query->paginate($perPage, $columns, null, $page);
+        return $query->paginate($perPage, $columns, $page);
     }
 
     /**
