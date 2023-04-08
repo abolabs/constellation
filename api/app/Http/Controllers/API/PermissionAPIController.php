@@ -19,6 +19,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\PermissionResource;
+use App\Models\Permission;
 use App\Repositories\PermissionRepository;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as HttpCode;
@@ -41,11 +42,28 @@ class PermissionAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $search = $request->except(['perPage', 'page', 'sort']);
+        $formattedSearch = $search;
+        // dirty adapter to manage pivot from role
+        if (isset($search['filter']) && isset($search['filter']['id'])) {
+            foreach ($search['filter'] as $filterValue) {
+                if (is_array($filterValue)  && isset($filterValue[0]) && isset($filterValue[0]['id']) && is_array($filterValue)) {
+                    $formattedSearch['filter']['id'] = [];
+                    foreach ($filterValue as $toFormatValues) {
+                        if (is_array($toFormatValues) && isset($toFormatValues['id'])) {
+                            $formattedSearch['filter']['id'][] = $toFormatValues['id'];
+                        } else {
+                            $formattedSearch['filter']['id'][] = $toFormatValues;
+                        }
+                    }
+                }
+            }
+        }
         $permissions = $this->permissionRepository->apiAll(
-            $request->except(['perPage', 'page', 'sort']),
+            $formattedSearch,
             $request->perPage,
             $request->page,
-            $request->sort
+            $request->sort ?? "ASC-name"
         );
 
         return $this->sendResponse(PermissionResource::collection($permissions), 'Roles retrieved successfully', $permissions->total());
@@ -78,9 +96,13 @@ class PermissionAPIController extends AppBaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Permission $permission)
     {
-        return $this->sendError('Not implemented', HttpCode::HTTP_NOT_IMPLEMENTED);
+        if (empty($permission)) {
+            return $this->sendError('Permission not found');
+        }
+
+        return $this->sendResponse(new PermissionResource($permission), 'Permission retrieved successfully');
     }
 
     /**
