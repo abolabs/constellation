@@ -63,7 +63,7 @@ class PermissionAPIController extends AppBaseController
             $formattedSearch,
             $request->perPage,
             $request->page,
-            $request->sort ?? "ASC-name"
+            $request->sort ?? "name"
         );
 
         return $this->sendResponse(PermissionResource::collection($permissions), 'Roles retrieved successfully', $permissions->total());
