@@ -129,8 +129,8 @@ const laravelDataProvider = (
 
       return { data: { ...res.data } };
     },
-    get: async (endpoint) => {
-      url = `${apiURL}/${endpoint}`;
+    get: async (endpoint, params={}) => {
+      url = `${apiURL}/${endpoint}/?${stringify(params)}`;
 
       const res = await client.get(url);
 

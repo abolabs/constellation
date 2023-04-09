@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from "react";
-import { Admin, Resource, Title } from "react-admin";
+import { Admin, CustomRoutes, Resource, Title } from "react-admin";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
@@ -69,10 +69,12 @@ import UserCreate from "@pages/admin/user/UserCreate";
 import UserEdit from "@pages/admin/user/UserEdit";
 import RoleList from "@pages/admin/role/RoleList";
 import RoleShow from "@pages/admin/role/RoleShow";
-import RoleCreate from "./pages/admin/role/RoleCreate";
-import RoleEdit from "./pages/admin/role/RoleEdit";
-import ServiceInstanceDepList from "./pages/admin/serviceInstanceDep/ServiceInstanceDepList";
-import ServiceInstanceDepShow from "./pages/admin/serviceInstanceDep/ServiceInstanceDepShow";
+import RoleCreate from "@pages/admin/role/RoleCreate";
+import RoleEdit from "@pages/admin/role/RoleEdit";
+import ServiceInstanceDepList from "@pages/admin/serviceInstanceDep/ServiceInstanceDepList";
+import ServiceInstanceDepShow from "@pages/admin/serviceInstanceDep/ServiceInstanceDepShow";
+import MappingByApp from "@pages/application-mapping/MappingByApp";
+import { Route } from "react-router-dom";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -127,6 +129,9 @@ const App = () => {
         dataProvider={dataProvider}
         disableTelemetry
       >
+        <CustomRoutes>
+          <Route path="/application-mapping/by-app" element={<MappingByApp />} />
+        </CustomRoutes>
         <Resource name="applications"
           list={ApplicationList}
           show={ApplicationShow}

@@ -36,7 +36,7 @@ const theme = createTheme(
         contrastText: "#00363a",
       },
       error: {
-        main: "#93000a",
+        main: "#DB3A34",
       },
       warning: {
         main: "#ffc857",
@@ -51,7 +51,7 @@ const theme = createTheme(
         main: "#177E89",
         light: "#54aeb9",
         dark: "#00515c",
-        contrastText: "#fff",
+        contrastText: "#ffffff",
       },
       background: {
         default: grey[900],
@@ -74,7 +74,7 @@ const theme = createTheme(
     props: {
       AppBar: {
         color: "#0f7b8a",
-      },
+      }
     },
   },
   {
