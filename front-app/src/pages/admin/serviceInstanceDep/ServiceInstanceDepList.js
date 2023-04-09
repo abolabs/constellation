@@ -21,18 +21,17 @@ import {
   TextInput,
   BulkExportButton,
   NumberField,
-  useRecordContext,
+  TopToolbar,
+  FilterButton,
+  ExportButton,
 } from "react-admin";
-import { Chip, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import ErrorIcon from '@mui/icons-material/Error';
-import WarningIcon from '@mui/icons-material/Warning';
-import InfoIcon from '@mui/icons-material/Info';
 
-import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
+import LevelChip from "./LevelChip";
 
 const serviceInstanceDepListFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -49,7 +48,12 @@ const ServiceInstanceDepList = (props) => {
       <DefaultList
         {...props}
         filters={serviceInstanceDepListFilters}
-        actions={<DefaultToolBar />}
+        actions={
+          <TopToolbar>
+            <FilterButton />
+            <ExportButton />
+          </TopToolbar>
+        }
       >
         {isSmall ? (
           <SimpleList
@@ -78,35 +82,6 @@ const ServiceInstanceDepList = (props) => {
       </DefaultList>
     </>
   );
-};
-
-const LevelChip =  ({ source }) => {
-  const record = useRecordContext();
-  if (!record) return null;
-  let color = null;
-  let label = "Unknown";
-  let icon = null;
-  switch (record?.[source]) {
-    case 1:
-      color = "info";
-      label = "Mineure";
-      icon = <InfoIcon />;
-      break;
-    case 2:
-      color = "warning";
-      label = "Majeure";
-      icon = <WarningIcon />;
-      break;
-    case 3:
-      color = "error";
-      label = "Critique";
-      icon = <ErrorIcon />;
-      break;
-    default:
-      break;
-  }
-
-  return <Chip icon={icon} label={label} color={color} />;
 };
 
 export default ServiceInstanceDepList;

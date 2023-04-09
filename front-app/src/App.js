@@ -72,6 +72,7 @@ import RoleShow from "@pages/admin/role/RoleShow";
 import RoleCreate from "./pages/admin/role/RoleCreate";
 import RoleEdit from "./pages/admin/role/RoleEdit";
 import ServiceInstanceDepList from "./pages/admin/serviceInstanceDep/ServiceInstanceDepList";
+import ServiceInstanceDepShow from "./pages/admin/serviceInstanceDep/ServiceInstanceDepShow";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -152,6 +153,7 @@ const App = () => {
         <Resource
           name="service_instance_dependencies"
           list={ServiceInstanceDepList}
+          show={ServiceInstanceDepShow}
         />
         <Resource name="environnements"
           list={EnvironmentList}
