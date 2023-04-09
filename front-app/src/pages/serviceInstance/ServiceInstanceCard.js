@@ -26,6 +26,8 @@ import {
   ListItemText,
   useTheme,
 } from "@mui/material";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGitAlt } from '@fortawesome/free-brands-svg-icons'
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Tag from "@components/styled/Tag";
@@ -41,13 +43,14 @@ const ServiceInstanceCard = (instance) => {
 
   return (
     <Card sx={{
-      height: '26vh',
+      height: '15rem',
     }}>
       <ItemCardHeader
         title={instance?.service_name}
         sx={{
           background: theme?.palette?.secondary?.main,
           color: theme?.palette?.secondary?.contrastText,
+          height: '3rem'
         }}
         action={
           <Tag
@@ -79,24 +82,26 @@ const ServiceInstanceCard = (instance) => {
               size="small"
             />
             &nbsp;
-            {instance?.role ? <Tag label={`Role: ${instance?.role}`} color="secondary" size="small" /> : null}
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="Hébergement"
-              secondary={instance?.hosting_name}
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary="Dépôt Git"
-              secondary={
-                <Link href={instance?.url}>
-                  {instance?.url}
+            <Tag
+              label={
+                <Link href={instance?.url} target="_blank" rel="noopener">
+                  <FontAwesomeIcon icon={faGitAlt} />
+                  &nbsp;Git url
                 </Link>
               }
+              size="small"
             />
+            &nbsp;
+            {instance?.role ? <Tag label={`Role: ${instance?.role}`} color="secondary" size="small" /> : null}
           </ListItem>
+          <Link href={`/#/hostings/${instance?.hosting_id}/show`}>
+            <ListItem>
+              <ListItemText
+                primary="Hébergement"
+                secondary={instance?.hosting_name}
+              />
+            </ListItem>
+          </Link>
         </List>
       </CardContent>
       <CardActions style={{justifyContent: 'center'}}>

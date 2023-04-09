@@ -31,9 +31,11 @@ class ServiceInstanceDependenciesResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'instance_application_id' => $this->serviceInstance->application->id,
             'instance_application_name' => $this->serviceInstance->application->name,
             'instance_id' => $this->instance_id,
             'instance_service_name' => $this->serviceInstance->serviceVersion->service->name,
+            'instance_dep_application_id' => $this->serviceInstanceDep->application->id,
             'instance_dep_application_name' => $this->serviceInstanceDep->application->name,
             'instance_dep_id' => $this->instance_dep_id,
             'instance_dep_service_name' => $this->serviceInstanceDep->serviceVersion->service->name,
