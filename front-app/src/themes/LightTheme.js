@@ -20,15 +20,6 @@ import componentsOverride from "./ComponentsOverride";
 const theme = createTheme(
   {
     ...defaultTheme,
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 900,
-        lg: 1200,
-        xl: 1536,
-      },
-    },
     palette: {
       type: "light",
       primary: {
@@ -85,35 +76,6 @@ const theme = createTheme(
       tonalOffset: 0.2,
     },
     spacing: 15,
-    typography: {
-      // Use the system font instead of the default Roboto font.
-      fontFamily: ["Nunito", "sans-serif"].join(","),
-      fontSize: 12,
-      h1: {
-        fontSize: "3rem",
-        lineHeight: 2,
-      },
-      h2: {
-        fontSize: "2.2rem",
-        lineHeight: 1.5,
-      },
-      h3: {
-        fontSize: "1.5rem",
-        lineHeight: 1.25,
-      },
-      h4: {
-        fontSize: "1.1rem",
-      },
-      h5: {
-        fontSize: "1.05rem",
-      },
-      h6: {
-        fontSize: "1.0rem",
-      },
-    },
-    shape: {
-      borderRadius: 6,
-    },
     props: {
       AppBar: {
         color: "#0f7b8a",
