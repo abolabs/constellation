@@ -188,6 +188,7 @@ sonarcloud-check:
   stage: scan
   image:
     name: sonarsource/sonar-scanner-cli:latest
+    pull_policy: always
     entrypoint: [""]
   dependencies:
   - "phpunit"
