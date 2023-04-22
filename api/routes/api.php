@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\InfraAPIController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 */
 // API V1
 Route::group(['middleware' => 'api', 'prefix' => 'v1/'], function () {
+    /**
+     * Application Mapping.
+     */
+    Route::get('/application-mapping/dashboard', [InfraAPIController::class, 'index'])->name('v1.application-mapping.dashboard');
+    Route::get('/application-mapping/app-map', [InfraAPIController::class, 'displayAppMap'])->name('v1.application-mapping.AppMap');
+    Route::get('/application-mapping/by-app', [InfraAPIController::class, 'displayByApp'])->name('v1.application-mapping.byApp');
+    Route::get('/application-mapping/by-hosting', [InfraAPIController::class, 'displayByHosting'])->name('v1.application-mapping.byHosting');
+    Route::get('/application-mapping/graph-nodes-by-app', [InfraAPIController::class, 'getGraphServicesByApp'])->name('v1.application-mapping.graphNodesByApp');
+    Route::get('/application-mapping/graph-nodes-by-hosting', [InfraAPIController::class, 'getGraphServicesByHosting'])->name('v1.application-mapping.graphNodesByHosting');
+    Route::get('/application-mapping/graph-nodes-app-map', [InfraAPIController::class, 'getGraphByApp'])->name('v1.application-mapping.getGraphByApp');
+
     Route::resource('environnements', EnvironnementAPIController::class, ['names' => 'v1.environnements']);
     Route::resource('hosting_types', HostingTypeAPIController::class, ['names' => 'v1.hostingTypes']);
     Route::resource('hostings', HostingAPIController::class, ['names' => 'v1.hostings']);

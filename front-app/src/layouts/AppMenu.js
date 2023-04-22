@@ -27,6 +27,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import PersonIcon from "@mui/icons-material/Person";
 import HistoryIcon from '@mui/icons-material/History';
+import Replay30Icon from '@mui/icons-material/Replay30';
 
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -132,6 +133,21 @@ const AppMenu = () => {
         ) : null
       }
       <Menu.DashboardItem />
+      {open ? (
+        <Typography variant="h4" pt={1}>Application mapping</Typography>
+      ) : (
+        <Divider />
+      )}
+      <Menu.Item
+        to="/application-mapping/by-app"
+        primaryText="Applications"
+        leftIcon={<ShareIcon />}
+      />
+      {open ? (
+        <Typography variant="h4" pt={1}>Entités</Typography>
+      ) : (
+        <Divider />
+      )}
       <Menu.Item
         to="/applications"
         primaryText="Applications"
@@ -153,14 +169,14 @@ const AppMenu = () => {
         leftIcon={<SettingsSystemDaydreamIcon />}
       />
       {open ? (
-        <Typography variant="h4" pt={2}>Administration</Typography>
+        <Typography variant="h4" pt={1}>Administration</Typography>
       ) : (
         <Divider />
       )}
       <Menu.Item
         to="/service_instance_dependencies"
         primaryText="Dépendances d'instances"
-        leftIcon={<ShareIcon />}
+        leftIcon={<AccountTreeIcon />}
       />
       <Menu.Item
         to="/environnements"
@@ -170,14 +186,18 @@ const AppMenu = () => {
       <Menu.Item
         to="/service_versions"
         primaryText="Versions de service"
-        leftIcon={<AccountTreeIcon />}
+        leftIcon={<Replay30Icon />}
       />
       <Menu.Item
         to="/hosting_types"
         primaryText="Types d'hébergement"
         leftIcon={<StorageIcon />}
       />
-      <Menu.Item to="/teams" primaryText="Equipes" leftIcon={<GroupsIcon />} />
+      <Menu.Item
+        to="/teams"
+        primaryText="Equipes"
+        leftIcon={<GroupsIcon />}
+      />
       <Menu.Item
         to="/users"
         primaryText="Utilisateurs"

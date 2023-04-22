@@ -15,6 +15,47 @@
 
 const componentsOverride = (theme) => {
   return {
+    breakpoints: {
+      ...theme.breakpoints,
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 900,
+        lg: 1200,
+        xl: 1536,
+      }
+    },
+    typography: {
+      ...theme.typography,
+      // Use the system font instead of the default Roboto font.
+      fontFamily: ["Nunito", "sans-serif"].join(","),
+      fontSize: 12,
+      h1: {
+        fontSize: "3rem",
+        lineHeight: 2,
+      },
+      h2: {
+        fontSize: "2.2rem",
+        lineHeight: 1.5,
+      },
+      h3: {
+        fontSize: "1.5rem",
+        lineHeight: 1.25,
+      },
+      h4: {
+        fontSize: "1.1rem",
+      },
+      h5: {
+        fontSize: "1.05rem",
+      },
+      h6: {
+        fontSize: "1.0rem",
+      },
+    },
+    shape: {
+      ...theme.shape,
+      borderRadius: 4,
+    },
     components: {
       ...theme.components,
       RaDatagrid: {

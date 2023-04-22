@@ -61,6 +61,7 @@ import Tag from "@components/styled/Tag";
 import ItemCardHeader from "@components/styled/ItemCardHeader";
 import { CreateServiceInstanceDepModal, CreateServiceInstanceRequieredByModal } from "@pages/admin/serviceInstanceDep/CreateServiceInstanceDepModal";
 import { EditServiceInstanceDepModal } from "@pages/admin/serviceInstanceDep/EditServiceInstanceDepModal";
+import { serviceInstanceDepLevel } from "./serviceInstanceDepLevel";
 
 const ServiceInstanceShow = () => {
   const location = useLocation();
@@ -250,21 +251,6 @@ const DependencyCard = (dep) => {
     navigate(`/service_instances/${depInfo?.id}/show`);
   }, [depInfo?.id, navigate]);
 
-  const depPerLevel = {
-    1: {
-      color: "primary",
-      label: "minor"
-    },
-    2: {
-      color: "warning",
-      label: "major"
-    },
-    3: {
-      color: "error",
-      label: "critic"
-    }
-  };
-
   return (
     <Card
       sx={{
@@ -384,10 +370,10 @@ const DependencyCard = (dep) => {
               secondary={
                 <>
                   <Tag
-                    label={`Level: ${depPerLevel[dep?.level].label}`}
+                    label={`Level: ${serviceInstanceDepLevel[dep?.level].label}`}
                     color={
-                      depPerLevel[dep?.level]
-                        ? depPerLevel[dep?.level]?.color
+                      serviceInstanceDepLevel[dep?.level]
+                        ? serviceInstanceDepLevel[dep?.level]?.color
                         : null
                     }
                     size="small"
