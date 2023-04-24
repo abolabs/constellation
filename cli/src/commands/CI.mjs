@@ -46,11 +46,9 @@ export default class CI extends AbstractCommand {
     }
 
     async prepare() {
-        try{
-
-
-
-        }catch(e){
+        try {
+            // TBD
+        } catch (e) {
             Console.printError(e);
         }
         Console.confirm('prepare done');

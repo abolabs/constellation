@@ -32,7 +32,6 @@ export default class AbstractCommand {
             this.usage();
             this.action = await selectAction(Object.keys(this.actions()));
         }
-
         cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
         if(this.action){
             this.actions()[this.action](this.additionnal);

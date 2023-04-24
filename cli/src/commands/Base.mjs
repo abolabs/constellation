@@ -59,13 +59,11 @@ export function printTitle(){
 export function getArgs(){
     const args = process.argv.slice(3);
 
-    if(args?.[0]){
-        return {
-            main: args?.[0],
-            additionnal: args.slice(1),
-            cliEnv: {
-                rootDir: getRootDir()
-            }
+    return {
+        main: args?.[0],
+        additionnal: args.slice(1),
+        cliEnv: {
+            rootDir: getRootDir()
         }
     }
 }
