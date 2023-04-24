@@ -31,13 +31,27 @@ import path from 'path';
 
 dotenv.config({ path: path.join(__dirname, '/.env') });
 
-$.verbose ? Base.printTitle() : null;
+if ($.verbose) {
+    Base.printTitle()
+}
 
 await Environment.initEnv();
 
 const args = Base.getArgs();
 
-switch(args?.main){
+let mainCommand = args?.main;
+if (!mainCommand) {
+    mainCommand = await Base.selectAction([
+        'setup',
+        'api',
+        'front-app',
+        'docker',
+        'artisan',
+        'ci'
+    ]);
+}
+
+switch(mainCommand){
     // Services
     case 'setup':
         new Setup(args).run();

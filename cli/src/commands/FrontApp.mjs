@@ -48,7 +48,7 @@ export default class Api extends AbstractCommand {
 
     async logs() {
         try{
-            await $`docker compose logs -f -t 100 --no-log-prefix front-app`;
+            await $`docker compose logs -f -n 300 --no-log-prefix front-app`;
         }catch(e){
             Console.printError(e);
         }

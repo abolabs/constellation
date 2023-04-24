@@ -25,12 +25,15 @@ function log(...message){
     const otherMessages = message.slice(1);
 
     console.log(firstMessage);
-
-    otherMessages.length > 0 ? console.group() : null;
-    otherMessages.map( (otherMessage) => {
+    if (otherMessages.length > 0) {
+        console.group();
+    }
+    otherMessages.forEach((otherMessage) => {
         console.log(otherMessage);
     });
-    otherMessages.length > 0 ? console.groupEnd() : null;
+    if (otherMessages.length > 0) {
+        console.groupEnd();
+    }
 }
 
 function debug(message){
@@ -74,11 +77,15 @@ function printGradient(gradient, prefix, ...message){
 
     console.log(`${coloredPrefix}`, firstMessage);
 
-    otherMessages.length > 0 ? console.group() : null;
-    otherMessages.map( (otherMessage) => {
+    if (otherMessages.length > 0) {
+        console.group();
+    }
+    otherMessages.forEach((otherMessage) => {
         console.log(otherMessage);
     });
-    otherMessages.length > 0 ? console.groupEnd() : null;
+    if (otherMessages.length > 0) {
+        console.groupEnd();
+    }
 }
 
 export default {confirm, error, log, info, warn, printError, prompts};
