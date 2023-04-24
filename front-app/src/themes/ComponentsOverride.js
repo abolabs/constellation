@@ -54,7 +54,7 @@ const componentsOverride = (theme) => {
     },
     shape: {
       ...theme.shape,
-      borderRadius: 4,
+      borderRadius: 3,
     },
     components: {
       ...theme.components,

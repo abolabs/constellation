@@ -13,17 +13,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
   Card,
   CardActions,
   CardContent,
+  Grid,
+  IconButton,
   LinearProgress,
+  TextField,
   Tooltip,
   Typography,
   useTheme
 } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { useLocation } from "react-router-dom";
 import {
   ReferenceArrayInput,
@@ -31,7 +35,8 @@ import {
   SelectArrayInput,
   SelectInput,
   SimpleForm,
-  useDataProvider
+  useDataProvider,
+  useShowController
 } from "react-admin";
 import CytoscapeComponent from 'react-cytoscapejs';
 
@@ -42,7 +47,7 @@ import { serviceInstanceDepLevel } from "@pages/serviceInstance/serviceInstanceD
 import { useFormContext, useWatch } from "react-hook-form";
 import Graph from "@utils/Graph";
 
-const AbstractMapping = ({mappingUrl, filterList, tagList}) => {
+const AbstractMapping = ({mappingUrl, filterList}) => {
   const location = useLocation();
   const theme = useTheme();
   const [filter, setFilter] = useState({});
@@ -50,6 +55,12 @@ const AbstractMapping = ({mappingUrl, filterList, tagList}) => {
   const dataProvider = useDataProvider();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
+  const [selectedNode, setSelectedNode] = useState({
+    resource: null,
+    id: null
+  });
+  const [showFooter, setShowFooter] = useState(false);
+  const cyRef = useRef();
 
   useEffect(() => {
     dataProvider
@@ -67,6 +78,37 @@ const AbstractMapping = ({mappingUrl, filterList, tagList}) => {
       })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataProvider]);
+
+  useEffect(() => {
+    const cy = cyRef.current;
+    if (!cy) {
+      return;
+    }
+    const graph = new Graph(cy);
+    graph.load({
+      selector: "graph_per_app",
+      elements: elements,
+      theme: theme,
+    });
+    graph.cy.on("tap", "node", handleOnTapNode);
+    graph.cy.on("tap", (event) => {
+      if( event?.target === graph.cy ){
+        setShowFooter(false);
+      }
+    });
+  }, [elements, theme]);
+
+  const handleOnTapNode = (event) => {
+    let eltData = event.target.id().split("_");
+    const eltId = eltData.pop();
+    const resourceName = eltData.join("_");
+    setShowFooter(true);
+
+    setSelectedNode({
+      resource: resourceName,
+      id: eltId
+    });
+  }
 
   if (loading) {
     return (
@@ -91,17 +133,20 @@ const AbstractMapping = ({mappingUrl, filterList, tagList}) => {
           height: '90%',
           borderRadius: theme.shape.borderRadius,
           position: 'relative',
-          border: 6,
+          border: 4,
           borderColor: theme.palette.secondary.light,
           padding: 0,
-          mb: 0.5,
+          m: 0.5,
           mt: 0.5,
+          p: 0,
          }}
       >
         <Card
           sx={{
             maxWidth: 316,
             borderRadius: theme?.shape?.borderRadius,
+            borderTopRightRadius: 0,
+            borderBottomLeftRadius: 0,
             mt: 0,
             p: 1,
             pt: 0,
@@ -128,7 +173,6 @@ const AbstractMapping = ({mappingUrl, filterList, tagList}) => {
               <MappingFilters
                 mappingUrl={mappingUrl}
                 filterList={filterList}
-                tagList={tagList}
                 defaultFilter={filter}
                 setElements={setElements}
                 dataProvider={dataProvider}
@@ -151,16 +195,43 @@ const AbstractMapping = ({mappingUrl, filterList, tagList}) => {
         <CytoscapeComponent
           id="graph_per_app"
           cy={(cy) => {
-            const graph = new Graph(cy);
-            graph.load({
-              selector: "graph_per_app",
-              elements: elements,
-              theme: theme,
-            });
+            cyRef.current = cy;
           }}
+          elements={[]}
           layout={Graph.baseLayoutConfig}
           style={ { width: '100%', height: '100%' } }
         />
+        {(selectedNode?.id && selectedNode?.resource === 'service_instances' && showFooter)
+          ?
+          <Card
+            sx={{
+              background: theme.palette.background.paper,
+              width: '100%',
+              borderTopRightRadius: 0,
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: theme?.shape?.borderRadius,
+              borderBottomRightRadius: theme?.shape?.borderRadius,
+              mt: 0,
+              p: 0,
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              zIndex: 1,
+              opacity: 0.96,
+            }}
+          >
+            <CardContent
+              sx={{
+                p: 1,
+                m: 0,
+                color: theme.palette.primary.contrastText,
+              }}
+            >
+              <DetailFooter {...selectedNode} setShowFooter={setShowFooter} />
+            </CardContent>
+          </Card>
+        : null
+      }
       </Box>
     </>
   );
@@ -170,7 +241,6 @@ const MappingFilters = (
   {
     mappingUrl,
     filterList,
-    tagList,
     defaultFilter,
     setElements,
     dataProvider,
@@ -270,5 +340,72 @@ const MappingFilters = (
     </>
   );
 }
+
+const DetailFooter = memo(({resource, id, setShowFooter}) => {
+  const theme = useTheme();
+  const {isLoading, error, record} = useShowController({
+    resource: resource,
+    id: id
+  });
+
+  if (isLoading) {
+    return (
+      <Box sx={{ width: "100%" }}>
+        <LinearProgress />
+      </Box>
+    );
+  }
+  if (error) {
+    return <AlertError error={error} />;
+  }
+
+  return (
+    <Grid container
+      direction="row"
+      justifyContent="space-between"
+      alignItems="stretch"
+      spacing={0}
+    >
+      <Grid item xs={12}>
+        <Grid container
+          spacing={0}
+          justifyContent="space-between"
+          alignItems="stretch"
+        >
+          <Typography variant="h5" sx={{color: theme.palette.text.primary}}>
+            {record?.service_name} (id: {record?.id})
+          </Typography>
+          <IconButton onClick={() => setShowFooter(false)}>
+            <CloseIcon sx={{fontSize: "small" }}/>
+          </IconButton>
+        </Grid>
+      </Grid>
+      <Grid item xs={4}>
+        <TextField
+          fullWidth
+          inputProps={{readOnly: true}}
+          label="Service version"
+          defaultValue={record?.service_version}
+        />
+      </Grid>
+      <Grid item xs={4}>
+        <TextField
+          fullWidth
+          inputProps={{readOnly: true}}
+          label="Application name"
+          defaultValue={record?.application_name}
+        />
+      </Grid>
+      <Grid item xs={4}>
+        <TextField
+          fullWidth
+          inputProps={{readOnly: true}}
+          label="Hosting name"
+          defaultValue={record?.hosting_name}
+        />
+      </Grid>
+    </Grid>
+  );
+});
 
 export default AbstractMapping;

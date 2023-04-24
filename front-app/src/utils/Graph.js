@@ -13,19 +13,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import tippy, { hideAll } from "tippy.js";
 import Cytoscape from "cytoscape";
-import popper from "cytoscape-popper";
 import cxtmenu from "cytoscape-cxtmenu";
 import layoutUtilities from "cytoscape-layout-utilities";
 import fcose from "cytoscape-fcose";
+import 'tippy.js/dist/tippy.css';
 
 Cytoscape.use(fcose);
-Cytoscape.use(popper);
 Cytoscape.use(cxtmenu);
 Cytoscape.use(layoutUtilities);
 
 class Graph {
+  constructor(cy) {
+    this.cy = cy;
+  }
+
   static baseLayoutConfig = {
     name: "fcose",
     // 'draft', 'default' or 'proof'
@@ -234,10 +236,6 @@ class Graph {
     ]
   };
 
-  constructor(cy) {
-    this.cy = cy;
-  }
-
   replaceData(newEleJsons) {
     this.cy.json({
       elements: newEleJsons,
@@ -250,7 +248,7 @@ class Graph {
     this.cy.layout(Graph.baseLayoutConfig).run();
   }
 
-  load({selector, elements, theme, showTags = true}) {
+  load({selector, elements, theme}) {
     let currentGraph = this;
     this.cy = Cytoscape({
       container: document.getElementById(selector),
@@ -274,15 +272,8 @@ class Graph {
       elements: elements,
     });
 
-    this.cy.on("layoutstart", (event) => {
-      //$('div[id^="tippy-"]').remove();
-    });
-
-    this.cy.on("layoutready", (event) => {
-      currentGraph.manageTags(showTags);
-    });
-
     var edge_style_added = false;
+    this.cy.off("tap");
     this.cy.on("tap", "node", (event) => {
       currentGraph.resetFocusedElts();
 
@@ -304,10 +295,6 @@ class Graph {
       edge_style_added = false;
     })
 
-    this.cy.ready(() => {
-      currentGraph.manageTags(showTags);
-    });
-
     // Menu contextuel
     this.cy.cxtmenu({
       selector: "node",
@@ -321,7 +308,7 @@ class Graph {
             let eltData = ele.id().split("_");
             const eltId = eltData.pop();
             const routePath = eltData.join("_");
-            console.log(eltData, routePath, eltId);
+
             window.location.href = `/#/${routePath}/${eltId}/show`;
           },
         },
@@ -373,52 +360,6 @@ class Graph {
         );
       }
     });
-  }
-
-  manageTags(showTags) {
-    const serviceInstances = this.cy.nodes(`.serviceInstance`);
-    if (showTags) {
-      serviceInstances.forEach((elt) => {
-        if (elt.data("tag")) {
-          Graph.generateTag(elt, elt.data("tag")).show();
-        }
-      });
-    }
-  }
-
-  static generateTag(
-    ele,
-    text,
-    placement = "bottom",
-    theme = "material",
-    arrow = false
-  ) {
-    var ref = ele.popperRef();
-
-    // Since tippy constructor requires DOM element/elements, create a placeholder
-    var dummyDomEle = document.createElement("div");
-
-    return tippy(dummyDomEle, {
-      getReferenceClientRect: ref.getBoundingClientRect,
-      trigger: "manual", // mandatory
-      // dom element inside the tippy:
-      content: text,
-      // your own preferences:
-      theme: theme,
-      arrow: arrow,
-      zIndex: 0,
-      placement: placement,
-      hideOnClick: false,
-      plugins: [window.tippyPluginSticky],
-      sticky: "reference",
-      // if interactive:
-      interactive: false,
-      appendTo: document.body, // or append dummyDomEle to document.body
-    });
-  }
-
-  static hideAllTag() {
-    hideAll();
   }
 }
 

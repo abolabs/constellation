@@ -143,6 +143,11 @@ const AppMenu = () => {
         primaryText="Applications"
         leftIcon={<ShareIcon />}
       />
+      <Menu.Item
+        to="/application-mapping/services-by-app"
+        primaryText="Services par applications"
+        leftIcon={<ShareIcon />}
+      />
       {open ? (
         <Typography variant="h4" pt={1}>Entités</Typography>
       ) : (
