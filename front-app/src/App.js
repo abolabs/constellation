@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from "react";
+import { Route } from "react-router-dom";
 import { Admin, CustomRoutes, Resource, Title } from "react-admin";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -74,7 +75,7 @@ import RoleEdit from "@pages/admin/role/RoleEdit";
 import ServiceInstanceDepList from "@pages/admin/serviceInstanceDep/ServiceInstanceDepList";
 import ServiceInstanceDepShow from "@pages/admin/serviceInstanceDep/ServiceInstanceDepShow";
 import MappingByApp from "@pages/application-mapping/MappingByApp";
-import { Route } from "react-router-dom";
+import MappingServicesByApp from "@pages/application-mapping/MappingServicesByApp";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -131,6 +132,7 @@ const App = () => {
       >
         <CustomRoutes>
           <Route path="/application-mapping/by-app" element={<MappingByApp />} />
+          <Route path="/application-mapping/services-by-app" element={<MappingServicesByApp />} />
         </CustomRoutes>
         <Resource name="applications"
           list={ApplicationList}

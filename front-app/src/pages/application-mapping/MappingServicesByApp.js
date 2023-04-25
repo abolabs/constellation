@@ -15,18 +15,18 @@
 
 import AbstractMapping from "./AbstractMapping";
 
-const MappingByApp = () => {
+const MappingServicesByApp = () => {
   return (
     <AbstractMapping
-      mappingUrl="application-mapping/graph-nodes-app-map"
+      mappingUrl="application-mapping/graph-nodes-by-app"
       filterList={[
         'environnement_id',
         'application_id',
         'team_id',
+        'hosting_id'
       ]}
-      tagList={[]}
     />
   );
 }
 
-export default MappingByApp;
+export default MappingServicesByApp;
