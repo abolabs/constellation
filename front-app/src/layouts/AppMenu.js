@@ -28,19 +28,24 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import PersonIcon from "@mui/icons-material/Person";
 import HistoryIcon from '@mui/icons-material/History';
 import Replay30Icon from '@mui/icons-material/Replay30';
+import LanIcon from '@mui/icons-material/Lan';
+import WebAssetIcon from '@mui/icons-material/WebAsset';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
 import { useTheme } from "@mui/material/styles";
-import { useMediaQuery, Avatar, Grid } from "@mui/material";
+import { useMediaQuery, Avatar, Grid, Collapse } from "@mui/material";
 import { useGetIdentity } from 'ra-core';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const AppMenu = () => {
   const theme = useTheme();
   const isMediumOrUpper = useMediaQuery((theme) => theme.breakpoints.up("md"));
   const [open, setOpen] = useSidebarState(isMediumOrUpper);
+  const [adminOpen, setAdminOpen] = useState();
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const { isLoading, identity } = useGetIdentity();
 
@@ -141,15 +146,20 @@ const AppMenu = () => {
       <Menu.Item
         to="/application-mapping/by-app"
         primaryText="Applications"
-        leftIcon={<ShareIcon />}
+        leftIcon={<WebAssetIcon />}
       />
       <Menu.Item
         to="/application-mapping/services-by-app"
         primaryText="Services par applications"
         leftIcon={<ShareIcon />}
       />
+      <Menu.Item
+        to="/application-mapping/by-hosting"
+        primaryText="Hébergement"
+        leftIcon={<LanIcon />}
+      />
       {open ? (
-        <Typography variant="h4" pt={1}>Entités</Typography>
+        <Typography variant="h4" pt={1}>Inventaire</Typography>
       ) : (
         <Divider />
       )}
@@ -174,50 +184,66 @@ const AppMenu = () => {
         leftIcon={<SettingsSystemDaydreamIcon />}
       />
       {open ? (
-        <Typography variant="h4" pt={1}>Administration</Typography>
+        <Typography
+          variant="h4"
+          pt={1}
+          sx={{
+            cursor: "pointer",
+            ".MuiSvgIcon-root": {
+              display: "inline-flex",
+              verticalAlign: "middle",
+            }
+           }}
+          onClick={() => setAdminOpen(!adminOpen)}
+
+        >
+          Administration {adminOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+        </Typography>
       ) : (
         <Divider />
       )}
-      <Menu.Item
-        to="/service_instance_dependencies"
-        primaryText="Dépendances d'instances"
-        leftIcon={<AccountTreeIcon />}
-      />
-      <Menu.Item
-        to="/environnements"
-        primaryText="Environnements"
-        leftIcon={<WindowIcon />}
-      />
-      <Menu.Item
-        to="/service_versions"
-        primaryText="Versions de service"
-        leftIcon={<Replay30Icon />}
-      />
-      <Menu.Item
-        to="/hosting_types"
-        primaryText="Types d'hébergement"
-        leftIcon={<StorageIcon />}
-      />
-      <Menu.Item
-        to="/teams"
-        primaryText="Equipes"
-        leftIcon={<GroupsIcon />}
-      />
-      <Menu.Item
-        to="/users"
-        primaryText="Utilisateurs"
-        leftIcon={<PersonIcon />}
-      />
-      <Menu.Item
-        to="/roles"
-        primaryText="Roles"
-        leftIcon={<LocalOfferIcon />}
-      />
-      <Menu.Item
-        to="/audits"
-        primaryText="Audits"
-        leftIcon={<HistoryIcon />}
-      />
+      <Collapse in={adminOpen || !open}>
+        <Menu.Item
+          to="/service_instance_dependencies"
+          primaryText="Dépendances d'instances"
+          leftIcon={<AccountTreeIcon />}
+        />
+        <Menu.Item
+          to="/environnements"
+          primaryText="Environnements"
+          leftIcon={<WindowIcon />}
+        />
+        <Menu.Item
+          to="/service_versions"
+          primaryText="Versions de service"
+          leftIcon={<Replay30Icon />}
+        />
+        <Menu.Item
+          to="/hosting_types"
+          primaryText="Types d'hébergement"
+          leftIcon={<StorageIcon />}
+        />
+        <Menu.Item
+          to="/teams"
+          primaryText="Equipes"
+          leftIcon={<GroupsIcon />}
+        />
+        <Menu.Item
+          to="/users"
+          primaryText="Utilisateurs"
+          leftIcon={<PersonIcon />}
+        />
+        <Menu.Item
+          to="/roles"
+          primaryText="Roles"
+          leftIcon={<LocalOfferIcon />}
+        />
+        <Menu.Item
+          to="/audits"
+          primaryText="Audits"
+          leftIcon={<HistoryIcon />}
+        />
+      </Collapse>
     </Menu>
   );
 };
