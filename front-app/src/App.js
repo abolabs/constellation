@@ -76,6 +76,7 @@ import ServiceInstanceDepList from "@pages/admin/serviceInstanceDep/ServiceInsta
 import ServiceInstanceDepShow from "@pages/admin/serviceInstanceDep/ServiceInstanceDepShow";
 import MappingByApp from "@pages/application-mapping/MappingByApp";
 import MappingServicesByApp from "@pages/application-mapping/MappingServicesByApp";
+import MappingByHosting from "@pages/application-mapping/MappingByHosting";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -133,6 +134,7 @@ const App = () => {
         <CustomRoutes>
           <Route path="/application-mapping/by-app" element={<MappingByApp />} />
           <Route path="/application-mapping/services-by-app" element={<MappingServicesByApp />} />
+          <Route path="/application-mapping/by-hosting" element={<MappingByHosting />} />
         </CustomRoutes>
         <Resource name="applications"
           list={ApplicationList}
