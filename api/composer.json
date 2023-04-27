@@ -10,7 +10,8 @@
   "require": {
     "php": "^7.3|^8.0",
     "corbosman/laravel-passport-claims": "^5",
-    "guzzlehttp/guzzle": "^7.0.1",
+    "guzzlehttp/guzzle": "^7.5",
+    "guzzlehttp/psr7": "^2.5",
     "http-interop/http-factory-guzzle": "^1.2",
     "infyomlabs/laravel-generator": "10.x-dev",
     "laravel/framework": "^10.0",
@@ -18,7 +19,7 @@
     "laravel/scout": "^10.1",
     "laravel/tinker": "^2.8",
     "mariuzzo/laravel-js-localization": "^1.8",
-    "meilisearch/meilisearch-php": "^0.27.0",
+    "meilisearch/meilisearch-php": "^1.1.0",
     "owen-it/laravel-auditing": "^13.0",
     "predis/predis": "^2.1",
     "spatie/laravel-permission": "^5.10",
