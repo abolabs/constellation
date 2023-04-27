@@ -56,9 +56,9 @@ export default class Api extends AbstractCommand {
         try{
 
             if(this.additionnal.includes('--nginx')){
-                await $`docker compose logs -f -t 100 --no-log-prefix nginx`;
+                await $`docker compose logs -f -n 100 --no-log-prefix nginx`;
             }else{
-                await $`docker compose logs -f -t 100 --no-log-prefix api`;
+                await $`docker compose logs -f -n 100 --no-log-prefix api`;
             }
 
         }catch(e){
