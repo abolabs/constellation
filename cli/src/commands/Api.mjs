@@ -25,6 +25,7 @@ export default class Api extends AbstractCommand {
         return {
             logs: () => this.logs(),
             test: () => this.test(),
+            "show-unused-package": () => this.showUnusedPackages(),
         };
     }
 
@@ -41,12 +42,13 @@ export default class Api extends AbstractCommand {
 
         Management Commands:
 
-        logs          displays api logs (Laravel only by default)
+        logs                    displays api logs (Laravel only by default)
             Options
 
             --nginx   Display Nginx logs
 
-        test          executes phpunit tests
+        test                    executes phpunit tests
+        show-unused-package     executes vendor/bin/composer-unused
 
         `
         Console.log(usageText);
@@ -63,16 +65,26 @@ export default class Api extends AbstractCommand {
 
         }catch(e){
             Console.printError(e);
+            return;
         }
         Console.confirm('up done');
     }
 
     async test() {
-        try{
-            cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
-            await $`docker compose exec -it api ./vendor/bin/phpunit`;
-        }catch(e){
-            Console.printError(e);
-        }
+        cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
+        await $`docker compose exec -it api ./vendor/bin/phpunit`
+        .pipe(process.stdout)
+        .catch((p) => {
+            Console.printError(p);
+        });
+    }
+
+    async showUnusedPackages() {
+        cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
+        await $`docker compose exec -it api ./vendor/bin/composer-unused`
+        .pipe(process.stdout)
+        .catch((p) => {
+            Console.printError(p);
+        });
     }
 }
