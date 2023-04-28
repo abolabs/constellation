@@ -73,7 +73,7 @@ const ApplicationList = (props) => {
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
             <TextField source="id" />
             <TextField source="name" />
-            <ReferenceField source="team_id" reference="teams">
+            <ReferenceField source="team_id" reference="teams" link={false}>
               <TextField source="name" />
             </ReferenceField>
             <DateField source="created_at" />

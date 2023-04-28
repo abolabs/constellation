@@ -21,42 +21,24 @@ const theme = createTheme(
   {
     ...defaultTheme,
     palette: {
-      type: "light",
+      mode: "light",
       primary: {
         main: "#0b5b61",
-        light: "#45888e",
-        dark: "#003137",
-        contrastText: "#fff",
       },
       secondary: {
         main: "#546e7a",
-        light: "#819ca9",
-        dark: "#29434e",
-        contrastText: "#fff",
       },
       error: {
         main: "#d02536",
-        light: "#ff5f60",
-        dark: "#970010",
-        contrastText: "#fff",
       },
       warning: {
         main: "#ffc857",
-        light: "#fffb88",
-        dark: "#c89825",
-        contrastText: "#000",
       },
       info: {
         main: "#54aeb9",
-        light: "#88e0eb",
-        dark: "#167e89",
-        contrastText: "#000",
       },
       success: {
         main: "#177E89",
-        light: "#54aeb9",
-        dark: "#00515c",
-        contrastText: "#fff",
       },
       background: {
         default: "#F7F9FB",
@@ -67,9 +49,6 @@ const theme = createTheme(
       },
       text: {
         primary: "#003137",
-        secondary: "#004e5c",
-        disabled: "rgba(0, 0, 0, 0.38)",
-        hint: "rgba(0, 0, 0, 0.38)",
       },
       divider: "rgba(255, 255, 255, 0.12)",
       contrastThreshold: 3,

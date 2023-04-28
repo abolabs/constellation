@@ -161,7 +161,7 @@ const HostingShowLayout = () => {
                   <ListItemText
                     primary="Hosting type"
                     secondary={
-                      <ReferenceField source="hosting_type_id" reference="hosting_types">
+                      <ReferenceField source="hosting_type_id" reference="hosting_types" link="show">
                         <TextField source="name" />
                       </ReferenceField>
                     }

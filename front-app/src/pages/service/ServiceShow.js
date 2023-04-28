@@ -264,7 +264,7 @@ const ServiceShowLayout = () => {
                   <ListItemText
                     primary="Team"
                     secondary={
-                      <ReferenceField source="team_id" reference="teams">
+                      <ReferenceField source="team_id" reference="teams" link="show">
                         <TextField source="name" />
                       </ReferenceField>
                     }
