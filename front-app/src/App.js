@@ -31,7 +31,7 @@ import dataProvider from "@providers/DataProvider";
 
 import AppLayout from "@layouts/AppLayout";
 
-import LoginPage from "@pages/LoginPage";
+import LoginPage from "@pages/auth/LoginPage";
 import ApplicationList from "@pages/application/ApplicationList";
 import ApplicationShow from "@pages/application/ApplicationShow";
 import ApplicationCreate from "@pages/application/ApplicationCreate";
