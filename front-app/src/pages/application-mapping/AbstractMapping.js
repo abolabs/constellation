@@ -43,7 +43,7 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import AppBreadCrumd from "@/layouts/AppBreadCrumd";
 import Tag from "@components/styled/Tag";
 import AlertError from "@components/alerts/AlertError";
-import { serviceInstanceDepLevel } from "@pages/serviceInstance/serviceInstanceDepLevel";
+import { serviceInstanceDepLevel } from "@pages/service-instance/serviceInstanceDepLevel";
 import { useFormContext, useWatch } from "react-hook-form";
 import Graph from "@utils/Graph";
 

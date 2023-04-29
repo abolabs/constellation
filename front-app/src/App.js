@@ -44,10 +44,10 @@ import HostingList from "@pages/hosting/HostingList";
 import HostingShow from "@pages/hosting/HostingShow";
 import HostingEdit from "@pages/hosting/HostingEdit";
 import HostingCreate from "@pages/hosting/HostingCreate";
-import HostingTypeList from "@pages/admin/hostingType/HostingTypeList";
-import HostingTypeCreate from "@pages/admin/hostingType/HostingTypeCreate";
-import HostingTypeShow from "@pages/admin/hostingType/HostingTypeShow";
-import HostingTypeEdit from "@pages/admin/hostingType/HostingTypeEdit";
+import HostingTypeList from "@pages/admin/hosting-type/HostingTypeList";
+import HostingTypeCreate from "@pages/admin/hosting-type/HostingTypeCreate";
+import HostingTypeShow from "@pages/admin/hosting-type/HostingTypeShow";
+import HostingTypeEdit from "@pages/admin/hosting-type/HostingTypeEdit";
 import TeamList from "@pages/admin/team/TeamList";
 import TeamEdit from "@pages/admin/team/TeamEdit";
 import TeamCreate from "@pages/admin/team/TeamCreate";
@@ -56,14 +56,14 @@ import EnvironmentList from "@pages/admin/environment/EnvironmentList";
 import EnvironmentShow from "@pages/admin/environment/EnvironmentShow";
 import EnvironmentCreate from "@pages/admin/environment/EnvironmentCreate";
 import EnvironmentEdit from "@pages/admin/environment/EnvironmentEdit";
-import ServiceVersionList from "@pages/admin/serviceVersion/ServiceVersionList";
-import ServiceVersionShow from "@pages/admin/serviceVersion/ServiceVersionShow";
+import ServiceVersionList from "@pages/admin/service-version/ServiceVersionList";
+import ServiceVersionShow from "@pages/admin/service-version/ServiceVersionShow";
+import ServiceVersionEdit from "@pages/admin/service-version/ServiceVersionEdit";
 import AuditList from "@pages/admin/audit/AuditList";
 import AuditShow from "@pages/admin/audit/AuditShow";
-import ServiceVersionEdit from "@pages/admin/serviceVersion/ServiceVersionEdit";
-import ServiceInstanceList from "@pages/serviceInstance/ServiceInstanceList";
-import ServiceInstanceShow from "@pages/serviceInstance/ServiceInstanceShow";
-import ServiceInstanceEdit from "@pages/serviceInstance/ServiceInstanceEdit";
+import ServiceInstanceList from "@pages/service-instance/ServiceInstanceList";
+import ServiceInstanceShow from "@pages/service-instance/ServiceInstanceShow";
+import ServiceInstanceEdit from "@pages/service-instance/ServiceInstanceEdit";
 import UserList from "@pages/admin/user/UserList";
 import UserShow from "@pages/admin/user/UserShow";
 import UserCreate from "@pages/admin/user/UserCreate";
@@ -72,11 +72,12 @@ import RoleList from "@pages/admin/role/RoleList";
 import RoleShow from "@pages/admin/role/RoleShow";
 import RoleCreate from "@pages/admin/role/RoleCreate";
 import RoleEdit from "@pages/admin/role/RoleEdit";
-import ServiceInstanceDepList from "@pages/admin/serviceInstanceDep/ServiceInstanceDepList";
-import ServiceInstanceDepShow from "@pages/admin/serviceInstanceDep/ServiceInstanceDepShow";
+import ServiceInstanceDepList from "@pages/admin/service-instance-dep/ServiceInstanceDepList";
+import ServiceInstanceDepShow from "@pages/admin/service-instance-dep/ServiceInstanceDepShow";
 import MappingByApp from "@pages/application-mapping/MappingByApp";
 import MappingServicesByApp from "@pages/application-mapping/MappingServicesByApp";
 import MappingByHosting from "@pages/application-mapping/MappingByHosting";
+import AccountEdit from "@pages/account/AccountEdit";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -135,6 +136,7 @@ const App = () => {
           <Route path="/application-mapping/by-app" element={<MappingByApp />} />
           <Route path="/application-mapping/services-by-app" element={<MappingServicesByApp />} />
           <Route path="/application-mapping/by-hosting" element={<MappingByHosting />} />
+          <Route path="/account/edit" element={<AccountEdit />} />
         </CustomRoutes>
         <Resource name="applications"
           list={ApplicationList}

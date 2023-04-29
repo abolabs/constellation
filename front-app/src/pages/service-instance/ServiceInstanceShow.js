@@ -59,8 +59,8 @@ import AlertError from "@components/alerts/AlertError";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 import Tag from "@components/styled/Tag";
 import ItemCardHeader from "@components/styled/ItemCardHeader";
-import { CreateServiceInstanceDepModal, CreateServiceInstanceRequieredByModal } from "@pages/admin/serviceInstanceDep/CreateServiceInstanceDepModal";
-import { EditServiceInstanceDepModal } from "@pages/admin/serviceInstanceDep/EditServiceInstanceDepModal";
+import { CreateServiceInstanceDepModal, CreateServiceInstanceRequieredByModal } from "@pages/admin/service-instance-dep/CreateServiceInstanceDepModal";
+import { EditServiceInstanceDepModal } from "@pages/admin/service-instance-dep/EditServiceInstanceDepModal";
 import { serviceInstanceDepLevel } from "./serviceInstanceDepLevel";
 
 const ServiceInstanceShow = () => {

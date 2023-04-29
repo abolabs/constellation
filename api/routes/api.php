@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // API V1
-Route::group(['middleware' => 'api', 'prefix' => 'v1/'], function () {
+Route::group([
+    'middleware' => ['api', 'auth'],
+    'prefix' => 'v1/'
+], function () {
     /**
      * Application Mapping.
      */
@@ -26,6 +29,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1/'], function () {
     Route::get('/application-mapping/graph-nodes-by-hosting', [InfraAPIController::class, 'getGraphServicesByHosting'])->name('v1.application-mapping.graphNodesByHosting');
     Route::get('/application-mapping/graph-nodes-app-map', [InfraAPIController::class, 'getGraphByApp'])->name('v1.application-mapping.getGraphByApp');
 
+    /**
+     * Resources
+     */
     Route::resource('environnements', EnvironnementAPIController::class, ['names' => 'v1.environnements']);
     Route::resource('hosting_types', HostingTypeAPIController::class, ['names' => 'v1.hostingTypes']);
     Route::resource('hostings', HostingAPIController::class, ['names' => 'v1.hostings']);
@@ -40,4 +46,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1/'], function () {
     Route::resource('permissions', PermissionAPIController::class, ['names' => 'v1.permissions']);
     Route::resource('users', UserAPIController::class, ['names' => 'v1.users']);
     Route::resource('audits', AuditAPIController::class, ['names' => 'v1.audits']);
+
+    /**
+     * Profile
+     */
+    Route::put('/profile', 'UserAPIController@profileUpdate')->name('profile.update');
 });

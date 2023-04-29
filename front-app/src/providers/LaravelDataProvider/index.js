@@ -1,6 +1,7 @@
 import axios from "axios";
 import { stringify } from "qs";
 import { getIds, getQueryFromParams } from "./helpers";
+import AuthProvider from "../AuthProvider";
 
 const defaultSettings = {
   headers: {
@@ -29,21 +30,26 @@ const laravelDataProvider = (
 
   client.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem(tokenName);
-
+      const token = AuthProvider.getAccessToken();
       const newConfig = config;
 
       // When a 'token' is available set as Bearer token.
       if (token) {
         newConfig.headers.Authorization = `Bearer ${token}`;
       }
-
       return newConfig;
     },
     (err) => Promise.reject(err)
   );
 
   return {
+    updateProfile: async (params) => {
+      const res = await client.put("/profile", params);
+      if (res.data?.data?.meta?.jwt) {
+        AuthProvider.setToken(res.data.data.meta.jwt);
+      }
+      return res.data;
+    },
     getList: async (resource, params) => {
       const query = getQueryFromParams({ ...params, ...customSettings });
 
@@ -129,7 +135,7 @@ const laravelDataProvider = (
 
       return { data: { ...res.data } };
     },
-    get: async (endpoint, params={}) => {
+    get: async (endpoint, params = {}) => {
       url = `${apiURL}/${endpoint}/?${stringify(params)}`;
 
       const res = await client.get(url);

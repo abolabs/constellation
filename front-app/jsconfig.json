@@ -2,7 +2,14 @@
     "compilerOptions": {
       "baseUrl": "./",
       "paths": {
-        "@/*": ["./src/*"]
+        "@/*": ["./src/*"],
+        "@components/*": ["./src/components/*"],
+        "@contexts/*": ["./src/contexts/*"],
+        "@layouts/*": ["./src/layouts/*"],
+        "@pages/*": ["./src/pages/*"],
+        "@providers/*": ["./src/providers/*"],
+        "@themes/*": ["./src/themes/*"],
+        "@utils/*": ["./src/utils/*"]
       }
     },
     "exclude": ["node_modules"]

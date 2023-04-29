@@ -45,8 +45,8 @@ import { grey } from "@mui/material/colors";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
-import CreateServiceInstanceModal from "@pages/serviceInstance/CreateServiceInstanceModal";
-import ServiceInstanceCard from "@pages/serviceInstance/ServiceInstanceCard";
+import CreateServiceInstanceModal from "@pages/service-instance/CreateServiceInstanceModal";
+import ServiceInstanceCard from "@pages/service-instance/ServiceInstanceCard";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 import Tag from "@components/styled/Tag";
 
