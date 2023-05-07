@@ -27,6 +27,7 @@ export default class Setup extends AbstractCommand {
         return {
             up: () => this.up(),
             down: () => this.down(),
+            restart: () => this.restart(),
         };
     }
 
@@ -51,6 +52,7 @@ export default class Setup extends AbstractCommand {
             --logs          Display front logs at the end of the setup.
 
         down        Alias for docker compose down
+        restart     Alias for docker compose restart
 
 
         `
@@ -107,5 +109,15 @@ export default class Setup extends AbstractCommand {
             Console.printError(e);
         }
         Console.confirm('down done');
+    }
+
+    async restart() {
+        try{
+            await $`docker compose restart`;
+        }catch(e){
+            Console.printError(e);
+            return;
+        }
+        Console.confirm('restart done');
     }
 }

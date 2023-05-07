@@ -45,12 +45,12 @@ const ConfigurationMenu = React.forwardRef((props, ref) => {
       component={Link}
       // It's important to pass the props to allow MUI to manage the keyboard navigation
       {...props}
-      to="/configuration"
+      to="/account/edit"
     >
       <ListItemIcon>
         <SettingsIcon />
       </ListItemIcon>
-      <ListItemText>Configuration</ListItemText>
+      <ListItemText>Profile</ListItemText>
     </MenuItem>
   );
 });

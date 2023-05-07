@@ -30,7 +30,7 @@ import Copyright from "@components/Copyright";
 import { Container, SvgIcon } from "@mui/material";
 
 import LightTheme from "@themes/LightTheme";
-import { ReactComponent as Logo } from "../logo50.svg";
+import { ReactComponent as Logo } from "@/logo50.svg";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");

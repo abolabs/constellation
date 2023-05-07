@@ -40,7 +40,7 @@ import {
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
-import ServiceInstanceCard from "@pages/serviceInstance/ServiceInstanceCard";
+import ServiceInstanceCard from "@pages/service-instance/ServiceInstanceCard";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 
 const HostingShow = () => {

@@ -24,6 +24,7 @@ export default class Api extends AbstractCommand {
     actions() {
         return {
             logs: () => this.logs(),
+            restart: () => this.restart(),
         };
     }
 
@@ -41,6 +42,7 @@ export default class Api extends AbstractCommand {
         Management Commands:
 
         logs          displays npm logs
+        restart       restart service
 
         `
         Console.log(usageText);
@@ -51,7 +53,18 @@ export default class Api extends AbstractCommand {
             await $`docker compose logs -f -n 300 --no-log-prefix front-app`;
         }catch(e){
             Console.printError(e);
+            return;
         }
         Console.confirm('up done');
+    }
+
+    async restart() {
+        try{
+            await $`docker compose restart front-app`;
+        }catch(e){
+            Console.printError(e);
+            return;
+        }
+        Console.confirm('restart done');
     }
 }

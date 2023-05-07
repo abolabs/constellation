@@ -43,16 +43,16 @@ const AuthProvider = {
     if (response.status < 200 || response.status >= 300) {
       throw new Error(response.statusText);
     }
-    localStorage.setItem("auth", response.data.access_token);
+    AuthProvider.setToken(response?.data);
 
-    return Promise.resolve(response.data.access_token);
+    return Promise.resolve(response.data);
   },
   logout: () => {
     localStorage.removeItem("auth");
     return Promise.resolve();
   },
   checkAuth: () => {
-    return localStorage.getItem("auth") ? Promise.resolve() : Promise.reject();
+    return AuthProvider.getToken() ? Promise.resolve() : Promise.reject();
   },
   checkError: (error) => {
     const status = error.status;
@@ -64,11 +64,26 @@ const AuthProvider = {
     // other error code (404, 500, etc): no need to log out
     return Promise.resolve();
   },
+  getAccessToken: () => {
+    const token = AuthProvider.getToken();
+    return JSON.parse(token)?.access_token;
+  },
+  getToken: () => {
+    return localStorage.getItem("auth");
+  },
+  setToken: (data) => {
+    localStorage.setItem("auth", JSON.stringify(data));
+    return true;
+  },
   getIdentity: () => {
     try {
-      const token = localStorage.getItem("auth");
-      const jwt = jwt_decode(token);
-      const identity = { id: "my-profile", fullName: jwt.name, email: jwt.email };
+      const token = AuthProvider.getToken();
+      const jwt = jwt_decode(JSON.parse(token)?.access_token);
+      const identity = {
+        id: "my-profile",
+        fullName: jwt.name,
+        email: jwt.email,
+      };
       return Promise.resolve(identity);
     } catch (e) {
       console.error("getIdentity", e);
@@ -77,7 +92,7 @@ const AuthProvider = {
     return Promise.resolve({
       id: "my-profile",
       fullName: "Unknown",
-      email: ""
+      email: "",
     });
   },
   getPermissions: () => Promise.resolve(""),

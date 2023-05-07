@@ -19,6 +19,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateUserAPIRequest;
+use App\Http\Requests\API\ProfileUpdateRequest;
 use App\Http\Requests\API\UpdateUserAPIRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -27,6 +28,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\RefreshToken;
 use Response;
 
 /**
@@ -232,7 +234,7 @@ class UserAPIController extends AppBaseController
     public function update(User $user, UpdateUserAPIRequest $request)
     {
         $input = $request->all();
-        if (! empty($input['password'])) {
+        if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
             $input = Arr::except($input, ['password']);
@@ -293,5 +295,28 @@ class UserAPIController extends AppBaseController
         $user->delete();
 
         return $this->sendSuccess('User deleted successfully');
+    }
+
+    public function profileUpdate(ProfileUpdateRequest $request)
+    {
+        $input = $request->all();
+        $user = \Auth::user();
+        $user->update($input);
+
+        // Revoke and delete the current token
+        $user->token()->revoke();
+        $user->token()->delete();
+
+        // Create a new token
+        $accessToken = $user->createToken("", ['*']);
+
+        return $this->sendResponse(
+            (new UserResource($user))->additional([
+                'jwt' => [
+                    'access_token' => $accessToken->accessToken,
+                ]
+            ]),
+            'Account updated successfully'
+        );
     }
 }

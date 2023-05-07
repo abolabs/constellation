@@ -46,7 +46,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
-import CreateVersionModal from "@pages/serviceVersion/CreateVersionModal";
+import CreateVersionModal from "@pages/service-version/CreateVersionModal";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 
 const ServiceShow = () => {
