@@ -43,7 +43,7 @@ const AccountEdit = () => {
   } = useGetIdentity();
   const dataProvider = useDataProvider();
 
-  const UserEditAccountSchema = yup
+  const AccountEditSchema = yup
     .object()
     .shape({
       name: yup
@@ -74,7 +74,7 @@ const AccountEdit = () => {
       name: data?.fullName,
       email: data?.email,
     },
-    resolver: yupResolver(UserEditAccountSchema),
+    resolver: yupResolver(AccountEditSchema),
   });
 
   const { errors, isDirty, dirtyFields } = useFormState({

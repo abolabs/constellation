@@ -47,106 +47,115 @@ export default function LoginPage() {
   };
 
   return (
-  <ThemeProvider theme={LightTheme}>
-    <CssBaseline />
-    <Container component="main"
-      maxWidth="sm"
-      sx={{
-        pt: 8,
-        height: "100vh",
-       }}
-    >
-      <Box
+    <ThemeProvider theme={LightTheme}>
+      <CssBaseline />
+      <Container
+        component="main"
+        maxWidth="sm"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          background: theme.palette.background.paper,
-          color: theme.palette.text.primary,
-          p: 2,
-          borderRadius: theme.shape.borderRadius,
+          pt: 8,
+          height: "100vh",
         }}
-        >
-        <Avatar
+      >
+        <Box
           sx={{
-            m: 1,
-            bgcolor: 'primary.main',
-            height: '4rem',
-            width: '4rem',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            background: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            p: 2,
+            borderRadius: theme.shape.borderRadius,
           }}
         >
-          <SvgIcon component={Logo}
-            inheritViewBox
-            shapeRendering="path"
-            color="primary"
+          <Avatar
             sx={{
-              "path": {
-                fill: `${theme.palette.primary.contrastText} !important`,
-              },
-              height: '80%',
-              width: '80%',
+              m: 1,
+              bgcolor: "primary.main",
+              height: "4rem",
+              width: "4rem",
             }}
-          />
-        </Avatar>
-        <Typography component="h2" variant="h2">
-          Constellation
-        </Typography>
-        <Typography component="h3" variant="h3">
-          Sign in
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {/*
+          >
+            <SvgIcon
+              component={Logo}
+              inheritViewBox
+              shapeRendering="path"
+              color="primary"
+              sx={{
+                path: {
+                  fill: `${theme.palette.primary.contrastText} !important`,
+                },
+                height: "80%",
+                width: "80%",
+              }}
+            />
+          </Avatar>
+          <Typography component="h2" variant="h2">
+            Constellation
+          </Typography>
+          <Typography component="h3" variant="h3">
+            Sign in
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {/*
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
           */}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
+          </Box>
         </Box>
-      </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
-    </Container>
-  </ThemeProvider>
+        <Copyright
+          sx={{ mt: 8, mb: 4, color: theme.palette.text.contrastText }}
+        />
+      </Container>
+    </ThemeProvider>
   );
 }

@@ -84,6 +84,7 @@ import MappingByApp from "@pages/application-mapping/MappingByApp";
 import MappingServicesByApp from "@pages/application-mapping/MappingServicesByApp";
 import MappingByHosting from "@pages/application-mapping/MappingByHosting";
 import AccountEdit from "@pages/account/AccountEdit";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -141,6 +142,9 @@ const App = () => {
         dataProvider={dataProvider}
         disableTelemetry
       >
+        <CustomRoutes noLayout>
+          <Route path="/password-reset" element={<ResetPassword />} />
+        </CustomRoutes>
         <CustomRoutes>
           <Route
             path="/application-mapping/by-app"
