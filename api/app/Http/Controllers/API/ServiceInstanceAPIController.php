@@ -20,7 +20,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateServiceInstanceAPIRequest;
 use App\Http\Requests\API\UpdateServiceInstanceAPIRequest;
-use App\Http\Resources\ServiceInstanceDependenciesResource;
 use App\Http\Resources\ServiceInstanceResource;
 use App\Models\ServiceInstance;
 use App\Models\ServiceInstanceDependencies;
@@ -45,7 +44,6 @@ class ServiceInstanceAPIController extends AppBaseController
      * Display a listing of the ServiceInstance.
      * GET|HEAD /serviceInstances.
      *
-     * @param  Request  $request
      * @return Response
      */
     public function index(Request $request)
@@ -56,6 +54,7 @@ class ServiceInstanceAPIController extends AppBaseController
             $request->page,
             $request->sort
         );
+
         return $this->sendResponse(ServiceInstanceResource::collection($serviceInstances), 'Service Instances retrieved successfully', $serviceInstances->total());
     }
 
@@ -63,7 +62,6 @@ class ServiceInstanceAPIController extends AppBaseController
      * Store a newly created ServiceInstance in storage.
      * POST /serviceInstances.
      *
-     * @param  CreateServiceInstanceAPIRequest  $request
      * @return Response
      */
     public function store(CreateServiceInstanceAPIRequest $request)
@@ -112,7 +110,7 @@ class ServiceInstanceAPIController extends AppBaseController
         return $this->sendResponse(
             (new ServiceInstanceResource($serviceInstance))->additional([
                 'instanceDependencies' => $instanceDependencies,
-                'instanceDependenciesSource' => $instanceDependenciesSource
+                'instanceDependenciesSource' => $instanceDependenciesSource,
             ]),
             'Service Instance retrieved successfully'
         );
@@ -123,7 +121,6 @@ class ServiceInstanceAPIController extends AppBaseController
      * PUT/PATCH /serviceInstances/{id}.
      *
      * @param  int  $id
-     * @param  UpdateServiceInstanceAPIRequest  $request
      * @return Response
      */
     public function update($id, UpdateServiceInstanceAPIRequest $request)

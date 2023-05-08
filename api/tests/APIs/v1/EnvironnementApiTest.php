@@ -41,7 +41,7 @@ class EnvironnementApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $environnement->id
+            self::ROUTE_PREFIX.'/'.$environnement->id
         );
 
         $this->assertApiResponse($environnement->toArray());
@@ -57,7 +57,7 @@ class EnvironnementApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX . '/' . $environnement->id,
+            self::ROUTE_PREFIX.'/'.$environnement->id,
             $editedEnvironnement
         );
 
@@ -73,13 +73,13 @@ class EnvironnementApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX . '/' . $environnement->id
+            self::ROUTE_PREFIX.'/'.$environnement->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $environnement->id
+            self::ROUTE_PREFIX.'/'.$environnement->id
         );
 
         $this->response->assertStatus(404);

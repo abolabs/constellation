@@ -41,7 +41,6 @@ class RoleAPIController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -50,11 +49,14 @@ class RoleAPIController extends AppBaseController
      *      tags={"Role"},
      *      description="Get all Roles",
      *      produces={"application/json"},
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -62,8 +64,10 @@ class RoleAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @SWG\Items(ref="#/definitions/Role")
      *              ),
+     *
      *              @SWG\Property(
      *                  property="message",
      *                  type="string"
@@ -85,7 +89,6 @@ class RoleAPIController extends AppBaseController
     }
 
     /**
-     * @param  CreateRoleAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -94,18 +97,23 @@ class RoleAPIController extends AppBaseController
      *      tags={"Role"},
      *      description="Store Role",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
      *          description="Role that should be stored",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Role")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -126,7 +134,7 @@ class RoleAPIController extends AppBaseController
     {
         $role = $this->roleRepository->create([
             'name' => $request->input('name'),
-            'guard_name' => 'api'
+            'guard_name' => 'api',
         ]);
 
         $role->syncPermissions($request->input('permissions'));
@@ -144,6 +152,7 @@ class RoleAPIController extends AppBaseController
      *      tags={"Role"},
      *      description="Get Role",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Role",
@@ -151,11 +160,14 @@ class RoleAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -179,6 +191,7 @@ class RoleAPIController extends AppBaseController
         if (empty($role)) {
             return $this->sendError('Role not found');
         }
+
         return $this->sendResponse(new RoleResource($role), 'Role retrieved successfully');
     }
 
@@ -193,6 +206,7 @@ class RoleAPIController extends AppBaseController
      *      tags={"Role"},
      *      description="Update Role",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Role",
@@ -205,13 +219,17 @@ class RoleAPIController extends AppBaseController
      *          in="body",
      *          description="Role that should be updated",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Role")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -254,6 +272,7 @@ class RoleAPIController extends AppBaseController
      *      tags={"Role"},
      *      description="Delete Role",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Role",
@@ -261,11 +280,14 @@ class RoleAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"

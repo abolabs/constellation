@@ -28,7 +28,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Passport\RefreshToken;
 use Response;
 
 /**
@@ -46,7 +45,6 @@ class UserAPIController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -55,11 +53,14 @@ class UserAPIController extends AppBaseController
      *      tags={"User"},
      *      description="Get all Users",
      *      produces={"application/json"},
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -67,8 +68,10 @@ class UserAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @SWG\Items(ref="#/definitions/User")
      *              ),
+     *
      *              @SWG\Property(
      *                  property="message",
      *                  type="string"
@@ -90,7 +93,6 @@ class UserAPIController extends AppBaseController
     }
 
     /**
-     * @param  CreateUserAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -99,18 +101,23 @@ class UserAPIController extends AppBaseController
      *      tags={"User"},
      *      description="Store User",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
      *          description="User that should be stored",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/User")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -148,6 +155,7 @@ class UserAPIController extends AppBaseController
      *      tags={"User"},
      *      description="Get User",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of User",
@@ -155,11 +163,14 @@ class UserAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -187,7 +198,6 @@ class UserAPIController extends AppBaseController
 
     /**
      * @param  int  $id
-     * @param  UpdateUserAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -196,6 +206,7 @@ class UserAPIController extends AppBaseController
      *      tags={"User"},
      *      description="Update User",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of User",
@@ -208,13 +219,17 @@ class UserAPIController extends AppBaseController
      *          in="body",
      *          description="User that should be updated",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/User")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -234,7 +249,7 @@ class UserAPIController extends AppBaseController
     public function update(User $user, UpdateUserAPIRequest $request)
     {
         $input = $request->all();
-        if (!empty($input['password'])) {
+        if (! empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
             $input = Arr::except($input, ['password']);
@@ -258,6 +273,7 @@ class UserAPIController extends AppBaseController
      *      tags={"User"},
      *      description="Delete User",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of User",
@@ -265,11 +281,14 @@ class UserAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -308,13 +327,13 @@ class UserAPIController extends AppBaseController
         $user->token()->delete();
 
         // Create a new token
-        $accessToken = $user->createToken("", ['*']);
+        $accessToken = $user->createToken('', ['*']);
 
         return $this->sendResponse(
             (new UserResource($user))->additional([
                 'jwt' => [
                     'access_token' => $accessToken->accessToken,
-                ]
+                ],
             ]),
             'Account updated successfully'
         );

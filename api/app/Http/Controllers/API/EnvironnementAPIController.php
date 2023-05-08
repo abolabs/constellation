@@ -40,7 +40,6 @@ class EnvironnementAPIController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -49,11 +48,14 @@ class EnvironnementAPIController extends AppBaseController
      *      tags={"Environnement"},
      *      description="Get all Environnements",
      *      produces={"application/json"},
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -61,8 +63,10 @@ class EnvironnementAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @SWG\Items(ref="#/definitions/Environnement")
      *              ),
+     *
      *              @SWG\Property(
      *                  property="message",
      *                  type="string"
@@ -85,12 +89,10 @@ class EnvironnementAPIController extends AppBaseController
             $request->sort
         );
 
-
         return $this->sendResponse(EnvironnementResource::collection($environnements), \Lang::get('environnement.show_confirm'), $environnements->total());
     }
 
     /**
-     * @param  CreateEnvironnementAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -99,18 +101,23 @@ class EnvironnementAPIController extends AppBaseController
      *      tags={"Environnement"},
      *      description="Store Environnement",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
      *          description="Environnement that should be stored",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Environnement")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -146,6 +153,7 @@ class EnvironnementAPIController extends AppBaseController
      *      tags={"Environnement"},
      *      description="Get Environnement",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Environnement",
@@ -153,11 +161,14 @@ class EnvironnementAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -188,7 +199,6 @@ class EnvironnementAPIController extends AppBaseController
 
     /**
      * @param  int  $id
-     * @param  UpdateEnvironnementAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -197,6 +207,7 @@ class EnvironnementAPIController extends AppBaseController
      *      tags={"Environnement"},
      *      description="Update Environnement",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Environnement",
@@ -209,13 +220,17 @@ class EnvironnementAPIController extends AppBaseController
      *          in="body",
      *          description="Environnement that should be updated",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Environnement")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -258,6 +273,7 @@ class EnvironnementAPIController extends AppBaseController
      *      tags={"Environnement"},
      *      description="Delete Environnement",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Environnement",
@@ -265,11 +281,14 @@ class EnvironnementAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"

@@ -48,7 +48,6 @@ class ApplicationDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param  \App\Models\Application  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Application $model)
@@ -64,20 +63,20 @@ class ApplicationDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'application' =>  new \Yajra\DataTables\Html\Column([
+            'application' => new \Yajra\DataTables\Html\Column([
                 'title' => Lang::get('application.id'),
-                'data'  => 'id',
-                'name'  => 'application.id',
+                'data' => 'id',
+                'name' => 'application.id',
             ]),
-            'name' =>  new \Yajra\DataTables\Html\Column([
+            'name' => new \Yajra\DataTables\Html\Column([
                 'title' => Lang::get('application.name'),
-                'data'  => 'name',
-                'name'  => 'application.name',
+                'data' => 'name',
+                'name' => 'application.name',
             ]),
-            'team_name' =>  new \Yajra\DataTables\Html\Column([
+            'team_name' => new \Yajra\DataTables\Html\Column([
                 'title' => Lang::get('application.team'),
-                'data'  => 'team.name',
-                'name'  => 'team.name',
+                'data' => 'team.name',
+                'name' => 'team.name',
             ]),
         ];
     }
@@ -89,6 +88,6 @@ class ApplicationDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'applications_datatable_' . time();
+        return 'applications_datatable_'.time();
     }
 }

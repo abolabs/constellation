@@ -41,7 +41,7 @@ class ServiceVersionApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $serviceVersion->id
+            self::ROUTE_PREFIX.'/'.$serviceVersion->id
         );
 
         $this->assertApiResponse($serviceVersion->toArray());
@@ -57,7 +57,7 @@ class ServiceVersionApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX . '/' . $serviceVersion->id,
+            self::ROUTE_PREFIX.'/'.$serviceVersion->id,
             $editedServiceVersion
         );
 
@@ -73,13 +73,13 @@ class ServiceVersionApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX . '/' . $serviceVersion->id
+            self::ROUTE_PREFIX.'/'.$serviceVersion->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $serviceVersion->id
+            self::ROUTE_PREFIX.'/'.$serviceVersion->id
         );
 
         $this->response->assertStatus(404);

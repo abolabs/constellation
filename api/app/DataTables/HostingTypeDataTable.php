@@ -49,7 +49,6 @@ class HostingTypeDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param  \App\Models\HostingType  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(HostingType $model)
@@ -65,20 +64,20 @@ class HostingTypeDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'id' =>  new Column([
+            'id' => new Column([
                 'title' => Lang::get('hosting_type.id'),
-                'data'  => 'id',
-                'name'  => 'id',
+                'data' => 'id',
+                'name' => 'id',
             ]),
-            'name' =>  new Column([
+            'name' => new Column([
                 'title' => Lang::get('hosting_type.name'),
-                'data'  => 'name',
-                'name'  => 'name',
+                'data' => 'name',
+                'name' => 'name',
             ]),
-            'description' =>  new Column([
+            'description' => new Column([
                 'title' => Lang::get('hosting_type.description'),
-                'data'  => 'description',
-                'name'  => 'description',
+                'data' => 'description',
+                'name' => 'description',
             ]),
         ];
     }
@@ -90,6 +89,6 @@ class HostingTypeDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'hosting_types_datatable_' . time();
+        return 'hosting_types_datatable_'.time();
     }
 }

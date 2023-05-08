@@ -76,6 +76,6 @@ class UserDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'users_datatable_' . time();
+        return 'users_datatable_'.time();
     }
 }

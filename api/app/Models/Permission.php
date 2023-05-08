@@ -18,14 +18,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use OwenIt\Auditing\Contracts\Auditable;
 use Laravel\Scout\Searchable;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 
 /**
  * @SWG\Definition(
  *      definition="Role",
  *      required={""},
+ *
  *      @SWG\Property(
  *          property="id",
  *          description="id",

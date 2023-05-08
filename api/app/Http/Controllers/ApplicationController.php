@@ -25,8 +25,8 @@ use App\Models\Environnement;
 use App\Models\ServiceInstance;
 use App\Repositories\ApplicationRepository;
 use Flash;
-use Response;
 use Lang;
+use Response;
 
 class ApplicationController extends AppBaseController
 {
@@ -42,7 +42,6 @@ class ApplicationController extends AppBaseController
     /**
      * Display a listing of the Application.
      *
-     * @param  ApplicationDataTable  $applicationDataTable
      * @return Response
      */
     public function index(ApplicationDataTable $applicationDataTable)
@@ -63,7 +62,6 @@ class ApplicationController extends AppBaseController
     /**
      * Store a newly created Application in storage.
      *
-     * @param  CreateApplicationRequest  $request
      * @return Response
      */
     public function store(CreateApplicationRequest $request)
@@ -80,7 +78,6 @@ class ApplicationController extends AppBaseController
     /**
      * Display the specified Application.
      *
-     * @param  Application  $application
      * @return Response
      */
     public function show(Application $application)
@@ -101,14 +98,13 @@ class ApplicationController extends AppBaseController
         }
 
         return view('applications.show')->with('application', $application)
-                    ->with('serviceInstances', $serviceInstances)
-                    ->with('countByEnv', $countByEnv);
+            ->with('serviceInstances', $serviceInstances)
+            ->with('countByEnv', $countByEnv);
     }
 
     /**
      * Show the form for editing the specified Application.
      *
-     * @param  Application  $application
      * @return Response
      */
     public function edit(Application $application)
@@ -126,7 +122,6 @@ class ApplicationController extends AppBaseController
      * Update the specified Application in storage.
      *
      * @param  int  $id
-     * @param  UpdateApplicationRequest  $request
      * @return Response
      */
     public function update(Application $application, UpdateApplicationRequest $request)
@@ -147,7 +142,6 @@ class ApplicationController extends AppBaseController
     /**
      * Remove the specified Application from storage.
      *
-     * @param  Application  $application
      * @return Response
      */
     public function destroy(Application $application)

@@ -40,7 +40,6 @@ class ServiceVersionAPIController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -49,11 +48,14 @@ class ServiceVersionAPIController extends AppBaseController
      *      tags={"ServiceVersion"},
      *      description="Get all ServiceVersions",
      *      produces={"application/json"},
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -61,8 +63,10 @@ class ServiceVersionAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @SWG\Items(ref="#/definitions/ServiceVersion")
      *              ),
+     *
      *              @SWG\Property(
      *                  property="message",
      *                  type="string"
@@ -85,7 +89,6 @@ class ServiceVersionAPIController extends AppBaseController
     }
 
     /**
-     * @param  CreateServiceVersionAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -94,18 +97,23 @@ class ServiceVersionAPIController extends AppBaseController
      *      tags={"ServiceVersion"},
      *      description="Store ServiceVersion",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
      *          description="ServiceVersion that should be stored",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/ServiceVersion")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -141,6 +149,7 @@ class ServiceVersionAPIController extends AppBaseController
      *      tags={"ServiceVersion"},
      *      description="Get ServiceVersion",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of ServiceVersion",
@@ -148,11 +157,14 @@ class ServiceVersionAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -183,7 +195,6 @@ class ServiceVersionAPIController extends AppBaseController
 
     /**
      * @param  int  $id
-     * @param  UpdateServiceVersionAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -192,6 +203,7 @@ class ServiceVersionAPIController extends AppBaseController
      *      tags={"ServiceVersion"},
      *      description="Update ServiceVersion",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of ServiceVersion",
@@ -204,13 +216,17 @@ class ServiceVersionAPIController extends AppBaseController
      *          in="body",
      *          description="ServiceVersion that should be updated",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/ServiceVersion")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -253,6 +269,7 @@ class ServiceVersionAPIController extends AppBaseController
      *      tags={"ServiceVersion"},
      *      description="Delete ServiceVersion",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of ServiceVersion",
@@ -260,11 +277,14 @@ class ServiceVersionAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"

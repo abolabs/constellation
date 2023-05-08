@@ -44,6 +44,6 @@ class AppServiceProvider extends ServiceProvider
                 \Log::debug(json_encode([$query->sql, $query->bindings, $query->time]));
             });
         }
-        $this->loadViewsFrom(__DIR__ . '/../resources/views/vendor/coreui-templates', 'coreui-templates');
+        $this->loadViewsFrom(__DIR__.'/../resources/views/vendor/coreui-templates', 'coreui-templates');
     }
 }

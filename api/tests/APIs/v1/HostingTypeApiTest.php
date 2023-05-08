@@ -41,7 +41,7 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $hostingType->id
+            self::ROUTE_PREFIX.'/'.$hostingType->id
         );
 
         $this->assertApiResponse($hostingType->toArray());
@@ -57,7 +57,7 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX . '/' . $hostingType->id,
+            self::ROUTE_PREFIX.'/'.$hostingType->id,
             $editedHostingType
         );
 
@@ -73,13 +73,13 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX . '/' . $hostingType->id
+            self::ROUTE_PREFIX.'/'.$hostingType->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $hostingType->id
+            self::ROUTE_PREFIX.'/'.$hostingType->id
         );
 
         $this->response->assertStatus(404);

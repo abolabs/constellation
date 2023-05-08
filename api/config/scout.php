@@ -148,7 +148,7 @@ return [
         'key' => env('MEILISEARCH_KEY', null),
         'index-settings' => [
             Application::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                     'team_id',
                 ],
@@ -165,7 +165,7 @@ return [
                 ],
             ],
             Audit::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'user_id',
                 ],
                 'sortableAttributes' => [
@@ -175,7 +175,7 @@ return [
                 ],
             ],
             Environnement::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                 ],
                 'sortableAttributes' => [
@@ -184,7 +184,7 @@ return [
                 ],
             ],
             Hosting::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                     'hosting_type_id',
                 ],
@@ -193,11 +193,11 @@ return [
                     'name',
                     'hosting_type_id',
                     'hosting_type_name',
-                    'localisation'
+                    'localisation',
                 ],
             ],
             HostingType::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                 ],
                 'sortableAttributes' => [
@@ -207,7 +207,7 @@ return [
                 ],
             ],
             Permission::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                     'name',
                 ],
@@ -217,7 +217,7 @@ return [
                 ],
             ],
             Role::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                     'name',
                 ],
@@ -227,7 +227,7 @@ return [
                 ],
             ],
             Service::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                     'team_id',
                 ],
@@ -239,7 +239,7 @@ return [
                 ],
             ],
             ServiceInstance::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                     'environnement_id',
                     'hosting_name',
@@ -250,15 +250,15 @@ return [
                     'id',
                     'application_name',
                     'service_version_name',
-                    'service_version' ,
+                    'service_version',
                     'environnement_name',
                     'hosting_name',
                     'role',
-                    'statut'
+                    'statut',
                 ],
             ],
             ServiceInstanceDependencies::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                 ],
                 'sortableAttributes' => [
@@ -270,7 +270,7 @@ return [
                 ],
             ],
             ServiceVersion::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                     'service_id',
                 ],
@@ -282,7 +282,7 @@ return [
                 ],
             ],
             Team::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                 ],
                 'sortableAttributes' => [
@@ -291,13 +291,13 @@ return [
                 ],
             ],
             User::class => [
-                'filterableAttributes'=> [
+                'filterableAttributes' => [
                     'id',
                 ],
                 'sortableAttributes' => [
                     'id',
                     'name',
-                    'email'
+                    'email',
                 ],
             ],
         ],

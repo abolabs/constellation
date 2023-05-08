@@ -49,7 +49,6 @@ class EnvironnementDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param  \App\Models\Environnement  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Environnement $model)
@@ -67,13 +66,13 @@ class EnvironnementDataTable extends AbstractCommonDatatable
         return [
             'id' => new Column([
                 'title' => Lang::get('environnement.id'),
-                'data'  => 'id',
-                'name'  => 'id',
+                'data' => 'id',
+                'name' => 'id',
             ]),
             'name' => new Column([
                 'title' => Lang::get('environnement.name'),
-                'data'  => 'name',
-                'name'  => 'name',
+                'data' => 'name',
+                'name' => 'name',
             ]),
         ];
     }
@@ -85,6 +84,6 @@ class EnvironnementDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'environnements_datatable_' . time();
+        return 'environnements_datatable_'.time();
     }
 }

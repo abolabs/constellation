@@ -31,6 +31,7 @@
     "doctrine/dbal": "^3.6",
     "fakerphp/faker": "^1.21",
     "icanhazstring/composer-unused": "^0.8.7",
+    "laravel/pint": "^1.10",
     "mockery/mockery": "^1.4.2",
     "nunomaduro/collision": "^7.0",
     "phpro/grumphp": "^1.16",

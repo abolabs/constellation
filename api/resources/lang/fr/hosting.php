@@ -14,5 +14,4 @@ return [
     'not_found' => 'Hébergement non trouvé',
     'destroy_confirm' => 'Hébergement correctement supprimé',
 
-
 ];

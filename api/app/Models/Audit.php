@@ -46,6 +46,7 @@ class Audit extends Model
     public $table = 'audits';
 
     public const CREATED_AT = 'created_at';
+
     public const UPDATED_AT = 'updated_at';
 
     protected $dates = ['deleted_at'];

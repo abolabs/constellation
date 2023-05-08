@@ -41,7 +41,7 @@ class UpdateUserAPIRequest extends APIRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $this->user->id,
+            'email' => 'required|email|unique:users,email,'.$this->user->id,
             'password' => 'same:confirm-password',
             'roles' => 'required|array',
         ];

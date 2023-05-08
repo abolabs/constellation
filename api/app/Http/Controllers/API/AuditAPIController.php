@@ -39,7 +39,6 @@ class AuditAPIController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -48,11 +47,14 @@ class AuditAPIController extends AppBaseController
      *      tags={"Audits"},
      *      description="Get all Audits",
      *      produces={"application/json"},
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -60,8 +62,10 @@ class AuditAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @SWG\Items(ref="#/definitions/Audit")
      *              ),
+     *
      *              @SWG\Property(
      *                  property="message",
      *                  type="string"
@@ -97,6 +101,7 @@ class AuditAPIController extends AppBaseController
      *      tags={"Audit"},
      *      description="Get Audit",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Audit",
@@ -104,11 +109,14 @@ class AuditAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"

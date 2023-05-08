@@ -54,11 +54,14 @@ class ApplicationAPIController extends AppBaseController
      *      tags={"Application"},
      *      description="Get all Applications",
      *      produces={"application/json"},
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -66,8 +69,10 @@ class ApplicationAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @SWG\Items(ref="#/definitions/Application")
      *              ),
+     *
      *              @SWG\Property(
      *                  property="message",
      *                  type="string"
@@ -89,7 +94,6 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @param  CreateApplicationAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -98,18 +102,23 @@ class ApplicationAPIController extends AppBaseController
      *      tags={"Application"},
      *      description="Store Application",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
      *          description="Application that should be stored",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Application")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -145,6 +154,7 @@ class ApplicationAPIController extends AppBaseController
      *      tags={"Application"},
      *      description="Get Application",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Application",
@@ -152,11 +162,14 @@ class ApplicationAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -193,7 +206,7 @@ class ApplicationAPIController extends AppBaseController
         return $this->sendResponse(
             (new ApplicationResource($application))->additional([
                 'serviceInstances' => ServiceInstanceResource::collection($serviceInstances),
-                'countByEnv' => $countByEnv
+                'countByEnv' => $countByEnv,
             ]),
             Lang::get('application.show_confirm')
         );
@@ -201,7 +214,6 @@ class ApplicationAPIController extends AppBaseController
 
     /**
      * @param  int  $id
-     * @param  UpdateApplicationAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -210,6 +222,7 @@ class ApplicationAPIController extends AppBaseController
      *      tags={"Application"},
      *      description="Update Application",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Application",
@@ -222,13 +235,17 @@ class ApplicationAPIController extends AppBaseController
      *          in="body",
      *          description="Application that should be updated",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Application")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -271,6 +288,7 @@ class ApplicationAPIController extends AppBaseController
      *      tags={"Application"},
      *      description="Delete Application",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Application",
@@ -278,11 +296,14 @@ class ApplicationAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"

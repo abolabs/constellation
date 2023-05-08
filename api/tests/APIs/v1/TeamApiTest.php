@@ -41,7 +41,7 @@ class TeamApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $team->id
+            self::ROUTE_PREFIX.'/'.$team->id
         );
 
         $this->assertApiResponse($team->toArray());
@@ -57,7 +57,7 @@ class TeamApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX . '/' . $team->id,
+            self::ROUTE_PREFIX.'/'.$team->id,
             $editedTeam
         );
 
@@ -73,13 +73,13 @@ class TeamApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX . '/' . $team->id
+            self::ROUTE_PREFIX.'/'.$team->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $team->id
+            self::ROUTE_PREFIX.'/'.$team->id
         );
 
         $this->response->assertStatus(404);

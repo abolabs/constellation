@@ -41,7 +41,7 @@ class ServiceApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $service->id
+            self::ROUTE_PREFIX.'/'.$service->id
         );
 
         $this->assertApiResponse($service->toArray());
@@ -57,7 +57,7 @@ class ServiceApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX . '/' . $service->id,
+            self::ROUTE_PREFIX.'/'.$service->id,
             $editedService
         );
 
@@ -73,13 +73,13 @@ class ServiceApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX . '/' . $service->id
+            self::ROUTE_PREFIX.'/'.$service->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $service->id
+            self::ROUTE_PREFIX.'/'.$service->id
         );
 
         $this->response->assertStatus(404);

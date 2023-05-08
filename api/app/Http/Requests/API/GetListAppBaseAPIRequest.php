@@ -41,10 +41,10 @@ class GetListAppBaseAPIRequest extends FormRequest
     {
         return [
             'perPage' => ['nullable', Rule::in([5, 10, 25, 100, 1000])],
-            'page'    => 'nullable|numeric',
-            'sort'    => 'nullable|string',
-            'filter'  => 'nullable|array',
-            'q'       => 'nullable|string',
+            'page' => 'nullable|numeric',
+            'sort' => 'nullable|string',
+            'filter' => 'nullable|array',
+            'q' => 'nullable|string',
         ];
     }
 }

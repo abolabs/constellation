@@ -87,7 +87,7 @@ class InfraController extends Controller
         $nodesData = [];
 
         $instanceByApplicationsQuery = ServiceInstance::select('application_id')->with(['application'])
-                            ->where('environnement_id', $request->environnement_id);
+            ->where('environnement_id', $request->environnement_id);
 
         // app filter
         if (! empty($request->application_id)) {
@@ -107,7 +107,7 @@ class InfraController extends Controller
             $nodesData[] = (object) [
                 'group' => 'nodes',
                 'data' => (object) [
-                    'id' =>  'application_' . $instanceByApplication->application->id,
+                    'id' => 'application_'.$instanceByApplication->application->id,
                     'name' => $instanceByApplication->application->name,
                 ],
                 'classes' => 'serviceInstance',
@@ -115,22 +115,22 @@ class InfraController extends Controller
         }
 
         $depByApp = ServiceInstanceDependencies::select(['source.application_id as source_app_id', 'target.application_id as target_app_id', 'level'])
-        ->join('service_instance as source', function ($query) use ($request) {
-            $query->on('source.id', '=', 'service_instance_dep.instance_id');
+            ->join('service_instance as source', function ($query) use ($request) {
+                $query->on('source.id', '=', 'service_instance_dep.instance_id');
 
-            $query->where('source.environnement_id', $request->environnement_id);
-            if (! empty($request->application_id)) {
-                $query->whereIn('source.application_id', $request->application_id);
-            }
-        })
-        ->join('service_instance as target', function ($query) use ($request) {
-            $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
+                $query->where('source.environnement_id', $request->environnement_id);
+                if (! empty($request->application_id)) {
+                    $query->whereIn('source.application_id', $request->application_id);
+                }
+            })
+            ->join('service_instance as target', function ($query) use ($request) {
+                $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
 
-            $query->where('target.environnement_id', $request->environnement_id);
-            if (! empty($request->application_id)) {
-                $query->whereIn('target.application_id', $request->application_id);
-            }
-        });
+                $query->where('target.environnement_id', $request->environnement_id);
+                if (! empty($request->application_id)) {
+                    $query->whereIn('target.application_id', $request->application_id);
+                }
+            });
         if (! empty($request->team_id)) {
             $depByApp->whereHas('serviceInstance.application', function (Builder $query) use ($request) {
                 $query->whereIn('team_id', $request->team_id);
@@ -141,18 +141,18 @@ class InfraController extends Controller
             $depByApp->whereIn('target.application_id', $request->application_id);
         }
         $appDeps = $depByApp->whereRaw('source.application_id != target.application_id')
-                ->groupBy(['source.application_id', 'target.application_id', 'level'])->orderBy('level', 'desc')->get();
+            ->groupBy(['source.application_id', 'target.application_id', 'level'])->orderBy('level', 'desc')->get();
 
         foreach ($appDeps as $appDep) {
             // add dependencies
             $nodesData[] = (object) [
                 'group' => 'edges',
                 'data' => (object) [
-                    'id' =>  'dep_' . $appDep->source_app_id . '_' . $appDep->target_app_id,
-                    'source' => 'application_' . $appDep->source_app_id,
-                    'target' => 'application_' . $appDep->target_app_id,
+                    'id' => 'dep_'.$appDep->source_app_id.'_'.$appDep->target_app_id,
+                    'source' => 'application_'.$appDep->source_app_id,
+                    'target' => 'application_'.$appDep->target_app_id,
                 ],
-                'classes' => 'level_' . $appDep->level,
+                'classes' => 'level_'.$appDep->level,
             ];
         }
 
@@ -167,7 +167,7 @@ class InfraController extends Controller
         $nodesData = [];
 
         $instanceByApplicationsQuery = ServiceInstance::select('application_id')->with('application')
-                            ->where('environnement_id', $request->environnement_id);
+            ->where('environnement_id', $request->environnement_id);
 
         // app filter
         if (! empty($request->application_id)) {
@@ -187,14 +187,14 @@ class InfraController extends Controller
             $nodesData[] = (object) [
                 'group' => 'nodes',
                 'data' => (object) [
-                    'id' =>  'application_' . $instanceByApplication->application->id,
+                    'id' => 'application_'.$instanceByApplication->application->id,
                     'name' => $instanceByApplication->application->name,
                 ],
                 'classes' => 'application container',
             ];
         }
         $instancesQuery = ServiceInstance::with('serviceVersion', 'application', 'hosting')
-                        ->where('environnement_id', $request->environnement_id);
+            ->where('environnement_id', $request->environnement_id);
 
         // app filter
         if (! empty($request->application_id)) {
@@ -223,10 +223,10 @@ class InfraController extends Controller
                     $tag = $serviceInstance->hosting->name;
                     break;
                 case 'version':
-                    $tag = 'v' . $serviceInstance->serviceVersion->version;
+                    $tag = 'v'.$serviceInstance->serviceVersion->version;
                     break;
                 default:
-                    $tag = "";
+                    $tag = '';
                     break;
             }
 
@@ -234,12 +234,12 @@ class InfraController extends Controller
             $nodesData[] = (object) [
                 'group' => 'nodes',
                 'data' => (object) [
-                    'id' =>  'serviceInstance_' . $serviceInstance->id,
+                    'id' => 'serviceInstance_'.$serviceInstance->id,
                     'name' => $serviceInstance->serviceVersion->service->name,
                     'tag' => $tag,
-                    'parent' => 'application_' . $serviceInstance->application->id,
+                    'parent' => 'application_'.$serviceInstance->application->id,
                 ],
-                'classes' => 'serviceInstance ' . $classStatut,
+                'classes' => 'serviceInstance '.$classStatut,
             ];
 
             $appDependencies = $this->getServiceInstanceDependencies($request, $serviceInstance);
@@ -257,7 +257,7 @@ class InfraController extends Controller
         $nodesData = [];
 
         $instanceByHostingsQuery = ServiceInstance::select('hosting_id')->with('hosting')
-                            ->where('environnement_id', $request->environnement_id);
+            ->where('environnement_id', $request->environnement_id);
         // app filter
         if (! empty($request->application_id)) {
             $instanceByHostingsQuery->whereIn('application_id', $request->application_id);
@@ -276,14 +276,14 @@ class InfraController extends Controller
             $nodesData[] = (object) [
                 'group' => 'nodes',
                 'data' => (object) [
-                    'id' =>  'hosting_' . $instanceByHosting->hosting->id,
+                    'id' => 'hosting_'.$instanceByHosting->hosting->id,
                     'name' => $instanceByHosting->hosting->name,
                 ],
                 'classes' => 'hosting container',
             ];
         }
         $instancesQuery = ServiceInstance::with('serviceVersion', 'application')
-                        ->where('environnement_id', $request->environnement_id);
+            ->where('environnement_id', $request->environnement_id);
         // app filter
         if (! empty($request->application_id)) {
             $instancesQuery->whereIn('application_id', $request->application_id);
@@ -307,10 +307,10 @@ class InfraController extends Controller
                     $tag = $serviceInstance->application->name;
                     break;
                 case 'version':
-                    $tag = 'v' . $serviceInstance->serviceVersion->version;
+                    $tag = 'v'.$serviceInstance->serviceVersion->version;
                     break;
                 default:
-                    $tag = "";
+                    $tag = '';
                     break;
             }
 
@@ -323,12 +323,12 @@ class InfraController extends Controller
             $nodesData[] = (object) [
                 'group' => 'nodes',
                 'data' => (object) [
-                    'id' =>  'serviceInstance_' . $serviceInstance->id,
+                    'id' => 'serviceInstance_'.$serviceInstance->id,
                     'name' => $serviceInstance->serviceVersion->service->name,
                     'tag' => $tag,
-                    'parent' => 'hosting_' . $serviceInstance->hosting->id,
+                    'parent' => 'hosting_'.$serviceInstance->hosting->id,
                 ],
-                'classes' => 'serviceInstance ' . $classStatut,
+                'classes' => 'serviceInstance '.$classStatut,
             ];
 
             $appDependencies = $this->getServiceInstanceDependencies($request, $serviceInstance);
@@ -340,11 +340,6 @@ class InfraController extends Controller
 
     /**
      * Generate edges data.
-     *
-     * @param  array  &$nodesData
-     * @param  iterable  $appDependencies
-     * @param  ServiceInstance  $serviceInstance
-     * @return void
      */
     private function generateEdges(array &$nodesData, iterable $appDependencies, ServiceInstance $serviceInstance): void
     {
@@ -353,11 +348,11 @@ class InfraController extends Controller
             $nodesData[] = (object) [
                 'group' => 'edges',
                 'data' => (object) [
-                    'id' =>  'dep_' . $serviceInstance->id . '_' . $appDep->id,
-                    'source' => 'serviceInstance_' . $serviceInstance->id,
-                    'target' => 'serviceInstance_' . $appDep->instance_dep_id,
+                    'id' => 'dep_'.$serviceInstance->id.'_'.$appDep->id,
+                    'source' => 'serviceInstance_'.$serviceInstance->id,
+                    'target' => 'serviceInstance_'.$appDep->instance_dep_id,
                 ],
-                'classes' => 'level_' . $appDep->level,
+                'classes' => 'level_'.$appDep->level,
             ];
         }
     }
@@ -378,24 +373,25 @@ class InfraController extends Controller
                 $query->whereIn('source.hosting_id', $request->hosting_id);
             }
         })
-        ->join('service_instance as target', function ($query) use ($request) {
-            $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
+            ->join('service_instance as target', function ($query) use ($request) {
+                $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
 
-            $query->where('target.environnement_id', $request->environnement_id);
-            if (! empty($request->application_id)) {
-                $query->whereIn('target.application_id', $request->application_id);
-            }
-            if (! empty($request->hosting_id)) {
-                $query->whereIn('target.hosting_id', $request->hosting_id);
-            }
-        })
-        ->where('instance_id', $serviceInstance->id);
+                $query->where('target.environnement_id', $request->environnement_id);
+                if (! empty($request->application_id)) {
+                    $query->whereIn('target.application_id', $request->application_id);
+                }
+                if (! empty($request->hosting_id)) {
+                    $query->whereIn('target.hosting_id', $request->hosting_id);
+                }
+            })
+            ->where('instance_id', $serviceInstance->id);
 
         if (! empty($request->team_id)) {
             $depQuery->whereHas('serviceInstance.application', function (Builder $query) use ($request) {
                 $query->whereIn('team_id', $request->team_id);
             });
         }
+
         return $depQuery->get();
     }
 }

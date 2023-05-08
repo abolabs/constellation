@@ -40,7 +40,6 @@ class ServiceController extends AppBaseController
     /**
      * Display a listing of the Service.
      *
-     * @param  ServiceDataTable  $serviceDataTable
      * @return Response
      */
     public function index(ServiceDataTable $serviceDataTable)
@@ -61,7 +60,6 @@ class ServiceController extends AppBaseController
     /**
      * Store a newly created Service in storage.
      *
-     * @param  CreateServiceRequest  $request
      * @return Response
      */
     public function store(CreateServiceRequest $request)
@@ -78,7 +76,6 @@ class ServiceController extends AppBaseController
     /**
      * Display the specified Service.
      *
-     * @param  Service  $service
      * @return Response
      */
     public function show(Service $service)
@@ -110,7 +107,6 @@ class ServiceController extends AppBaseController
     /**
      * Show the form for editing the specified Service.
      *
-     * @param  Service  $service
      * @return Response
      */
     public function edit(Service $service)
@@ -127,8 +123,6 @@ class ServiceController extends AppBaseController
     /**
      * Update the specified Service in storage.
      *
-     * @param  Service  $service
-     * @param  UpdateServiceRequest  $request
      * @return Response
      */
     public function update(Service $service, UpdateServiceRequest $request)
@@ -149,7 +143,6 @@ class ServiceController extends AppBaseController
     /**
      * Remove the specified Service from storage.
      *
-     * @param  Service  $service
      * @return Response
      */
     public function destroy(Service $service)

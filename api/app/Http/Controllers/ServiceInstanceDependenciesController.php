@@ -24,8 +24,8 @@ use App\Models\ServiceInstanceDependencies;
 use App\Repositories\ServiceInstanceDependenciesRepository;
 use Flash;
 use Illuminate\Http\Request;
-use Response;
 use Lang;
+use Response;
 
 class ServiceInstanceDependenciesController extends AppBaseController
 {
@@ -40,7 +40,6 @@ class ServiceInstanceDependenciesController extends AppBaseController
     /**
      * Display a listing of the ServiceInstanceDependencies.
      *
-     * @param  ServiceInstanceDependenciesDataTable  $serviceInstanceDependenciesDataTable
      * @return Response
      */
     public function index(ServiceInstanceDependenciesDataTable $serviceInstanceDependenciesDataTable)
@@ -65,7 +64,6 @@ class ServiceInstanceDependenciesController extends AppBaseController
     /**
      * Store a newly created ServiceInstanceDependencies in storage.
      *
-     * @param  CreateServiceInstanceDependenciesRequest  $request
      * @return Response
      */
     public function store(CreateServiceInstanceDependenciesRequest $request)
@@ -87,7 +85,6 @@ class ServiceInstanceDependenciesController extends AppBaseController
     /**
      * Display the specified ServiceInstanceDependencies.
      *
-     * @param  int  $id
      * @return Response
      */
     public function show(int $id)
@@ -107,7 +104,6 @@ class ServiceInstanceDependenciesController extends AppBaseController
     /**
      * Show the form for editing the specified ServiceInstanceDependencies.
      *
-     * @param  int  $id
      * @return Response
      */
     public function edit(int $id)
@@ -129,8 +125,6 @@ class ServiceInstanceDependenciesController extends AppBaseController
     /**
      * Update the specified ServiceInstanceDependencies in storage.
      *
-     * @param  int  $id
-     * @param  UpdateServiceInstanceDependenciesRequest  $request
      * @return Response
      */
     public function update(int $id, UpdateServiceInstanceDependenciesRequest $request)
@@ -159,7 +153,6 @@ class ServiceInstanceDependenciesController extends AppBaseController
     /**
      * Remove the specified ServiceInstanceDependencies from storage.
      *
-     * @param  int  $id
      * @return Response
      */
     public function destroy(Request $request, int $id)

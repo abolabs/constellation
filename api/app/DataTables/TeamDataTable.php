@@ -49,7 +49,6 @@ class TeamDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param  \App\Models\Team  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Team $model)
@@ -67,18 +66,18 @@ class TeamDataTable extends AbstractCommonDatatable
         return [
             'id' => new Column([
                 'title' => Lang::get('infra.id'),
-                'data'  => 'id',
-                'name'  => 'id',
+                'data' => 'id',
+                'name' => 'id',
             ]),
             'name' => new Column([
                 'title' => Lang::get('infra.name'),
-                'data'  => 'name',
-                'name'  => 'name',
+                'data' => 'name',
+                'name' => 'name',
             ]),
             'manager' => new Column([
                 'title' => Lang::get('infra.manager'),
-                'data'  => 'manager',
-                'name'  => 'manager',
+                'data' => 'manager',
+                'name' => 'manager',
             ]),
         ];
     }
@@ -90,6 +89,6 @@ class TeamDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'teams_datatable_' . time();
+        return 'teams_datatable_'.time();
     }
 }

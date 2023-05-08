@@ -20,28 +20,25 @@ namespace App\Http\Utils;
 class ResponseUtil
 {
     /**
-     * @param string $message
-     * @param mixed  $data
-     *
+     * @param  mixed  $data
      * @return array
      */
-    public static function makeResponse(string $message, $data, ?int $total=null)
+    public static function makeResponse(string $message, $data, ?int $total = null)
     {
         $response = [
             'success' => true,
-            'data'    => $data,
+            'data' => $data,
             'message' => $message,
         ];
-        if (!is_null($total)) {
+        if (! is_null($total)) {
             $response['total'] = $total;
         }
+
         return $response;
     }
 
     /**
-     * @param string $message
-     * @param array  $data
-     *
+     * @param  string  $message
      * @return array
      */
     public static function makeError($message, array $data = [])
@@ -51,7 +48,7 @@ class ResponseUtil
             'message' => $message,
         ];
 
-        if (!empty($data)) {
+        if (! empty($data)) {
             $res['data'] = $data;
         }
 

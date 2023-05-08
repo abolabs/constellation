@@ -40,7 +40,6 @@ class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param  \App\Models\ServiceVersionDependencies  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ServiceVersionDependencies $model)
@@ -58,28 +57,28 @@ class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
         return [
             'id' => new Column([
                 'title' => Lang::get('infra.id'),
-                'data'  => 'service_version.id',
-                'name'  => 'serviceVersion.id',
+                'data' => 'service_version.id',
+                'name' => 'serviceVersion.id',
             ]),
             'service_version_name' => new Column([
-                'title' => '# ' . Lang::get('infra.service'),
-                'data'  => 'service_version.service.name',
-                'name'  => 'serviceVersion.service.name',
+                'title' => '# '.Lang::get('infra.service'),
+                'data' => 'service_version.service.name',
+                'name' => 'serviceVersion.service.name',
             ]),
             'service_version' => new Column([
                 'title' => Lang::get('infra.service'),
-                'data'  => 'service_version.version',
-                'name'  => 'serviceVersion.version',
+                'data' => 'service_version.version',
+                'name' => 'serviceVersion.version',
             ]),
             'service_version_dependency_id' => new Column([
-                'title' => '# ' . Lang::get('infra.service_dependency'),
-                'data'  => 'service_version_dep.service.name',
-                'name'  => 'serviceVersionDep.service.name',
+                'title' => '# '.Lang::get('infra.service_dependency'),
+                'data' => 'service_version_dep.service.name',
+                'name' => 'serviceVersionDep.service.name',
             ]),
             'service_version_dependency' => new Column([
                 'title' => Lang::get('infra.service_dependency'),
-                'data'  => 'service_version_dep.version',
-                'name'  => 'serviceVersionDep.version',
+                'data' => 'service_version_dep.version',
+                'name' => 'serviceVersionDep.version',
             ]),
         ];
     }
@@ -91,6 +90,6 @@ class ServiceVersionDependenciesDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'service_version_dependencies_datatable_' . time();
+        return 'service_version_dependencies_datatable_'.time();
     }
 }

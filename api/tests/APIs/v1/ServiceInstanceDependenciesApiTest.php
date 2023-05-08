@@ -41,7 +41,7 @@ class ServiceInstanceDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $serviceInstanceDependencies->id
+            self::ROUTE_PREFIX.'/'.$serviceInstanceDependencies->id
         );
 
         $this->assertApiResponse($serviceInstanceDependencies->toArray());
@@ -57,7 +57,7 @@ class ServiceInstanceDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX . '/' . $serviceInstanceDependencies->id,
+            self::ROUTE_PREFIX.'/'.$serviceInstanceDependencies->id,
             $editedServiceInstanceDependencies
         );
 
@@ -73,13 +73,13 @@ class ServiceInstanceDependenciesApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX . '/' . $serviceInstanceDependencies->id
+            self::ROUTE_PREFIX.'/'.$serviceInstanceDependencies->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $serviceInstanceDependencies->id
+            self::ROUTE_PREFIX.'/'.$serviceInstanceDependencies->id
         );
 
         $this->response->assertStatus(404);

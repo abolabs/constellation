@@ -41,7 +41,6 @@ class ServiceVersionController extends AppBaseController
     /**
      * Display a listing of the ServiceVersion.
      *
-     * @param  ServiceVersionDataTable  $serviceVersionDataTable
      * @return Response
      */
     public function index(ServiceVersionDataTable $serviceVersionDataTable)
@@ -62,7 +61,6 @@ class ServiceVersionController extends AppBaseController
     /**
      * Store a newly created ServiceVersion in storage.
      *
-     * @param  CreateServiceVersionRequest  $request
      * @return Response
      */
     public function store(CreateServiceVersionRequest $request)
@@ -86,7 +84,6 @@ class ServiceVersionController extends AppBaseController
     /**
      * Display the specified ServiceVersion.
      *
-     * @param  ServiceVersion  $serviceVersion
      * @return Response
      */
     public function show(ServiceVersion $serviceVersion)
@@ -103,7 +100,6 @@ class ServiceVersionController extends AppBaseController
     /**
      * Show the form for editing the specified ServiceVersion.
      *
-     * @param  ServiceVersion  $serviceVersion
      * @return Response
      */
     public function edit(ServiceVersion $serviceVersion)
@@ -120,8 +116,6 @@ class ServiceVersionController extends AppBaseController
     /**
      * Update the specified ServiceVersion in storage.
      *
-     * @param  ServiceVersion  $serviceVersion
-     * @param  UpdateServiceVersionRequest  $request
      * @return Response
      */
     public function update(ServiceVersion $serviceVersion, UpdateServiceVersionRequest $request)
@@ -142,7 +136,6 @@ class ServiceVersionController extends AppBaseController
     /**
      * Remove the specified ServiceVersion from storage.
      *
-     * @param  ServiceVersion  $serviceVersion
      * @return Response
      */
     public function destroy(ServiceVersion $serviceVersion, Request $request)
