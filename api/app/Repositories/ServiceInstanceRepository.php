@@ -36,7 +36,7 @@ class ServiceInstanceRepository extends BaseRepository
         'service_version_id',
         'environnement_id',
         'url',
-        'statut'
+        'statut',
     ];
 
     /**

@@ -23,8 +23,8 @@ use App\Http\Requests\UpdateEnvironnementRequest;
 use App\Models\Environnement;
 use App\Repositories\EnvironnementRepository;
 use Flash;
-use Response;
 use Lang;
+use Response;
 
 class EnvironnementController extends AppBaseController
 {
@@ -40,7 +40,6 @@ class EnvironnementController extends AppBaseController
     /**
      * Display a listing of the Environnement.
      *
-     * @param  EnvironnementDataTable  $environnementDataTable
      * @return Response
      */
     public function index(EnvironnementDataTable $environnementDataTable)
@@ -61,7 +60,6 @@ class EnvironnementController extends AppBaseController
     /**
      * Store a newly created Environnement in storage.
      *
-     * @param  CreateEnvironnementRequest  $request
      * @return Response
      */
     public function store(CreateEnvironnementRequest $request)
@@ -78,7 +76,6 @@ class EnvironnementController extends AppBaseController
     /**
      * Display the specified Environnement.
      *
-     * @param  Environnement  $environnement
      * @return Response
      */
     public function show(Environnement $environnement)
@@ -95,7 +92,6 @@ class EnvironnementController extends AppBaseController
     /**
      * Show the form for editing the specified Environnement.
      *
-     * @param  Environnement  $environnement
      * @return Response
      */
     public function edit(Environnement $environnement)
@@ -112,8 +108,6 @@ class EnvironnementController extends AppBaseController
     /**
      * Update the specified Environnement in storage.
      *
-     * @param  Environnement  $environnement
-     * @param  UpdateEnvironnementRequest  $request
      * @return Response
      */
     public function update(Environnement $environnement, UpdateEnvironnementRequest $request)
@@ -134,7 +128,6 @@ class EnvironnementController extends AppBaseController
     /**
      * Remove the specified Environnement from storage.
      *
-     * @param  Environnement  $environnement
      * @return Response
      */
     public function destroy(Environnement $environnement)

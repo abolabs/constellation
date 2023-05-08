@@ -24,8 +24,8 @@ use App\Http\Resources\HostingTypeResource;
 use App\Models\HostingType;
 use App\Repositories\HostingTypeRepository;
 use Illuminate\Http\Request;
-use Response;
 use Lang;
+use Response;
 
 /**
  * Class HostingTypeController.
@@ -41,7 +41,6 @@ class HostingTypeAPIController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -50,11 +49,14 @@ class HostingTypeAPIController extends AppBaseController
      *      tags={"HostingType"},
      *      description="Get all HostingTypes",
      *      produces={"application/json"},
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -62,8 +64,10 @@ class HostingTypeAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @SWG\Items(ref="#/definitions/HostingType")
      *              ),
+     *
      *              @SWG\Property(
      *                  property="message",
      *                  type="string"
@@ -85,7 +89,6 @@ class HostingTypeAPIController extends AppBaseController
     }
 
     /**
-     * @param  CreateHostingTypeAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -94,18 +97,23 @@ class HostingTypeAPIController extends AppBaseController
      *      tags={"HostingType"},
      *      description="Store HostingType",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
      *          description="HostingType that should be stored",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/HostingType")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -141,6 +149,7 @@ class HostingTypeAPIController extends AppBaseController
      *      tags={"HostingType"},
      *      description="Get HostingType",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of HostingType",
@@ -148,11 +157,14 @@ class HostingTypeAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -183,7 +195,6 @@ class HostingTypeAPIController extends AppBaseController
 
     /**
      * @param  int  $id
-     * @param  UpdateHostingTypeAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -192,6 +203,7 @@ class HostingTypeAPIController extends AppBaseController
      *      tags={"HostingType"},
      *      description="Update HostingType",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of HostingType",
@@ -204,13 +216,17 @@ class HostingTypeAPIController extends AppBaseController
      *          in="body",
      *          description="HostingType that should be updated",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/HostingType")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -253,6 +269,7 @@ class HostingTypeAPIController extends AppBaseController
      *      tags={"HostingType"},
      *      description="Delete HostingType",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of HostingType",
@@ -260,11 +277,14 @@ class HostingTypeAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"

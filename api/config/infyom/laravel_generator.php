@@ -11,45 +11,45 @@ return [
 
     'path' => [
 
-        'migration'         => database_path('migrations/'),
+        'migration' => database_path('migrations/'),
 
-        'model'             => app_path('Models/'),
+        'model' => app_path('Models/'),
 
-        'datatables'        => app_path('DataTables/'),
+        'datatables' => app_path('DataTables/'),
 
-        'repository'        => app_path('Repositories/'),
+        'repository' => app_path('Repositories/'),
 
-        'routes'            => base_path('routes/web.php'),
+        'routes' => base_path('routes/web.php'),
 
-        'api_routes'        => base_path('routes/api.php'),
+        'api_routes' => base_path('routes/api.php'),
 
-        'request'           => app_path('Http/Requests/'),
+        'request' => app_path('Http/Requests/'),
 
-        'api_request'       => app_path('Http/Requests/API/'),
+        'api_request' => app_path('Http/Requests/API/'),
 
-        'controller'        => app_path('Http/Controllers/'),
+        'controller' => app_path('Http/Controllers/'),
 
-        'api_controller'    => app_path('Http/Controllers/API/'),
+        'api_controller' => app_path('Http/Controllers/API/'),
 
-        'repository_test'   => base_path('tests/Repositories/'),
+        'repository_test' => base_path('tests/Repositories/'),
 
-        'api_test'          => base_path('tests/APIs/'),
+        'api_test' => base_path('tests/APIs/'),
 
-        'tests'             => base_path('tests/'),
+        'tests' => base_path('tests/'),
 
-        'views'             => resource_path('views/'),
+        'views' => resource_path('views/'),
 
-        'schema_files'      => resource_path('model_schemas/'),
+        'schema_files' => resource_path('model_schemas/'),
 
-        'templates_dir'     => resource_path('infyom/infyom-generator-templates/'),
+        'templates_dir' => resource_path('infyom/infyom-generator-templates/'),
 
-        'seeder'            => database_path('seeders/'),
+        'seeder' => database_path('seeders/'),
 
-        'database_seeder'   => database_path('seeders/DatabaseSeeder.php'),
+        'database_seeder' => database_path('seeders/DatabaseSeeder.php'),
 
-        'factory'           => database_path('factories/'),
+        'factory' => database_path('factories/'),
 
-        'view_provider'     => app_path('Providers/ViewServiceProvider.php'),
+        'view_provider' => app_path('Providers/ViewServiceProvider.php'),
     ],
 
     /*
@@ -61,29 +61,29 @@ return [
 
     'namespace' => [
 
-        'model'             => 'App\Models',
+        'model' => 'App\Models',
 
-        'datatables'        => 'App\DataTables',
+        'datatables' => 'App\DataTables',
 
-        'repository'        => 'App\Repositories',
+        'repository' => 'App\Repositories',
 
-        'controller'        => 'App\Http\Controllers',
+        'controller' => 'App\Http\Controllers',
 
-        'api_controller'    => 'App\Http\Controllers\API',
+        'api_controller' => 'App\Http\Controllers\API',
 
-        'request'           => 'App\Http\Requests',
+        'request' => 'App\Http\Requests',
 
-        'api_request'       => 'App\Http\Requests\API',
+        'api_request' => 'App\Http\Requests\API',
 
-        'seeder'            => 'Database\Seeders',
+        'seeder' => 'Database\Seeders',
 
-        'factory'           => 'Database\Factories',
+        'factory' => 'Database\Factories',
 
-        'repository_test'   => 'Tests\Repositories',
+        'repository_test' => 'Tests\Repositories',
 
-        'api_test'          => 'Tests\APIs',
+        'api_test' => 'Tests\APIs',
 
-        'tests'             => 'Tests',
+        'tests' => 'Tests',
     ],
 
     /*
@@ -93,7 +93,7 @@ return [
     |
     */
 
-    'templates'         => 'coreui-templates',
+    'templates' => 'coreui-templates',
 
     /*
     |--------------------------------------------------------------------------
@@ -111,7 +111,7 @@ return [
     |
     */
 
-    'api_prefix'  => 'api',
+    'api_prefix' => 'api',
 
     'api_version' => 'v1',
 
@@ -164,17 +164,17 @@ return [
 
     'add_on' => [
 
-        'swagger'       => false,
+        'swagger' => false,
 
-        'tests'         => true,
+        'tests' => true,
 
-        'datatables'    => false,
+        'datatables' => false,
 
-        'menu'          => [
+        'menu' => [
 
-            'enabled'       => true,
+            'enabled' => true,
 
-            'menu_file'     => 'layouts/menu.blade.php',
+            'menu_file' => 'layouts/menu.blade.php',
         ],
     ],
 
@@ -187,13 +187,13 @@ return [
 
     'timestamps' => [
 
-        'enabled'       => true,
+        'enabled' => true,
 
-        'created_at'    => 'created_at',
+        'created_at' => 'created_at',
 
-        'updated_at'    => 'updated_at',
+        'updated_at' => 'updated_at',
 
-        'deleted_at'    => 'deleted_at',
+        'deleted_at' => 'deleted_at',
     ],
 
     /*

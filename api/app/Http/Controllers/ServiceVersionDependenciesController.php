@@ -59,7 +59,6 @@ class ServiceVersionDependenciesController extends AppBaseController
     /**
      * Store a newly created ServiceVersionDependencies in storage.
      *
-     * @param  CreateServiceVersionDependenciesRequest  $request
      * @return Response
      */
     public function store(CreateServiceVersionDependenciesRequest $request)
@@ -115,7 +114,6 @@ class ServiceVersionDependenciesController extends AppBaseController
      * Update the specified ServiceVersionDependencies in storage.
      *
      * @param  int  $id
-     * @param  UpdateServiceVersionDependenciesRequest  $request
      * @return Response
      */
     public function update($id, UpdateServiceVersionDependenciesRequest $request)

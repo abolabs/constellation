@@ -14,6 +14,6 @@ return [
     |
     */
     'claims' => [
-        CustomClaim::class
-    ]
+        CustomClaim::class,
+    ],
 ];

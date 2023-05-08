@@ -25,6 +25,7 @@ use MeiliSearch\Endpoints\Indexes;
 abstract class BaseRepository
 {
     public const DEFAULT_LIMIT = 100;
+
     /**
      * @var Model
      */
@@ -36,8 +37,6 @@ abstract class BaseRepository
     protected $app;
 
     /**
-     * @param  Application  $app
-     *
      * @throws \Exception
      */
     public function __construct(Application $app)
@@ -81,7 +80,6 @@ abstract class BaseRepository
     /**
      * Paginate records for scaffold.
      *
-     * @param  int  $perPage
      * @param  array  $columns
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
@@ -107,7 +105,7 @@ abstract class BaseRepository
         if (count($search)) {
             foreach ($search as $key => $value) {
                 if (in_array($key, $this->getFieldsSearchable())) {
-                    $query->orWhere($key, 'like', '%' . $value . '%');
+                    $query->orWhere($key, 'like', '%'.$value.'%');
                 }
             }
         }
@@ -142,15 +140,11 @@ abstract class BaseRepository
     /**
      * Retrieve all records with given filter criteria, with pagination
      *
-     * @param  array  $search
-     * @param  int|null  $perPage
-     * @param  int|null  $page
-     * @param  array  $columns
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
      */
     public function apiAll(array $search = [], ?int $perPage = self::DEFAULT_LIMIT, ?int $page = 0, ?string $order = null, array $columns = ['*'])
     {
-        $fullTextSearch = "";
+        $fullTextSearch = '';
         $filters = [];
         if (isset($search['filter'])) {
             if (isset($search['filter']['q'])) {
@@ -165,17 +159,17 @@ abstract class BaseRepository
 
             foreach ($excludeFilters as $filterKey => $excludedValue) {
                 if (is_array($excludedValue)) {
-                    $filters[] = $filterKey . " != '" . implode("' AND " . $filterKey . " != '", $excludedValue) . "'";
+                    $filters[] = $filterKey." != '".implode("' AND ".$filterKey." != '", $excludedValue)."'";
                 } else {
-                    $filters[$filterKey] =  $filterKey . " != '" . $excludedValue . "'";
+                    $filters[$filterKey] = $filterKey." != '".$excludedValue."'";
                 }
             }
 
             foreach ($search['filter'] as $filterKey => $searchValue) {
                 if (is_array($searchValue)) {
-                    $filters[] = $filterKey . " = '" . implode("' OR " . $filterKey . " = '", $searchValue) . "'";
+                    $filters[] = $filterKey." = '".implode("' OR ".$filterKey." = '", $searchValue)."'";
                 } else {
-                    $filters[$filterKey] =  $filterKey . " = '" . $searchValue . "'";
+                    $filters[$filterKey] = $filterKey." = '".$searchValue."'";
                 }
             }
         }
@@ -184,15 +178,16 @@ abstract class BaseRepository
             $query = $this->model->search($fullTextSearch, function (Indexes $index, $query, $options) use ($filters, $perPage) {
                 $options['filter'] = implode(' AND ', $filters);
                 $options['limit'] = $perPage ?? BaseRepository::DEFAULT_LIMIT;
+
                 return $index->rawSearch($query, $options);
             });
         } else {
             $query = $this->model->search($fullTextSearch);
         }
 
-        if (!is_null($order)) {
-            $orderConfig = explode("-", $order);
-            $orderType = count($orderConfig) > 1 ? "DESC" : "ASC";
+        if (! is_null($order)) {
+            $orderConfig = explode('-', $order);
+            $orderType = count($orderConfig) > 1 ? 'DESC' : 'ASC';
             $query->orderBy(end($orderConfig), $orderType);
         }
 

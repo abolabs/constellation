@@ -18,14 +18,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use OwenIt\Auditing\Contracts\Auditable;
 use Laravel\Scout\Searchable;
-use Spatie\Permission\Models\Permission;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @SWG\Definition(
  *      definition="Role",
  *      required={""},
+ *
  *      @SWG\Property(
  *          property="id",
  *          description="id",
@@ -66,7 +66,7 @@ class Role extends \Spatie\Permission\Models\Role implements Auditable
 
     public $fillable = [
         'name',
-        'guard_name'
+        'guard_name',
     ];
 
     /**

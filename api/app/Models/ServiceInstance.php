@@ -21,10 +21,10 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-use OwenIt\Auditing\Contracts\Auditable;
-use Laravel\Scout\Searchable;
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Attributes\SearchUsingPrefix;
+use Laravel\Scout\Searchable;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class ServiceInstance.
@@ -43,11 +43,8 @@ use Laravel\Scout\Attributes\SearchUsingPrefix;
 class ServiceInstance extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
-
     use SoftDeletes;
-
     use HasFactory;
-
     use Searchable;
 
     public $table = 'service_instance';
@@ -167,28 +164,25 @@ class ServiceInstance extends Model implements Auditable
             'hosting_id' => $this->hosting_id,
             'hosting_name' => $this->hosting->name,
             'role' => $this->role,
-            'statut' => $this->statut
+            'statut' => $this->statut,
         ];
     }
 
     /**
      * Get the most used environnement.
-     *
-     * @return array
      */
     public static function getMainEnvironnement(): array
     {
         try {
             $env = self::select('environnement_id', DB::raw('count(*) as total'))
-                    ->with('environnement')
-                    ->orderBy('total', 'desc')
-                    ->groupBy('environnement_id')
-                    ->first()
-                    ->toArray();
+                ->with('environnement')
+                ->orderBy('total', 'desc')
+                ->groupBy('environnement_id')
+                ->first()
+                ->toArray();
         } catch (\Throwable $e) {
-            \Log::debug(" getMainEnvironnement " . $e);
+            \Log::debug(' getMainEnvironnement '.$e);
         }
-
 
         if (empty($env)) {
             $tmpEnv = Environnement::first();

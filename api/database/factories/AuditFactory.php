@@ -39,7 +39,7 @@ class AuditFactory extends Factory
     {
         return [
             'user_type' => $this->faker->word,
-            'user_id' =>  function () {
+            'user_id' => function () {
                 return User::factory()->create()->id;
             },
             'event' => $this->faker->word,

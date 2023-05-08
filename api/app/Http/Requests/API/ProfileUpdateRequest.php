@@ -18,8 +18,8 @@
 namespace App\Http\Requests\API;
 
 use App\Models\User;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProfileUpdateRequest extends FormRequest
 {
@@ -44,11 +44,11 @@ class ProfileUpdateRequest extends FormRequest
 
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . \Auth::user()->id,
+            'email' => 'required|email|unique:users,email,'.\Auth::user()->id,
             'current-password' => [
                 Rule::requiredIf($this->email !== $user->email),
-                'current_password:api'
-            ]
+                'current_password:api',
+            ],
         ];
     }
 }

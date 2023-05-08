@@ -17,10 +17,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use DB;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
-use App\Models\Role;
 
 class RoleController extends Controller
 {
@@ -62,7 +62,6 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -76,7 +75,7 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
 
         return redirect()->route('roles.index')
-                        ->with('success', 'Role created successfully');
+            ->with('success', 'Role created successfully');
     }
 
     /**
@@ -115,7 +114,6 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -133,7 +131,7 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
 
         return redirect()->route('roles.index')
-                        ->with('success', 'Role updated successfully');
+            ->with('success', 'Role updated successfully');
     }
 
     /**
@@ -147,6 +145,6 @@ class RoleController extends Controller
         DB::table('roles')->where('id', $id)->delete();
 
         return redirect()->route('roles.index')
-                        ->with('success', 'Role deleted successfully');
+            ->with('success', 'Role deleted successfully');
     }
 }

@@ -41,7 +41,7 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $application->id
+            self::ROUTE_PREFIX.'/'.$application->id
         );
 
         $this->assertApiResponse($application->toArray());
@@ -57,7 +57,7 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX . '/' . $application->id,
+            self::ROUTE_PREFIX.'/'.$application->id,
             $editedApplication
         );
 
@@ -73,13 +73,13 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX . '/' . $application->id
+            self::ROUTE_PREFIX.'/'.$application->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX . '/' . $application->id
+            self::ROUTE_PREFIX.'/'.$application->id
         );
 
         $this->response->assertStatus(404);

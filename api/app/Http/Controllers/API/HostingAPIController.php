@@ -26,8 +26,8 @@ use App\Models\Hosting;
 use App\Models\ServiceInstance;
 use App\Repositories\HostingRepository;
 use Illuminate\Http\Request;
-use Response;
 use Lang;
+use Response;
 use Symfony\Component\HttpFoundation\Response as HttpCode;
 
 /**
@@ -44,7 +44,6 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -53,11 +52,14 @@ class HostingAPIController extends AppBaseController
      *      tags={"Hosting"},
      *      description="Get all Hostings",
      *      produces={"application/json"},
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -65,8 +67,10 @@ class HostingAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @SWG\Items(ref="#/definitions/Hosting")
      *              ),
+     *
      *              @SWG\Property(
      *                  property="message",
      *                  type="string"
@@ -88,7 +92,6 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param  CreateHostingAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -97,18 +100,23 @@ class HostingAPIController extends AppBaseController
      *      tags={"Hosting"},
      *      description="Store Hosting",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
      *          description="Hosting that should be stored",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Hosting")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -144,6 +152,7 @@ class HostingAPIController extends AppBaseController
      *      tags={"Hosting"},
      *      description="Get Hosting",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Hosting",
@@ -151,11 +160,14 @@ class HostingAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -185,7 +197,7 @@ class HostingAPIController extends AppBaseController
 
         return $this->sendResponse(
             (new HostingResource($hosting))->additional([
-                'serviceInstances' => ServiceInstanceResource::collection($serviceInstances)
+                'serviceInstances' => ServiceInstanceResource::collection($serviceInstances),
             ]),
             Lang::get('hosting.show_confirm')
         );
@@ -193,7 +205,6 @@ class HostingAPIController extends AppBaseController
 
     /**
      * @param  int  $id
-     * @param  UpdateHostingAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -202,6 +213,7 @@ class HostingAPIController extends AppBaseController
      *      tags={"Hosting"},
      *      description="Update Hosting",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Hosting",
@@ -214,13 +226,17 @@ class HostingAPIController extends AppBaseController
      *          in="body",
      *          description="Hosting that should be updated",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Hosting")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -263,6 +279,7 @@ class HostingAPIController extends AppBaseController
      *      tags={"Hosting"},
      *      description="Delete Hosting",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Hosting",
@@ -270,11 +287,14 @@ class HostingAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"

@@ -17,17 +17,17 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\UserDataTable;
+use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\StoreSettingsRequest;
+use App\Models\Role;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use DB;
+use Flash;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use App\Models\Role;
-use App\DataTables\UserDataTable;
-use App\Http\Requests\CreateUserRequest;
-use App\Repositories\UserRepository;
-use Flash;
 use Lang;
 
 class UserController extends AppBaseController
@@ -75,7 +75,7 @@ class UserController extends AppBaseController
         $user->update($input);
 
         return redirect()->route('user.settings')
-                        ->with('success', 'User updated successfully');
+            ->with('success', 'User updated successfully');
     }
 
     /**
@@ -112,7 +112,6 @@ class UserController extends AppBaseController
     /**
      * Display the specified resource.
      *
-     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -137,15 +136,13 @@ class UserController extends AppBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,'.$user->id,
             'password' => 'same:confirm-password',
             'roles' => 'required',
         ]);
@@ -163,7 +160,7 @@ class UserController extends AppBaseController
         $user->assignRole($request->input('roles'));
 
         return redirect()->route('users.index')
-                        ->with('success', 'User updated successfully');
+            ->with('success', 'User updated successfully');
     }
 
     /**
@@ -177,6 +174,6 @@ class UserController extends AppBaseController
         $user->delete();
 
         return redirect()->route('users.index')
-                        ->with('success', 'User deleted successfully');
+            ->with('success', 'User deleted successfully');
     }
 }

@@ -40,7 +40,6 @@ class TeamAPIController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -49,11 +48,14 @@ class TeamAPIController extends AppBaseController
      *      tags={"Team"},
      *      description="Get all Teams",
      *      produces={"application/json"},
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -61,8 +63,10 @@ class TeamAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @SWG\Items(ref="#/definitions/Team")
      *              ),
+     *
      *              @SWG\Property(
      *                  property="message",
      *                  type="string"
@@ -84,7 +88,6 @@ class TeamAPIController extends AppBaseController
     }
 
     /**
-     * @param  CreateTeamAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -93,18 +96,23 @@ class TeamAPIController extends AppBaseController
      *      tags={"Team"},
      *      description="Store Team",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
      *          description="Team that should be stored",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Team")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -140,6 +148,7 @@ class TeamAPIController extends AppBaseController
      *      tags={"Team"},
      *      description="Get Team",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Team",
@@ -147,11 +156,14 @@ class TeamAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -182,7 +194,6 @@ class TeamAPIController extends AppBaseController
 
     /**
      * @param  int  $id
-     * @param  UpdateTeamAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -191,6 +202,7 @@ class TeamAPIController extends AppBaseController
      *      tags={"Team"},
      *      description="Update Team",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Team",
@@ -203,13 +215,17 @@ class TeamAPIController extends AppBaseController
      *          in="body",
      *          description="Team that should be updated",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Team")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -252,6 +268,7 @@ class TeamAPIController extends AppBaseController
      *      tags={"Team"},
      *      description="Delete Team",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Team",
@@ -259,11 +276,14 @@ class TeamAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"

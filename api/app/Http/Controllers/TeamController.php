@@ -39,7 +39,6 @@ class TeamController extends AppBaseController
     /**
      * Display a listing of the Team.
      *
-     * @param  TeamDataTable  $teamDataTable
      * @return Response
      */
     public function index(TeamDataTable $teamDataTable)
@@ -60,7 +59,6 @@ class TeamController extends AppBaseController
     /**
      * Store a newly created Team in storage.
      *
-     * @param  CreateTeamRequest  $request
      * @return Response
      */
     public function store(CreateTeamRequest $request)
@@ -77,7 +75,6 @@ class TeamController extends AppBaseController
     /**
      * Display the specified Team.
      *
-     * @param  Team  $team
      * @return Response
      */
     public function show(Team $team)
@@ -94,7 +91,6 @@ class TeamController extends AppBaseController
     /**
      * Show the form for editing the specified Team.
      *
-     * @param  Team  $team
      * @return Response
      */
     public function edit(Team $team)
@@ -111,8 +107,6 @@ class TeamController extends AppBaseController
     /**
      * Update the specified Team in storage.
      *
-     * @param  Team  $team
-     * @param  UpdateTeamRequest  $request
      * @return Response
      */
     public function update(Team $team, UpdateTeamRequest $request)
@@ -133,7 +127,6 @@ class TeamController extends AppBaseController
     /**
      * Remove the specified Team from storage.
      *
-     * @param  Team  $team
      * @return Response
      */
     public function destroy(Team $team)

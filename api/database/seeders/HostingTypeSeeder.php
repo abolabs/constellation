@@ -30,7 +30,7 @@ class HostingTypeSeeder extends Seeder
     public function run()
     {
         $hosting_types = [[
-            'name'=> 'Cloud',
+            'name' => 'Cloud',
             'description' => 'Cloud hosting',
         ], [
             'name' => 'Dedicated server',

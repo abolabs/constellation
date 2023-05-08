@@ -40,7 +40,6 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -49,11 +48,14 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *      tags={"ServiceInstanceDependencies"},
      *      description="Get all ServiceInstanceDependencies",
      *      produces={"application/json"},
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -61,8 +63,10 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @SWG\Items(ref="#/definitions/ServiceInstanceDependencies")
      *              ),
+     *
      *              @SWG\Property(
      *                  property="message",
      *                  type="string"
@@ -84,7 +88,6 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
     }
 
     /**
-     * @param  CreateServiceInstanceDependenciesAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -93,18 +96,23 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *      tags={"ServiceInstanceDependencies"},
      *      description="Store ServiceInstanceDependencies",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
      *          description="ServiceInstanceDependencies that should be stored",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/ServiceInstanceDependencies")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -140,6 +148,7 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *      tags={"ServiceInstanceDependencies"},
      *      description="Get ServiceInstanceDependencies",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of ServiceInstanceDependencies",
@@ -147,11 +156,14 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -182,7 +194,6 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
 
     /**
      * @param  int  $id
-     * @param  UpdateServiceInstanceDependenciesAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -191,6 +202,7 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *      tags={"ServiceInstanceDependencies"},
      *      description="Update ServiceInstanceDependencies",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of ServiceInstanceDependencies",
@@ -203,13 +215,17 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *          in="body",
      *          description="ServiceInstanceDependencies that should be updated",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/ServiceInstanceDependencies")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -252,6 +268,7 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *      tags={"ServiceInstanceDependencies"},
      *      description="Delete ServiceInstanceDependencies",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of ServiceInstanceDependencies",
@@ -259,11 +276,14 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"

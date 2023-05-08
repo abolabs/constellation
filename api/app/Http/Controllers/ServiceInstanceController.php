@@ -62,7 +62,6 @@ class ServiceInstanceController extends AppBaseController
     /**
      * Store a newly created ServiceInstance in storage.
      *
-     * @param  CreateServiceInstanceRequest  $request
      * @return Response
      */
     public function store(CreateServiceInstanceRequest $request)
@@ -83,7 +82,6 @@ class ServiceInstanceController extends AppBaseController
     /**
      * Display the specified ServiceInstance.
      *
-     * @param  ServiceInstance  $serviceInstance
      * @return Response
      */
     public function show(ServiceInstance $serviceInstance)
@@ -115,15 +113,14 @@ class ServiceInstanceController extends AppBaseController
             )->get();
 
         return view('service_instances.show')
-                    ->with('serviceInstance', $serviceInstance)
-                    ->with('instanceDependencies', $instanceDependencies)
-                    ->with('instanceDependenciesSource', $instanceDependenciesSource);
+            ->with('serviceInstance', $serviceInstance)
+            ->with('instanceDependencies', $instanceDependencies)
+            ->with('instanceDependenciesSource', $instanceDependenciesSource);
     }
 
     /**
      * Show the form for editing the specified ServiceInstance.
      *
-     * @param  ServiceInstance  $serviceInstance
      * @return Response
      */
     public function edit(ServiceInstance $serviceInstance)
@@ -140,8 +137,6 @@ class ServiceInstanceController extends AppBaseController
     /**
      * Update the specified ServiceInstance in storage.
      *
-     * @param  ServiceInstance  $serviceInstance
-     * @param  UpdateServiceInstanceRequest  $request
      * @return Response
      */
     public function update(ServiceInstance $serviceInstance, UpdateServiceInstanceRequest $request)
@@ -165,7 +160,6 @@ class ServiceInstanceController extends AppBaseController
     /**
      * Remove the specified ServiceInstance from storage.
      *
-     * @param  ServiceInstance  $serviceInstance
      * @return Response
      *
      * @throws \Exception

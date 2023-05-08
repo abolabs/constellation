@@ -49,14 +49,13 @@ class ServiceInstanceDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param  \App\Models\ServiceInstance  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ServiceInstance $model)
     {
         return $model->newQuery()
-                ->with(['serviceVersion', 'serviceVersion.service', 'environnement', 'application', 'hosting'])
-                ->select(['service_instance.*']);
+            ->with(['serviceVersion', 'serviceVersion.service', 'environnement', 'application', 'hosting'])
+            ->select(['service_instance.*']);
     }
 
     /**
@@ -67,50 +66,50 @@ class ServiceInstanceDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'service_instance_id' =>  new Column([
+            'service_instance_id' => new Column([
                 'title' => Lang::get('infra.id'),
-                'data'  => 'id',
-                'name'  => 'service_instance.id',
+                'data' => 'id',
+                'name' => 'service_instance.id',
             ]),
             'application_name' => new Column([
                 'title' => Lang::get('infra.application'),
-                'data'  => 'application.name',
-                'name'  => 'application.name',
+                'data' => 'application.name',
+                'name' => 'application.name',
             ]),
             'service_name' => new Column([
                 'title' => Lang::get('infra.service_version'),
-                'data'  => 'service_version.service.name',
-                'name'  => 'serviceVersion.service.name',
+                'data' => 'service_version.service.name',
+                'name' => 'serviceVersion.service.name',
             ]),
             'service_version' => new Column([
                 'title' => Lang::get('infra.id'),
-                'data'  => 'service_version.version',
-                'name'  => 'serviceVersion.version',
+                'data' => 'service_version.version',
+                'name' => 'serviceVersion.version',
             ]),
             'environnement_name' => new Column([
                 'title' => Lang::get('infra.hosting'),
-                'data'  => 'environnement.name',
-                'name'  => 'environnement.name',
+                'data' => 'environnement.name',
+                'name' => 'environnement.name',
             ]),
             'hosting_name' => new Column([
                 'title' => Lang::get('infra.id'),
-                'data'  => 'hosting.name',
-                'name'  => 'hosting.name',
+                'data' => 'hosting.name',
+                'name' => 'hosting.name',
             ]),
-            'url' =>  new Column([
+            'url' => new Column([
                 'title' => Lang::get('infra.url'),
-                'data'  => 'url',
-                'name'  => 'service_instance.url',
+                'data' => 'url',
+                'name' => 'service_instance.url',
             ]),
-            'role' =>  new Column([
+            'role' => new Column([
                 'title' => Lang::get('infra.role'),
-                'data'  => 'role',
-                'name'  => 'service_instance.role',
+                'data' => 'role',
+                'name' => 'service_instance.role',
             ]),
             'statut' => new Column([
                 'title' => Lang::get('infra.status'),
-                'data'  => 'statut',
-                'name'  => 'service_instance.statut',
+                'data' => 'statut',
+                'name' => 'service_instance.statut',
                 'render' => 'window.DataTableRenderer.boolean("statut")',
             ]),
         ];
@@ -123,6 +122,6 @@ class ServiceInstanceDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'service_instances_datatable_' . time();
+        return 'service_instances_datatable_'.time();
     }
 }

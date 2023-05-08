@@ -23,8 +23,8 @@ use App\Http\Requests\UpdateHostingTypeRequest;
 use App\Models\HostingType;
 use App\Repositories\HostingTypeRepository;
 use Flash;
-use Response;
 use Lang;
+use Response;
 
 class HostingTypeController extends AppBaseController
 {
@@ -40,7 +40,6 @@ class HostingTypeController extends AppBaseController
     /**
      * Display a listing of the HostingType.
      *
-     * @param  HostingTypeDataTable  $hostingTypeDataTable
      * @return Response
      */
     public function index(HostingTypeDataTable $hostingTypeDataTable)
@@ -61,7 +60,6 @@ class HostingTypeController extends AppBaseController
     /**
      * Store a newly created HostingType in storage.
      *
-     * @param  CreateHostingTypeRequest  $request
      * @return Response
      */
     public function store(CreateHostingTypeRequest $request)
@@ -78,7 +76,6 @@ class HostingTypeController extends AppBaseController
     /**
      * Display the specified HostingType.
      *
-     * @param  HostingType  $hostingType
      * @return Response
      */
     public function show(HostingType $hostingType)
@@ -95,7 +92,6 @@ class HostingTypeController extends AppBaseController
     /**
      * Show the form for editing the specified HostingType.
      *
-     * @param  HostingType  $hostingType
      * @return Response
      */
     public function edit(HostingType $hostingType)
@@ -112,8 +108,6 @@ class HostingTypeController extends AppBaseController
     /**
      * Update the specified HostingType in storage.
      *
-     * @param  HostingType  $hostingType
-     * @param  UpdateHostingTypeRequest  $request
      * @return Response
      */
     public function update(HostingType $hostingType, UpdateHostingTypeRequest $request)
@@ -134,7 +128,6 @@ class HostingTypeController extends AppBaseController
     /**
      * Remove the specified HostingType from storage.
      *
-     * @param  HostingType  $hostingType
      * @return Response
      */
     public function destroy(HostingType $hostingType)

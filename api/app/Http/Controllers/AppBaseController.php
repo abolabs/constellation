@@ -25,6 +25,7 @@ use Response;
  *   schemes={"http"},
  *   host="localhost:8080",
  *   basePath="/api",
+ *
  *   @SWG\Info(
  *     title="Constellation APIs",
  *     version="1.0.0",
@@ -35,7 +36,7 @@ use Response;
  */
 class AppBaseController extends Controller
 {
-    public function sendResponse($result, $message, ?int $total=null)
+    public function sendResponse($result, $message, ?int $total = null)
     {
         return Response::json(ResponseUtil::makeResponse($message, $result, $total));
     }

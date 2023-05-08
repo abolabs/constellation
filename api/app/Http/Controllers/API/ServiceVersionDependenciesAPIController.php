@@ -43,7 +43,6 @@ class ServiceVersionDependenciesAPIController extends AppBaseController
      * Display a listing of the ServiceVersionDependencies.
      * GET|HEAD /serviceVersionDependencies.
      *
-     * @param  Request  $request
      * @return Response
      */
     public function index(Request $request)
@@ -61,7 +60,6 @@ class ServiceVersionDependenciesAPIController extends AppBaseController
      * Store a newly created ServiceVersionDependencies in storage.
      * POST /serviceVersionDependencies.
      *
-     * @param  CreateServiceVersionDependenciesAPIRequest  $request
      * @return Response
      */
     public function store(CreateServiceVersionDependenciesAPIRequest $request)
@@ -97,7 +95,6 @@ class ServiceVersionDependenciesAPIController extends AppBaseController
      * PUT/PATCH /serviceVersionDependencies/{id}.
      *
      * @param  int  $id
-     * @param  UpdateServiceVersionDependenciesAPIRequest  $request
      * @return Response
      */
     public function update($id, UpdateServiceVersionDependenciesAPIRequest $request)

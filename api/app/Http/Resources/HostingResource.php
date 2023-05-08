@@ -37,7 +37,7 @@ class HostingResource extends JsonResource
             'localisation' => $this->localisation,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'meta' => $this->additional
+            'meta' => $this->additional,
         ];
     }
 }

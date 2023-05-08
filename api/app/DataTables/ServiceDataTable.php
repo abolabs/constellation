@@ -49,7 +49,6 @@ class ServiceDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param  \App\Models\Service  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Service $model)
@@ -65,25 +64,25 @@ class ServiceDataTable extends AbstractCommonDatatable
     protected function getColumns()
     {
         return [
-            'service_id' =>  new Column([
+            'service_id' => new Column([
                 'title' => Lang::get('infra.id'),
-                'data'  => 'id',
-                'name'  => 'service.id',
+                'data' => 'id',
+                'name' => 'service.id',
             ]),
-            'name' =>  new Column([
+            'name' => new Column([
                 'title' => Lang::get('infra.name'),
-                'data'  => 'name',
-                'name'  => 'service.name',
+                'data' => 'name',
+                'name' => 'service.name',
             ]),
-            'git_repo' =>  new Column([
+            'git_repo' => new Column([
                 'title' => Lang::get('infra.git_repo'),
-                'data'  => 'git_repo',
-                'name'  => 'service.git_repo',
+                'data' => 'git_repo',
+                'name' => 'service.git_repo',
             ]),
-            'team' =>  new Column([
+            'team' => new Column([
                 'title' => Lang::get('infra.team'),
-                'data'  => 'team.name',
-                'name'  => 'team.name',
+                'data' => 'team.name',
+                'name' => 'team.name',
             ]),
         ];
     }
@@ -95,6 +94,6 @@ class ServiceDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'services_datatable_' . time();
+        return 'services_datatable_'.time();
     }
 }

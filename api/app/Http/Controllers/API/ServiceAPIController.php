@@ -40,7 +40,6 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
@@ -49,11 +48,14 @@ class ServiceAPIController extends AppBaseController
      *      tags={"Service"},
      *      description="Get all Services",
      *      produces={"application/json"},
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -61,8 +63,10 @@ class ServiceAPIController extends AppBaseController
      *              @SWG\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @SWG\Items(ref="#/definitions/Service")
      *              ),
+     *
      *              @SWG\Property(
      *                  property="message",
      *                  type="string"
@@ -84,7 +88,6 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param  CreateServiceAPIRequest  $request
      * @return Response
      *
      * @SWG\Post(
@@ -93,18 +96,23 @@ class ServiceAPIController extends AppBaseController
      *      tags={"Service"},
      *      description="Store Service",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
      *          description="Service that should be stored",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Service")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -140,6 +148,7 @@ class ServiceAPIController extends AppBaseController
      *      tags={"Service"},
      *      description="Get Service",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Service",
@@ -147,11 +156,14 @@ class ServiceAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -183,9 +195,9 @@ class ServiceAPIController extends AppBaseController
         foreach ($service->versions as $version) {
             $appList = [];
             foreach ($version->instances as $instance) {
-                if (!isset($appList[$instance->application->id])) {
+                if (! isset($appList[$instance->application->id])) {
                     $appList[$instance->application->id] = (object) [
-                        'id'   => $instance->application->id,
+                        'id' => $instance->application->id,
                         'name' => $instance->application->name,
                         'total' => 0,
                     ];
@@ -193,17 +205,17 @@ class ServiceAPIController extends AppBaseController
                 $appList[$instance->application->id]->total++;
             }
             $serviceByApplication[$version->id] = (object) [
-                'id'        => $version->id,
-                'version'   => $version->version,
-                'created_at'=> $version->created_at,
-                'updated_at'=> $version->updated_at,
-                'apps'      => $appList
+                'id' => $version->id,
+                'version' => $version->version,
+                'created_at' => $version->created_at,
+                'updated_at' => $version->updated_at,
+                'apps' => $appList,
             ];
         }
 
         return $this->sendResponse(
             (new ServiceResource($service))->additional([
-                'serviceByApplication' => $serviceByApplication
+                'serviceByApplication' => $serviceByApplication,
             ]),
             'Service retrieved successfully'
         );
@@ -211,7 +223,6 @@ class ServiceAPIController extends AppBaseController
 
     /**
      * @param  int  $id
-     * @param  UpdateServiceAPIRequest  $request
      * @return Response
      *
      * @SWG\Put(
@@ -220,6 +231,7 @@ class ServiceAPIController extends AppBaseController
      *      tags={"Service"},
      *      description="Update Service",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Service",
@@ -232,13 +244,17 @@ class ServiceAPIController extends AppBaseController
      *          in="body",
      *          description="Service that should be updated",
      *          required=false,
+     *
      *          @SWG\Schema(ref="#/definitions/Service")
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"
@@ -281,6 +297,7 @@ class ServiceAPIController extends AppBaseController
      *      tags={"Service"},
      *      description="Delete Service",
      *      produces={"application/json"},
+     *
      *      @SWG\Parameter(
      *          name="id",
      *          description="id of Service",
@@ -288,11 +305,14 @@ class ServiceAPIController extends AppBaseController
      *          required=true,
      *          in="path"
      *      ),
+     *
      *      @SWG\Response(
      *          response=200,
      *          description="successful operation",
+     *
      *          @SWG\Schema(
      *              type="object",
+     *
      *              @SWG\Property(
      *                  property="success",
      *                  type="boolean"

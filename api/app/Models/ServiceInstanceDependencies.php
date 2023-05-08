@@ -19,13 +19,14 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use OwenIt\Auditing\Contracts\Auditable;
 use Laravel\Scout\Searchable;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @SWG\Definition(
  *      definition="ServiceInstanceDependencies",
  *      required={""},
+ *
  *      @SWG\Property(
  *          property="id",
  *          description="id",

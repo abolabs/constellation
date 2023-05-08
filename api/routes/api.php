@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 // API V1
 Route::group([
     'middleware' => ['api', 'auth'],
-    'prefix' => 'v1/'
+    'prefix' => 'v1/',
 ], function () {
     /**
      * Application Mapping.

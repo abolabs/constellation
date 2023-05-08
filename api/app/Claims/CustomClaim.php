@@ -17,8 +17,8 @@
 
 namespace App\Claims;
 
-use CorBosman\Passport\AccessToken;
 use App\Models\User;
+use CorBosman\Passport\AccessToken;
 
 class CustomClaim
 {

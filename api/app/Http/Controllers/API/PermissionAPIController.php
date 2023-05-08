@@ -47,7 +47,7 @@ class PermissionAPIController extends AppBaseController
         // dirty adapter to manage pivot from role
         if (isset($search['filter']) && isset($search['filter']['id'])) {
             foreach ($search['filter'] as $filterValue) {
-                if (is_array($filterValue)  && isset($filterValue[0]) && isset($filterValue[0]['id']) && is_array($filterValue)) {
+                if (is_array($filterValue) && isset($filterValue[0]) && isset($filterValue[0]['id']) && is_array($filterValue)) {
                     $formattedSearch['filter']['id'] = [];
                     foreach ($filterValue as $toFormatValues) {
                         if (is_array($toFormatValues) && isset($toFormatValues['id'])) {
@@ -63,7 +63,7 @@ class PermissionAPIController extends AppBaseController
             $formattedSearch,
             $request->perPage,
             $request->page,
-            $request->sort ?? "name"
+            $request->sort ?? 'name'
         );
 
         return $this->sendResponse(PermissionResource::collection($permissions), 'Roles retrieved successfully', $permissions->total());
@@ -82,7 +82,6 @@ class PermissionAPIController extends AppBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -119,7 +118,6 @@ class PermissionAPIController extends AppBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

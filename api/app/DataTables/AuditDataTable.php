@@ -51,7 +51,6 @@ class AuditDataTable extends AbstractCommonDatatable
     /**
      * Get query source of dataTable.
      *
-     * @param  \App\Models\Audit  $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Audit $model)
@@ -89,40 +88,40 @@ class AuditDataTable extends AbstractCommonDatatable
     {
         return [
             //'user_type',
-            'user_id' =>  new Column([
+            'user_id' => new Column([
                 'title' => Lang::get('audit.user_id'),
-                'data'  => 'user_id',
-                'name'  => 'user_id',
+                'data' => 'user_id',
+                'name' => 'user_id',
             ]),
             'auditable_id' => new Column([
                 'title' => Lang::get('audit.auditable_id'),
-                'data'  => 'auditable_id',
-                'name'  => 'auditable_id',
+                'data' => 'auditable_id',
+                'name' => 'auditable_id',
             ]),
             'auditable_type' => new Column([
                 'title' => Lang::get('audit.auditable_type'),
-                'data'  => 'auditable_type',
-                'name'  => 'auditable_type',
+                'data' => 'auditable_type',
+                'name' => 'auditable_type',
             ]),
             'event' => new Column([
                 'title' => Lang::get('audit.event'),
-                'data'  => 'event',
-                'name'  => 'event',
+                'data' => 'event',
+                'name' => 'event',
             ]),
             'old_values' => new Column([
                 'title' => Lang::get('audit.old_values'),
-                'data'  => 'old_values',
-                'name'  => 'old_values',
+                'data' => 'old_values',
+                'name' => 'old_values',
             ]),
             'new_values' => new Column([
                 'title' => Lang::get('audit.new_values'),
-                'data'  => 'new_values',
-                'name'  => 'new_values',
+                'data' => 'new_values',
+                'name' => 'new_values',
             ]),
             'created_at' => new Column([
                 'title' => Lang::get('common.field_created_at'),
-                'data'  => 'created_at',
-                'name'  => 'created_at',
+                'data' => 'created_at',
+                'name' => 'created_at',
             ]),
         ];
     }
@@ -134,6 +133,6 @@ class AuditDataTable extends AbstractCommonDatatable
      */
     protected function filename()
     {
-        return 'audits_datatable_' . time();
+        return 'audits_datatable_'.time();
     }
 }
