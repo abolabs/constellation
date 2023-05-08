@@ -15,7 +15,13 @@
 
 import * as React from "react";
 import { Route } from "react-router-dom";
-import { Admin, CustomRoutes, Resource, Title } from "react-admin";
+import {
+  Admin,
+  Authenticated,
+  CustomRoutes,
+  Resource,
+  Title,
+} from "react-admin";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
@@ -90,7 +96,10 @@ const Dashboard = () => {
 };
 
 const App = () => {
-  const defaultMode = React.useMemo(() => localStorage.getItem('themeMode') ?? "light", [ ]);
+  const defaultMode = React.useMemo(
+    () => localStorage.getItem("themeMode") ?? "light",
+    []
+  );
   const [mode, setMode] = React.useState(defaultMode);
   const colorMode = React.useMemo(
     () => ({
@@ -101,7 +110,7 @@ const App = () => {
           if (prevMode === "light") {
             nextMode = "dark";
           }
-          localStorage.setItem('themeMode', nextMode);
+          localStorage.setItem("themeMode", nextMode);
           return nextMode;
         });
       },
@@ -133,29 +142,61 @@ const App = () => {
         disableTelemetry
       >
         <CustomRoutes>
-          <Route path="/application-mapping/by-app" element={<MappingByApp />} />
-          <Route path="/application-mapping/services-by-app" element={<MappingServicesByApp />} />
-          <Route path="/application-mapping/by-hosting" element={<MappingByHosting />} />
-          <Route path="/account/edit" element={<AccountEdit />} />
+          <Route
+            path="/application-mapping/by-app"
+            element={
+              <Authenticated>
+                <MappingByApp />
+              </Authenticated>
+            }
+          />
+          <Route
+            path="/application-mapping/services-by-app"
+            element={
+              <Authenticated>
+                <MappingServicesByApp />
+              </Authenticated>
+            }
+          />
+          <Route
+            path="/application-mapping/by-hosting"
+            element={
+              <Authenticated>
+                <MappingByHosting />
+              </Authenticated>
+            }
+          />
+          <Route
+            path="/account/edit"
+            element={
+              <Authenticated>
+                <AccountEdit />
+              </Authenticated>
+            }
+          />
         </CustomRoutes>
-        <Resource name="applications"
+        <Resource
+          name="applications"
           list={ApplicationList}
           show={ApplicationShow}
           create={ApplicationCreate}
           edit={ApplicationEdit}
         />
-        <Resource name="service_instances"
+        <Resource
+          name="service_instances"
           list={ServiceInstanceList}
           edit={ServiceInstanceEdit}
           show={ServiceInstanceShow}
         />
-        <Resource name="services"
+        <Resource
+          name="services"
           list={ServiceList}
           show={ServiceShow}
           create={ServiceCreate}
           edit={ServiceEdit}
         />
-        <Resource name="hostings"
+        <Resource
+          name="hostings"
           list={HostingList}
           show={HostingShow}
           create={HostingCreate}
@@ -166,45 +207,48 @@ const App = () => {
           list={ServiceInstanceDepList}
           show={ServiceInstanceDepShow}
         />
-        <Resource name="environnements"
+        <Resource
+          name="environnements"
           list={EnvironmentList}
           show={EnvironmentShow}
           create={EnvironmentCreate}
           edit={EnvironmentEdit}
         />
-        <Resource name="service_versions"
+        <Resource
+          name="service_versions"
           list={ServiceVersionList}
           show={ServiceVersionShow}
           edit={ServiceVersionEdit}
         />
-        <Resource name="hosting_types"
+        <Resource
+          name="hosting_types"
           list={HostingTypeList}
           show={HostingTypeShow}
           create={HostingTypeCreate}
           edit={HostingTypeEdit}
         />
-        <Resource name="teams"
+        <Resource
+          name="teams"
           list={TeamList}
           show={TeamShow}
           create={TeamCreate}
           edit={TeamEdit}
         />
-        <Resource name="users"
+        <Resource
+          name="users"
           list={UserList}
           show={UserShow}
           create={UserCreate}
           edit={UserEdit}
         />
-        <Resource name="roles"
+        <Resource
+          name="roles"
           list={RoleList}
           show={RoleShow}
           create={RoleCreate}
           edit={RoleEdit}
         />
-        <Resource name="audits"
-          list={AuditList}
-          show={AuditShow}
-        />
+        <Resource name="audits" list={AuditList} show={AuditShow} />
       </Admin>
     </ColorModeContext.Provider>
   );
