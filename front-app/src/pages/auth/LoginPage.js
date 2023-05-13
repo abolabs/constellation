@@ -14,10 +14,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLogin, useNotify } from "react-admin";
+import { useLocation } from "react-router-dom";
 
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -26,24 +26,35 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Copyright from "@components/Copyright";
-import { Container, SvgIcon } from "@mui/material";
+import { Container } from "@mui/material";
 
 import LightTheme from "@themes/LightTheme";
-import { ReactComponent as Logo } from "@/logo50.svg";
+import Copyright from "@components/Copyright";
+import Logo from "@components/Logo";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const login = useLogin();
   const notify = useNotify();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location?.state?.notification) {
+      notify(location?.state?.notification?.message, {
+        type: location?.state?.notification?.type,
+      });
+    }
+  }, [location?.state?.notification, notify]);
 
   const theme = React.useMemo(() => createTheme(LightTheme), []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // will call authProvider.login({ email, password })
-    login({ email, password }).catch(() => notify("Invalid email or password"));
+    login({ email, password }).catch(() =>
+      notify("Invalid email or password", { type: "error" })
+    );
   };
 
   return (
@@ -68,31 +79,7 @@ export default function LoginPage() {
             borderRadius: theme.shape.borderRadius,
           }}
         >
-          <Avatar
-            sx={{
-              m: 1,
-              bgcolor: "primary.main",
-              height: "4rem",
-              width: "4rem",
-            }}
-          >
-            <SvgIcon
-              component={Logo}
-              inheritViewBox
-              shapeRendering="path"
-              color="primary"
-              sx={{
-                path: {
-                  fill: `${theme.palette.primary.contrastText} !important`,
-                },
-                height: "80%",
-                width: "80%",
-              }}
-            />
-          </Avatar>
-          <Typography component="h2" variant="h2">
-            Constellation
-          </Typography>
+          <Logo />
           <Typography component="h3" variant="h3">
             Sign in
           </Typography>
@@ -140,7 +127,7 @@ export default function LoginPage() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/public/password-reset-request" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>

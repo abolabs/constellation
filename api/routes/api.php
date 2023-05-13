@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\Auth\PasswordResetAPIController;
 use App\Http\Controllers\API\InfraAPIController;
+use App\Http\Controllers\API\UserAPIController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,5 +52,16 @@ Route::group([
     /**
      * Profile
      */
-    Route::put('/profile', 'UserAPIController@profileUpdate')->name('profile.update');
+    Route::put('/profile', [UserAPIController::class, 'profileUpdate'])->name('v1.profile.update');
+});
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'v1/',
+], function () {
+    /**
+     * Password reset
+     */
+    Route::post('/password-reset/send-link', [PasswordResetAPIController::class, 'sendResetLink'])->name('v1.password-reset.send-link');
+    Route::post('/password-reset', [PasswordResetAPIController::class, 'resetPassword'])->name('v1.password-reset.reset-password');
 });

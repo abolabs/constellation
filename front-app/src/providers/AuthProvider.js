@@ -15,19 +15,20 @@
 
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import { AUTH_CHECK } from "react-admin";
 
 const AuthProvider = {
   login: async ({ email, password }) => {
     const response = await axios
       .post(
-        `${window.env.REACT_APP_ISSUER}/oauth/token`,
+        `${window?.env?.REACT_APP_ISSUER}/oauth/token`,
         {
           grant_type: "password",
           username: email,
           password: password,
           scope: "*",
-          client_id: window.env.REACT_APP_CLIENT_ID,
-          client_secret: window.env.REACT_APP_CLIENT_SECRET,
+          client_id: window?.env?.REACT_APP_CLIENT_ID,
+          client_secret: window?.env?.REACT_APP_CLIENT_SECRET,
         },
         {
           headers: {
@@ -51,7 +52,10 @@ const AuthProvider = {
     localStorage.removeItem("auth");
     return Promise.resolve();
   },
-  checkAuth: () => {
+  checkAuth: (type, params, ...rest) => {
+    if (type === AUTH_CHECK && params?.route?.path === "/public") {
+      return Promise.resolve();
+    }
     return AuthProvider.getToken() ? Promise.resolve() : Promise.reject();
   },
   checkError: (error) => {

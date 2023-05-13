@@ -14,13 +14,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import {
   Admin,
   Authenticated,
   CustomRoutes,
   Resource,
   Title,
+  useNotify,
 } from "react-admin";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -84,7 +91,8 @@ import MappingByApp from "@pages/application-mapping/MappingByApp";
 import MappingServicesByApp from "@pages/application-mapping/MappingServicesByApp";
 import MappingByHosting from "@pages/application-mapping/MappingByHosting";
 import AccountEdit from "@pages/account/AccountEdit";
-import ResetPassword from "./pages/auth/ResetPassword";
+import ResetPasswordRequest from "@pages/auth/ResetPasswordRequest";
+import ResetPasswordForm from "@pages/auth/ResetPasswordForm";
 
 // @todo : créer composant à part pour le dashboard
 const Dashboard = () => {
@@ -133,129 +141,150 @@ const App = () => {
     <ColorModeContext.Provider value={colorMode}>
       <CssBaseline />
       <BrowserRouter>
-        <Admin
-          layout={AppLayout}
-          title="Constellation"
-          theme={responsiveFontSizes(theme)}
-          dashboard={Dashboard}
-          loginPage={LoginPage}
-          authProvider={AuthProvider}
-          dataProvider={dataProvider}
-          disableTelemetry
-          requireAuth
-        >
-          <CustomRoutes noLayout requireAuth={false}>
-            <Route path="/password-reset" element={<ResetPassword />} />
-          </CustomRoutes>
-          <CustomRoutes>
-            <Route
-              path="/application-mapping/by-app"
-              element={
-                <Authenticated>
-                  <MappingByApp />
-                </Authenticated>
-              }
-            />
-            <Route
-              path="/application-mapping/services-by-app"
-              element={
-                <Authenticated>
-                  <MappingServicesByApp />
-                </Authenticated>
-              }
-            />
-            <Route
-              path="/application-mapping/by-hosting"
-              element={
-                <Authenticated>
-                  <MappingByHosting />
-                </Authenticated>
-              }
-            />
-            <Route
-              path="/account/edit"
-              element={
-                <Authenticated>
-                  <AccountEdit />
-                </Authenticated>
-              }
-            />
-          </CustomRoutes>
-          <Resource
-            name="applications"
-            list={ApplicationList}
-            show={ApplicationShow}
-            create={ApplicationCreate}
-            edit={ApplicationEdit}
+        <Routes>
+          <Route
+            path="/public/password-reset-request"
+            element={<ResetPasswordRequest />}
           />
-          <Resource
-            name="service_instances"
-            list={ServiceInstanceList}
-            edit={ServiceInstanceEdit}
-            show={ServiceInstanceShow}
+          <Route
+            path="/public/reset-password"
+            element={<ResetPasswordForm />}
           />
-          <Resource
-            name="services"
-            list={ServiceList}
-            show={ServiceShow}
-            create={ServiceCreate}
-            edit={ServiceEdit}
+          <Route
+            path="/*"
+            element={
+              <Admin
+                layout={AppLayout}
+                title="Constellation"
+                theme={responsiveFontSizes(theme)}
+                dashboard={Dashboard}
+                loginPage={LoginPage}
+                authProvider={AuthProvider}
+                dataProvider={dataProvider}
+                disableTelemetry
+                requireAuth
+              >
+                <CustomRoutes>
+                  <Route
+                    path="/application-mapping/by-app"
+                    element={
+                      <Authenticated>
+                        <MappingByApp />
+                      </Authenticated>
+                    }
+                  />
+                  <Route
+                    path="/application-mapping/services-by-app"
+                    element={
+                      <Authenticated>
+                        <MappingServicesByApp />
+                      </Authenticated>
+                    }
+                  />
+                  <Route
+                    path="/application-mapping/by-hosting"
+                    element={
+                      <Authenticated>
+                        <MappingByHosting />
+                      </Authenticated>
+                    }
+                  />
+                  <Route
+                    path="/application-mapping/*"
+                    element={<Navigate to="/application-mapping/by-app" />}
+                  />
+                  <Route
+                    path="/account/edit"
+                    element={
+                      <Authenticated>
+                        <AccountEdit />
+                      </Authenticated>
+                    }
+                  />
+                  <Route
+                    path="/account/*"
+                    element={<Navigate to="/account/edit" />}
+                  />
+                </CustomRoutes>
+                <Resource
+                  name="applications"
+                  list={ApplicationList}
+                  show={ApplicationShow}
+                  create={ApplicationCreate}
+                  edit={ApplicationEdit}
+                />
+                <Resource
+                  name="service_instances"
+                  list={ServiceInstanceList}
+                  edit={ServiceInstanceEdit}
+                  show={ServiceInstanceShow}
+                />
+                <Resource
+                  name="services"
+                  list={ServiceList}
+                  show={ServiceShow}
+                  create={ServiceCreate}
+                  edit={ServiceEdit}
+                />
+                <Resource
+                  name="hostings"
+                  list={HostingList}
+                  show={HostingShow}
+                  create={HostingCreate}
+                  edit={HostingEdit}
+                />
+                <Resource
+                  name="service_instance_dependencies"
+                  list={ServiceInstanceDepList}
+                  show={ServiceInstanceDepShow}
+                />
+                <Resource
+                  name="environnements"
+                  list={EnvironmentList}
+                  show={EnvironmentShow}
+                  create={EnvironmentCreate}
+                  edit={EnvironmentEdit}
+                />
+                <Resource
+                  name="service_versions"
+                  list={ServiceVersionList}
+                  show={ServiceVersionShow}
+                  edit={ServiceVersionEdit}
+                />
+                <Resource
+                  name="hosting_types"
+                  list={HostingTypeList}
+                  show={HostingTypeShow}
+                  create={HostingTypeCreate}
+                  edit={HostingTypeEdit}
+                />
+                <Resource
+                  name="teams"
+                  list={TeamList}
+                  show={TeamShow}
+                  create={TeamCreate}
+                  edit={TeamEdit}
+                />
+                <Resource
+                  name="users"
+                  list={UserList}
+                  show={UserShow}
+                  create={UserCreate}
+                  edit={UserEdit}
+                />
+                <Resource
+                  name="roles"
+                  list={RoleList}
+                  show={RoleShow}
+                  create={RoleCreate}
+                  edit={RoleEdit}
+                />
+                <Resource name="audits" list={AuditList} show={AuditShow} />
+              </Admin>
+            }
           />
-          <Resource
-            name="hostings"
-            list={HostingList}
-            show={HostingShow}
-            create={HostingCreate}
-            edit={HostingEdit}
-          />
-          <Resource
-            name="service_instance_dependencies"
-            list={ServiceInstanceDepList}
-            show={ServiceInstanceDepShow}
-          />
-          <Resource
-            name="environnements"
-            list={EnvironmentList}
-            show={EnvironmentShow}
-            create={EnvironmentCreate}
-            edit={EnvironmentEdit}
-          />
-          <Resource
-            name="service_versions"
-            list={ServiceVersionList}
-            show={ServiceVersionShow}
-            edit={ServiceVersionEdit}
-          />
-          <Resource
-            name="hosting_types"
-            list={HostingTypeList}
-            show={HostingTypeShow}
-            create={HostingTypeCreate}
-            edit={HostingTypeEdit}
-          />
-          <Resource
-            name="teams"
-            list={TeamList}
-            show={TeamShow}
-            create={TeamCreate}
-            edit={TeamEdit}
-          />
-          <Resource
-            name="users"
-            list={UserList}
-            show={UserShow}
-            create={UserCreate}
-            edit={UserEdit}
-          />
-          <Resource
-            name="roles"
-            list={RoleList}
-            show={RoleShow}
-            create={RoleCreate}
-            edit={RoleEdit}
-          />
-          <Resource name="audits" list={AuditList} show={AuditShow} />
-        </Admin>
+          <Route path="/*" element={<Navigate to="/login" />} />
+        </Routes>
       </BrowserRouter>
     </ColorModeContext.Provider>
   );

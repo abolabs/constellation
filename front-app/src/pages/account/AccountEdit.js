@@ -25,7 +25,7 @@ import {
 import SaveIcon from "@mui/icons-material/Save";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { LinearProgress, useDataProvider, useGetIdentity } from "react-admin";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
@@ -149,6 +149,9 @@ const AccountEdit = () => {
                   {...methods.register("current-password")}
                 />
               ) : null}
+              <Link to="/public/password-reset-request">
+                <Button>Reset password</Button>
+              </Link>
             </form>
           </CardContent>
         </Card>

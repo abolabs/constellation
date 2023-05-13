@@ -17,7 +17,7 @@ import Cytoscape from "cytoscape";
 import cxtmenu from "cytoscape-cxtmenu";
 import layoutUtilities from "cytoscape-layout-utilities";
 import fcose from "cytoscape-fcose";
-import 'tippy.js/dist/tippy.css';
+import "tippy.js/dist/tippy.css";
 
 Cytoscape.use(fcose);
 Cytoscape.use(cxtmenu);
@@ -233,8 +233,8 @@ class Graph {
           "background-color": theme.palette.grey[700],
         },
       },
-    ]
-  };
+    ];
+  }
 
   replaceData(newEleJsons) {
     this.cy.json({
@@ -248,7 +248,7 @@ class Graph {
     this.cy.layout(Graph.baseLayoutConfig).run();
   }
 
-  load({selector, elements, theme}) {
+  load({ selector, elements, theme }) {
     let currentGraph = this;
     this.cy = Cytoscape({
       container: document.getElementById(selector),
@@ -285,7 +285,7 @@ class Graph {
       edge_style_added = true;
     });
     this.cy.on("tap", (event) => {
-      if( event?.target !== this?.cy ){
+      if (event?.target !== this?.cy) {
         return;
       }
       // Suppression edge style si clic background
@@ -293,7 +293,7 @@ class Graph {
         this.resetFocusedElts();
       }
       edge_style_added = false;
-    })
+    });
 
     // Menu contextuel
     this.cy.cxtmenu({
@@ -301,15 +301,13 @@ class Graph {
       commands: [
         {
           content:
-            '<span><i class="fa fa-flash"></i> ' +
-            "common.details" +
-            "</span>",
+            '<span><i class="fa fa-flash"></i> ' + "common.details" + "</span>",
           select: (ele) => {
             let eltData = ele.id().split("_");
             const eltId = eltData.pop();
             const routePath = eltData.join("_");
 
-            window.location.href = `/#/${routePath}/${eltId}/show`;
+            window.location.href = `/${routePath}/${eltId}/show`;
           },
         },
         {

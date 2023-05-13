@@ -59,12 +59,14 @@ const AuditList = (props) => {
       >
         {isSmall ? (
           <SimpleList
-            primaryText={(record) => `#${record.id} - [${record.auditable_id}- ${record.auditable_type} ]`}
-            secondaryText={
-              <TextField source="user_name" />
+            primaryText={(record) =>
+              `#${record.id} - [${record.auditable_id}- ${record.auditable_type} ]`
             }
+            secondaryText={<TextField source="user_name" />}
             tertiaryText={(record) =>
-              `${record.event} - ${new Date(record.created_at).toLocaleDateString()}`
+              `${record.event} - ${new Date(
+                record.created_at
+              ).toLocaleDateString()}`
             }
           />
         ) : (

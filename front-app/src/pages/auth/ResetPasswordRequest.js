@@ -18,28 +18,33 @@ import {
   TextField,
   Card,
   CardContent,
-  Toolbar,
   Button,
   createTheme,
   ThemeProvider,
   CssBaseline,
   Container,
   Typography,
+  CardActions,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDataProvider } from "react-admin";
 
 import { FormProvider, useForm, useFormState } from "react-hook-form";
 import { useMemo } from "react";
 import LightTheme from "@/themes/LightTheme";
+import { useNavigate } from "react-router-dom";
 
-const ResetPassword = () => {
-  const dataProvider = useDataProvider();
+import AuthProvider from "@providers/AuthProvider";
+import dataProvider from "@providers/DataProvider";
+import Logo from "@components/Logo";
+
+const ResetPasswordRequest = () => {
   const theme = useMemo(() => createTheme(LightTheme), []);
+  const navigate = useNavigate();
 
-  const resetPasswordSchema = yup
+  const requestResetPasswordSchema = yup
     .object()
     .shape({
       email: yup
@@ -52,7 +57,7 @@ const ResetPassword = () => {
     .required();
 
   const methods = useForm({
-    resolver: yupResolver(resetPasswordSchema),
+    resolver: yupResolver(requestResetPasswordSchema),
   });
 
   const { errors, isDirty } = useFormState({
@@ -60,14 +65,21 @@ const ResetPassword = () => {
   });
 
   const onSubmit = async (data) => {
-    await dataProvider.updateProfile(data).catch((errors) => {
-      const errorsMsg = Object.entries(errors?.response?.data?.errors);
-      for (const [formKey, msg] of errorsMsg) {
-        methods.setError(formKey, { type: "custom", message: msg.shift() });
-      }
+    let errorCount = 0;
+    await dataProvider.passwordSendResetLink(data).catch((errors) => {
+      errorCount = Object.keys(errors).length;
+      methods.setError("email", {
+        type: "custom",
+        message: errors?.response?.data?.message,
+      });
     });
-    delete data["current-password"];
-    methods.reset(data);
+    if (errorCount > 0) {
+      return;
+    }
+    AuthProvider.logout();
+    navigate("/login", {
+      state: { notification: { message: "Email sent!", type: "success" } },
+    });
   };
 
   return (
@@ -92,10 +104,11 @@ const ResetPassword = () => {
             borderRadius: theme.shape.borderRadius,
           }}
         >
+          <Logo />
           <FormProvider {...methods}>
             <Card sx={{ mt: 1 }}>
               <CardContent>
-                <Typography gutterBottom variant="h2" component="div">
+                <Typography gutterBottom variant="h3" component="div">
                   Réinitialiser votre mot de passe
                 </Typography>
                 <Typography gutterBottom variant="body2" component="div">
@@ -113,7 +126,15 @@ const ResetPassword = () => {
                 </form>
               </CardContent>
             </Card>
-            <Toolbar variant="dense">
+            <CardActions>
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={<ArrowBackIosNewIcon />}
+                onClick={() => navigate(-1, { state: {} })}
+              >
+                Retour
+              </Button>
               <Button
                 size="small"
                 variant="contained"
@@ -123,7 +144,7 @@ const ResetPassword = () => {
               >
                 Envoyer
               </Button>
-            </Toolbar>
+            </CardActions>
           </FormProvider>
         </Box>
       </Container>
@@ -131,4 +152,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default ResetPasswordRequest;
