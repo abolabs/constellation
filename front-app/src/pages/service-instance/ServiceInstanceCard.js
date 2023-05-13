@@ -104,7 +104,7 @@ const ServiceInstanceCard = (instance) => {
               />
             ) : null}
           </ListItem>
-          <Link href={`/#/hostings/${instance?.hosting_id}/show`}>
+          <Link href={`/hostings/${instance?.hosting_id}/show`}>
             <ListItem>
               <ListItemText
                 primary="Hébergement"

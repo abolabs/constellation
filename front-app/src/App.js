@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from "react";
-import { Route } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import {
   Admin,
   Authenticated,
@@ -132,128 +132,131 @@ const App = () => {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <CssBaseline />
-      <Admin
-        layout={AppLayout}
-        title="Constellation"
-        theme={responsiveFontSizes(theme)}
-        dashboard={Dashboard}
-        loginPage={LoginPage}
-        authProvider={AuthProvider}
-        dataProvider={dataProvider}
-        disableTelemetry
-      >
-        <CustomRoutes noLayout>
-          <Route path="/password-reset" element={<ResetPassword />} />
-        </CustomRoutes>
-        <CustomRoutes>
-          <Route
-            path="/application-mapping/by-app"
-            element={
-              <Authenticated>
-                <MappingByApp />
-              </Authenticated>
-            }
+      <BrowserRouter>
+        <Admin
+          layout={AppLayout}
+          title="Constellation"
+          theme={responsiveFontSizes(theme)}
+          dashboard={Dashboard}
+          loginPage={LoginPage}
+          authProvider={AuthProvider}
+          dataProvider={dataProvider}
+          disableTelemetry
+          requireAuth
+        >
+          <CustomRoutes noLayout requireAuth={false}>
+            <Route path="/password-reset" element={<ResetPassword />} />
+          </CustomRoutes>
+          <CustomRoutes>
+            <Route
+              path="/application-mapping/by-app"
+              element={
+                <Authenticated>
+                  <MappingByApp />
+                </Authenticated>
+              }
+            />
+            <Route
+              path="/application-mapping/services-by-app"
+              element={
+                <Authenticated>
+                  <MappingServicesByApp />
+                </Authenticated>
+              }
+            />
+            <Route
+              path="/application-mapping/by-hosting"
+              element={
+                <Authenticated>
+                  <MappingByHosting />
+                </Authenticated>
+              }
+            />
+            <Route
+              path="/account/edit"
+              element={
+                <Authenticated>
+                  <AccountEdit />
+                </Authenticated>
+              }
+            />
+          </CustomRoutes>
+          <Resource
+            name="applications"
+            list={ApplicationList}
+            show={ApplicationShow}
+            create={ApplicationCreate}
+            edit={ApplicationEdit}
           />
-          <Route
-            path="/application-mapping/services-by-app"
-            element={
-              <Authenticated>
-                <MappingServicesByApp />
-              </Authenticated>
-            }
+          <Resource
+            name="service_instances"
+            list={ServiceInstanceList}
+            edit={ServiceInstanceEdit}
+            show={ServiceInstanceShow}
           />
-          <Route
-            path="/application-mapping/by-hosting"
-            element={
-              <Authenticated>
-                <MappingByHosting />
-              </Authenticated>
-            }
+          <Resource
+            name="services"
+            list={ServiceList}
+            show={ServiceShow}
+            create={ServiceCreate}
+            edit={ServiceEdit}
           />
-          <Route
-            path="/account/edit"
-            element={
-              <Authenticated>
-                <AccountEdit />
-              </Authenticated>
-            }
+          <Resource
+            name="hostings"
+            list={HostingList}
+            show={HostingShow}
+            create={HostingCreate}
+            edit={HostingEdit}
           />
-        </CustomRoutes>
-        <Resource
-          name="applications"
-          list={ApplicationList}
-          show={ApplicationShow}
-          create={ApplicationCreate}
-          edit={ApplicationEdit}
-        />
-        <Resource
-          name="service_instances"
-          list={ServiceInstanceList}
-          edit={ServiceInstanceEdit}
-          show={ServiceInstanceShow}
-        />
-        <Resource
-          name="services"
-          list={ServiceList}
-          show={ServiceShow}
-          create={ServiceCreate}
-          edit={ServiceEdit}
-        />
-        <Resource
-          name="hostings"
-          list={HostingList}
-          show={HostingShow}
-          create={HostingCreate}
-          edit={HostingEdit}
-        />
-        <Resource
-          name="service_instance_dependencies"
-          list={ServiceInstanceDepList}
-          show={ServiceInstanceDepShow}
-        />
-        <Resource
-          name="environnements"
-          list={EnvironmentList}
-          show={EnvironmentShow}
-          create={EnvironmentCreate}
-          edit={EnvironmentEdit}
-        />
-        <Resource
-          name="service_versions"
-          list={ServiceVersionList}
-          show={ServiceVersionShow}
-          edit={ServiceVersionEdit}
-        />
-        <Resource
-          name="hosting_types"
-          list={HostingTypeList}
-          show={HostingTypeShow}
-          create={HostingTypeCreate}
-          edit={HostingTypeEdit}
-        />
-        <Resource
-          name="teams"
-          list={TeamList}
-          show={TeamShow}
-          create={TeamCreate}
-          edit={TeamEdit}
-        />
-        <Resource
-          name="users"
-          list={UserList}
-          show={UserShow}
-          create={UserCreate}
-          edit={UserEdit}
-        />
-        <Resource
-          name="roles"
-          list={RoleList}
-          show={RoleShow}
-          create={RoleCreate}
-          edit={RoleEdit}
-        />
-        <Resource name="audits" list={AuditList} show={AuditShow} />
-      </Admin>
+          <Resource
+            name="service_instance_dependencies"
+            list={ServiceInstanceDepList}
+            show={ServiceInstanceDepShow}
+          />
+          <Resource
+            name="environnements"
+            list={EnvironmentList}
+            show={EnvironmentShow}
+            create={EnvironmentCreate}
+            edit={EnvironmentEdit}
+          />
+          <Resource
+            name="service_versions"
+            list={ServiceVersionList}
+            show={ServiceVersionShow}
+            edit={ServiceVersionEdit}
+          />
+          <Resource
+            name="hosting_types"
+            list={HostingTypeList}
+            show={HostingTypeShow}
+            create={HostingTypeCreate}
+            edit={HostingTypeEdit}
+          />
+          <Resource
+            name="teams"
+            list={TeamList}
+            show={TeamShow}
+            create={TeamCreate}
+            edit={TeamEdit}
+          />
+          <Resource
+            name="users"
+            list={UserList}
+            show={UserShow}
+            create={UserCreate}
+            edit={UserEdit}
+          />
+          <Resource
+            name="roles"
+            list={RoleList}
+            show={RoleShow}
+            create={RoleCreate}
+            edit={RoleEdit}
+          />
+          <Resource name="audits" list={AuditList} show={AuditShow} />
+        </Admin>
+      </BrowserRouter>
     </ColorModeContext.Provider>
   );
 };
