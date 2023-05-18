@@ -22,7 +22,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import HomeIcon from "@mui/icons-material/Home";
 
 const AppBreadCrumd = (props) => {
-  const routePrefix = "/#/";
+  const routePrefix = "/";
 
   const breadcrumbs = [
     <Link underline="hover" key="route-0" color="inherit" href="/">
@@ -76,6 +76,6 @@ const AppBreadCrumd = (props) => {
       </Breadcrumbs>
     </Stack>
   );
-}
+};
 
 export default AppBreadCrumd;

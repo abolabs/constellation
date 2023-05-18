@@ -6,6 +6,7 @@ import AuthProvider from "../AuthProvider";
 const defaultSettings = {
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
   },
   initPage: 1,
   updateMethod: "PUT",
@@ -43,6 +44,14 @@ const laravelDataProvider = (
   );
 
   return {
+    resetPassword: async (params) => {
+      const res = await client.post("/password-reset", params);
+      return res.data;
+    },
+    passwordSendResetLink: async (params) => {
+      const res = await client.post("/password-reset/send-link", params);
+      return res.data;
+    },
     updateProfile: async (params) => {
       const res = await client.put("/profile", params);
       if (res.data?.data?.meta?.jwt) {

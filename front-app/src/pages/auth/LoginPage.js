@@ -14,10 +14,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLogin, useNotify } from "react-admin";
+import { useLocation } from "react-router-dom";
 
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -26,127 +26,123 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Copyright from "@components/Copyright";
-import { Container, SvgIcon } from "@mui/material";
+import { Container } from "@mui/material";
 
 import LightTheme from "@themes/LightTheme";
-import { ReactComponent as Logo } from "@/logo50.svg";
+import Copyright from "@components/Copyright";
+import Logo from "@components/Logo";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const login = useLogin();
   const notify = useNotify();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location?.state?.notification) {
+      notify(location?.state?.notification?.message, {
+        type: location?.state?.notification?.type,
+      });
+    }
+  }, [location?.state?.notification, notify]);
 
   const theme = React.useMemo(() => createTheme(LightTheme), []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // will call authProvider.login({ email, password })
-    login({ email, password }).catch(() => notify("Invalid email or password"));
+    login({ email, password }).catch(() =>
+      notify("Invalid email or password", { type: "error" })
+    );
   };
 
   return (
-  <ThemeProvider theme={LightTheme}>
-    <CssBaseline />
-    <Container component="main"
-      maxWidth="sm"
-      sx={{
-        pt: 8,
-        height: "100vh",
-       }}
-    >
-      <Box
+    <ThemeProvider theme={LightTheme}>
+      <CssBaseline />
+      <Container
+        component="main"
+        maxWidth="sm"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          background: theme.palette.background.paper,
-          color: theme.palette.text.primary,
-          p: 2,
-          borderRadius: theme.shape.borderRadius,
+          pt: 8,
+          height: "100vh",
         }}
-        >
-        <Avatar
+      >
+        <Box
           sx={{
-            m: 1,
-            bgcolor: 'primary.main',
-            height: '4rem',
-            width: '4rem',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            background: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            p: 2,
+            borderRadius: theme.shape.borderRadius,
           }}
         >
-          <SvgIcon component={Logo}
-            inheritViewBox
-            shapeRendering="path"
-            color="primary"
-            sx={{
-              "path": {
-                fill: `${theme.palette.primary.contrastText} !important`,
-              },
-              height: '80%',
-              width: '80%',
-            }}
-          />
-        </Avatar>
-        <Typography component="h2" variant="h2">
-          Constellation
-        </Typography>
-        <Typography component="h3" variant="h3">
-          Sign in
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {/*
+          <Logo />
+          <Typography component="h3" variant="h3">
+            Sign in
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {/*
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
           */}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="/public/password-reset-request" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="#" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
+          </Box>
         </Box>
-      </Box>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
-    </Container>
-  </ThemeProvider>
+        <Copyright
+          sx={{ mt: 8, mb: 4, color: theme.palette.text.contrastText }}
+        />
+      </Container>
+    </ThemeProvider>
   );
 }

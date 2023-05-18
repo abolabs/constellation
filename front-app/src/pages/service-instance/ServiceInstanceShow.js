@@ -46,20 +46,23 @@ import {
   useShowController,
 } from "react-admin";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { blueGrey } from '@mui/material/colors';
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { blueGrey } from "@mui/material/colors";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGitAlt } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGitAlt } from "@fortawesome/free-brands-svg-icons";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 import Tag from "@components/styled/Tag";
 import ItemCardHeader from "@components/styled/ItemCardHeader";
-import { CreateServiceInstanceDepModal, CreateServiceInstanceRequieredByModal } from "@pages/admin/service-instance-dep/CreateServiceInstanceDepModal";
+import {
+  CreateServiceInstanceDepModal,
+  CreateServiceInstanceRequieredByModal,
+} from "@pages/admin/service-instance-dep/CreateServiceInstanceDepModal";
 import { EditServiceInstanceDepModal } from "@pages/admin/service-instance-dep/EditServiceInstanceDepModal";
 import { serviceInstanceDepLevel } from "./serviceInstanceDepLevel";
 
@@ -90,7 +93,10 @@ const ServiceInstanceShow = () => {
           mb: 2,
         }}
       >
-        <Link href={`/#/applications/${record?.application_id}/show`}>{record?.application_name}</Link> / {record?.service_name}
+        <Link href={`/applications/${record?.application_id}/show`}>
+          {record?.application_name}
+        </Link>{" "}
+        / {record?.service_name}
       </Typography>
 
       <Show actions={<></>}>
@@ -113,7 +119,11 @@ const ServiceInstanceShow = () => {
                 },
               }}
               action={
-                <Button onClick={() => { setOpenModalDependsOf(true); }}>
+                <Button
+                  onClick={() => {
+                    setOpenModalDependsOf(true);
+                  }}
+                >
                   <AddBoxIcon />
                 </Button>
               }
@@ -131,13 +141,20 @@ const ServiceInstanceShow = () => {
                 spacing={{ xs: 2, md: 2, lg: 1 }}
                 columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
               >
-              {record?.meta?.instanceDependencies?.map((dep) => (
+                {record?.meta?.instanceDependencies?.map((dep) => (
                   <Fade key={dep?.id} in={true} timeout={500}>
-                    <Grid item xs={8} sm={8} md={4} lg={3} sx={{ minWidth: '16rem' }}>
-                        <DependencyCard key={dep?.id} type="depend_of" {...dep} />
+                    <Grid
+                      item
+                      xs={8}
+                      sm={8}
+                      md={4}
+                      lg={3}
+                      sx={{ minWidth: "16rem" }}
+                    >
+                      <DependencyCard key={dep?.id} type="depend_of" {...dep} />
                     </Grid>
                   </Fade>
-              ))}
+                ))}
               </Grid>
             </CardContent>
           </Card>
@@ -159,7 +176,11 @@ const ServiceInstanceShow = () => {
                 },
               }}
               action={
-                <Button onClick={() => { setOpenModalRequiredBy(true); }}>
+                <Button
+                  onClick={() => {
+                    setOpenModalRequiredBy(true);
+                  }}
+                >
                   <AddBoxIcon />
                 </Button>
               }
@@ -177,13 +198,24 @@ const ServiceInstanceShow = () => {
                 spacing={{ xs: 2, md: 2, lg: 1 }}
                 columns={{ xs: 8, sm: 8, md: 12, lg: 12 }}
               >
-              {record?.meta?.instanceDependenciesSource?.map((dep) => (
+                {record?.meta?.instanceDependenciesSource?.map((dep) => (
                   <Fade key={dep?.id} in={true} timeout={500}>
-                    <Grid item xs={8} sm={8} md={6} lg={3} sx={{ minWidth: '16rem' }}>
-                        <DependencyCard key={dep?.id} type="required_by" {...dep}  />
+                    <Grid
+                      item
+                      xs={8}
+                      sm={8}
+                      md={6}
+                      lg={3}
+                      sx={{ minWidth: "16rem" }}
+                    >
+                      <DependencyCard
+                        key={dep?.id}
+                        type="required_by"
+                        {...dep}
+                      />
                     </Grid>
                   </Fade>
-              ))}
+                ))}
               </Grid>
             </CardContent>
           </Card>
@@ -203,17 +235,21 @@ const ServiceInstanceShow = () => {
   );
 };
 
-const DeleteDependency = ({dep}) => {
-  const depInfo = dep?.type === 'depend_of' ? dep?.service_instance_dep : dep?.service_instance;
+const DeleteDependency = ({ dep }) => {
+  const depInfo =
+    dep?.type === "depend_of"
+      ? dep?.service_instance_dep
+      : dep?.service_instance;
   const refresh = useRefresh();
   const [open, setOpen] = useState(false);
-  const [deleteOne, { isLoading }] = useDelete('service_instance_dependencies',
-    {id: dep?.id},
+  const [deleteOne, { isLoading }] = useDelete(
+    "service_instance_dependencies",
+    { id: dep?.id },
     {
       onSuccess: () => {
         setOpen(false);
         refresh();
-      }
+      },
     }
   );
 
@@ -225,7 +261,11 @@ const DeleteDependency = ({dep}) => {
 
   return (
     <>
-      <IconButton aria-label="settings" disabled={isLoading} onClick={handleClick}>
+      <IconButton
+        aria-label="settings"
+        disabled={isLoading}
+        onClick={handleClick}
+      >
         <RemoveCircleOutlineIcon />
       </IconButton>
       <Confirm
@@ -244,10 +284,13 @@ const DependencyCard = (dep) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { record } = useShowController();
-  const depInfo = dep?.type === 'depend_of' ? dep?.service_instance_dep : dep?.service_instance;
+  const depInfo =
+    dep?.type === "depend_of"
+      ? dep?.service_instance_dep
+      : dep?.service_instance;
   const [openModalEditDependency, setOpenModalEditDependency] = useState(false);
 
-  const onClick= useCallback(() => {
+  const onClick = useCallback(() => {
     navigate(`/service_instances/${depInfo?.id}/show`);
   }, [depInfo?.id, navigate]);
 
@@ -293,28 +336,29 @@ const DependencyCard = (dep) => {
           </>
         }
       />
-      <CardContent sx={{
-        p: "0.5rem 1rem"
-      }}>
+      <CardContent
+        sx={{
+          p: "0.5rem 1rem",
+        }}
+      >
         <List
           sx={{
-            height:"100%",
+            height: "100%",
             "& .MuiListItem-root": {
               padding: 0,
             },
           }}
         >
-          <ListItem secondaryAction={
-              <IconButton aria-label="detail"
-                onClick={onClick}
-                color="primary"
-              >
+          <ListItem
+            secondaryAction={
+              <IconButton aria-label="detail" onClick={onClick} color="primary">
                 <KeyboardArrowRightIcon />
               </IconButton>
-          }>
+            }
+          >
             <ListItemText primary="Service instance" />
           </ListItem>
-          <ListItem sx={{ flexWrap: "wrap" }} >
+          <ListItem sx={{ flexWrap: "wrap" }}>
             <Tag
               label={`Instance id: ${depInfo?.id}`}
               color="primary"
@@ -370,7 +414,9 @@ const DependencyCard = (dep) => {
               secondary={
                 <>
                   <Tag
-                    label={`Level: ${serviceInstanceDepLevel[dep?.level].label}`}
+                    label={`Level: ${
+                      serviceInstanceDepLevel[dep?.level].label
+                    }`}
                     color={
                       serviceInstanceDepLevel[dep?.level]
                         ? serviceInstanceDepLevel[dep?.level]?.color
@@ -379,7 +425,7 @@ const DependencyCard = (dep) => {
                     size="small"
                     component="span"
                     sx={{
-                      mb: "0.5rem"
+                      mb: "0.5rem",
                     }}
                   />
                   <br />
@@ -409,7 +455,11 @@ const ServiceInstanceShowLayout = () => {
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <DefaultCardHeader object="service_instances" record={record} title={record?.environnement_name}/>
+            <DefaultCardHeader
+              object="service_instances"
+              record={record}
+              title={record?.environnement_name}
+            />
             <CardContent>
               <Grid
                 container
@@ -420,24 +470,25 @@ const ServiceInstanceShowLayout = () => {
                   p: 1,
                   "& .MuiTypography-body1": {
                     fontWeight: "bold",
-                  }
+                  },
                 }}
               >
                 <Grid item xs={3}>
                   <ListItemText
-                      primary="id"
-                      secondary={<NumberField source="id" />}
-                    />
+                    primary="id"
+                    secondary={<NumberField source="id" />}
+                  />
                 </Grid>
                 <Grid item xs={3}>
                   <ListItemText
                     primary="Service"
                     secondary={
-                      <Link href={`/#/services/${record?.service_id}/show`}>
-                        <TextField source="service_name"
+                      <Link href={`/services/${record?.service_id}/show`}>
+                        <TextField
+                          source="service_name"
                           sx={{
-                            mr: 1
-                           }}
+                            mr: 1,
+                          }}
                         />
                         <Tag
                           label={`version: ${record?.service_version}`}
@@ -454,11 +505,14 @@ const ServiceInstanceShowLayout = () => {
                   <ListItemText
                     primary="Environment"
                     secondary={
-                      <Link href={`/#/environnements/${record?.environnement_id}/show`}>
-                        <TextField source="environnement_name"
+                      <Link
+                        href={`/environnements/${record?.environnement_id}/show`}
+                      >
+                        <TextField
+                          source="environnement_name"
                           sx={{
-                            mr: 1
-                           }}
+                            mr: 1,
+                          }}
                         />
                       </Link>
                     }
@@ -468,11 +522,12 @@ const ServiceInstanceShowLayout = () => {
                   <ListItemText
                     primary="Hosting"
                     secondary={
-                      <Link href={`/#/hostings/${record?.hosting_id}/show`}>
-                        <TextField source="hosting_name"
+                      <Link href={`/hostings/${record?.hosting_id}/show`}>
+                        <TextField
+                          source="hosting_name"
                           sx={{
-                            mr: 1
-                           }}
+                            mr: 1,
+                          }}
                         />
                       </Link>
                     }

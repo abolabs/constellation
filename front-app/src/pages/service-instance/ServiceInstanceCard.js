@@ -26,8 +26,8 @@ import {
   ListItemText,
   useTheme,
 } from "@mui/material";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGitAlt } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGitAlt } from "@fortawesome/free-brands-svg-icons";
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Tag from "@components/styled/Tag";
@@ -37,20 +37,22 @@ const ServiceInstanceCard = (instance) => {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const onClick= useCallback(() => {
+  const onClick = useCallback(() => {
     navigate(`/service_instances/${instance?.id}/show`);
   }, [instance?.id, navigate]);
 
   return (
-    <Card sx={{
-      height: '15rem',
-    }}>
+    <Card
+      sx={{
+        height: "18rem",
+      }}
+    >
       <ItemCardHeader
         title={instance?.service_name}
         sx={{
           background: theme?.palette?.secondary?.main,
           color: theme?.palette?.secondary?.contrastText,
-          height: '3rem'
+          height: "3rem",
         }}
         action={
           <Tag
@@ -60,12 +62,14 @@ const ServiceInstanceCard = (instance) => {
           />
         }
       />
-      <CardContent sx={{
-        height: "60%",
-        "& .MuiTypography-body1": {
-          fontWeight: "bold",
-        }
-      }}>
+      <CardContent
+        sx={{
+          height: "10rem",
+          "& .MuiTypography-body1": {
+            fontWeight: "bold",
+          },
+        }}
+      >
         <List
           sx={{
             "& .MuiListItem-root": {
@@ -73,12 +77,12 @@ const ServiceInstanceCard = (instance) => {
             },
           }}
         >
-          <ListItem sx={{flexWrap: "wrap"}}>
+          <ListItem sx={{ flexWrap: "wrap" }}>
             <Tag label={`ID: ${instance?.id}`} color="primary" size="small" />
             &nbsp;
             <Tag
-              label={`Statut: ${instance?.statut ? 'Active' : 'Inactive'}`}
-              color={instance?.statut ? 'success' : 'warning'}
+              label={`Statut: ${instance?.statut ? "Active" : "Inactive"}`}
+              color={instance?.statut ? "success" : "warning"}
               size="small"
             />
             &nbsp;
@@ -92,9 +96,15 @@ const ServiceInstanceCard = (instance) => {
               size="small"
             />
             &nbsp;
-            {instance?.role ? <Tag label={`Role: ${instance?.role}`} color="secondary" size="small" /> : null}
+            {instance?.role ? (
+              <Tag
+                label={`Role: ${instance?.role}`}
+                color="secondary"
+                size="small"
+              />
+            ) : null}
           </ListItem>
-          <Link href={`/#/hostings/${instance?.hosting_id}/show`}>
+          <Link href={`/hostings/${instance?.hosting_id}/show`}>
             <ListItem>
               <ListItemText
                 primary="Hébergement"
@@ -104,7 +114,7 @@ const ServiceInstanceCard = (instance) => {
           </Link>
         </List>
       </CardContent>
-      <CardActions style={{justifyContent: 'center'}}>
+      <CardActions style={{ justifyContent: "center" }}>
         <Button
           variant="outlined"
           endIcon={<KeyboardArrowRightIcon />}
@@ -116,6 +126,5 @@ const ServiceInstanceCard = (instance) => {
     </Card>
   );
 };
-
 
 export default ServiceInstanceCard;

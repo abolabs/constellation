@@ -13,32 +13,41 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Stack, Alert, AlertTitle } from "@mui/material";
-import he from "he";
+import { Avatar, SvgIcon, Typography, useTheme } from "@mui/material";
+import { ReactComponent as LogoSvg } from "@/logo50.svg";
 
-const AlertError = ({ error }) => {
-  let errorMsg = "Internal error";
+const Logo = () => {
+  const theme = useTheme();
 
-  if (typeof error === "object") {
-    errorMsg = error?.response?.data?.message
-      ? he.decode(error?.response?.data?.message)
-      : "Internal error";
-  } else if (typeof error === "string") {
-    errorMsg = error;
-  }
   return (
-    <Stack sx={{ width: "100%" }} spacing={2}>
-      <Alert
-        severity="error"
+    <>
+      <Avatar
         sx={{
-          borderRadius: 0,
+          m: 1,
+          bgcolor: "primary.main",
+          height: "4rem",
+          width: "4rem",
         }}
       >
-        <AlertTitle>Error</AlertTitle>
-        {errorMsg}
-      </Alert>
-    </Stack>
+        <SvgIcon
+          component={LogoSvg}
+          inheritViewBox
+          shapeRendering="path"
+          color="primary"
+          sx={{
+            path: {
+              fill: `${theme.palette.primary.contrastText} !important`,
+            },
+            height: "80%",
+            width: "80%",
+          }}
+        />
+      </Avatar>
+      <Typography component="h2" variant="h2">
+        Constellation
+      </Typography>
+    </>
   );
 };
 
-export default AlertError;
+export default Logo;

@@ -13,13 +13,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import {
-  Box,
-  LinearProgress,
-  Link,
-  Typography,
-} from "@mui/material";
+import * as React from "react";
+import { Box, LinearProgress, Link, Typography } from "@mui/material";
 import {
   AutocompleteInput,
   BooleanInput,
@@ -29,23 +24,23 @@ import {
   TextInput,
   useShowController,
 } from "react-admin";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation } from 'react-router-dom';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLocation } from "react-router-dom";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
-import DefaultEditToolBar from '@components/toolbar/DefaultEditToolBar';
+import DefaultEditToolBar from "@components/toolbar/DefaultEditToolBar";
 import OptionalFieldTitle from "@components/form/OptionalFieldTitle";
 import AlertError from "@components/alerts/AlertError";
 
-import ServiceInstanceDefaultSchema from './ServiceInstanceDefaultSchema';
-import ServiceVersionInput from './ServiceVersionInput';
+import ServiceInstanceDefaultSchema from "./ServiceInstanceDefaultSchema";
+import ServiceVersionInput from "./ServiceVersionInput";
 
 const ServiceInstanceEdit = () => {
   const location = useLocation();
   const { error, isLoading, record } = useShowController();
 
-  const ApplicationOptionText = (data) =>  `#${data.id} - ${data.name}`;
-  const hostingOptionText = (data) =>  `#${data.id} - ${data.name}`;
+  const ApplicationOptionText = (data) => `#${data.id} - ${data.name}`;
+  const hostingOptionText = (data) => `#${data.id} - ${data.name}`;
 
   if (isLoading) {
     return (
@@ -67,14 +62,21 @@ const ServiceInstanceEdit = () => {
           mb: 2,
         }}
       >
-        <Link href={`/#/applications/${record?.application_id}/show`}>{record?.application_name}</Link> / <Link href={`/#/service_instances/${record?.id}/show`}>{record?.service_name}</Link>
+        <Link href={`/applications/${record?.application_id}/show`}>
+          {record?.application_name}
+        </Link>{" "}
+        /{" "}
+        <Link href={`/service_instances/${record?.id}/show`}>
+          {record?.service_name}
+        </Link>
       </Typography>
       <Edit redirect="show" mutationMode="pessimistic">
         <SimpleForm
           resolver={yupResolver(ServiceInstanceDefaultSchema)}
           toolbar={<DefaultEditToolBar />}
         >
-          <ReferenceInput source="application_id"
+          <ReferenceInput
+            source="application_id"
             reference="applications"
             sort={{ field: "name", order: "ASC" }}
           >
@@ -87,20 +89,43 @@ const ServiceInstanceEdit = () => {
 
           <ServiceVersionInput />
 
-          <ReferenceInput source="environnement_id" reference="environnements" sort={{field:"name", order:"ASC"}} >
-            <AutocompleteInput label="Environnement" optionText="name" fullWidth/>
+          <ReferenceInput
+            source="environnement_id"
+            reference="environnements"
+            sort={{ field: "name", order: "ASC" }}
+          >
+            <AutocompleteInput
+              label="Environnement"
+              optionText="name"
+              fullWidth
+            />
           </ReferenceInput>
 
-          <ReferenceInput source="hosting_id" reference="hostings" sort={{field:"name", order:"ASC"}} >
-            <AutocompleteInput label="Hébergement" optionText={hostingOptionText} fullWidth/>
+          <ReferenceInput
+            source="hosting_id"
+            reference="hostings"
+            sort={{ field: "name", order: "ASC" }}
+          >
+            <AutocompleteInput
+              label="Hébergement"
+              optionText={hostingOptionText}
+              fullWidth
+            />
           </ReferenceInput>
 
-          <TextInput source="url" label={<OptionalFieldTitle label="Url" />} fullWidth/>
+          <TextInput
+            source="url"
+            label={<OptionalFieldTitle label="Url" />}
+            fullWidth
+          />
 
-          <TextInput source="role" label={<OptionalFieldTitle label="Role" />} fullWidth/>
+          <TextInput
+            source="role"
+            label={<OptionalFieldTitle label="Role" />}
+            fullWidth
+          />
 
-          <BooleanInput label="Statut" source="statut" defaultValue={true}/>
-
+          <BooleanInput label="Statut" source="statut" defaultValue={true} />
         </SimpleForm>
       </Edit>
     </>
