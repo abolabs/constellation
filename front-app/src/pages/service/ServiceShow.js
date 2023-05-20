@@ -98,7 +98,11 @@ const ServiceShow = () => {
                 },
               }}
               action={
-                <Button onClick={() => { setOpenModal(true); }}>
+                <Button
+                  onClick={() => {
+                    setOpenModal(true);
+                  }}
+                >
                   <AddBoxIcon />
                 </Button>
               }
@@ -118,13 +122,13 @@ const ServiceShow = () => {
                     spacing={{ xs: 2, md: 4, lg: 4 }}
                     columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
                   >
-                  {record?.meta?.serviceByApplication?.map((versionObj) => (
-                    <Fade key={versionObj?.id} in={true} timeout={500}>
-                      <Grid item xs={8} sm={8} md={4} lg={3}>
-                          <VersionCard key={versionObj?.id} {...versionObj}/>
-                      </Grid>
-                    </Fade>
-                  ))}
+                    {record?.meta?.serviceByApplication?.map((versionObj) => (
+                      <Fade key={versionObj?.id} in={true} timeout={500}>
+                        <Grid item xs={8} sm={8} md={4} lg={3}>
+                          <VersionCard key={versionObj?.id} {...versionObj} />
+                        </Grid>
+                      </Fade>
+                    ))}
                   </Grid>
                 </Grid>
               </Grid>
@@ -142,16 +146,18 @@ const ServiceShow = () => {
       />
     </>
   );
-}
+};
 
 const VersionCard = (versionObj) => {
   const navigate = useNavigate();
   const theme = useTheme();
 
   return (
-    <Card sx={{
-      height: '100%',
-    }}>
+    <Card
+      sx={{
+        height: "100%",
+      }}
+    >
       <CardHeader
         title={`v. ${versionObj?.version}`}
         sx={{
@@ -159,67 +165,74 @@ const VersionCard = (versionObj) => {
           color: theme?.palette?.secondary?.contrastText,
         }}
       />
-      <CardContent sx={{
-        height: "60%",
-        "& .MuiTypography-body1": {
-          fontWeight: "bold",
-        }
-      }}>
+      <CardContent
+        sx={{
+          height: "60%",
+          "& .MuiTypography-body1": {
+            fontWeight: "bold",
+          },
+        }}
+      >
         <List
           sx={{
             "& .MuiListItem-root": {
               padding: 0,
+              mb: "auto",
             },
           }}
         >
           <ListItem>
             <ListItemText
               primary="Creation date"
-              secondary={<DateField source="created_at" record={versionObj}/>}
+              secondary={<DateField source="created_at" record={versionObj} />}
             />
           </ListItem>
           <ListItem>
             <ListItemText
               primary="Updated date"
-              secondary={<DateField source="updated_at" record={versionObj}/>}
+              secondary={<DateField source="updated_at" record={versionObj} />}
             />
           </ListItem>
           <ListItem>
             <ListItemText
               primary="Nb instances par application"
               secondaryTypographyProps={{
-                component: 'div'
+                component: "div",
               }}
               secondary={
                 <List>
                   {Object.keys(versionObj?.apps).map((index) => (
                     <ListItem key={index}>
                       <ListItemButton
-                        onClick={() => navigate(`/applications/${versionObj?.apps[index]?.id}/show`)}
+                        onClick={() =>
+                          navigate(
+                            `/applications/${versionObj?.apps[index]?.id}/show`
+                          )
+                        }
                       >
-                          <ListItemText
-                            primary={
-                              <Badge
-                                badgeContent={versionObj?.apps[index]?.total}
-                                color="secondary"
-                                anchorOrigin={{
-                                  vertical: 'top',
-                                  horizontal: 'right',
-                                }}
-                                sx={{
-                                  width: '100%',
-                                  '& .MuiBadge-badge': {
-                                    top: '0.5rem',
-                                    right: '0.5rem',
-                                    border: `2px solid ${theme.palette.background.paper}`,
-                                    padding: '0 1rem',
-                                  },
-                                }}
-                              >
-                                {versionObj?.apps[index]?.name}
-                              </Badge>
-                            }
-                          />
+                        <ListItemText
+                          primary={
+                            <Badge
+                              badgeContent={versionObj?.apps[index]?.total}
+                              color="secondary"
+                              anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                              }}
+                              sx={{
+                                width: "100%",
+                                "& .MuiBadge-badge": {
+                                  top: "0.5rem",
+                                  right: "0.5rem",
+                                  border: `2px solid ${theme.palette.background.paper}`,
+                                  padding: "0 1rem",
+                                },
+                              }}
+                            >
+                              {versionObj?.apps[index]?.name}
+                            </Badge>
+                          }
+                        />
                       </ListItemButton>
                     </ListItem>
                   ))}
@@ -241,7 +254,12 @@ const ServiceShowLayout = () => {
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <DefaultCardHeader object="services" record={record} title={record?.name} canDelete={!record?.meta?.serviceByApplication?.length}/>
+            <DefaultCardHeader
+              object="services"
+              record={record}
+              title={record?.name}
+              canDelete={!record?.meta?.serviceByApplication?.length}
+            />
             <CardContent>
               <List
                 sx={{
@@ -264,7 +282,11 @@ const ServiceShowLayout = () => {
                   <ListItemText
                     primary="Team"
                     secondary={
-                      <ReferenceField source="team_id" reference="teams" link="show">
+                      <ReferenceField
+                        source="team_id"
+                        reference="teams"
+                        link="show"
+                      >
                         <TextField source="name" />
                       </ReferenceField>
                     }
@@ -274,9 +296,7 @@ const ServiceShowLayout = () => {
                   <ListItemText
                     primary="Git Repo"
                     secondary={
-                      <Link href={record?.git_repo}>
-                        {record?.git_repo}
-                      </Link>
+                      <Link href={record?.git_repo}>{record?.git_repo}</Link>
                     }
                   />
                 </ListItem>
