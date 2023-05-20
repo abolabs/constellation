@@ -14,23 +14,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
-import {
-  Admin,
-  Authenticated,
-  CustomRoutes,
-  Resource,
-  Title,
-  useNotify,
-} from "react-admin";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Admin, Authenticated, CustomRoutes, Resource } from "react-admin";
 
 import { responsiveFontSizes, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -93,16 +78,7 @@ import MappingByHosting from "@pages/application-mapping/MappingByHosting";
 import AccountEdit from "@pages/account/AccountEdit";
 import ResetPasswordRequest from "@pages/auth/ResetPasswordRequest";
 import ResetPasswordForm from "@pages/auth/ResetPasswordForm";
-
-// @todo : créer composant à part pour le dashboard
-const Dashboard = () => {
-  return (
-    <Card>
-      <Title title="Welcome to Constellation" />
-      <CardContent>Lorem ipsum sic dolor amet...</CardContent>
-    </Card>
-  );
-};
+import Dashboard from "@pages/dashboard/Dashboard";
 
 const App = () => {
   const defaultMode = React.useMemo(

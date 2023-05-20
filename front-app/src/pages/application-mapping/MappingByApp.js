@@ -18,15 +18,11 @@ import AbstractMapping from "./AbstractMapping";
 const MappingByApp = () => {
   return (
     <AbstractMapping
+      title="Mapping by app"
       mappingUrl="application-mapping/graph-nodes-app-map"
-      filterList={[
-        'environnement_id',
-        'application_id',
-        'team_id',
-      ]}
-      tagList={[]}
+      filterList={["environnement_id", "application_id", "team_id"]}
     />
   );
-}
+};
 
 export default MappingByApp;
