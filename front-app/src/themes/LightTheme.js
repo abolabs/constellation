@@ -41,14 +41,11 @@ const theme = createTheme(
         main: "#177E89",
       },
       background: {
-        default: "#F7F9FB",
-        paper: "#FFFFFF",
+        default: "#e0e0e0",
+        paper: "#eeeeee",
       },
       shadows: {
         1: "0rem 1.25rem 1.6875rem 0rem rgba(0, 0, 0, 0.01)",
-      },
-      text: {
-        primary: "#003137",
       },
       divider: "rgba(255, 255, 255, 0.12)",
       contrastThreshold: 3,

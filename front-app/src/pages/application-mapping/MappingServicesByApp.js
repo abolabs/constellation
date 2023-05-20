@@ -18,15 +18,16 @@ import AbstractMapping from "./AbstractMapping";
 const MappingServicesByApp = () => {
   return (
     <AbstractMapping
+      title="Mapping by service"
       mappingUrl="application-mapping/graph-nodes-by-app"
       filterList={[
-        'environnement_id',
-        'application_id',
-        'team_id',
-        'hosting_id'
+        "environnement_id",
+        "application_id",
+        "team_id",
+        "hosting_id",
       ]}
     />
   );
-}
+};
 
 export default MappingServicesByApp;
