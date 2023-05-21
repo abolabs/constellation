@@ -18,7 +18,7 @@
 namespace Database\Factories;
 
 use App\Models\Application;
-use App\Models\Environnement;
+use App\Models\Environment;
 use App\Models\Hosting;
 use App\Models\ServiceInstance;
 use App\Models\ServiceVersion;
@@ -47,8 +47,8 @@ class ServiceInstanceFactory extends Factory
             'service_version_id' => function () {
                 return ServiceVersion::factory()->create()->id;
             },
-            'environnement_id' => function () {
-                return Environnement::factory()->create()->id;
+            'environment_id' => function () {
+                return Environment::factory()->create()->id;
             },
             'hosting_id' => function () {
                 return Hosting::factory()->create()->id;

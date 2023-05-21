@@ -95,7 +95,7 @@ const Dashboard = () => {
           />
           <AbstractMapping
             mappingUrl="application-mapping/graph-nodes-app-map"
-            filterList={["environnement_id", "application_id", "team_id"]}
+            filterList={[]}
             height="32rem"
             asWidget={true}
             graphId="graph-nodes-app-map"

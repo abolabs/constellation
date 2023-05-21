@@ -90,12 +90,12 @@ const ServiceInstanceEdit = () => {
           <ServiceVersionInput />
 
           <ReferenceInput
-            source="environnement_id"
-            reference="environnements"
+            source="environment_id"
+            reference="environments"
             sort={{ field: "name", order: "ASC" }}
           >
             <AutocompleteInput
-              label="Environnement"
+              label="Environment"
               optionText="name"
               fullWidth
             />

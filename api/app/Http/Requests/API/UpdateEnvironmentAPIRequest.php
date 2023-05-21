@@ -15,25 +15,32 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace Database\Seeders;
+namespace App\Http\Requests\API;
 
-use App\Models\Environnement;
-use Illuminate\Database\Seeder;
+use App\Models\Environment;
+use InfyOm\Generator\Request\APIRequest;
 
-class EnvironnementSeeder extends Seeder
+class UpdateEnvironmentAPIRequest extends APIRequest
 {
     /**
-     * Run the database seeds.
+     * Determine if the user is authorized to make this request.
      *
-     * @return void
+     * @return bool
      */
-    public function run()
+    public function authorize()
     {
-        $envs = ['Dev', 'Staging', 'Production'];
-        foreach ($envs as $env) {
-            Environnement::create([
-                'name' => $env,
-            ]);
-        }
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $rules = Environment::$rules;
+
+        return $rules;
     }
 }

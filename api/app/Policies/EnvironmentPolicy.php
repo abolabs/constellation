@@ -17,11 +17,11 @@
 
 namespace App\Policies;
 
-use App\Models\Environnement;
+use App\Models\Environment;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class EnvironnementPolicy
+class EnvironmentPolicy
 {
     use HandlesAuthorization;
 
@@ -32,7 +32,7 @@ class EnvironnementPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->can('view environnement');
+        return $user->can('view environment');
     }
 
     /**
@@ -40,9 +40,9 @@ class EnvironnementPolicy
      *
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Environnement $environnement)
+    public function view(User $user, Environment $environment)
     {
-        return $user->can('view environnement');
+        return $user->can('view environment');
     }
 
     /**
@@ -52,7 +52,7 @@ class EnvironnementPolicy
      */
     public function create(User $user)
     {
-        return $user->can('create environnement');
+        return $user->can('create environment');
     }
 
     /**
@@ -60,9 +60,9 @@ class EnvironnementPolicy
      *
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Environnement $environnement)
+    public function update(User $user, Environment $environment)
     {
-        return $user->can('edit environnement');
+        return $user->can('edit environment');
     }
 
     /**
@@ -70,9 +70,9 @@ class EnvironnementPolicy
      *
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Environnement $environnement)
+    public function delete(User $user, Environment $environment)
     {
-        return $user->can('delete environnement');
+        return $user->can('delete environment');
     }
 
     /**
@@ -80,9 +80,9 @@ class EnvironnementPolicy
      *
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Environnement $environnement)
+    public function restore(User $user, Environment $environment)
     {
-        return $user->can('edit environnement');
+        return $user->can('edit environment');
     }
 
     /**
@@ -90,8 +90,8 @@ class EnvironnementPolicy
      *
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Environnement $environnement)
+    public function forceDelete(User $user, Environment $environment)
     {
-        return $user->can('delete environnement');
+        return $user->can('delete environment');
     }
 }

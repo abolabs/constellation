@@ -25,7 +25,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @SWG\Definition(
- *      definition="Environnement",
+ *      definition="Environment",
  *      required={""},
  *
  *      @SWG\Property(
@@ -53,14 +53,14 @@ use OwenIt\Auditing\Contracts\Auditable;
  *      )
  * )
  */
-class Environnement extends Model implements Auditable
+class Environment extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
     use HasFactory;
     use Searchable;
 
-    public $table = 'environnement';
+    public $table = 'environment';
 
     protected $dates = ['deleted_at'];
 
@@ -92,7 +92,7 @@ class Environnement extends Model implements Auditable
      **/
     public function serviceInstances()
     {
-        return $this->hasMany(\App\Models\ServiceInstance::class, 'environnement_id');
+        return $this->hasMany(\App\Models\ServiceInstance::class, 'environment_id');
     }
 
     /**

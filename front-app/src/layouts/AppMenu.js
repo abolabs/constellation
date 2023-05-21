@@ -131,10 +131,7 @@ const AppMenu = () => {
           mb={2}
         >
           <Grid item>
-            <Gravatar
-              email={identity.email}
-              style={{ "border-radius": "50%" }}
-            />
+            <Gravatar email={identity.email} style={{ borderRadius: "50%" }} />
           </Grid>
           <Grid item>
             <Typography variant="h5" align="center">
@@ -219,8 +216,8 @@ const AppMenu = () => {
           leftIcon={<AccountTreeIcon />}
         />
         <Menu.Item
-          to="/environnements"
-          primaryText="Environnements"
+          to="/environments"
+          primaryText="Environments"
           leftIcon={<WindowIcon />}
         />
         <Menu.Item

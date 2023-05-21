@@ -15,39 +15,31 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace App\Repositories;
+namespace Database\Factories;
 
-use App\Models\Environnement;
+use App\Models\Environment;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * Class EnvironnementRepository.
- *
- * @version September 4, 2021, 3:37 pm UTC
- */
-class EnvironnementRepository extends BaseRepository
+class EnvironmentFactory extends Factory
 {
     /**
-     * @var array
+     * The name of the factory's corresponding model.
+     *
+     * @var string
      */
-    protected $fieldSearchable = [
-        'name',
-    ];
+    protected $model = Environment::class;
 
     /**
-     * Return searchable fields.
+     * Define the model's default state.
      *
      * @return array
      */
-    public function getFieldsSearchable()
+    public function definition()
     {
-        return $this->fieldSearchable;
-    }
-
-    /**
-     * Configure the Model.
-     **/
-    public function model()
-    {
-        return Environnement::class;
+        return [
+            'name' => 'Env '.$this->faker->word,
+            'created_at' => $this->faker->date('Y-m-d H:i:s'),
+            'updated_at' => $this->faker->date('Y-m-d H:i:s'),
+        ];
     }
 }

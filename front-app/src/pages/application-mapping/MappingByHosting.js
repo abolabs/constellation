@@ -20,12 +20,7 @@ const MappingByHosting = () => {
     <AbstractMapping
       title="Mapping by hosting"
       mappingUrl="application-mapping/graph-nodes-by-hosting"
-      filterList={[
-        "environnement_id",
-        "application_id",
-        "team_id",
-        "hosting_id",
-      ]}
+      filterList={["environment_id", "application_id", "team_id", "hosting_id"]}
     />
   );
 };

@@ -49,7 +49,7 @@ class PermissionTableSeeder extends Seeder
             'serviceVersionDep',
             'serviceInstance',
             'serviceInstanceDep',
-            'environnement',
+            'environment',
             'team',
         ];
 

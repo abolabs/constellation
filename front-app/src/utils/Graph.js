@@ -300,8 +300,7 @@ class Graph {
       selector: "node",
       commands: [
         {
-          content:
-            '<span><i class="fa fa-flash"></i> ' + "common.details" + "</span>",
+          content: '<span><i class="fa fa-flash"></i> common.details </span>',
           select: (ele) => {
             let eltData = ele.id().split("_");
             const eltId = eltData.pop();

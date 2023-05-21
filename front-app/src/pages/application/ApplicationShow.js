@@ -100,7 +100,11 @@ const ApplicationShow = () => {
                 },
               }}
               action={
-                <Button onClick={() => { setOpenModal(true); }}>
+                <Button
+                  onClick={() => {
+                    setOpenModal(true);
+                  }}
+                >
                   <AddBoxIcon />
                 </Button>
               }
@@ -118,7 +122,12 @@ const ApplicationShow = () => {
                     setCurrentEnvId={setCurrentEnvId}
                   />
                 </Grid>
-                <Grid item xs={8} md={9} lg={10} p={2}
+                <Grid
+                  item
+                  xs={8}
+                  md={9}
+                  lg={10}
+                  p={2}
                   sx={{
                     borderLeft: 1,
                     borderColor: grey[300],
@@ -132,16 +141,19 @@ const ApplicationShow = () => {
                     spacing={{ xs: 2, md: 3 }}
                     columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
                   >
-                  {record?.meta?.serviceInstances?.map((instance) => (
-                    instance?.environnement_id === currentEnvId
-                      ? (
+                    {record?.meta?.serviceInstances?.map((instance) =>
+                      instance?.environment_id === currentEnvId ? (
                         <Fade key={instance?.id} in={true} timeout={500}>
                           <Grid item xs={8} sm={8} md={4} lg={3}>
-                              <ServiceInstanceCard key={instance?.id} {...instance} {...currentEnvId}/>
+                            <ServiceInstanceCard
+                              key={instance?.id}
+                              {...instance}
+                              {...currentEnvId}
+                            />
                           </Grid>
                         </Fade>
-                      ) :null
-                  ))}
+                      ) : null
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -151,7 +163,7 @@ const ApplicationShow = () => {
       </Grid>
       <CreateServiceInstanceModal
         applicationData={record}
-        environnementId={currentEnvId}
+        environmentId={currentEnvId}
         open={openModal}
         handleClose={() => setOpenModal(false)}
       />
@@ -159,18 +171,26 @@ const ApplicationShow = () => {
   );
 };
 
-const EnvironmentSelector = ({record, currentEnvId, setCurrentEnvId}) => (
+const EnvironmentSelector = ({ record, currentEnvId, setCurrentEnvId }) => (
   <List>
-    {record?.meta?.countByEnv && record?.meta?.countByEnv.map((env) => (
-      <ListItem key={env?.id}>
-        <ListItemButton onClick={() => setCurrentEnvId(env?.id)} selected={currentEnvId === env?.id}>
-          <ListItemText>
-            <Tag label={env?.service_instances_count} color="primary" size="small" />
-          </ListItemText>
-          <ListItemText primary={env?.name} />
-        </ListItemButton>
-      </ListItem>
-    ))}
+    {record?.meta?.countByEnv &&
+      record?.meta?.countByEnv.map((env) => (
+        <ListItem key={env?.id}>
+          <ListItemButton
+            onClick={() => setCurrentEnvId(env?.id)}
+            selected={currentEnvId === env?.id}
+          >
+            <ListItemText>
+              <Tag
+                label={env?.service_instances_count}
+                color="primary"
+                size="small"
+              />
+            </ListItemText>
+            <ListItemText primary={env?.name} />
+          </ListItemButton>
+        </ListItem>
+      ))}
   </List>
 );
 
@@ -182,7 +202,11 @@ const ApplicationShowLayout = () => {
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <DefaultCardHeader object="applications" record={record} title={record?.name}/>
+            <DefaultCardHeader
+              object="applications"
+              record={record}
+              title={record?.name}
+            />
             <CardContent>
               <List
                 sx={{
@@ -205,7 +229,11 @@ const ApplicationShowLayout = () => {
                   <ListItemText
                     primary="Team"
                     secondary={
-                      <ReferenceField source="team_id" reference="teams" link="show">
+                      <ReferenceField
+                        source="team_id"
+                        reference="teams"
+                        link="show"
+                      >
                         <TextField source="name" />
                       </ReferenceField>
                     }

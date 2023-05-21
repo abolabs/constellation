@@ -24,7 +24,7 @@ use App\Http\Requests\API\UpdateApplicationAPIRequest;
 use App\Http\Resources\ApplicationResource;
 use App\Http\Resources\ServiceInstanceResource;
 use App\Models\Application;
-use App\Models\Environnement;
+use App\Models\Environment;
 use App\Models\ServiceInstance;
 use App\Repositories\ApplicationRepository;
 use Illuminate\Http\Request;
@@ -194,12 +194,12 @@ class ApplicationAPIController extends AppBaseController
         if (empty($application)) {
             return $this->sendError(Lang::get('application.not_found'));
         }
-        $serviceInstances = ServiceInstance::where('application_id', $application->id)->with(['serviceVersion', 'serviceVersion.service', 'environnement'])->orderBy('environnement_id')->get();
+        $serviceInstances = ServiceInstance::where('application_id', $application->id)->with(['serviceVersion', 'serviceVersion.service', 'environment'])->orderBy('environment_id')->get();
 
-        $countByEnv = Environnement::withCount(['serviceInstances' => function ($query) use ($application) {
+        $countByEnv = Environment::withCount(['serviceInstances' => function ($query) use ($application) {
             $query->where('application_id', $application->id);
         }])
-            ->join('service_instance', 'environnement.id', '=', 'service_instance.environnement_id')
+            ->join('service_instance', 'environment.id', '=', 'service_instance.environment_id')
             ->where('service_instance.application_id', $application->id)
             ->get()->keyBy('id')->toArray();
 

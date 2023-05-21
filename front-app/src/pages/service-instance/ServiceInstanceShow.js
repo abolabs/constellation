@@ -458,7 +458,7 @@ const ServiceInstanceShowLayout = () => {
             <DefaultCardHeader
               object="service_instances"
               record={record}
-              title={record?.environnement_name}
+              title={record?.environment_name}
             />
             <CardContent>
               <Grid
@@ -506,10 +506,10 @@ const ServiceInstanceShowLayout = () => {
                     primary="Environment"
                     secondary={
                       <Link
-                        href={`/environnements/${record?.environnement_id}/show`}
+                        href={`/environments/${record?.environment_id}/show`}
                       >
                         <TextField
-                          source="environnement_name"
+                          source="environment_name"
                           sx={{
                             mr: 1,
                           }}

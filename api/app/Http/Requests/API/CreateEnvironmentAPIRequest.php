@@ -15,25 +15,30 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace App\Http\Resources;
+namespace App\Http\Requests\API;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Environment;
+use InfyOm\Generator\Request\APIRequest;
 
-class EnvironnementResource extends JsonResource
+class CreateEnvironmentAPIRequest extends APIRequest
 {
     /**
-     * Transform the resource into an array.
+     * Determine if the user is authorized to make this request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
      * @return array
      */
-    public function toArray($request)
+    public function rules()
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-        ];
+        return Environment::$rules;
     }
 }

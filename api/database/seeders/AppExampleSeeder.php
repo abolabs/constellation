@@ -18,7 +18,7 @@
 namespace Database\Seeders;
 
 use App\Models\Application;
-use App\Models\Environnement;
+use App\Models\Environment;
 use App\Models\Service;
 use App\Models\ServiceInstance;
 use App\Models\ServiceInstanceDependencies;
@@ -38,9 +38,9 @@ class AppExampleSeeder extends Seeder
         $application = Application::factory()->create();
 
         $envs = [
-            'Dev' => Environnement::where('name', 'Dev')->first()->id,
-            'Staging' => Environnement::where('name', 'Staging')->first()->id,
-            'Production' => Environnement::where('name', 'Production')->first()->id,
+            'Dev' => Environment::where('name', 'Dev')->first()->id,
+            'Staging' => Environment::where('name', 'Staging')->first()->id,
+            'Production' => Environment::where('name', 'Production')->first()->id,
         ];
 
         // Mariadb
@@ -61,7 +61,7 @@ class AppExampleSeeder extends Seeder
             $mariadbInstance = ServiceInstance::factory()->create([
                 'application_id' => $application->id,
                 'service_version_id' => $serviceVersion->id,
-                'environnement_id' => $env,
+                'environment_id' => $env,
                 'statut' => 1,
             ]);
             $mariadbInstances[$envName] = $mariadbInstance->id;
@@ -70,7 +70,7 @@ class AppExampleSeeder extends Seeder
             $mariadbInstanceSlave = ServiceInstance::factory()->create([
                 'application_id' => $application->id,
                 'service_version_id' => $serviceVersion->id,
-                'environnement_id' => $env,
+                'environment_id' => $env,
                 'statut' => 1,
             ]);
             ServiceInstanceDependencies::create([
@@ -96,7 +96,7 @@ class AppExampleSeeder extends Seeder
             $redisInstance = ServiceInstance::factory()->create([
                 'application_id' => $application->id,
                 'service_version_id' => $serviceVersion->id,
-                'environnement_id' => $env,
+                'environment_id' => $env,
                 'statut' => 1,
             ]);
             $redisInstances[$envName] = $redisInstance->id;
@@ -118,7 +118,7 @@ class AppExampleSeeder extends Seeder
             $laraApp = ServiceInstance::factory()->create([
                 'application_id' => $application->id,
                 'service_version_id' => $serviceVersion->id,
-                'environnement_id' => $env,
+                'environment_id' => $env,
                 'statut' => 1,
             ]);
 

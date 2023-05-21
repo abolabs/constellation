@@ -34,7 +34,7 @@ Route::group([
     /**
      * Resources
      */
-    Route::resource('environnements', EnvironnementAPIController::class, ['names' => 'v1.environnements']);
+    Route::resource('environments', EnvironmentAPIController::class, ['names' => 'v1.environments']);
     Route::resource('hosting_types', HostingTypeAPIController::class, ['names' => 'v1.hostingTypes']);
     Route::resource('hostings', HostingAPIController::class, ['names' => 'v1.hostings']);
     Route::resource('teams', TeamAPIController::class, ['names' => 'v1.teams']);

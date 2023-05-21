@@ -2,7 +2,7 @@
 
 use App\Models\Application;
 use App\Models\Audit;
-use App\Models\Environnement;
+use App\Models\Environment;
 use App\Models\Hosting;
 use App\Models\HostingType;
 use App\Models\Permission;
@@ -174,7 +174,7 @@ return [
                     'team_name',
                 ],
             ],
-            Environnement::class => [
+            Environment::class => [
                 'filterableAttributes' => [
                     'id',
                 ],
@@ -241,7 +241,7 @@ return [
             ServiceInstance::class => [
                 'filterableAttributes' => [
                     'id',
-                    'environnement_id',
+                    'environment_id',
                     'hosting_name',
                     'hosting_id',
                     'application_name',
@@ -251,7 +251,7 @@ return [
                     'application_name',
                     'service_version_name',
                     'service_version',
-                    'environnement_name',
+                    'environment_name',
                     'hosting_name',
                     'role',
                     'statut',

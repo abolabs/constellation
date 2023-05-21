@@ -215,7 +215,7 @@ const App = () => {
                   show={ServiceInstanceDepShow}
                 />
                 <Resource
-                  name="environnements"
+                  name="environments"
                   list={EnvironmentList}
                   show={EnvironmentShow}
                   create={EnvironmentCreate}
