@@ -39,7 +39,7 @@ class ServiceInstanceDependenciesFactory extends Factory
     {
         $sourceService = ServiceInstance::factory()->create();
         $targetService = ServiceInstance::factory()->create([
-            'environnement_id' => $sourceService->environnement_id,
+            'environment_id' => $sourceService->environment_id,
         ]);
 
         return [

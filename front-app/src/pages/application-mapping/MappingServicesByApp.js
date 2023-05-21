@@ -20,12 +20,7 @@ const MappingServicesByApp = () => {
     <AbstractMapping
       title="Mapping by service"
       mappingUrl="application-mapping/graph-nodes-by-app"
-      filterList={[
-        "environnement_id",
-        "application_id",
-        "team_id",
-        "hosting_id",
-      ]}
+      filterList={["environment_id", "application_id", "team_id", "hosting_id"]}
     />
   );
 };

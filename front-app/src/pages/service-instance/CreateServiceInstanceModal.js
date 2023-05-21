@@ -14,12 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-} from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import {
   AutocompleteInput,
   BooleanInput,
@@ -31,15 +26,20 @@ import {
   useNotify,
   useRefresh,
 } from "react-admin";
-import CloseIcon from '@mui/icons-material/Close';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import CloseIcon from "@mui/icons-material/Close";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import AlertError from "@components/alerts/AlertError";
 import OptionalFieldTitle from "@components/form/OptionalFieldTitle";
 import ServiceVersionInput from "./ServiceVersionInput";
 
-const CreateInstanceModal = ({applicationData, environnementId, handleClose, open = false}) => {
+const CreateInstanceModal = ({
+  applicationData,
+  environmentId,
+  handleClose,
+  open = false,
+}) => {
   const [create, { isLoading }] = useCreate();
   const notify = useNotify();
   const refresh = useRefresh();
@@ -47,16 +47,20 @@ const CreateInstanceModal = ({applicationData, environnementId, handleClose, ope
   const [lastError, setLastError] = useState();
 
   const onSuccess = (_data) => {
-    notify(`Instance de service créée`, { type: 'success' })
+    notify(`Instance de service créée`, { type: "success" });
     handleClose();
     refresh();
   };
 
-  const handleSubmit =  async(data) => {
+  const handleSubmit = async (data) => {
     data.application_id = applicationData?.id;
     setDefaultValues(data);
-    try{
-      await create('service_instances', {data: data}, { returnPromise: true });
+    try {
+      await create(
+        "service_instances",
+        { data: data },
+        { returnPromise: true }
+      );
       setDefaultValues({});
       onSuccess();
       setLastError(null);
@@ -66,21 +70,25 @@ const CreateInstanceModal = ({applicationData, environnementId, handleClose, ope
     }
   };
 
-  const hostingOptionText = (data) =>  `#${data.id} - ${data.name}`;
+  const hostingOptionText = (data) => `#${data.id} - ${data.name}`;
 
-  const schema = yup.object()
+  const schema = yup
+    .object()
     .shape({
-        service_version_id: yup.number()
-          .required('Please select a service version')
-          .typeError('Please select a service version'),
-        environnement_id: yup.number()
-          .required('Please select an environment')
-          .typeError('Please select an environment'),
-        hosting_id: yup.number()
-          .required('Please select an hosting')
-          .typeError('Please select an hosting'),
-        url: yup.string().nullable().url().max(254),
-        role: yup.string().nullable().max(254),
+      service_version_id: yup
+        .number()
+        .required("Please select a service version")
+        .typeError("Please select a service version"),
+      environment_id: yup
+        .number()
+        .required("Please select an environment")
+        .typeError("Please select an environment"),
+      hosting_id: yup
+        .number()
+        .required("Please select an hosting")
+        .typeError("Please select an hosting"),
+      url: yup.string().nullable().url().max(254),
+      role: yup.string().nullable().max(254),
     })
     .required();
 
@@ -89,10 +97,7 @@ const CreateInstanceModal = ({applicationData, environnementId, handleClose, ope
   }
 
   return (
-    <Dialog
-      open={open}
-      fullWidth
-    >
+    <Dialog open={open} fullWidth>
       <DialogTitle>
         Ajouter une nouvelle instance de service
         {handleClose ? (
@@ -104,7 +109,7 @@ const CreateInstanceModal = ({applicationData, environnementId, handleClose, ope
               handleClose();
             }}
             sx={{
-              position: 'absolute',
+              position: "absolute",
               right: 8,
               top: 8,
               color: (theme) => theme.palette.primary.contrastText,
@@ -114,30 +119,55 @@ const CreateInstanceModal = ({applicationData, environnementId, handleClose, ope
           </IconButton>
         ) : null}
       </DialogTitle>
-      <DialogContent sx={{padding: 0}}>
-        { lastError ? <AlertError {...lastError} /> : null}
+      <DialogContent sx={{ padding: 0 }}>
+        {lastError ? <AlertError {...lastError} /> : null}
         <Create resource="service_instances" mutationMode="pessimistic">
           <SimpleForm
             resolver={yupResolver(schema)}
             onSubmit={handleSubmit}
             defaultValues={defaultValues}
-            sx={{padding: "0 2rem"}}
+            sx={{ padding: "0 2rem" }}
           >
             <ServiceVersionInput />
 
-            <ReferenceInput source="environnement_id" reference="environnements" sort={{field:"name", order:"ASC"}} >
-              <AutocompleteInput label="Environnement" optionText="name" defaultValue={environnementId} fullWidth/>
+            <ReferenceInput
+              source="environment_id"
+              reference="environments"
+              sort={{ field: "name", order: "ASC" }}
+            >
+              <AutocompleteInput
+                label="Environment"
+                optionText="name"
+                defaultValue={environmentId}
+                fullWidth
+              />
             </ReferenceInput>
 
-            <ReferenceInput source="hosting_id" reference="hostings" sort={{field:"name", order:"ASC"}} >
-              <AutocompleteInput label="Hébergement" optionText={hostingOptionText} fullWidth/>
+            <ReferenceInput
+              source="hosting_id"
+              reference="hostings"
+              sort={{ field: "name", order: "ASC" }}
+            >
+              <AutocompleteInput
+                label="Hébergement"
+                optionText={hostingOptionText}
+                fullWidth
+              />
             </ReferenceInput>
 
-            <TextInput source="url" label={<OptionalFieldTitle label="Url" />} fullWidth/>
+            <TextInput
+              source="url"
+              label={<OptionalFieldTitle label="Url" />}
+              fullWidth
+            />
 
-            <TextInput source="role" label={<OptionalFieldTitle label="Role" />} fullWidth/>
+            <TextInput
+              source="role"
+              label={<OptionalFieldTitle label="Role" />}
+              fullWidth
+            />
 
-            <BooleanInput label="Statut" source="statut" defaultValue={true}/>
+            <BooleanInput label="Statut" source="statut" defaultValue={true} />
           </SimpleForm>
         </Create>
       </DialogContent>

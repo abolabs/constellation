@@ -12,7 +12,7 @@ return [
     'hostings' => 'Hostings',
     'administration' => 'Administration',
     'service_instances_dep' => 'Service instance dependencies',
-    'environnements' => 'Environments',
+    'environments' => 'Environments',
     'service_versions' => 'Service versions',
     'service_versions_dep' => 'Dependencies by service version',
     'hosting_types' => 'Types of hosting',

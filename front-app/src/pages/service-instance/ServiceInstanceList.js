@@ -44,8 +44,8 @@ const servicesInstancesFilters = [
   </ReferenceInput>,
   <ReferenceInput
     label="Environment"
-    source="environnement_id"
-    reference="environnements"
+    source="environment_id"
+    reference="environments"
     sort={{ field: "name", order: "ASC" }}
   >
     <SelectInput optionText="name" variant="outlined" />
@@ -67,9 +67,15 @@ const ServiceInstanceList = (props) => {
       >
         {isSmall ? (
           <SimpleList
-            primaryText={(record) => "#" + record.id + " - " + record.application_name}
+            primaryText={(record) =>
+              "#" + record.id + " - " + record.application_name
+            }
             secondaryText={
-              <ReferenceField source="service_version_id" reference="service_versions" link={false}>
+              <ReferenceField
+                source="service_version_id"
+                reference="service_versions"
+                link={false}
+              >
                 <TextField source="version" />
               </ReferenceField>
             }
@@ -79,14 +85,14 @@ const ServiceInstanceList = (props) => {
           />
         ) : (
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
-              <TextField source="id" />
-              <TextField source="application_name" />
-              <TextField source="service_name" />
-              <TextField source="service_version" />
-              <TextField source="environnement_name" />
-              <TextField source="hosting_name" />
-              <TextField source="role" />
-              <BooleanField source="statut" />
+            <TextField source="id" />
+            <TextField source="application_name" />
+            <TextField source="service_name" />
+            <TextField source="service_version" />
+            <TextField source="environment_name" />
+            <TextField source="hosting_name" />
+            <TextField source="role" />
+            <BooleanField source="statut" />
           </Datagrid>
         )}
       </DefaultList>

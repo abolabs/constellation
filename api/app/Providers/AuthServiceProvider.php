@@ -19,7 +19,7 @@ namespace App\Providers;
 
 use App\Models\Application;
 use App\Models\Audit;
-use App\Models\Environnement;
+use App\Models\Environment;
 use App\Models\Hosting;
 use App\Models\HostingType;
 use App\Models\Service;
@@ -29,7 +29,6 @@ use App\Models\ServiceVersion;
 use App\Models\Team;
 use App\Policies\ApplicationPolicy;
 use App\Policies\AuditPolicy;
-use App\Policies\EnvironnementPolicy;
 use App\Policies\HostingPolicy;
 use App\Policies\HostingTypePolicy;
 use App\Policies\ServiceInstanceDependenciesPolicy;
@@ -51,7 +50,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Application::class => ApplicationPolicy::class,
         Audit::class => AuditPolicy::class,
-        Environnement::class => EnvironnementPolicy::class,
+        Environment::class => Environment::class,
         Hosting::class => HostingPolicy::class,
         HostingType::class => HostingTypePolicy::class,
         Service::class => ServicePolicy::class,

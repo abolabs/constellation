@@ -42,10 +42,10 @@ class ServiceInstancesHasSameEnv implements Rule
     public function passes($attribute, $value)
     {
         try {
-            $sourceInstance = ServiceInstance::find($value, ['environnement_id']);
-            $depInstance = ServiceInstance::find($this->data->get('instance_dep_id'), ['environnement_id']);
+            $sourceInstance = ServiceInstance::find($value, ['environment_id']);
+            $depInstance = ServiceInstance::find($this->data->get('instance_dep_id'), ['environment_id']);
 
-            return $sourceInstance->environnement_id == $depInstance->environnement_id;
+            return $sourceInstance->environment_id == $depInstance->environment_id;
         } catch (\Exception $exception) {
             \Log::warning($exception);
 
@@ -60,6 +60,6 @@ class ServiceInstancesHasSameEnv implements Rule
      */
     public function message()
     {
-        return 'Source instance and dependency should be on the same environnement.';
+        return 'Source instance and dependency should be on the same environment.';
     }
 }

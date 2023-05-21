@@ -18,7 +18,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Requests\GetGraphServicesByAppRequest;
+use App\Http\Requests\API\GetGraphServicesByAppAPIRequest;
 use App\Models\Application;
 use App\Models\Hosting;
 use App\Models\Service;
@@ -39,10 +39,10 @@ class InfraAPIController extends AppBaseController
         $nbInstances = ServiceInstance::count();
         $nbServices = Service::count();
         $nbHostings = Hosting::count();
-        $mainEnvironnement = ServiceInstance::getMainEnvironnement();
+        $mainEnvironment = ServiceInstance::getMainEnvironment();
 
         return $this->sendResponse(collect([
-            'mainEnvironnement' => $mainEnvironnement,
+            'mainEnvironment' => $mainEnvironment,
             'nbHostings' => $nbHostings,
             'nbServices' => $nbServices,
             'nbInstances' => $nbInstances,
@@ -57,9 +57,9 @@ class InfraAPIController extends AppBaseController
      */
     public function displayAppMap()
     {
-        $mainEnvironnement = ServiceInstance::getMainEnvironnement();
+        $mainEnvironment = ServiceInstance::getMainEnvironment();
 
-        return $this->sendResponse(collect($mainEnvironnement), 'Mapping data retrieved successfully');
+        return $this->sendResponse(collect($mainEnvironment), 'Mapping data retrieved successfully');
     }
 
     /**
@@ -69,9 +69,9 @@ class InfraAPIController extends AppBaseController
      */
     public function displayByApp()
     {
-        $mainEnvironnement = ServiceInstance::getMainEnvironnement();
+        $mainEnvironment = ServiceInstance::getMainEnvironment();
 
-        return $this->sendResponse(collect($mainEnvironnement), 'Mapping data retrieved successfully');
+        return $this->sendResponse(collect($mainEnvironment), 'Mapping data retrieved successfully');
     }
 
     /**
@@ -81,20 +81,20 @@ class InfraAPIController extends AppBaseController
      */
     public function displayByHosting()
     {
-        $mainEnvironnement = ServiceInstance::getMainEnvironnement();
+        $mainEnvironment = ServiceInstance::getMainEnvironment();
 
-        return $this->sendResponse(collect($mainEnvironnement), 'Mapping data retrieved successfully');
+        return $this->sendResponse(collect($mainEnvironment), 'Mapping data retrieved successfully');
     }
 
     /**
      * Get nodes informations for the graph.
      */
-    public function getGraphByApp(GetGraphServicesByAppRequest $request)
+    public function getGraphByApp(GetGraphServicesByAppAPIRequest $request)
     {
         $nodesData = [];
 
         $instanceByApplicationsQuery = ServiceInstance::select('application_id')->with(['application'])
-            ->where('environnement_id', $request->environnement_id);
+            ->where('environment_id', $request->environment_id);
 
         // app filter
         if (! empty($request->application_id)) {
@@ -125,7 +125,7 @@ class InfraAPIController extends AppBaseController
             ->join('service_instance as source', function ($query) use ($request) {
                 $query->on('source.id', '=', 'service_instance_dep.instance_id');
 
-                $query->where('source.environnement_id', $request->environnement_id);
+                $query->where('source.environment_id', $request->environment_id);
                 if (! empty($request->application_id)) {
                     $query->whereIn('source.application_id', $request->application_id);
                 }
@@ -133,7 +133,7 @@ class InfraAPIController extends AppBaseController
             ->join('service_instance as target', function ($query) use ($request) {
                 $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
 
-                $query->where('target.environnement_id', $request->environnement_id);
+                $query->where('target.environment_id', $request->environment_id);
                 if (! empty($request->application_id)) {
                     $query->whereIn('target.application_id', $request->application_id);
                 }
@@ -169,12 +169,12 @@ class InfraAPIController extends AppBaseController
     /**
      * Get nodes informations for the graph.
      */
-    public function getGraphServicesByApp(GetGraphServicesByAppRequest $request)
+    public function getGraphServicesByApp(GetGraphServicesByAppAPIRequest $request)
     {
         $nodesData = [];
 
         $instanceByApplicationsQuery = ServiceInstance::select('application_id')->with('application')
-            ->where('environnement_id', $request->environnement_id);
+            ->where('environment_id', $request->environment_id);
 
         // app filter
         if (! empty($request->application_id)) {
@@ -201,7 +201,7 @@ class InfraAPIController extends AppBaseController
             ];
         }
         $instancesQuery = ServiceInstance::with('serviceVersion', 'application', 'hosting')
-            ->where('environnement_id', $request->environnement_id);
+            ->where('environment_id', $request->environment_id);
 
         // app filter
         if (! empty($request->application_id)) {
@@ -259,12 +259,12 @@ class InfraAPIController extends AppBaseController
     /**
      * Get nodes informations for the graph.
      */
-    public function getGraphServicesByHosting(GetGraphServicesByAppRequest $request)
+    public function getGraphServicesByHosting(GetGraphServicesByAppAPIRequest $request)
     {
         $nodesData = [];
 
         $instanceByHostingsQuery = ServiceInstance::select('hosting_id')->with('hosting')
-            ->where('environnement_id', $request->environnement_id);
+            ->where('environment_id', $request->environment_id);
         // app filter
         if (! empty($request->application_id)) {
             $instanceByHostingsQuery->whereIn('application_id', $request->application_id);
@@ -290,7 +290,7 @@ class InfraAPIController extends AppBaseController
             ];
         }
         $instancesQuery = ServiceInstance::with('serviceVersion', 'application')
-            ->where('environnement_id', $request->environnement_id);
+            ->where('environment_id', $request->environment_id);
         // app filter
         if (! empty($request->application_id)) {
             $instancesQuery->whereIn('application_id', $request->application_id);
@@ -369,12 +369,12 @@ class InfraAPIController extends AppBaseController
     /**
      * Load dependencies.
      */
-    private function getServiceInstanceDependencies(GetGraphServicesByAppRequest $request, $serviceInstance)
+    private function getServiceInstanceDependencies(GetGraphServicesByAppAPIRequest $request, $serviceInstance)
     {
         $depQuery = ServiceInstanceDependencies::join('service_instance as source', function ($query) use ($request) {
             $query->on('source.id', '=', 'service_instance_dep.instance_id');
 
-            $query->where('source.environnement_id', $request->environnement_id);
+            $query->where('source.environment_id', $request->environment_id);
             if (! empty($request->application_id)) {
                 $query->whereIn('source.application_id', $request->application_id);
             }
@@ -385,7 +385,7 @@ class InfraAPIController extends AppBaseController
             ->join('service_instance as target', function ($query) use ($request) {
                 $query->on('target.id', '=', 'service_instance_dep.instance_dep_id');
 
-                $query->where('target.environnement_id', $request->environnement_id);
+                $query->where('target.environment_id', $request->environment_id);
                 if (! empty($request->application_id)) {
                     $query->whereIn('target.application_id', $request->application_id);
                 }

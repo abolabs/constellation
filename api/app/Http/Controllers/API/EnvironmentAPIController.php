@@ -18,41 +18,35 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Requests\API\CreateApplicationAPIRequest;
-use App\Http\Requests\API\GetListAppBaseAPIRequest;
-use App\Http\Requests\API\UpdateApplicationAPIRequest;
-use App\Http\Resources\ApplicationResource;
-use App\Http\Resources\ServiceInstanceResource;
-use App\Models\Application;
+use App\Http\Requests\API\CreateEnvironmentAPIRequest;
+use App\Http\Requests\API\UpdateEnvironmentAPIRequest;
+use App\Http\Resources\EnvironmentResource;
 use App\Models\Environment;
-use App\Models\ServiceInstance;
-use App\Repositories\ApplicationRepository;
+use App\Repositories\EnvironmentRepository;
 use Illuminate\Http\Request;
-use Lang;
 use Response;
 
 /**
- * Class ApplicationController.
+ * Class EnvironmentController.
  */
-class ApplicationAPIController extends AppBaseController
+class EnvironmentAPIController extends AppBaseController
 {
-    /** @var ApplicationRepository */
-    private $applicationRepository;
+    /** @var EnvironmentRepository */
+    private $environmentRepository;
 
-    public function __construct(ApplicationRepository $applicationRepo)
+    public function __construct(EnvironmentRepository $environmentRepo)
     {
-        $this->applicationRepository = $applicationRepo;
+        $this->environmentRepository = $environmentRepo;
     }
 
     /**
-     * @param  Request  $request
      * @return Response
      *
      * @SWG\Get(
-     *      path="/applications",
-     *      summary="Get a listing of the Applications.",
-     *      tags={"Application"},
-     *      description="Get all Applications",
+     *      path="/environments",
+     *      summary="Get a listing of the Environments.",
+     *      tags={"Environment"},
+     *      description="Get all Environments",
      *      produces={"application/json"},
      *
      *      @SWG\Response(
@@ -70,7 +64,7 @@ class ApplicationAPIController extends AppBaseController
      *                  property="data",
      *                  type="array",
      *
-     *                  @SWG\Items(ref="#/definitions/Application")
+     *                  @SWG\Items(ref="#/definitions/Environment")
      *              ),
      *
      *              @SWG\Property(
@@ -81,35 +75,39 @@ class ApplicationAPIController extends AppBaseController
      *      )
      * )
      */
-    public function index(GetListAppBaseAPIRequest $request)
+    public function index(Request $request)
     {
-        $applications = $this->applicationRepository->apiAll(
+        $environments = $this->environmentRepository->apiAll(
             $request->except(['perPage', 'page', 'sort']),
             $request->perPage,
             $request->page,
             $request->sort
         );
 
-        return $this->sendResponse(ApplicationResource::collection($applications), Lang::get('application.show_confirm'), $applications->total());
+        return $this->sendResponse(
+            EnvironmentResource::collection($environments),
+            \Lang::get('environment.show_confirm'),
+            $environments->total()
+        );
     }
 
     /**
      * @return Response
      *
      * @SWG\Post(
-     *      path="/applications",
-     *      summary="Store a newly created Application in storage",
-     *      tags={"Application"},
-     *      description="Store Application",
+     *      path="/environments",
+     *      summary="Store a newly created Environment in storage",
+     *      tags={"Environment"},
+     *      description="Store Environment",
      *      produces={"application/json"},
      *
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Application that should be stored",
+     *          description="Environment that should be stored",
      *          required=false,
      *
-     *          @SWG\Schema(ref="#/definitions/Application")
+     *          @SWG\Schema(ref="#/definitions/Environment")
      *      ),
      *
      *      @SWG\Response(
@@ -125,7 +123,7 @@ class ApplicationAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Application"
+     *                  ref="#/definitions/Environment"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -135,13 +133,13 @@ class ApplicationAPIController extends AppBaseController
      *      )
      * )
      */
-    public function store(CreateApplicationAPIRequest $request)
+    public function store(CreateEnvironmentAPIRequest $request)
     {
         $input = $request->all();
 
-        $application = $this->applicationRepository->create($input);
+        $environment = $this->environmentRepository->create($input);
 
-        return $this->sendResponse(new ApplicationResource($application), Lang::get('application.saved_confirm'));
+        return $this->sendResponse(new EnvironmentResource($environment), \Lang::get('environment.saved_confirm'));
     }
 
     /**
@@ -149,15 +147,15 @@ class ApplicationAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Get(
-     *      path="/applications/{id}",
-     *      summary="Display the specified Application",
-     *      tags={"Application"},
-     *      description="Get Application",
+     *      path="/environments/{id}",
+     *      summary="Display the specified Environment",
+     *      tags={"Environment"},
+     *      description="Get Environment",
      *      produces={"application/json"},
      *
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Application",
+     *          description="id of Environment",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -176,7 +174,7 @@ class ApplicationAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Application"
+     *                  ref="#/definitions/Environment"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -188,30 +186,16 @@ class ApplicationAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Application $application */
-        $application = $this->applicationRepository->find($id);
+        /** @var Environment $environment */
+        $environment = $this->environmentRepository->find($id);
 
-        if (empty($application)) {
-            return $this->sendError(Lang::get('application.not_found'));
+        if (empty($environment)) {
+            return $this->sendError(\Lang::get('environment.not_found'));
         }
-        $serviceInstances = ServiceInstance::where('application_id', $application->id)
-            ->with(['serviceVersion', 'serviceVersion.service', 'environment'])
-            ->orderBy('environment_id')
-            ->get();
-
-        $countByEnv = Environment::withCount(['serviceInstances' => function ($query) use ($application) {
-            $query->where('application_id', $application->id);
-        }])
-            ->join('service_instance', 'environment.id', '=', 'service_instance.environment_id')
-            ->where('service_instance.application_id', $application->id)
-            ->get()->keyBy('id')->toArray();
 
         return $this->sendResponse(
-            (new ApplicationResource($application))->additional([
-                'serviceInstances' => ServiceInstanceResource::collection($serviceInstances),
-                'countByEnv' => $countByEnv,
-            ]),
-            Lang::get('application.show_confirm')
+            new EnvironmentResource($environment),
+            \Lang::get('environment.show_confirm')
         );
     }
 
@@ -220,15 +204,15 @@ class ApplicationAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Put(
-     *      path="/applications/{id}",
-     *      summary="Update the specified Application in storage",
-     *      tags={"Application"},
-     *      description="Update Application",
+     *      path="/environments/{id}",
+     *      summary="Update the specified Environment in storage",
+     *      tags={"Environment"},
+     *      description="Update Environment",
      *      produces={"application/json"},
      *
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Application",
+     *          description="id of Environment",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -236,10 +220,10 @@ class ApplicationAPIController extends AppBaseController
      *      @SWG\Parameter(
      *          name="body",
      *          in="body",
-     *          description="Application that should be updated",
+     *          description="Environment that should be updated",
      *          required=false,
      *
-     *          @SWG\Schema(ref="#/definitions/Application")
+     *          @SWG\Schema(ref="#/definitions/Environment")
      *      ),
      *
      *      @SWG\Response(
@@ -255,7 +239,7 @@ class ApplicationAPIController extends AppBaseController
      *              ),
      *              @SWG\Property(
      *                  property="data",
-     *                  ref="#/definitions/Application"
+     *                  ref="#/definitions/Environment"
      *              ),
      *              @SWG\Property(
      *                  property="message",
@@ -265,20 +249,20 @@ class ApplicationAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateApplicationAPIRequest $request)
+    public function update($id, UpdateEnvironmentAPIRequest $request)
     {
         $input = $request->all();
 
-        /** @var Application $application */
-        $application = $this->applicationRepository->find($id);
+        /** @var Environment $environment */
+        $environment = $this->environmentRepository->find($id);
 
-        if (empty($application)) {
-            return $this->sendError(Lang::get('application.not_found'));
+        if (empty($environment)) {
+            return $this->sendError(\Lang::get('environment.not_found'));
         }
 
-        $application = $this->applicationRepository->update($input, $id);
+        $environment = $this->environmentRepository->update($input, $id);
 
-        return $this->sendResponse(new ApplicationResource($application), Lang::get('application.update_confirm'));
+        return $this->sendResponse(new EnvironmentResource($environment), \Lang::get('environment.update_confirm'));
     }
 
     /**
@@ -286,15 +270,15 @@ class ApplicationAPIController extends AppBaseController
      * @return Response
      *
      * @SWG\Delete(
-     *      path="/applications/{id}",
-     *      summary="Remove the specified Application from storage",
-     *      tags={"Application"},
-     *      description="Delete Application",
+     *      path="/environments/{id}",
+     *      summary="Remove the specified Environment from storage",
+     *      tags={"Environment"},
+     *      description="Delete Environment",
      *      produces={"application/json"},
      *
      *      @SWG\Parameter(
      *          name="id",
-     *          description="id of Application",
+     *          description="id of Environment",
      *          type="integer",
      *          required=true,
      *          in="path"
@@ -325,15 +309,15 @@ class ApplicationAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Application $application */
-        $application = $this->applicationRepository->find($id);
+        /** @var Environment $environment */
+        $environment = $this->environmentRepository->find($id);
 
-        if (empty($application)) {
-            return $this->sendError(Lang::get('application.not_found'));
+        if (empty($environment)) {
+            return $this->sendError(\Lang::get('environment.not_found'));
         }
 
-        $application->delete();
+        $environment->delete();
 
-        return $this->sendSuccess(Lang::get('application.delete_confirm'));
+        return $this->sendSuccess(\Lang::get('environment.delete_confirm'));
     }
 }

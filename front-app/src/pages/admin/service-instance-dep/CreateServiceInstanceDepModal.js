@@ -36,29 +36,28 @@ import {
   useRecordContext,
   useRefresh,
 } from "react-admin";
-import CloseIcon from '@mui/icons-material/Close';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import CloseIcon from "@mui/icons-material/Close";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import Tag from "@components/styled/Tag";
 import AlertError from "@components/alerts/AlertError";
 import OptionalFieldTitle from "@components/form/OptionalFieldTitle";
 
 const CreateServiceInstanceDepModal = (props) => (
-  <CreateServiceInstanceDepBaseModal
-    {...props}
-    depType="depend_of"
-  />
+  <CreateServiceInstanceDepBaseModal {...props} depType="depend_of" />
 );
 
 const CreateServiceInstanceRequieredByModal = (props) => (
-  <CreateServiceInstanceDepBaseModal
-    {...props}
-    depType="required_by"
-  />
+  <CreateServiceInstanceDepBaseModal {...props} depType="required_by" />
 );
 
-const CreateServiceInstanceDepBaseModal = ({depType, sourceServiceInstance, handleClose, open = false}) => {
+const CreateServiceInstanceDepBaseModal = ({
+  depType,
+  sourceServiceInstance,
+  handleClose,
+  open = false,
+}) => {
   const [create, { isLoading }] = useCreate();
   const notify = useNotify();
   const [defaultValues, setDefaultValues] = useState({});
@@ -73,31 +72,39 @@ const CreateServiceInstanceDepBaseModal = ({depType, sourceServiceInstance, hand
   let sourceFieldName;
   let targetFieldName;
 
-  if ( depType === 'depend_of' ) {
-    sourceFieldName = 'instance_id';
-    targetFieldName = 'instance_dep_id';
-    idsToExclude = sourceServiceInstance?.meta?.instanceDependencies?.map((elt) => elt?.instance_dep_id);
+  if (depType === "depend_of") {
+    sourceFieldName = "instance_id";
+    targetFieldName = "instance_dep_id";
+    idsToExclude = sourceServiceInstance?.meta?.instanceDependencies?.map(
+      (elt) => elt?.instance_dep_id
+    );
   } else {
-    sourceFieldName = 'instance_dep_id';
-    targetFieldName = 'instance_id';
-    idsToExclude = sourceServiceInstance?.meta?.instanceDependenciesSource?.map((elt) => elt?.instance_id);
+    sourceFieldName = "instance_dep_id";
+    targetFieldName = "instance_id";
+    idsToExclude = sourceServiceInstance?.meta?.instanceDependenciesSource?.map(
+      (elt) => elt?.instance_id
+    );
   }
   idsToExclude?.push(sourceServiceInstance?.id);
 
   const onSuccess = (_data) => {
-    notify(`Dépendance de service ajoutée`, { type: 'success' })
+    notify(`Dépendance de service ajoutée`, { type: "success" });
     handleClose();
   };
 
   const referenceInputProps = {
-    source: targetFieldName
-  }
+    source: targetFieldName,
+  };
 
-  const handleSubmit =  async(data) => {
+  const handleSubmit = async (data) => {
     data[sourceFieldName] = sourceServiceInstance?.id;
     setDefaultValues(data);
-    try{
-      await create('service_instance_dependencies', {data: data}, { returnPromise: true });
+    try {
+      await create(
+        "service_instance_dependencies",
+        { data: data },
+        { returnPromise: true }
+      );
       setDefaultValues({});
       onSuccess();
       setLastError(null);
@@ -108,29 +115,30 @@ const CreateServiceInstanceDepBaseModal = ({depType, sourceServiceInstance, hand
     }
   };
 
-  const serviceInstanceInputText = choice => `${choice.service_name} ${choice.application_name}`;
-  const serviceInstanceMatchSuggestion = (_filter, _choice) =>  true;
+  const serviceInstanceInputText = (choice) =>
+    `${choice.service_name} ${choice.application_name}`;
+  const serviceInstanceMatchSuggestion = (_filter, _choice) => true;
 
   const dependencySchema = {};
-  dependencySchema[targetFieldName] = yup.number()
-    .required('Please select a dependency')
-    .typeError('Please select a dependency');
+  dependencySchema[targetFieldName] = yup
+    .number()
+    .required("Please select a dependency")
+    .typeError("Please select a dependency");
 
-  const schema = yup.object()
+  const schema = yup
+    .object()
     .shape({
-        ...dependencySchema,
-        level: yup.number()
-          .required('Please select a level')
-          .typeError('Please select a level'),
-        description: yup.string().nullable().max(254),
+      ...dependencySchema,
+      level: yup
+        .number()
+        .required("Please select a level")
+        .typeError("Please select a level"),
+      description: yup.string().nullable().max(254),
     })
     .required();
 
   return (
-    <Dialog
-      open={open}
-      fullWidth
-    >
+    <Dialog open={open} fullWidth>
       <DialogTitle>
         Ajouter une nouvelle instance dépendance
         {handleClose ? (
@@ -142,7 +150,7 @@ const CreateServiceInstanceDepBaseModal = ({depType, sourceServiceInstance, hand
               handleClose();
             }}
             sx={{
-              position: 'absolute',
+              position: "absolute",
               right: 8,
               top: 8,
               color: (theme) => theme.palette.primary.contrastText,
@@ -152,27 +160,28 @@ const CreateServiceInstanceDepBaseModal = ({depType, sourceServiceInstance, hand
           </IconButton>
         ) : null}
       </DialogTitle>
-      <DialogContent sx={{padding: 0}}>
-        { lastError ? <AlertError {...lastError} /> : null}
+      <DialogContent sx={{ padding: 0 }}>
+        {lastError ? <AlertError {...lastError} /> : null}
         <Create resource="service_instance_dependencies">
           <SimpleForm
             resolver={yupResolver(schema)}
             onSubmit={handleSubmit}
             defaultValues={defaultValues}
-            sx={{padding: "0 2rem"}}
+            sx={{ padding: "0 2rem" }}
           >
             <ReferenceInput
               reference="service_instances"
-              sort={{field:"service_version_name", order:"ASC"}}
+              sort={{ field: "service_version_name", order: "ASC" }}
               filter={{
-                environnement_id: sourceServiceInstance.environnement_id,
+                environment_id: sourceServiceInstance.environment_id,
                 _exclude: {
-                  id: idsToExclude
-                }
+                  id: idsToExclude,
+                },
               }}
               {...referenceInputProps}
             >
-              <AutocompleteInput label="Service"
+              <AutocompleteInput
+                label="Service"
                 ListboxComponent={List}
                 optionText={<OptionRenderer />}
                 inputText={serviceInstanceInputText}
@@ -181,18 +190,23 @@ const CreateServiceInstanceDepBaseModal = ({depType, sourceServiceInstance, hand
               />
             </ReferenceInput>
 
-            <RadioButtonGroupInput source="level"
+            <RadioButtonGroupInput
+              source="level"
               label="Niveau de dépendance"
               row={false}
               choices={[
-                { id: 1, name: 'Faible' },
-                { id: 2, name: 'Majeur' },
-                { id: 3, name: 'Critique' },
+                { id: 1, name: "Faible" },
+                { id: 2, name: "Majeur" },
+                { id: 3, name: "Critique" },
               ]}
             />
 
-            <TextInput source="description" label={<OptionalFieldTitle label="Description" />} multiline fullWidth/>
-
+            <TextInput
+              source="description"
+              label={<OptionalFieldTitle label="Description" />}
+              multiline
+              fullWidth
+            />
           </SimpleForm>
         </Create>
       </DialogContent>
@@ -215,7 +229,7 @@ const OptionRenderer = () => {
       </ListItemAvatar>
       <ListItemText
         primary={record.service_name}
-        secondary={`Application : ${record.application_name} ${record.environnement_name}`}
+        secondary={`Application : ${record.application_name} ${record.environment_name}`}
       />
     </ListItem>
   );

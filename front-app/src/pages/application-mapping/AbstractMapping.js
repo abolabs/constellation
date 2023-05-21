@@ -75,7 +75,7 @@ const AbstractMapping = ({
       .then(({ data }) => {
         setFilter({
           ...filter,
-          environnement_id: data?.environnement_id,
+          environment_id: data?.environment_id,
         });
         setLoading(false);
       })
@@ -282,11 +282,11 @@ const MappingFilters = ({
   }, [watchFields, refreshGraph]);
 
   useEffect(() => {
-    if (!defaultFilter?.environnement_id) {
+    if (!defaultFilter?.environment_id) {
       return;
     }
     refreshGraph({
-      environnement_id: defaultFilter?.environnement_id,
+      environment_id: defaultFilter?.environment_id,
       application_id: [],
       team_id: [],
     });
@@ -294,11 +294,11 @@ const MappingFilters = ({
 
   if (asWidget)
     return (
-      <ReferenceInput source="environnement_id" reference="environnements">
+      <ReferenceInput source="environment_id" reference="environments">
         <SelectInput
           isRequired={true}
           optionText="name"
-          defaultValue={defaultFilter?.environnement_id}
+          defaultValue={defaultFilter?.environment_id}
         />
       </ReferenceInput>
     );
@@ -306,11 +306,11 @@ const MappingFilters = ({
   return (
     <>
       <Typography variant="h5">Filter</Typography>
-      <ReferenceInput source="environnement_id" reference="environnements">
+      <ReferenceInput source="environment_id" reference="environments">
         <SelectInput
           isRequired={true}
           optionText="name"
-          defaultValue={defaultFilter?.environnement_id}
+          defaultValue={defaultFilter?.environment_id}
         />
       </ReferenceInput>
       {filterList.includes("application_id") ? (

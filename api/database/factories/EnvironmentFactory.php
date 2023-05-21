@@ -17,21 +17,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Application;
 use App\Models\Environment;
-use App\Models\Hosting;
-use App\Models\ServiceInstance;
-use App\Models\ServiceVersion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ServiceInstanceFactory extends Factory
+class EnvironmentFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = ServiceInstance::class;
+    protected $model = Environment::class;
 
     /**
      * Define the model's default state.
@@ -41,20 +37,7 @@ class ServiceInstanceFactory extends Factory
     public function definition()
     {
         return [
-            'application_id' => function () {
-                return Application::factory()->create()->id;
-            },
-            'service_version_id' => function () {
-                return ServiceVersion::factory()->create()->id;
-            },
-            'environment_id' => function () {
-                return Environment::factory()->create()->id;
-            },
-            'hosting_id' => function () {
-                return Hosting::factory()->create()->id;
-            },
-            'url' => $this->faker->url,
-            'statut' => $this->faker->boolean(50), // 50% chance
+            'name' => 'Env '.$this->faker->word,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
         ];

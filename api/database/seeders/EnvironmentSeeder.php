@@ -1,4 +1,6 @@
-// Copyright (C) 2023 Abolabs (https://gitlab.com/abolabs/)
+<?php
+
+// Copyright (C) 2022 Abolabs (https://gitlab.com/abolabs/)
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -13,16 +15,25 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AbstractMapping from "./AbstractMapping";
+namespace Database\Seeders;
 
-const MappingByApp = () => {
-  return (
-    <AbstractMapping
-      title="Mapping by app"
-      mappingUrl="application-mapping/graph-nodes-app-map"
-      filterList={["environment_id", "application_id", "team_id"]}
-    />
-  );
-};
+use App\Models\Environment;
+use Illuminate\Database\Seeder;
 
-export default MappingByApp;
+class EnvironmentSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $envs = ['Dev', 'Staging', 'Production'];
+        foreach ($envs as $env) {
+            Environment::create([
+                'name' => $env,
+            ]);
+        }
+    }
+}

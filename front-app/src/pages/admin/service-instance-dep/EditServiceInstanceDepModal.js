@@ -38,21 +38,27 @@ import {
   Toolbar,
   SaveButton,
 } from "react-admin";
-import CloseIcon from '@mui/icons-material/Close';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import CloseIcon from "@mui/icons-material/Close";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import Tag from "@components/styled/Tag";
 import AlertError from "@components/alerts/AlertError";
 import OptionalFieldTitle from "@components/form/OptionalFieldTitle";
 
-const ServiceInstanceDepEditToolbar = props => (
-  <Toolbar {...props} >
-      <SaveButton />
+const ServiceInstanceDepEditToolbar = (props) => (
+  <Toolbar {...props}>
+    <SaveButton />
   </Toolbar>
 );
 
-const EditServiceInstanceDepModal = ({currentServiceInstanceDep, depType, sourceServiceInstance, handleClose, open = false}) => {
+const EditServiceInstanceDepModal = ({
+  currentServiceInstanceDep,
+  depType,
+  sourceServiceInstance,
+  handleClose,
+  open = false,
+}) => {
   const [update, { isLoading }] = useUpdate();
   const notify = useNotify();
   const [defaultValues, setDefaultValues] = useState({});
@@ -61,31 +67,39 @@ const EditServiceInstanceDepModal = ({currentServiceInstanceDep, depType, source
 
   let idsToExclude, sourceFieldName, targetFieldName;
 
-  if ( depType === 'depend_of' ) {
-    sourceFieldName = 'instance_id';
-    targetFieldName = 'instance_dep_id';
-    idsToExclude = sourceServiceInstance?.meta?.instanceDependencies.map((elt) => elt?.instance_dep_id);
+  if (depType === "depend_of") {
+    sourceFieldName = "instance_id";
+    targetFieldName = "instance_dep_id";
+    idsToExclude = sourceServiceInstance?.meta?.instanceDependencies.map(
+      (elt) => elt?.instance_dep_id
+    );
   } else {
-    sourceFieldName = 'instance_dep_id';
-    targetFieldName = 'instance_id';
-    idsToExclude = sourceServiceInstance?.meta?.instanceDependenciesSource.map((elt) => elt?.instance_id);
+    sourceFieldName = "instance_dep_id";
+    targetFieldName = "instance_id";
+    idsToExclude = sourceServiceInstance?.meta?.instanceDependenciesSource.map(
+      (elt) => elt?.instance_id
+    );
   }
   idsToExclude.push(sourceServiceInstance?.id);
 
   const onSuccess = (_data) => {
-    notify(`Dépendance de service modifiée`, { type: 'success' })
+    notify(`Dépendance de service modifiée`, { type: "success" });
     handleClose();
   };
 
   const referenceInputProps = {
-    source: targetFieldName
-  }
+    source: targetFieldName,
+  };
 
-  const handleSubmit =  async(data) => {
+  const handleSubmit = async (data) => {
     data[sourceFieldName] = sourceServiceInstance?.id;
     setDefaultValues(data);
-    try{
-      await update('service_instance_dependencies', {id: currentServiceInstanceDep?.id, data: data}, { returnPromise: true });
+    try {
+      await update(
+        "service_instance_dependencies",
+        { id: currentServiceInstanceDep?.id, data: data },
+        { returnPromise: true }
+      );
       setDefaultValues({});
       onSuccess();
       setLastError(null);
@@ -96,21 +110,25 @@ const EditServiceInstanceDepModal = ({currentServiceInstanceDep, depType, source
     }
   };
 
-  const serviceInstanceInputText = choice => `${choice?.service_name} ${choice?.application_name}`;
-  const serviceInstanceMatchSuggestion = (_filter, _choice) =>  true;
+  const serviceInstanceInputText = (choice) =>
+    `${choice?.service_name} ${choice?.application_name}`;
+  const serviceInstanceMatchSuggestion = (_filter, _choice) => true;
 
   const dependencySchema = {};
-  dependencySchema[targetFieldName] = yup.number()
-    .required('Please select a dependency')
-    .typeError('Please select a dependency');
+  dependencySchema[targetFieldName] = yup
+    .number()
+    .required("Please select a dependency")
+    .typeError("Please select a dependency");
 
-  const schema = yup.object()
+  const schema = yup
+    .object()
     .shape({
-        ...dependencySchema,
-        level: yup.number()
-          .required('Please select a level')
-          .typeError('Please select a level'),
-        description: yup.string().nullable().max(254),
+      ...dependencySchema,
+      level: yup
+        .number()
+        .required("Please select a level")
+        .typeError("Please select a level"),
+      description: yup.string().nullable().max(254),
     })
     .required();
 
@@ -119,10 +137,7 @@ const EditServiceInstanceDepModal = ({currentServiceInstanceDep, depType, source
   }
 
   return (
-    <Dialog
-      open={open}
-      fullWidth
-    >
+    <Dialog open={open} fullWidth>
       <DialogTitle>
         Editer la dépendance
         {handleClose ? (
@@ -134,7 +149,7 @@ const EditServiceInstanceDepModal = ({currentServiceInstanceDep, depType, source
               handleClose();
             }}
             sx={{
-              position: 'absolute',
+              position: "absolute",
               right: 8,
               top: 8,
               color: (theme) => theme.palette.primary.contrastText,
@@ -144,28 +159,32 @@ const EditServiceInstanceDepModal = ({currentServiceInstanceDep, depType, source
           </IconButton>
         ) : null}
       </DialogTitle>
-      <DialogContent sx={{padding: 0}}>
-        { lastError ? <AlertError {...lastError} /> : null}
-        <Edit resource="service_instance_dependencies" id={currentServiceInstanceDep.id}>
+      <DialogContent sx={{ padding: 0 }}>
+        {lastError ? <AlertError {...lastError} /> : null}
+        <Edit
+          resource="service_instance_dependencies"
+          id={currentServiceInstanceDep.id}
+        >
           <SimpleForm
             toolbar={<ServiceInstanceDepEditToolbar />}
             resolver={yupResolver(schema)}
             onSubmit={handleSubmit}
             defaultValues={defaultValues}
-            sx={{padding: "0 2rem"}}
+            sx={{ padding: "0 2rem" }}
           >
             <ReferenceInput
               reference="service_instances"
-              sort={{field:"service_version_name", order:"ASC"}}
+              sort={{ field: "service_version_name", order: "ASC" }}
               filter={{
-                environnement_id: sourceServiceInstance.environnement_id,
+                environment_id: sourceServiceInstance.environment_id,
                 _exclude: {
-                  id: idsToExclude
-                }
+                  id: idsToExclude,
+                },
               }}
               {...referenceInputProps}
             >
-              <AutocompleteInput label="Service"
+              <AutocompleteInput
+                label="Service"
                 ListboxComponent={List}
                 optionText={<OptionRenderer />}
                 inputText={serviceInstanceInputText}
@@ -174,18 +193,23 @@ const EditServiceInstanceDepModal = ({currentServiceInstanceDep, depType, source
               />
             </ReferenceInput>
 
-            <RadioButtonGroupInput source="level"
+            <RadioButtonGroupInput
+              source="level"
               label="Niveau de dépendance"
               row={false}
               choices={[
-                { id: 1, name: 'Faible' },
-                { id: 2, name: 'Majeur' },
-                { id: 3, name: 'Critique' },
+                { id: 1, name: "Faible" },
+                { id: 2, name: "Majeur" },
+                { id: 3, name: "Critique" },
               ]}
             />
 
-            <TextInput source="description" label={<OptionalFieldTitle label="Description" />} multiline fullWidth/>
-
+            <TextInput
+              source="description"
+              label={<OptionalFieldTitle label="Description" />}
+              multiline
+              fullWidth
+            />
           </SimpleForm>
         </Edit>
       </DialogContent>
@@ -208,7 +232,7 @@ const OptionRenderer = () => {
       </ListItemAvatar>
       <ListItemText
         primary={record.service_name}
-        secondary={`Application : ${record.application_name} ${record.environnement_name}`}
+        secondary={`Application : ${record.application_name} ${record.environment_name}`}
       />
     </ListItem>
   );

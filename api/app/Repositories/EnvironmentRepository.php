@@ -1,4 +1,6 @@
-// Copyright (C) 2023 Abolabs (https://gitlab.com/abolabs/)
+<?php
+
+// Copyright (C) 2022 Abolabs (https://gitlab.com/abolabs/)
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -13,16 +15,39 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AbstractMapping from "./AbstractMapping";
+namespace App\Repositories;
 
-const MappingByApp = () => {
-  return (
-    <AbstractMapping
-      title="Mapping by app"
-      mappingUrl="application-mapping/graph-nodes-app-map"
-      filterList={["environment_id", "application_id", "team_id"]}
-    />
-  );
-};
+use App\Models\Environment;
 
-export default MappingByApp;
+/**
+ * Class EnvironmentRepository.
+ *
+ * @version September 4, 2021, 3:37 pm UTC
+ */
+class EnvironmentRepository extends BaseRepository
+{
+    /**
+     * @var array
+     */
+    protected $fieldSearchable = [
+        'name',
+    ];
+
+    /**
+     * Return searchable fields.
+     *
+     * @return array
+     */
+    public function getFieldsSearchable()
+    {
+        return $this->fieldSearchable;
+    }
+
+    /**
+     * Configure the Model.
+     **/
+    public function model()
+    {
+        return Environment::class;
+    }
+}

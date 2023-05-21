@@ -6,20 +6,14 @@
     },
     "host": "localhost:8080",
     "basePath": "/api",
-    "schemes": [
-        "http"
-    ],
+    "schemes": ["http"],
     "paths": {
         "/serviceInstanceDependencies": {
             "get": {
-                "tags": [
-                    "ServiceInstanceDependencies"
-                ],
+                "tags": ["ServiceInstanceDependencies"],
                 "summary": "Get a listing of the ServiceInstanceDependencies.",
                 "description": "Get all ServiceInstanceDependencies",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -44,14 +38,10 @@
                 }
             },
             "post": {
-                "tags": [
-                    "ServiceInstanceDependencies"
-                ],
+                "tags": ["ServiceInstanceDependencies"],
                 "summary": "Store a newly created ServiceInstanceDependencies in storage",
                 "description": "Store ServiceInstanceDependencies",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "body",
@@ -86,14 +76,10 @@
         },
         "/serviceInstanceDependencies/{id}": {
             "get": {
-                "tags": [
-                    "ServiceInstanceDependencies"
-                ],
+                "tags": ["ServiceInstanceDependencies"],
                 "summary": "Display the specified ServiceInstanceDependencies",
                 "description": "Get ServiceInstanceDependencies",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -124,14 +110,10 @@
                 }
             },
             "put": {
-                "tags": [
-                    "ServiceInstanceDependencies"
-                ],
+                "tags": ["ServiceInstanceDependencies"],
                 "summary": "Update the specified ServiceInstanceDependencies in storage",
                 "description": "Update ServiceInstanceDependencies",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -171,14 +153,10 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "ServiceInstanceDependencies"
-                ],
+                "tags": ["ServiceInstanceDependencies"],
                 "summary": "Remove the specified ServiceInstanceDependencies from storage",
                 "description": "Delete ServiceInstanceDependencies",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -211,14 +189,10 @@
         },
         "/applications": {
             "get": {
-                "tags": [
-                    "Application"
-                ],
+                "tags": ["Application"],
                 "summary": "Get a listing of the Applications.",
                 "description": "Get all Applications",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -243,14 +217,10 @@
                 }
             },
             "post": {
-                "tags": [
-                    "Application"
-                ],
+                "tags": ["Application"],
                 "summary": "Store a newly created Application in storage",
                 "description": "Store Application",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "body",
@@ -285,14 +255,10 @@
         },
         "/applications/{id}": {
             "get": {
-                "tags": [
-                    "Application"
-                ],
+                "tags": ["Application"],
                 "summary": "Display the specified Application",
                 "description": "Get Application",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -323,14 +289,10 @@
                 }
             },
             "put": {
-                "tags": [
-                    "Application"
-                ],
+                "tags": ["Application"],
                 "summary": "Update the specified Application in storage",
                 "description": "Update Application",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -370,14 +332,10 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "Application"
-                ],
+                "tags": ["Application"],
                 "summary": "Remove the specified Application from storage",
                 "description": "Delete Application",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -408,16 +366,12 @@
                 }
             }
         },
-        "/environnements": {
+        "/environments": {
             "get": {
-                "tags": [
-                    "Environnement"
-                ],
-                "summary": "Get a listing of the Environnements.",
-                "description": "Get all Environnements",
-                "produces": [
-                    "application/json"
-                ],
+                "tags": ["Environment"],
+                "summary": "Get a listing of the Environments.",
+                "description": "Get all Environments",
+                "produces": ["application/json"],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -429,7 +383,7 @@
                                 "data": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/Environnement"
+                                        "$ref": "#/definitions/Environment"
                                     }
                                 },
                                 "message": {
@@ -442,22 +396,18 @@
                 }
             },
             "post": {
-                "tags": [
-                    "Environnement"
-                ],
-                "summary": "Store a newly created Environnement in storage",
-                "description": "Store Environnement",
-                "produces": [
-                    "application/json"
-                ],
+                "tags": ["Environment"],
+                "summary": "Store a newly created Environment in storage",
+                "description": "Store Environment",
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Environnement that should be stored",
+                        "description": "Environment that should be stored",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/Environnement"
+                            "$ref": "#/definitions/Environment"
                         }
                     }
                 ],
@@ -470,7 +420,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Environnement"
+                                    "$ref": "#/definitions/Environment"
                                 },
                                 "message": {
                                     "type": "string"
@@ -482,21 +432,17 @@
                 }
             }
         },
-        "/environnements/{id}": {
+        "/environments/{id}": {
             "get": {
-                "tags": [
-                    "Environnement"
-                ],
-                "summary": "Display the specified Environnement",
-                "description": "Get Environnement",
-                "produces": [
-                    "application/json"
-                ],
+                "tags": ["Environment"],
+                "summary": "Display the specified Environment",
+                "description": "Get Environment",
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of Environnement",
+                        "description": "id of Environment",
                         "required": true,
                         "type": "integer"
                     }
@@ -510,7 +456,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Environnement"
+                                    "$ref": "#/definitions/Environment"
                                 },
                                 "message": {
                                     "type": "string"
@@ -522,29 +468,25 @@
                 }
             },
             "put": {
-                "tags": [
-                    "Environnement"
-                ],
-                "summary": "Update the specified Environnement in storage",
-                "description": "Update Environnement",
-                "produces": [
-                    "application/json"
-                ],
+                "tags": ["Environment"],
+                "summary": "Update the specified Environment in storage",
+                "description": "Update Environment",
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of Environnement",
+                        "description": "id of Environment",
                         "required": true,
                         "type": "integer"
                     },
                     {
                         "name": "body",
                         "in": "body",
-                        "description": "Environnement that should be updated",
+                        "description": "Environment that should be updated",
                         "required": false,
                         "schema": {
-                            "$ref": "#/definitions/Environnement"
+                            "$ref": "#/definitions/Environment"
                         }
                     }
                 ],
@@ -557,7 +499,7 @@
                                     "type": "boolean"
                                 },
                                 "data": {
-                                    "$ref": "#/definitions/Environnement"
+                                    "$ref": "#/definitions/Environment"
                                 },
                                 "message": {
                                     "type": "string"
@@ -569,19 +511,15 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "Environnement"
-                ],
-                "summary": "Remove the specified Environnement from storage",
-                "description": "Delete Environnement",
-                "produces": [
-                    "application/json"
-                ],
+                "tags": ["Environment"],
+                "summary": "Remove the specified Environment from storage",
+                "description": "Delete Environment",
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id of Environnement",
+                        "description": "id of Environment",
                         "required": true,
                         "type": "integer"
                     }
@@ -609,14 +547,10 @@
         },
         "/hostings": {
             "get": {
-                "tags": [
-                    "Hosting"
-                ],
+                "tags": ["Hosting"],
                 "summary": "Get a listing of the Hostings.",
                 "description": "Get all Hostings",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -641,14 +575,10 @@
                 }
             },
             "post": {
-                "tags": [
-                    "Hosting"
-                ],
+                "tags": ["Hosting"],
                 "summary": "Store a newly created Hosting in storage",
                 "description": "Store Hosting",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "body",
@@ -683,14 +613,10 @@
         },
         "/hostings/{id}": {
             "get": {
-                "tags": [
-                    "Hosting"
-                ],
+                "tags": ["Hosting"],
                 "summary": "Display the specified Hosting",
                 "description": "Get Hosting",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -721,14 +647,10 @@
                 }
             },
             "put": {
-                "tags": [
-                    "Hosting"
-                ],
+                "tags": ["Hosting"],
                 "summary": "Update the specified Hosting in storage",
                 "description": "Update Hosting",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -768,14 +690,10 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "Hosting"
-                ],
+                "tags": ["Hosting"],
                 "summary": "Remove the specified Hosting from storage",
                 "description": "Delete Hosting",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -808,14 +726,10 @@
         },
         "/hostingTypes": {
             "get": {
-                "tags": [
-                    "HostingType"
-                ],
+                "tags": ["HostingType"],
                 "summary": "Get a listing of the HostingTypes.",
                 "description": "Get all HostingTypes",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -840,14 +754,10 @@
                 }
             },
             "post": {
-                "tags": [
-                    "HostingType"
-                ],
+                "tags": ["HostingType"],
                 "summary": "Store a newly created HostingType in storage",
                 "description": "Store HostingType",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "body",
@@ -882,14 +792,10 @@
         },
         "/hostingTypes/{id}": {
             "get": {
-                "tags": [
-                    "HostingType"
-                ],
+                "tags": ["HostingType"],
                 "summary": "Display the specified HostingType",
                 "description": "Get HostingType",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -920,14 +826,10 @@
                 }
             },
             "put": {
-                "tags": [
-                    "HostingType"
-                ],
+                "tags": ["HostingType"],
                 "summary": "Update the specified HostingType in storage",
                 "description": "Update HostingType",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -967,14 +869,10 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "HostingType"
-                ],
+                "tags": ["HostingType"],
                 "summary": "Remove the specified HostingType from storage",
                 "description": "Delete HostingType",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -1007,14 +905,10 @@
         },
         "/services": {
             "get": {
-                "tags": [
-                    "Service"
-                ],
+                "tags": ["Service"],
                 "summary": "Get a listing of the Services.",
                 "description": "Get all Services",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -1039,14 +933,10 @@
                 }
             },
             "post": {
-                "tags": [
-                    "Service"
-                ],
+                "tags": ["Service"],
                 "summary": "Store a newly created Service in storage",
                 "description": "Store Service",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "body",
@@ -1081,14 +971,10 @@
         },
         "/services/{id}": {
             "get": {
-                "tags": [
-                    "Service"
-                ],
+                "tags": ["Service"],
                 "summary": "Display the specified Service",
                 "description": "Get Service",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -1119,14 +1005,10 @@
                 }
             },
             "put": {
-                "tags": [
-                    "Service"
-                ],
+                "tags": ["Service"],
                 "summary": "Update the specified Service in storage",
                 "description": "Update Service",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -1166,14 +1048,10 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "Service"
-                ],
+                "tags": ["Service"],
                 "summary": "Remove the specified Service from storage",
                 "description": "Delete Service",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -1206,14 +1084,10 @@
         },
         "/serviceVersions": {
             "get": {
-                "tags": [
-                    "ServiceVersion"
-                ],
+                "tags": ["ServiceVersion"],
                 "summary": "Get a listing of the ServiceVersions.",
                 "description": "Get all ServiceVersions",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -1238,14 +1112,10 @@
                 }
             },
             "post": {
-                "tags": [
-                    "ServiceVersion"
-                ],
+                "tags": ["ServiceVersion"],
                 "summary": "Store a newly created ServiceVersion in storage",
                 "description": "Store ServiceVersion",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "body",
@@ -1280,14 +1150,10 @@
         },
         "/serviceVersions/{id}": {
             "get": {
-                "tags": [
-                    "ServiceVersion"
-                ],
+                "tags": ["ServiceVersion"],
                 "summary": "Display the specified ServiceVersion",
                 "description": "Get ServiceVersion",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -1318,14 +1184,10 @@
                 }
             },
             "put": {
-                "tags": [
-                    "ServiceVersion"
-                ],
+                "tags": ["ServiceVersion"],
                 "summary": "Update the specified ServiceVersion in storage",
                 "description": "Update ServiceVersion",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -1365,14 +1227,10 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "ServiceVersion"
-                ],
+                "tags": ["ServiceVersion"],
                 "summary": "Remove the specified ServiceVersion from storage",
                 "description": "Delete ServiceVersion",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -1405,14 +1263,10 @@
         },
         "/teams": {
             "get": {
-                "tags": [
-                    "Team"
-                ],
+                "tags": ["Team"],
                 "summary": "Get a listing of the Teams.",
                 "description": "Get all Teams",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -1437,14 +1291,10 @@
                 }
             },
             "post": {
-                "tags": [
-                    "Team"
-                ],
+                "tags": ["Team"],
                 "summary": "Store a newly created Team in storage",
                 "description": "Store Team",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "body",
@@ -1479,14 +1329,10 @@
         },
         "/teams/{id}": {
             "get": {
-                "tags": [
-                    "Team"
-                ],
+                "tags": ["Team"],
                 "summary": "Display the specified Team",
                 "description": "Get Team",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -1517,14 +1363,10 @@
                 }
             },
             "put": {
-                "tags": [
-                    "Team"
-                ],
+                "tags": ["Team"],
                 "summary": "Update the specified Team in storage",
                 "description": "Update Team",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -1564,14 +1406,10 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "Team"
-                ],
+                "tags": ["Team"],
                 "summary": "Remove the specified Team from storage",
                 "description": "Delete Team",
-                "produces": [
-                    "application/json"
-                ],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -1605,9 +1443,7 @@
     },
     "definitions": {
         "ServiceInstanceDependencies": {
-            "required": [
-                ""
-            ],
+            "required": [""],
             "properties": {
                 "id": {
                     "description": "id",
@@ -1637,9 +1473,7 @@
             }
         },
         "Application": {
-            "required": [
-                ""
-            ],
+            "required": [""],
             "properties": {
                 "id": {
                     "description": "id",
@@ -1667,10 +1501,8 @@
                 }
             }
         },
-        "Environnement": {
-            "required": [
-                ""
-            ],
+        "Environment": {
+            "required": [""],
             "properties": {
                 "id": {
                     "description": "id",
@@ -1694,9 +1526,7 @@
             }
         },
         "Hosting": {
-            "required": [
-                ""
-            ],
+            "required": [""],
             "properties": {
                 "id": {
                     "description": "id",
@@ -1729,9 +1559,7 @@
             }
         },
         "HostingType": {
-            "required": [
-                ""
-            ],
+            "required": [""],
             "properties": {
                 "id": {
                     "description": "id",
@@ -1759,9 +1587,7 @@
             }
         },
         "Service": {
-            "required": [
-                ""
-            ],
+            "required": [""],
             "properties": {
                 "id": {
                     "description": "id",
@@ -1794,9 +1620,7 @@
             }
         },
         "ServiceVersion": {
-            "required": [
-                ""
-            ],
+            "required": [""],
             "properties": {
                 "id": {
                     "description": "id",
@@ -1825,9 +1649,7 @@
             }
         },
         "Team": {
-            "required": [
-                ""
-            ],
+            "required": [""],
             "properties": {
                 "id": {
                     "description": "id",

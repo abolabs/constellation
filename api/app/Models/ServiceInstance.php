@@ -32,11 +32,11 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @version September 4, 2021, 4:52 pm UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection $serviceVersions
- * @property \Illuminate\Database\Eloquent\Collection $environnements
+ * @property \Illuminate\Database\Eloquent\Collection $environments
  * @property \Illuminate\Database\Eloquent\Collection $applications
  * @property int $application_id
  * @property int $service_version_id
- * @property int $environnement_id
+ * @property int $environment_id
  * @property string $url
  * @property bool $statut
  */
@@ -54,7 +54,7 @@ class ServiceInstance extends Model implements Auditable
     public $fillable = [
         'application_id',
         'service_version_id',
-        'environnement_id',
+        'environment_id',
         'hosting_id',
         'url',
         'role',
@@ -70,7 +70,7 @@ class ServiceInstance extends Model implements Auditable
         'id' => 'integer',
         'application_id' => 'integer',
         'service_version_id' => 'integer',
-        'environnement_id' => 'integer',
+        'environment_id' => 'integer',
         'hosting_id' => 'integer',
         'url' => 'string',
         'role' => 'string',
@@ -85,7 +85,7 @@ class ServiceInstance extends Model implements Auditable
     public static $rules = [
         'application_id' => 'required|exists:application,id',
         'service_version_id' => 'required|exists:service_version,id',
-        'environnement_id' => 'required|exists:environnement,id',
+        'environment_id' => 'required|exists:environment,id',
         'hosting_id' => 'required|exists:hosting,id',
         'url' => 'nullable|url|max:255',
         'role' => 'nullable|string|max:255',
@@ -102,9 +102,9 @@ class ServiceInstance extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function environnement()
+    public function environment()
     {
-        return $this->belongsTo(\App\Models\Environnement::class, 'environnement_id');
+        return $this->belongsTo(\App\Models\Environment::class, 'environment_id');
     }
 
     /**
@@ -159,8 +159,8 @@ class ServiceInstance extends Model implements Auditable
             'service_version_id' => $this->service_version_id,
             'service_version' => $this->serviceVersion->version,
             'service_name' => $this->serviceVersion->service->name,
-            'environnement_id' => $this->environnement_id,
-            'environnement_name' => $this->environnement->name,
+            'environment_id' => $this->environment_id,
+            'environment_name' => $this->environment->name,
             'hosting_id' => $this->hosting_id,
             'hosting_name' => $this->hosting->name,
             'role' => $this->role,
@@ -169,25 +169,25 @@ class ServiceInstance extends Model implements Auditable
     }
 
     /**
-     * Get the most used environnement.
+     * Get the most used environment.
      */
-    public static function getMainEnvironnement(): array
+    public static function getMainEnvironment(): array
     {
         try {
-            $env = self::select('environnement_id', DB::raw('count(*) as total'))
-                ->with('environnement')
+            $env = self::select('environment_id', DB::raw('count(*) as total'))
+                ->with('environment')
                 ->orderBy('total', 'desc')
-                ->groupBy('environnement_id')
+                ->groupBy('environment_id')
                 ->first()
                 ->toArray();
         } catch (\Throwable $e) {
-            \Log::debug(' getMainEnvironnement '.$e);
+            \Log::error(' getMainEnvironment '.$e);
         }
 
         if (empty($env)) {
-            $tmpEnv = Environnement::first();
+            $tmpEnv = Environment::first();
             $env = [
-                'environnement' => [
+                'environment' => [
                     'id' => $tmpEnv->id,
                     'name' => $tmpEnv->name,
                 ],

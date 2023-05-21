@@ -1,110 +1,110 @@
 [
-    {
-        "name": "id",
-        "dbType": "increments",
-        "htmlType": "number",
-        "validations": "",
-        "searchable": true,
-        "fillable": false,
-        "primary": true,
-        "inForm": false,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "application_id",
-        "dbType": "integer:unsigned:foreign,application,id",
-        "htmlType": "select,1,2,3",
-        "validations": "",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "service_version_id",
-        "dbType": "integer:unsigned:foreign,service_version,id",
-        "htmlType": "select,1,2,3",
-        "validations": "",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "environnement_id",
-        "dbType": "integer:unsigned:foreign,environnement,id",
-        "htmlType": "select,1,2,3",
-        "validations": "",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "url",
-        "dbType": "string",
-        "htmlType": "text",
-        "validations": "",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "statut",
-        "dbType": "boolean",
-        "htmlType": "radio,0,1",
-        "validations": "",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "created_at",
-        "dbType": "timestamp",
-        "htmlType": "date",
-        "validations": "",
-        "searchable": false,
-        "fillable": false,
-        "primary": false,
-        "inForm": false,
-        "inIndex": false,
-        "inView": true
-    },
-    {
-        "name": "updated_at",
-        "dbType": "timestamp",
-        "htmlType": "date",
-        "validations": "",
-        "searchable": false,
-        "fillable": false,
-        "primary": false,
-        "inForm": false,
-        "inIndex": false,
-        "inView": true
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,ServiceVersion,id,service_version_id"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Environnement,id,environnement_id"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,Application,id,application_id"
-    }
+  {
+    "name": "id",
+    "dbType": "increments",
+    "htmlType": "number",
+    "validations": "",
+    "searchable": true,
+    "fillable": false,
+    "primary": true,
+    "inForm": false,
+    "inIndex": true,
+    "inView": true
+  },
+  {
+    "name": "application_id",
+    "dbType": "integer:unsigned:foreign,application,id",
+    "htmlType": "select,1,2,3",
+    "validations": "",
+    "searchable": true,
+    "fillable": true,
+    "primary": false,
+    "inForm": true,
+    "inIndex": true,
+    "inView": true
+  },
+  {
+    "name": "service_version_id",
+    "dbType": "integer:unsigned:foreign,service_version,id",
+    "htmlType": "select,1,2,3",
+    "validations": "",
+    "searchable": true,
+    "fillable": true,
+    "primary": false,
+    "inForm": true,
+    "inIndex": true,
+    "inView": true
+  },
+  {
+    "name": "environment_id",
+    "dbType": "integer:unsigned:foreign,environment,id",
+    "htmlType": "select,1,2,3",
+    "validations": "",
+    "searchable": true,
+    "fillable": true,
+    "primary": false,
+    "inForm": true,
+    "inIndex": true,
+    "inView": true
+  },
+  {
+    "name": "url",
+    "dbType": "string",
+    "htmlType": "text",
+    "validations": "",
+    "searchable": true,
+    "fillable": true,
+    "primary": false,
+    "inForm": true,
+    "inIndex": true,
+    "inView": true
+  },
+  {
+    "name": "statut",
+    "dbType": "boolean",
+    "htmlType": "radio,0,1",
+    "validations": "",
+    "searchable": true,
+    "fillable": true,
+    "primary": false,
+    "inForm": true,
+    "inIndex": true,
+    "inView": true
+  },
+  {
+    "name": "created_at",
+    "dbType": "timestamp",
+    "htmlType": "date",
+    "validations": "",
+    "searchable": false,
+    "fillable": false,
+    "primary": false,
+    "inForm": false,
+    "inIndex": false,
+    "inView": true
+  },
+  {
+    "name": "updated_at",
+    "dbType": "timestamp",
+    "htmlType": "date",
+    "validations": "",
+    "searchable": false,
+    "fillable": false,
+    "primary": false,
+    "inForm": false,
+    "inIndex": false,
+    "inView": true
+  },
+  {
+    "type": "relation",
+    "relation": "1tm,ServiceVersion,id,service_version_id"
+  },
+  {
+    "type": "relation",
+    "relation": "1tm,environment,id,environment_id"
+  },
+  {
+    "type": "relation",
+    "relation": "1tm,Application,id,application_id"
+  }
 ]

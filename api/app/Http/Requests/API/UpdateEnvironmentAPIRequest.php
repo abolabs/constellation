@@ -1,4 +1,6 @@
-// Copyright (C) 2023 Abolabs (https://gitlab.com/abolabs/)
+<?php
+
+// Copyright (C) 2022 Abolabs (https://gitlab.com/abolabs/)
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -13,16 +15,32 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AbstractMapping from "./AbstractMapping";
+namespace App\Http\Requests\API;
 
-const MappingByApp = () => {
-  return (
-    <AbstractMapping
-      title="Mapping by app"
-      mappingUrl="application-mapping/graph-nodes-app-map"
-      filterList={["environment_id", "application_id", "team_id"]}
-    />
-  );
-};
+use App\Models\Environment;
+use InfyOm\Generator\Request\APIRequest;
 
-export default MappingByApp;
+class UpdateEnvironmentAPIRequest extends APIRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        $rules = Environment::$rules;
+
+        return $rules;
+    }
+}

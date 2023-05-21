@@ -193,7 +193,9 @@ class HostingAPIController extends AppBaseController
             return $this->sendError('Hosting not found');
         }
 
-        $serviceInstances = ServiceInstance::where('hosting_id', $hosting->id)->with(['serviceVersion', 'serviceVersion.service', 'environnement'])->get();
+        $serviceInstances = ServiceInstance::where('hosting_id', $hosting->id)
+            ->with(['serviceVersion', 'serviceVersion.service', 'environment'])
+            ->get();
 
         return $this->sendResponse(
             (new HostingResource($hosting))->additional([

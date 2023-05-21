@@ -1,4 +1,6 @@
-// Copyright (C) 2023 Abolabs (https://gitlab.com/abolabs/)
+<?php
+
+// Copyright (C) 2022 Abolabs (https://gitlab.com/abolabs/)
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
@@ -13,16 +15,25 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import AbstractMapping from "./AbstractMapping";
+namespace App\Http\Resources;
 
-const MappingByApp = () => {
-  return (
-    <AbstractMapping
-      title="Mapping by app"
-      mappingUrl="application-mapping/graph-nodes-app-map"
-      filterList={["environment_id", "application_id", "team_id"]}
-    />
-  );
-};
+use Illuminate\Http\Resources\Json\JsonResource;
 
-export default MappingByApp;
+class EnvironmentResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function toArray($request)
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
+}

@@ -15,45 +15,35 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace App\Repositories;
+namespace App\Http\Requests\API;
 
-use App\Models\ServiceInstance;
+use InfyOm\Generator\Request\APIRequest;
 
-/**
- * Class ServiceInstanceRepository.
- *
- * @version September 4, 2021, 4:52 pm UTC
- */
-class ServiceInstanceRepository extends BaseRepository
+class GetGraphServicesByAppAPIRequest extends APIRequest
 {
     /**
-     * @var array
-     */
-    protected $fieldSearchable = [
-        'id',
-        'application_id',
-        'hosting_id',
-        'service_version_id',
-        'environment_id',
-        'url',
-        'statut',
-    ];
-
-    /**
-     * Return searchable fields.
+     * Determine if the user is authorized to make this request.
      *
-     * @return array
+     * @return bool
      */
-    public function getFieldsSearchable()
+    public function authorize()
     {
-        return $this->fieldSearchable;
+        return true;
     }
 
     /**
-     * Configure the Model.
-     **/
-    public function model()
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
     {
-        return ServiceInstance::class;
+        return [
+            'environnement_id' => 'exists:environnement,id',
+            'tag' => 'nullable|string',
+            'application_id.*' => 'nullable|exists:application,id',
+            'team_id.*' => 'nullable|exists:team,id',
+            'hosting_id.*' => 'nullable|exists:hosting,id',
+        ];
     }
 }
