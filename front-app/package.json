@@ -10,13 +10,13 @@
     "@fortawesome/free-regular-svg-icons": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@hookform/resolvers": "^2.9.10",
+    "@hookform/resolvers": "^3.1.0",
     "@mui/material": "^5.11.15",
     "@mui/styled-engine-sc": "^5.11.11",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "axios": "^0.21.4",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "14.4",
+    "axios": "^1.4.0",
     "base64url": "^3.0.1",
     "cytoscape": "^3.23.0",
     "cytoscape-cxtmenu": "^3.5.0",
@@ -41,8 +41,8 @@
     "styled-components": "^5.3.9",
     "tippy": "^0.0.0",
     "tippy.js": "^6.3.7",
-    "web-vitals": "^2.1.4",
-    "yup": "^0.32.11"
+    "web-vitals": "^3.3.1",
+    "yup": "^1.1.1"
   },
   "scripts": {
     "start": "react-app-rewired start",
