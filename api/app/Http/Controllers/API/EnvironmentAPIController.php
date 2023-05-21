@@ -77,11 +77,6 @@ class EnvironmentAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $environments = $this->environmentRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
         $environments = $this->environmentRepository->apiAll(
             $request->except(['perPage', 'page', 'sort']),
             $request->perPage,
@@ -89,7 +84,11 @@ class EnvironmentAPIController extends AppBaseController
             $request->sort
         );
 
-        return $this->sendResponse(EnvironmentResource::collection($environments), \Lang::get('environment.show_confirm'), $environments->total());
+        return $this->sendResponse(
+            EnvironmentResource::collection($environments),
+            \Lang::get('environment.show_confirm'),
+            $environments->total()
+        );
     }
 
     /**
@@ -194,7 +193,10 @@ class EnvironmentAPIController extends AppBaseController
             return $this->sendError(\Lang::get('environment.not_found'));
         }
 
-        return $this->sendResponse(new EnvironmentResource($environment), \Lang::get('environment.show_confirm'));
+        return $this->sendResponse(
+            new EnvironmentResource($environment),
+            \Lang::get('environment.show_confirm')
+        );
     }
 
     /**

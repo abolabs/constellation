@@ -194,7 +194,10 @@ class ApplicationAPIController extends AppBaseController
         if (empty($application)) {
             return $this->sendError(Lang::get('application.not_found'));
         }
-        $serviceInstances = ServiceInstance::where('application_id', $application->id)->with(['serviceVersion', 'serviceVersion.service', 'environment'])->orderBy('environment_id')->get();
+        $serviceInstances = ServiceInstance::where('application_id', $application->id)
+            ->with(['serviceVersion', 'serviceVersion.service', 'environment'])
+            ->orderBy('environment_id')
+            ->get();
 
         $countByEnv = Environment::withCount(['serviceInstances' => function ($query) use ($application) {
             $query->where('application_id', $application->id);
