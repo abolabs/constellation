@@ -151,7 +151,6 @@ const AbstractMapping = ({
         <Card
           sx={{
             maxWidth: 316,
-            borderRadius: theme?.shape?.borderRadius,
             borderTopRightRadius: 0,
             borderBottomLeftRadius: 0,
             mt: 0,
@@ -161,7 +160,7 @@ const AbstractMapping = ({
             top: 0,
             left: 0,
             zIndex: 1,
-            opacity: 0.96,
+            opacity: 0.85,
           }}
         >
           <CardContent

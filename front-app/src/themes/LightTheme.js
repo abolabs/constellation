@@ -16,6 +16,7 @@
 import { defaultTheme } from "react-admin";
 import { createTheme } from "@mui/material/styles";
 import componentsOverride from "./ComponentsOverride";
+import { grey } from "@mui/material/colors";
 
 const theme = createTheme(
   {
@@ -42,7 +43,7 @@ const theme = createTheme(
       },
       background: {
         default: "#e0e0e0",
-        paper: "#eeeeee",
+        paper: grey[200],
       },
       shadows: {
         1: "0rem 1.25rem 1.6875rem 0rem rgba(0, 0, 0, 0.01)",
