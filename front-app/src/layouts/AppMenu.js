@@ -26,20 +26,21 @@ import StorageIcon from "@mui/icons-material/Storage";
 import GroupsIcon from "@mui/icons-material/Groups";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import PersonIcon from "@mui/icons-material/Person";
-import HistoryIcon from '@mui/icons-material/History';
-import Replay30Icon from '@mui/icons-material/Replay30';
-import LanIcon from '@mui/icons-material/Lan';
-import WebAssetIcon from '@mui/icons-material/WebAsset';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import HistoryIcon from "@mui/icons-material/History";
+import Replay30Icon from "@mui/icons-material/Replay30";
+import LanIcon from "@mui/icons-material/Lan";
+import WebAssetIcon from "@mui/icons-material/WebAsset";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
 import { useTheme } from "@mui/material/styles";
-import { useMediaQuery, Avatar, Grid, Collapse } from "@mui/material";
-import { useGetIdentity } from 'ra-core';
+import { useMediaQuery, Grid, Collapse } from "@mui/material";
+import { useGetIdentity } from "ra-core";
 import { useEffect, useState } from "react";
+import Gravatar from "react-gravatar";
 
 const AppMenu = () => {
   const theme = useTheme();
@@ -49,9 +50,9 @@ const AppMenu = () => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const { isLoading, identity } = useGetIdentity();
 
-  useEffect(( ) => {
+  useEffect(() => {
     setOpen(isMediumOrUpper);
-  }, [isMediumOrUpper, setOpen])
+  }, [isMediumOrUpper, setOpen]);
 
   return (
     <Menu
@@ -61,7 +62,7 @@ const AppMenu = () => {
         borderRadius: isSmall ? 0 : 1,
         mr: 3,
         pt: 0.5,
-        pb:0.5,
+        pb: 0.5,
         h4: {
           textAlign: "center",
           mt: 0.5,
@@ -72,7 +73,7 @@ const AppMenu = () => {
           mt: 0.5,
           mb: 0.5,
         },
-        "& .SidebarAvatar":{
+        "& .SidebarAvatar": {
           pt: 1,
         },
         "&.RaMenu-open": {
@@ -82,13 +83,13 @@ const AppMenu = () => {
           p: isSmall ? 0 : "default",
           m: isSmall ? 0 : "default",
         },
-        "&.RaMenu-closed":{
-          ml:0.5,
+        "&.RaMenu-closed": {
+          ml: 0.5,
           width: "2.5rem",
-          ".MuiMenuItem-root":{
+          ".MuiMenuItem-root": {
             m: 0,
             padding: "0.25rem",
-          }
+          },
         },
         "& .MuiButtonBase-root .MuiSvgIcon-root": {
           background: theme.palette.background.paper,
@@ -121,25 +122,32 @@ const AppMenu = () => {
         },
       }}
     >
-      {!isLoading && open ?
-        (
-          <Grid container direction="column" alignItems="center" className="SidebarAvatar" mb={2}>
-            <Grid item>
-              <Avatar
-                  className="RaUserMenu-avatar"
-                  src={identity.avatar}
-                  alt={identity.fullName}
-              />
-            </Grid>
-            <Grid item>
-              <Typography variant="h5" align="center">{identity.fullName}</Typography>
-            </Grid>
+      {!isLoading && open ? (
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          className="SidebarAvatar"
+          mb={2}
+        >
+          <Grid item>
+            <Gravatar
+              email={identity.email}
+              style={{ "border-radius": "50%" }}
+            />
           </Grid>
-        ) : null
-      }
+          <Grid item>
+            <Typography variant="h5" align="center">
+              {identity.fullName}
+            </Typography>
+          </Grid>
+        </Grid>
+      ) : null}
       <Menu.DashboardItem />
       {open ? (
-        <Typography variant="h4" pt={1}>Application mapping</Typography>
+        <Typography variant="h4" pt={1}>
+          Application mapping
+        </Typography>
       ) : (
         <Divider />
       )}
@@ -159,7 +167,9 @@ const AppMenu = () => {
         leftIcon={<LanIcon />}
       />
       {open ? (
-        <Typography variant="h4" pt={1}>Inventaire</Typography>
+        <Typography variant="h4" pt={1}>
+          Inventaire
+        </Typography>
       ) : (
         <Divider />
       )}
@@ -192,12 +202,12 @@ const AppMenu = () => {
             ".MuiSvgIcon-root": {
               display: "inline-flex",
               verticalAlign: "middle",
-            }
-           }}
+            },
+          }}
           onClick={() => setAdminOpen(!adminOpen)}
-
         >
-          Administration {adminOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
+          Administration{" "}
+          {adminOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
         </Typography>
       ) : (
         <Divider />
