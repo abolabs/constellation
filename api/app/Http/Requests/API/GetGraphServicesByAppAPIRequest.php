@@ -15,12 +15,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\API;
 
-use App\Models\Application;
-use Illuminate\Foundation\Http\FormRequest;
+use InfyOm\Generator\Request\APIRequest;
 
-class UpdateApplicationRequest extends FormRequest
+class GetGraphServicesByAppAPIRequest extends APIRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -39,8 +38,12 @@ class UpdateApplicationRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Application::$rules;
-
-        return $rules;
+        return [
+            'environnement_id' => 'exists:environnement,id',
+            'tag' => 'nullable|string',
+            'application_id.*' => 'nullable|exists:application,id',
+            'team_id.*' => 'nullable|exists:team,id',
+            'hosting_id.*' => 'nullable|exists:hosting,id',
+        ];
     }
 }

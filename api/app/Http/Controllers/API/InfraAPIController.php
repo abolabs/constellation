@@ -18,7 +18,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Requests\GetGraphServicesByAppRequest;
+use App\Http\Requests\API\GetGraphServicesByAppAPIRequest;
 use App\Models\Application;
 use App\Models\Hosting;
 use App\Models\Service;
@@ -89,7 +89,7 @@ class InfraAPIController extends AppBaseController
     /**
      * Get nodes informations for the graph.
      */
-    public function getGraphByApp(GetGraphServicesByAppRequest $request)
+    public function getGraphByApp(GetGraphServicesByAppAPIRequest $request)
     {
         $nodesData = [];
 
@@ -169,7 +169,7 @@ class InfraAPIController extends AppBaseController
     /**
      * Get nodes informations for the graph.
      */
-    public function getGraphServicesByApp(GetGraphServicesByAppRequest $request)
+    public function getGraphServicesByApp(GetGraphServicesByAppAPIRequest $request)
     {
         $nodesData = [];
 
@@ -259,7 +259,7 @@ class InfraAPIController extends AppBaseController
     /**
      * Get nodes informations for the graph.
      */
-    public function getGraphServicesByHosting(GetGraphServicesByAppRequest $request)
+    public function getGraphServicesByHosting(GetGraphServicesByAppAPIRequest $request)
     {
         $nodesData = [];
 
@@ -369,7 +369,7 @@ class InfraAPIController extends AppBaseController
     /**
      * Load dependencies.
      */
-    private function getServiceInstanceDependencies(GetGraphServicesByAppRequest $request, $serviceInstance)
+    private function getServiceInstanceDependencies(GetGraphServicesByAppAPIRequest $request, $serviceInstance)
     {
         $depQuery = ServiceInstanceDependencies::join('service_instance as source', function ($query) use ($request) {
             $query->on('source.id', '=', 'service_instance_dep.instance_id');

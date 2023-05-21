@@ -1,26 +1,4 @@
-window._ = require('lodash');
-window.$ = window.jQuery = require('jquery');
-
-const Lang = require('lang.js');
-
-window.lang = new Lang({
-    messages: require('./messages.json'),
-    locale: navigator.language,
-    fallback: "en"
-})
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-try {
-    window.Popper = require('@popperjs/core').createPopper;
-    require('bootstrap');
-} catch (e) {
-    console.log(e);
-}
+window._ = require("lodash");
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -28,9 +6,9 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+window.axios = require("axios");
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -48,51 +26,3 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
-
-/**
- * selector utils
- */
-window.selector = require('./utils/selector');
-
-/**
- * Cytoscape
- */
-window.cytoscape = require('cytoscape');
-require('cytoscape-cxtmenu');
-require('cytoscape-layout-utilities');
-require('cytoscape-fcose');
-require('cytoscape-popper');
-
-/**
- * Graph
- */
- import('./utils/Graph').then((Graph) => {
-    window.Graph = Graph.default;
- });
-
-/**
- * Environnement
- */
- import('./utils/Environnement').then((Environnement) => {
-    window.Environnement = Environnement.default;
- });
-
-/**
- * Datatable
- */
- var DataTable = require('datatables.net');
- require( 'datatables.net-buttons' );
- require( 'datatables.net-responsive' );
-
- $.fn.dataTable = DataTable;
- $.fn.dataTableSettings = DataTable.settings;
- $.fn.dataTableExt = DataTable.ext;
- DataTable.$ = $;
-
- import('./utils/DataTableRenderer').then((DataTableRenderer) => {
-    window.DataTableRenderer = DataTableRenderer.default;
- });
-
- import tippy, {sticky} from 'tippy.js';
- window.tippy = tippy
- window.tippyPluginSticky = sticky
