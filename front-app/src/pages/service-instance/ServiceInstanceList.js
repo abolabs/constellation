@@ -23,6 +23,7 @@ import {
   SelectInput,
   BulkExportButton,
   BooleanField,
+  usePermissions,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -31,6 +32,7 @@ import Typography from "@mui/material/Typography";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import DefaultList from "@components/styled/DefaultList";
+import WithPermission from "@components/WithPermission";
 
 const servicesInstancesFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -55,6 +57,7 @@ const servicesInstancesFilters = [
 const ServiceInstanceList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
+  const { permissions } = usePermissions();
 
   return (
     <>
@@ -63,10 +66,15 @@ const ServiceInstanceList = (props) => {
       <DefaultList
         {...props}
         filters={servicesInstancesFilters}
-        actions={<DefaultToolBar />}
+        actions={
+          <DefaultToolBar
+            canCreate={permissions.includes("create service_instances")}
+          />
+        }
       >
         {isSmall ? (
           <SimpleList
+            linkType="show"
             primaryText={(record) =>
               "#" + record.id + " - " + record.application_name
             }
@@ -100,4 +108,12 @@ const ServiceInstanceList = (props) => {
   );
 };
 
-export default ServiceInstanceList;
+const ServiceInstanceListWithPermission = (props) => (
+  <WithPermission
+    permission="view service_instances"
+    element={ServiceInstanceList}
+    elementProps={props}
+  />
+);
+
+export default ServiceInstanceListWithPermission;

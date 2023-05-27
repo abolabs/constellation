@@ -4,14 +4,12 @@ namespace Tests\APIs\v1;
 
 use App\Models\Environment;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\ApiTestTrait;
 use Tests\TestCase;
 
 class EnvironmentApiTest extends TestCase
 {
     use ApiTestTrait;
-    use WithoutMiddleware;
     use DatabaseTransactions;
 
     private const ROUTE_PREFIX = '/api/v1/environments';
@@ -41,7 +39,7 @@ class EnvironmentApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX.'/'.$environment->id
+            self::ROUTE_PREFIX . '/' . $environment->id
         );
 
         $this->assertApiResponse($environment->toArray());
@@ -57,7 +55,7 @@ class EnvironmentApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX.'/'.$environment->id,
+            self::ROUTE_PREFIX . '/' . $environment->id,
             $editedEnvironment
         );
 
@@ -73,13 +71,13 @@ class EnvironmentApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX.'/'.$environment->id
+            self::ROUTE_PREFIX . '/' . $environment->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX.'/'.$environment->id
+            self::ROUTE_PREFIX . '/' . $environment->id
         );
 
         $this->response->assertStatus(404);

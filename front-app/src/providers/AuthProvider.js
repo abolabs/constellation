@@ -16,6 +16,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { AUTH_CHECK } from "react-admin";
+import dataProvider from "./DataProvider";
 
 const AuthProvider = {
   login: async ({ email, password }) => {
@@ -46,10 +47,17 @@ const AuthProvider = {
     }
     AuthProvider.setToken(response?.data);
 
+    const permissionsResponse = await dataProvider.getPermissions();
+    if (permissionsResponse.status < 200 || permissionsResponse.status >= 300) {
+      throw new Error(permissionsResponse.statusText);
+    }
+    AuthProvider.setPermissions(permissionsResponse?.data);
+
     return Promise.resolve(response.data);
   },
   logout: () => {
     localStorage.removeItem("auth");
+    localStorage.removeItem("permissions");
     return Promise.resolve();
   },
   checkAuth: (type, params, ...rest) => {
@@ -79,6 +87,19 @@ const AuthProvider = {
     localStorage.setItem("auth", JSON.stringify(data));
     return true;
   },
+  getPermissions: () => {
+    try {
+      const role = JSON.parse(localStorage.getItem("permissions"));
+      return role ? Promise.resolve(role) : Promise.reject();
+    } catch (e) {
+      console.error("getPermissions", e);
+    }
+    return Promise.reject();
+  },
+  setPermissions: (data) => {
+    localStorage.setItem("permissions", JSON.stringify(data));
+    return true;
+  },
   getIdentity: () => {
     try {
       const token = AuthProvider.getToken();
@@ -99,7 +120,6 @@ const AuthProvider = {
       email: "",
     });
   },
-  getPermissions: () => Promise.resolve(""),
 };
 
 export default AuthProvider;

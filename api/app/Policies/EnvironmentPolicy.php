@@ -19,79 +19,62 @@ namespace App\Policies;
 
 use App\Models\Environment;
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EnvironmentPolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view any models.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        return $user->can('view environment');
+        return $user->can('view environments');
     }
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Environment $environment)
+    public function view(User $user, Environment $environment): bool
     {
-        return $user->can('view environment');
+        return $user->can('view environments');
     }
 
     /**
      * Determine whether the user can create models.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return $user->can('create environment');
+        return $user->can('create environments');
     }
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Environment $environment)
+    public function update(User $user, Environment $environment): bool
     {
-        return $user->can('edit environment');
+        return $user->can('edit environments');
     }
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Environment $environment)
+    public function delete(User $user, Environment $environment): bool
     {
-        return $user->can('delete environment');
+        return $user->can('delete environments');
     }
 
     /**
      * Determine whether the user can restore the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Environment $environment)
+    public function restore(User $user, Environment $environment): bool
     {
-        return $user->can('edit environment');
+        return $user->can('edit environments');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Environment $environment)
+    public function forceDelete(User $user, Environment $environment): bool
     {
-        return $user->can('delete environment');
+        return $user->can('delete environments');
     }
 }

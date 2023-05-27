@@ -35,6 +35,7 @@ class AuditAPIController extends AppBaseController
 
     public function __construct(AuditRepository $auditRepository)
     {
+        $this->authorizeResource(Audit::class);
         $this->auditRepository = $auditRepository;
     }
 
@@ -92,7 +93,7 @@ class AuditAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  Audit  $audit
      * @return Response
      *
      * @SWG\Get(
@@ -133,11 +134,8 @@ class AuditAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show(Audit $audit)
     {
-        /** @var Audit $audit */
-        $audit = $this->auditRepository->find($id);
-
         if (empty($audit)) {
             return $this->sendError('Audit not found');
         }

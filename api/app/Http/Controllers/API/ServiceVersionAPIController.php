@@ -36,6 +36,7 @@ class ServiceVersionAPIController extends AppBaseController
 
     public function __construct(ServiceVersionRepository $serviceVersionRepo)
     {
+        $this->authorizeResource(ServiceVersion::class);
         $this->serviceVersionRepository = $serviceVersionRepo;
     }
 
@@ -140,7 +141,7 @@ class ServiceVersionAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  ServiceVersion $serviceVersion
      * @return Response
      *
      * @SWG\Get(
@@ -181,11 +182,8 @@ class ServiceVersionAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show(ServiceVersion $serviceVersion)
     {
-        /** @var ServiceVersion $serviceVersion */
-        $serviceVersion = $this->serviceVersionRepository->find($id);
-
         if (empty($serviceVersion)) {
             return $this->sendError('Service Version not found');
         }
@@ -194,7 +192,7 @@ class ServiceVersionAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  ServiceVersion $serviceVersion
      * @return Response
      *
      * @SWG\Put(
@@ -243,24 +241,21 @@ class ServiceVersionAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateServiceVersionAPIRequest $request)
+    public function update(ServiceVersion $serviceVersion, UpdateServiceVersionAPIRequest $request)
     {
         $input = $request->all();
-
-        /** @var ServiceVersion $serviceVersion */
-        $serviceVersion = $this->serviceVersionRepository->find($id);
 
         if (empty($serviceVersion)) {
             return $this->sendError('Service Version not found');
         }
 
-        $serviceVersion = $this->serviceVersionRepository->update($input, $id);
+        $serviceVersion = $this->serviceVersionRepository->update($input, $serviceVersion->id);
 
         return $this->sendResponse(new ServiceVersionResource($serviceVersion), 'ServiceVersion updated successfully');
     }
 
     /**
-     * @param  int  $id
+     * @param  ServiceVersion $serviceVersion
      * @return Response
      *
      * @SWG\Delete(
@@ -301,11 +296,8 @@ class ServiceVersionAPIController extends AppBaseController
      *      )
      * )
      */
-    public function destroy($id)
+    public function destroy(ServiceVersion $serviceVersion)
     {
-        /** @var ServiceVersion $serviceVersion */
-        $serviceVersion = $this->serviceVersionRepository->find($id);
-
         if (empty($serviceVersion)) {
             return $this->sendError('Service Version not found');
         }

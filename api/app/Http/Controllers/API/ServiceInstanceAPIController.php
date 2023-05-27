@@ -37,6 +37,7 @@ class ServiceInstanceAPIController extends AppBaseController
 
     public function __construct(ServiceInstanceRepository $serviceInstanceRepo)
     {
+        $this->authorizeResource(ServiceInstance::class);
         $this->serviceInstanceRepository = $serviceInstanceRepo;
     }
 
@@ -75,16 +76,13 @@ class ServiceInstanceAPIController extends AppBaseController
 
     /**
      * Display the specified ServiceInstance.
-     * GET|HEAD /serviceInstances/{id}.
+     * GET|HEAD /serviceInstances/{serviceInstance}.
      *
-     * @param  int  $id
+     * @param  ServiceInstance  $serviceInstance
      * @return Response
      */
-    public function show($id)
+    public function show(ServiceInstance $serviceInstance)
     {
-        /** @var ServiceInstance $serviceInstance */
-        $serviceInstance = $this->serviceInstanceRepository->find($id);
-
         if (empty($serviceInstance)) {
             return $this->sendError('Service Instance not found');
         }
@@ -118,41 +116,35 @@ class ServiceInstanceAPIController extends AppBaseController
 
     /**
      * Update the specified ServiceInstance in storage.
-     * PUT/PATCH /serviceInstances/{id}.
+     * PUT/PATCH /serviceInstances/{serviceInstance}.
      *
-     * @param  int  $id
+     * @param  ServiceInstance $serviceInstance
      * @return Response
      */
-    public function update($id, UpdateServiceInstanceAPIRequest $request)
+    public function update(ServiceInstance $serviceInstance, UpdateServiceInstanceAPIRequest $request)
     {
         $input = $request->all();
-
-        /** @var ServiceInstance $serviceInstance */
-        $serviceInstance = $this->serviceInstanceRepository->find($id);
 
         if (empty($serviceInstance)) {
             return $this->sendError('Service Instance not found');
         }
 
-        $serviceInstance = $this->serviceInstanceRepository->update($input, $id);
+        $serviceInstance = $this->serviceInstanceRepository->update($input, $serviceInstance->id);
 
         return $this->sendResponse(new ServiceInstanceResource($serviceInstance), 'ServiceInstance updated successfully');
     }
 
     /**
      * Remove the specified ServiceInstance from storage.
-     * DELETE /serviceInstances/{id}.
+     * DELETE /serviceInstances/{serviceInstance}.
      *
-     * @param  int  $id
+     * @param  ServiceInstance  $serviceInstance
      * @return Response
      *
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(ServiceInstance $serviceInstance)
     {
-        /** @var ServiceInstance $serviceInstance */
-        $serviceInstance = $this->serviceInstanceRepository->find($id);
-
         if (empty($serviceInstance)) {
             return $this->sendError('Service Instance not found');
         }

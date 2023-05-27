@@ -19,79 +19,62 @@ namespace App\Policies;
 
 use App\Models\Team;
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TeamPolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view any models.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        return $user->can('view team');
+        return $user->can('view teams');
     }
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Team $team)
+    public function view(User $user, Team $team): bool
     {
-        return $user->can('view team');
+        return $user->can('view teams');
     }
 
     /**
      * Determine whether the user can create models.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return $user->can('create team');
+        return $user->can('create teams');
     }
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Team $team)
+    public function update(User $user, Team $team): bool
     {
-        return $user->can('edit team');
+        return $user->can('edit teams');
     }
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Team $team)
+    public function delete(User $user, Team $team): bool
     {
-        return $user->can('delete team');
+        return $user->can('delete teams');
     }
 
     /**
      * Determine whether the user can restore the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Team $team)
+    public function restore(User $user, Team $team): bool
     {
-        return $user->can('edit team');
+        return $user->can('edit teams');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Team $team)
+    public function forceDelete(User $user, Team $team): bool
     {
-        return $user->can('delete team');
+        return $user->can('delete teams');
     }
 }

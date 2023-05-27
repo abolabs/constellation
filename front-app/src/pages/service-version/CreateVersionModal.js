@@ -14,12 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-} from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import {
   Create,
   SimpleForm,
@@ -27,28 +22,29 @@ import {
   useCreate,
   useNotify,
 } from "react-admin";
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import CloseIcon from '@mui/icons-material/Close';
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import CloseIcon from "@mui/icons-material/Close";
 
 import AlertError from "@components/alerts/AlertError";
+import WithPermission from "@components/WithPermission";
 
-const CreateVersionModal = ({serviceID, handleClose, open = false}) => {
+const CreateVersionModal = ({ serviceID, handleClose, open = false }) => {
   const [create, { isLoading }] = useCreate();
   const notify = useNotify();
   const [defaultValues, setDefaultValues] = useState({});
   const [lastError, setLastError] = useState();
 
   const onSuccess = () => {
-    notify(`Version ajoutée`, { type: 'success' })
+    notify(`Version ajoutée`, { type: "success" });
     handleClose();
   };
 
-  const handleSubmit =  async(data) => {
+  const handleSubmit = async (data) => {
     data.service_id = serviceID;
     setDefaultValues(data);
-    try{
-      await create('service_versions', {data: data}, { returnPromise: true });
+    try {
+      await create("service_versions", { data: data }, { returnPromise: true });
       setDefaultValues({});
       onSuccess();
       setLastError(null);
@@ -57,9 +53,10 @@ const CreateVersionModal = ({serviceID, handleClose, open = false}) => {
       console.error(error);
     }
   };
-  const schema = yup.object()
+  const schema = yup
+    .object()
     .shape({
-        version: yup.string().required(),
+      version: yup.string().required(),
     })
     .required();
 
@@ -68,10 +65,7 @@ const CreateVersionModal = ({serviceID, handleClose, open = false}) => {
   }
 
   return (
-    <Dialog
-      open={open}
-      fullWidth
-    >
+    <Dialog open={open} fullWidth>
       <DialogTitle>
         Nouvelle version
         {handleClose ? (
@@ -83,7 +77,7 @@ const CreateVersionModal = ({serviceID, handleClose, open = false}) => {
               handleClose();
             }}
             sx={{
-              position: 'absolute',
+              position: "absolute",
               right: 8,
               top: 8,
               color: (theme) => theme.palette.primary.contrastText,
@@ -93,16 +87,16 @@ const CreateVersionModal = ({serviceID, handleClose, open = false}) => {
           </IconButton>
         ) : null}
       </DialogTitle>
-      <DialogContent sx={{padding: 0}}>
-        { lastError ? <AlertError {...lastError} /> : null}
+      <DialogContent sx={{ padding: 0 }}>
+        {lastError ? <AlertError {...lastError} /> : null}
         <Create resource="service_versions">
           <SimpleForm
             resolver={yupResolver(schema)}
             onSubmit={handleSubmit}
             defaultValues={defaultValues}
-            sx={{padding: "0 2rem"}}
+            sx={{ padding: "0 2rem" }}
           >
-            <TextInput source="version" label="Version" fullWidth/>
+            <TextInput source="version" label="Version" fullWidth />
           </SimpleForm>
         </Create>
       </DialogContent>
@@ -110,4 +104,12 @@ const CreateVersionModal = ({serviceID, handleClose, open = false}) => {
   );
 };
 
-export default CreateVersionModal;
+const CreateVersionModalWithPermission = (props) => (
+  <WithPermission
+    permission="create service_versions"
+    element={CreateVersionModal}
+    elementProps={props}
+  />
+);
+
+export default CreateVersionModalWithPermission;

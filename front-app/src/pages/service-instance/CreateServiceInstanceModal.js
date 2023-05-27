@@ -24,6 +24,7 @@ import {
   TextInput,
   useCreate,
   useNotify,
+  usePermissions,
   useRefresh,
 } from "react-admin";
 import CloseIcon from "@mui/icons-material/Close";
@@ -45,6 +46,11 @@ const CreateInstanceModal = ({
   const refresh = useRefresh();
   const [defaultValues, setDefaultValues] = useState({});
   const [lastError, setLastError] = useState();
+  const { permissions } = usePermissions();
+
+  if (!permissions.includes("create service_instances")) {
+    return null;
+  }
 
   const onSuccess = (_data) => {
     notify(`Instance de service créée`, { type: "success" });
@@ -121,7 +127,11 @@ const CreateInstanceModal = ({
       </DialogTitle>
       <DialogContent sx={{ padding: 0 }}>
         {lastError ? <AlertError {...lastError} /> : null}
-        <Create resource="service_instances" mutationMode="pessimistic">
+        <Create
+          resource="service_instances"
+          mutationMode="pessimistic"
+          sx={{ "& .RaCreate-main": { m: 0 } }}
+        >
           <SimpleForm
             resolver={yupResolver(schema)}
             onSubmit={handleSubmit}

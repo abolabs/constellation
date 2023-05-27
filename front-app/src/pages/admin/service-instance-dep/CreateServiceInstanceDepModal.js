@@ -162,7 +162,10 @@ const CreateServiceInstanceDepBaseModal = ({
       </DialogTitle>
       <DialogContent sx={{ padding: 0 }}>
         {lastError ? <AlertError {...lastError} /> : null}
-        <Create resource="service_instance_dependencies">
+        <Create
+          resource="service_instance_dependencies"
+          sx={{ "& .RaCreate-main": { m: 0 } }}
+        >
           <SimpleForm
             resolver={yupResolver(schema)}
             onSubmit={handleSubmit}

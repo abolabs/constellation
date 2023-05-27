@@ -36,6 +36,7 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
 
     public function __construct(ServiceInstanceDependenciesRepository $serviceInstanceDependenciesRepo)
     {
+        $this->authorizeResource(ServiceInstanceDependencies::class);
         $this->serviceInstanceDependenciesRepository = $serviceInstanceDependenciesRepo;
     }
 
@@ -139,7 +140,7 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      *
      * @SWG\Get(
@@ -180,7 +181,7 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show(int $id)
     {
         /** @var ServiceInstanceDependencies $serviceInstanceDependencies */
         $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->find($id);
@@ -189,11 +190,13 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
             return $this->sendError('Service Instance Dependencies not found');
         }
 
+        $serviceInstanceDependencies->load(['serviceInstance', 'serviceInstance.application', 'serviceInstanceDep', 'serviceInstanceDep.application']);
+
         return $this->sendResponse(new ServiceInstanceDependenciesResource($serviceInstanceDependencies), 'Service Instance Dependencies retrieved successfully');
     }
 
     /**
-     * @param  int  $id
+     * @param  ServiceInstanceDependencies $serviceInstanceDependencies
      * @return Response
      *
      * @SWG\Put(
@@ -242,7 +245,7 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateServiceInstanceDependenciesAPIRequest $request)
+    public function update(int $id, UpdateServiceInstanceDependenciesAPIRequest $request)
     {
         $input = $request->all();
 
@@ -253,13 +256,13 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
             return $this->sendError('Service Instance Dependencies not found');
         }
 
-        $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->update($input, $id);
+        $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->update($input, $serviceInstanceDependencies->id);
 
         return $this->sendResponse(new ServiceInstanceDependenciesResource($serviceInstanceDependencies), 'ServiceInstanceDependencies updated successfully');
     }
 
     /**
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      *
      * @SWG\Delete(
@@ -300,8 +303,9 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
      *      )
      * )
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
+
         /** @var ServiceInstanceDependencies $serviceInstanceDependencies */
         $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->find($id);
 

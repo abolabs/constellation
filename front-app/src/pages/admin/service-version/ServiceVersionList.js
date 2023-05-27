@@ -31,6 +31,7 @@ import Typography from "@mui/material/Typography";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
+import WithPermission from "@components/WithPermission";
 
 const serviceVersionFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -59,10 +60,11 @@ const ServiceVersionList = (props) => {
       >
         {isSmall ? (
           <SimpleList
-            primaryText={(record) => "#" + record.id + " - " + record.service_name}
-            secondaryText={
-              <TextField source="version" />
+            linkType="show"
+            primaryText={(record) =>
+              "#" + record.id + " - " + record.service_name
             }
+            secondaryText={<TextField source="version" />}
             tertiaryText={(record) =>
               new Date(record.created_at).toLocaleDateString()
             }
@@ -70,7 +72,7 @@ const ServiceVersionList = (props) => {
         ) : (
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
             <TextField source="id" />
-            <ReferenceField source="service_id" reference="services" >
+            <ReferenceField source="service_id" reference="services">
               <TextField source="name" />
             </ReferenceField>
             <TextField source="version" />
@@ -83,4 +85,12 @@ const ServiceVersionList = (props) => {
   );
 };
 
-export default ServiceVersionList;
+const ServiceVersionListWithPermission = (props) => (
+  <WithPermission
+    permission="view service_versions"
+    element={ServiceVersionList}
+    elementProps={props}
+  />
+);
+
+export default ServiceVersionListWithPermission;

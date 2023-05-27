@@ -34,6 +34,7 @@ import AlertError from "@components/alerts/AlertError";
 
 import ServiceInstanceDefaultSchema from "./ServiceInstanceDefaultSchema";
 import ServiceVersionInput from "./ServiceVersionInput";
+import WithPermission from "@components/WithPermission";
 
 const ServiceInstanceEdit = () => {
   const location = useLocation();
@@ -132,4 +133,11 @@ const ServiceInstanceEdit = () => {
   );
 };
 
-export default ServiceInstanceEdit;
+const ServiceInstanceEditWithPermission = () => (
+  <WithPermission
+    permission="edit service_instances"
+    element={ServiceInstanceEdit}
+  />
+);
+
+export default ServiceInstanceEditWithPermission;

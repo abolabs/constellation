@@ -13,16 +13,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { DateField, LinearProgress, Show, TextField, useShowController } from "react-admin";
-import { useLocation } from "react-router-dom";
 import {
-  Box,
-  Typography
-} from "@mui/material";
+  DateField,
+  LinearProgress,
+  Show,
+  TextField,
+  useShowController,
+} from "react-admin";
+import { useLocation } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
 import DefaultShowLayout from "@components/DefaultShowLayout";
+import WithPermission from "@components/WithPermission";
 
 const HostingTypeShow = () => {
   const location = useLocation();
@@ -56,4 +60,8 @@ const HostingTypeShow = () => {
   );
 };
 
-export default HostingTypeShow;
+const HostingTypeShowWithPermission = () => (
+  <WithPermission permission="view hosting_types" element={HostingTypeShow} />
+);
+
+export default HostingTypeShowWithPermission;

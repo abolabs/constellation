@@ -249,6 +249,7 @@ return [
                 'sortableAttributes' => [
                     'id',
                     'application_name',
+                    'service_name',
                     'service_version_name',
                     'service_version',
                     'environment_name',

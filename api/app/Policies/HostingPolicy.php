@@ -19,79 +19,62 @@ namespace App\Policies;
 
 use App\Models\Hosting;
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class HostingPolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view any models.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        return $user->can('view hosting');
+        return $user->can('view hostings');
     }
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Hosting $hosting)
+    public function view(User $user, Hosting $hosting): bool
     {
-        return $user->can('view hosting');
+        return $user->can('view hostings');
     }
 
     /**
      * Determine whether the user can create models.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return $user->can('create hosting');
+        return $user->can('create hostings');
     }
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Hosting $hosting)
+    public function update(User $user, Hosting $hosting): bool
     {
-        return $user->can('edit hosting');
+        return $user->can('edit hostings');
     }
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Hosting $hosting)
+    public function delete(User $user, Hosting $hosting): bool
     {
-        return $user->can('delete hosting');
+        return $user->can('delete hostings');
     }
 
     /**
      * Determine whether the user can restore the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Hosting $hosting)
+    public function restore(User $user, Hosting $hosting): bool
     {
-        return $user->can('edit hosting');
+        return $user->can('edit hostings');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Hosting $hosting)
+    public function forceDelete(User $user, Hosting $hosting): bool
     {
-        return $user->can('delete hosting');
+        return $user->can('delete hostings');
     }
 }

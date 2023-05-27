@@ -32,6 +32,7 @@ import Typography from "@mui/material/Typography";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
 import LevelChip from "./LevelChip";
+import WithPermission from "@components/WithPermission";
 
 const serviceInstanceDepListFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -57,10 +58,11 @@ const ServiceInstanceDepList = (props) => {
       >
         {isSmall ? (
           <SimpleList
-            primaryText={(record) => "#" + record.id + " - " + record.service_name}
-            secondaryText={
-              <TextField source="version" />
+            linkType="show"
+            primaryText={(record) =>
+              "#" + record.id + " - " + record.service_name
             }
+            secondaryText={<TextField source="version" />}
             tertiaryText={(record) =>
               new Date(record.created_at).toLocaleDateString()
             }
@@ -68,10 +70,10 @@ const ServiceInstanceDepList = (props) => {
         ) : (
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
             <TextField source="id" />
-            <TextField source="instance_application_name" label="Source app"/>
+            <TextField source="instance_application_name" label="Source app" />
             <NumberField source="instance_id" />
             <TextField source="instance_service_name" />
-            <TextField source="instance_dep_application_name" label="Dep app"/>
+            <TextField source="instance_dep_application_name" label="Dep app" />
             <NumberField source="instance_dep_id" />
             <TextField source="instance_dep_service_name" />
             <LevelChip source="level" />
@@ -84,4 +86,12 @@ const ServiceInstanceDepList = (props) => {
   );
 };
 
-export default ServiceInstanceDepList;
+const ServiceInstanceDepListWithPermission = (props) => (
+  <WithPermission
+    permission="view service_instance_dependencies"
+    element={ServiceInstanceDepList}
+    elementProps={props}
+  />
+);
+
+export default ServiceInstanceDepListWithPermission;

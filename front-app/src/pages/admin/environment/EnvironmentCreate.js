@@ -13,19 +13,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import {
-  Create,
-  SimpleForm,
-  TextInput,
-} from "react-admin";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation } from 'react-router-dom';
+import * as React from "react";
+import { Create, SimpleForm, TextInput } from "react-admin";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
-import DefaultEditToolBar from '@/components/toolbar/DefaultEditToolBar';
-import EnvironmentDefaultSchema from './EnvironmentDefaultSchema';
+import DefaultEditToolBar from "@/components/toolbar/DefaultEditToolBar";
+import EnvironmentDefaultSchema from "./EnvironmentDefaultSchema";
+import WithPermission from "@components/WithPermission";
 
 const EnvironmentCreate = () => {
   const location = useLocation();
@@ -46,4 +43,11 @@ const EnvironmentCreate = () => {
   );
 };
 
-export default EnvironmentCreate;
+const EnvironmentCreateWithPermission = () => (
+  <WithPermission
+    permission="create environments"
+    element={EnvironmentCreate}
+  />
+);
+
+export default EnvironmentCreateWithPermission;

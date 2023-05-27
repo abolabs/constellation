@@ -13,16 +13,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { DateField, LinearProgress, Show, TextField, useShowController } from "react-admin";
-import { useLocation } from "react-router-dom";
 import {
-  Box,
-  Typography
-} from "@mui/material";
+  DateField,
+  LinearProgress,
+  Show,
+  TextField,
+  useShowController,
+} from "react-admin";
+import { useLocation } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
 import DefaultShowLayout from "@components/DefaultShowLayout";
+import WithPermission from "@components/WithPermission";
 
 const EnvironmentShow = () => {
   const location = useLocation();
@@ -45,14 +49,18 @@ const EnvironmentShow = () => {
       <Typography variant="h3">Environment</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
         <DefaultShowLayout>
-            <TextField source="id" />
-            <TextField source="name" />
-            <DateField source="created_at" />
-            <DateField source="updated_at" />
+          <TextField source="id" />
+          <TextField source="name" />
+          <DateField source="created_at" />
+          <DateField source="updated_at" />
         </DefaultShowLayout>
       </Show>
     </>
   );
 };
 
-export default EnvironmentShow;
+const EnvironmentShowWithPermission = () => (
+  <WithPermission permission="view environments" element={EnvironmentShow} />
+);
+
+export default EnvironmentShowWithPermission;

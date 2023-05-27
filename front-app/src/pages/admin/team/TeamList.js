@@ -28,6 +28,7 @@ import Typography from "@mui/material/Typography";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
+import WithPermission from "@components/WithPermission";
 
 const teamFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -48,10 +49,9 @@ const TeamList = (props) => {
       >
         {isSmall ? (
           <SimpleList
+            linkType="show"
             primaryText={(record) => "#" + record.id + " - " + record.name}
-            secondaryText={
-              <TextField source="manager" />
-            }
+            secondaryText={<TextField source="manager" />}
             tertiaryText={(record) =>
               new Date(record.created_at).toLocaleDateString()
             }
@@ -70,4 +70,12 @@ const TeamList = (props) => {
   );
 };
 
-export default TeamList;
+const TeamListWithPermission = (props) => (
+  <WithPermission
+    permission="view teams"
+    element={TeamList}
+    elementProps={props}
+  />
+);
+
+export default TeamListWithPermission;

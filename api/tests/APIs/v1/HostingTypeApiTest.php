@@ -4,14 +4,12 @@ namespace Tests\APIs\v1;
 
 use App\Models\HostingType;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\ApiTestTrait;
 use Tests\TestCase;
 
 class HostingTypeApiTest extends TestCase
 {
     use ApiTestTrait;
-    use WithoutMiddleware;
     use DatabaseTransactions;
 
     private const ROUTE_PREFIX = '/api/v1/hosting_types';
@@ -41,7 +39,7 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX.'/'.$hostingType->id
+            self::ROUTE_PREFIX . '/' . $hostingType->id
         );
 
         $this->assertApiResponse($hostingType->toArray());
@@ -57,7 +55,7 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX.'/'.$hostingType->id,
+            self::ROUTE_PREFIX . '/' . $hostingType->id,
             $editedHostingType
         );
 
@@ -73,13 +71,13 @@ class HostingTypeApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX.'/'.$hostingType->id
+            self::ROUTE_PREFIX . '/' . $hostingType->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX.'/'.$hostingType->id
+            self::ROUTE_PREFIX . '/' . $hostingType->id
         );
 
         $this->response->assertStatus(404);

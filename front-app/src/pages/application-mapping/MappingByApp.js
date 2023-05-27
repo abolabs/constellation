@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import WithPermission from "@components/WithPermission";
 import AbstractMapping from "./AbstractMapping";
 
 const MappingByApp = () => {
@@ -25,4 +26,8 @@ const MappingByApp = () => {
   );
 };
 
-export default MappingByApp;
+const MappingByAppWithPermission = () => (
+  <WithPermission permission="app-mapping" element={MappingByApp} />
+);
+
+export default MappingByAppWithPermission;

@@ -49,6 +49,7 @@ import CreateServiceInstanceModal from "@pages/service-instance/CreateServiceIns
 import ServiceInstanceCard from "@pages/service-instance/ServiceInstanceCard";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 import Tag from "@components/styled/Tag";
+import WithPermission from "@components/WithPermission";
 
 const ApplicationShow = () => {
   const location = useLocation();
@@ -260,4 +261,8 @@ const ApplicationShowLayout = () => {
   );
 };
 
-export default ApplicationShow;
+const ApplicationShowWithPermission = () => (
+  <WithPermission permission="view applications" element={ApplicationShow} />
+);
+
+export default ApplicationShowWithPermission;

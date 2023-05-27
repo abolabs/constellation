@@ -37,7 +37,7 @@ class ResetPasswordNotification extends Notification
     {
         $url = env('FRONT_APP_URL', 'http://localhost:3000').'/public/reset-password?token='.$this->token;
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->line('Vous recevez cet e-mail car nous avons reçu une demande de réinitialisation de votre mot de passe.')
             ->action('Réinitialiser le mot de passe', $url)
             ->line('Si vous n\'avez pas demandé la réinitialisation de votre mot de passe, aucune autre action n\'est requise.');

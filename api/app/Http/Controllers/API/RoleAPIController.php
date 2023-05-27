@@ -258,6 +258,7 @@ class RoleAPIController extends AppBaseController
         }
 
         $role = $this->roleRepository->update($input, $id);
+        $role->syncPermissions($request->input('permissions'));
 
         return $this->sendResponse(new RoleResource($role), 'Role updated successfully');
     }

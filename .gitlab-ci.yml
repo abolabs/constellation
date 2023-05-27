@@ -122,10 +122,10 @@ stages:
   # Install Composer and project dependencies.
   - composer install
 
-  # Generate an application key. Re-cache.
+  # Generate an application key and Re-cache.
+  - php artisan key:generate
   - php artisan cache:clear
   - php artisan config:clear
-  - php artisan key:generate
   - php artisan config:cache
   - php artisan route:cache
 
@@ -180,6 +180,14 @@ phpunit:
   - php artisan migrate --force
   # Run database seed
   - php artisan db:seed --force
+
+  # Generate Laravel passport keys
+  - php artisan passport:keys
+  - chmod 600 storage/oauth-private.key
+  - chmod 600 storage/oauth-public.key
+  - php artisan passport:client --password --no-interaction
+  - php artisan config:clear
+  - php artisan config:cache
 
   # run laravel tests
   - mkdir -p reports/
