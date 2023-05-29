@@ -19,79 +19,62 @@ namespace App\Policies;
 
 use App\Models\HostingType;
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class HostingTypePolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view any models.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        return $user->can('view hostingType');
+        return $user->can('view hosting_types');
     }
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, HostingType $hostingType)
+    public function view(User $user, HostingType $hostingType): bool
     {
-        return $user->can('view hostingType');
+        return $user->can('view hosting_types');
     }
 
     /**
      * Determine whether the user can create models.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return $user->can('create hostingType');
+        return $user->can('create hosting_types');
     }
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, HostingType $hostingType)
+    public function update(User $user, HostingType $hostingType): bool
     {
-        return $user->can('edit hostingType');
+        return $user->can('edit hosting_types');
     }
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, HostingType $hostingType)
+    public function delete(User $user, HostingType $hostingType): bool
     {
-        return $user->can('delete hostingType');
+        return $user->can('delete hosting_types');
     }
 
     /**
      * Determine whether the user can restore the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, HostingType $hostingType)
+    public function restore(User $user, HostingType $hostingType): bool
     {
-        return $user->can('edit hostingType');
+        return $user->can('edit hosting_types');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, HostingType $hostingType)
+    public function forceDelete(User $user, HostingType $hostingType): bool
     {
-        return $user->can('delete hostingType');
+        return $user->can('delete hosting_types');
     }
 }

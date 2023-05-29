@@ -146,7 +146,7 @@ class UserAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  User $user
      * @return Response
      *
      * @SWG\Get(
@@ -197,7 +197,7 @@ class UserAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  User $user
      * @return Response
      *
      * @SWG\Put(
@@ -249,7 +249,7 @@ class UserAPIController extends AppBaseController
     public function update(User $user, UpdateUserAPIRequest $request)
     {
         $input = $request->all();
-        if (! empty($input['password'])) {
+        if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
             $input = Arr::except($input, ['password']);
@@ -264,7 +264,7 @@ class UserAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  User $user
      * @return Response
      *
      * @SWG\Delete(
@@ -337,5 +337,24 @@ class UserAPIController extends AppBaseController
             ]),
             'Account updated successfully'
         );
+    }
+
+    public function getPermissions()
+    {
+        try {
+            $user = \Auth::user();
+
+            if (empty($user)) {
+                return $this->sendError('User not found');
+            }
+
+            $permissions = $user->getAllPermissions()->map(fn ($item) => $item['name']);
+
+            return $this->sendResponse($permissions, 'Permissions retrieves successfully');
+        } catch (\Exception $e) {
+            \Log::error("Cannot retrive current user's permissions. " . $e);
+
+            return $this->sendError('Error during retrieving permissions');
+        }
     }
 }

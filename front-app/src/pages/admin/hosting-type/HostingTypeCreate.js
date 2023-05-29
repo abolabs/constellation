@@ -13,19 +13,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import {
-  Create,
-  SimpleForm,
-  TextInput,
-} from "react-admin";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation } from 'react-router-dom';
+import * as React from "react";
+import { Create, SimpleForm, TextInput } from "react-admin";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
-import DefaultEditToolBar from '@/components/toolbar/DefaultEditToolBar';
-import HostingTypeDefaultSchema from './HostingTypeDefaultSchema';
+import DefaultEditToolBar from "@/components/toolbar/DefaultEditToolBar";
+import HostingTypeDefaultSchema from "./HostingTypeDefaultSchema";
+import WithPermission from "@components/WithPermission";
 
 const HostingTypeCreate = () => {
   const location = useLocation();
@@ -47,4 +44,11 @@ const HostingTypeCreate = () => {
   );
 };
 
-export default HostingTypeCreate;
+const HostingTypeCreateWithPermission = () => (
+  <WithPermission
+    permission="create hosting_types"
+    element={HostingTypeCreate}
+  />
+);
+
+export default HostingTypeCreateWithPermission;

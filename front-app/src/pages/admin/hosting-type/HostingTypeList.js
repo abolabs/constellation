@@ -28,6 +28,7 @@ import Typography from "@mui/material/Typography";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
+import WithPermission from "@components/WithPermission";
 
 const hostingTypeFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -48,10 +49,9 @@ const HostingTypeList = (props) => {
       >
         {isSmall ? (
           <SimpleList
+            linkType="show"
             primaryText={(record) => "#" + record.id + " - " + record.name}
-            secondaryText={
-              <TextField source="description" />
-            }
+            secondaryText={<TextField source="description" />}
             tertiaryText={(record) =>
               new Date(record.created_at).toLocaleDateString()
             }
@@ -70,4 +70,12 @@ const HostingTypeList = (props) => {
   );
 };
 
-export default HostingTypeList;
+const HostingTypeListWithPermission = (props) => (
+  <WithPermission
+    permission="view hosting_types"
+    element={HostingTypeList}
+    elementProps={props}
+  />
+);
+
+export default HostingTypeListWithPermission;

@@ -13,18 +13,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { DateField, LinearProgress, NumberField, Show, TextField, WrapperField, useShowController } from "react-admin";
-import { Link, useLocation } from "react-router-dom";
 import {
-  Box,
-  Typography
-} from "@mui/material";
-import LaunchIcon from '@mui/icons-material/Launch';
+  DateField,
+  LinearProgress,
+  NumberField,
+  Show,
+  TextField,
+  WrapperField,
+  useShowController,
+} from "react-admin";
+import { Link, useLocation } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
+import LaunchIcon from "@mui/icons-material/Launch";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
 import DefaultShowLayout from "@components/DefaultShowLayout";
 import LevelChip from "./LevelChip";
+import WithPermission from "@components/WithPermission";
 
 const ServiceInstanceDepShow = () => {
   const location = useLocation();
@@ -50,42 +56,55 @@ const ServiceInstanceDepShow = () => {
           title={`${record?.instance_application_name} / ${record?.id} - ${record?.instance_service_name}`}
           canEdit={false}
         >
-            <TextField source="id" label="Dependency id"/>
-            <WrapperField label="Source application">
-              <NumberField source="instance_application_id"/>&nbsp;-&nbsp;
-              <TextField source="instance_application_name"/>
-              <Link to={`/applications/${record?.instance_application_id}/show`}>
-                <LaunchIcon fontSize="small" sx={{p: 0.1}}/>
-              </Link>
-            </WrapperField>
-            <WrapperField label="Source instance">
-              <NumberField source="instance_id"/>&nbsp;-&nbsp;
-              <TextField source="instance_service_name" />&nbsp;
-              <Link to={`/service_instances/${record?.instance_id}/show`}>
-                <LaunchIcon fontSize="small" sx={{p: 0.1}}/>
-              </Link>
-            </WrapperField>
-            <WrapperField label="Dependency app">
-              <NumberField source="instance_dep_application_id"/>&nbsp;-&nbsp;
-              <TextField source="instance_dep_application_name"/>
-              <Link to={`/applications/${record?.instance_application_id}/show`}>
-                <LaunchIcon fontSize="small" sx={{p: 0.1}}/>
-              </Link>
-            </WrapperField>
-            <WrapperField label="Dependency instance">
-              <NumberField source="instance_dep_id"/>&nbsp;-&nbsp;
-              <TextField source="instance_dep_service_name" />&nbsp;
-              <Link to={`/service_instances/${record?.instance_dep_id}/show`}>
-                <LaunchIcon fontSize="small" sx={{p: 0.1}}/>
-              </Link>
-            </WrapperField>
-            <LevelChip source="level" />
-            <DateField source="created_at" />
-            <DateField source="updated_at" />
+          <TextField source="id" label="Dependency id" />
+          <WrapperField label="Source application">
+            <NumberField source="instance_application_id" />
+            &nbsp;-&nbsp;
+            <TextField source="instance_application_name" />
+            <Link to={`/applications/${record?.instance_application_id}/show`}>
+              <LaunchIcon fontSize="small" sx={{ p: 0.1 }} />
+            </Link>
+          </WrapperField>
+          <WrapperField label="Source instance">
+            <NumberField source="instance_id" />
+            &nbsp;-&nbsp;
+            <TextField source="instance_service_name" />
+            &nbsp;
+            <Link to={`/service_instances/${record?.instance_id}/show`}>
+              <LaunchIcon fontSize="small" sx={{ p: 0.1 }} />
+            </Link>
+          </WrapperField>
+          <WrapperField label="Dependency app">
+            <NumberField source="instance_dep_application_id" />
+            &nbsp;-&nbsp;
+            <TextField source="instance_dep_application_name" />
+            <Link to={`/applications/${record?.instance_application_id}/show`}>
+              <LaunchIcon fontSize="small" sx={{ p: 0.1 }} />
+            </Link>
+          </WrapperField>
+          <WrapperField label="Dependency instance">
+            <NumberField source="instance_dep_id" />
+            &nbsp;-&nbsp;
+            <TextField source="instance_dep_service_name" />
+            &nbsp;
+            <Link to={`/service_instances/${record?.instance_dep_id}/show`}>
+              <LaunchIcon fontSize="small" sx={{ p: 0.1 }} />
+            </Link>
+          </WrapperField>
+          <LevelChip source="level" />
+          <DateField source="created_at" />
+          <DateField source="updated_at" />
         </DefaultShowLayout>
       </Show>
     </>
   );
 };
 
-export default ServiceInstanceDepShow;
+const ServiceInstanceDepShowWithPermission = () => (
+  <WithPermission
+    permission="view service_instance_dependencies"
+    element={ServiceInstanceDepShow}
+  />
+);
+
+export default ServiceInstanceDepShowWithPermission;

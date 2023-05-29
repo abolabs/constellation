@@ -23,6 +23,7 @@ import {
   ReferenceInput,
   SelectInput,
   BulkExportButton,
+  usePermissions,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -31,6 +32,7 @@ import Typography from "@mui/material/Typography";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import DefaultList from "@components/styled/DefaultList";
+import WithPermission from "@components/WithPermission";
 
 const applicationFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -47,6 +49,7 @@ const applicationFilters = [
 const ApplicationList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
+  const { permissions } = usePermissions();
 
   return (
     <>
@@ -55,10 +58,15 @@ const ApplicationList = (props) => {
       <DefaultList
         {...props}
         filters={applicationFilters}
-        actions={<DefaultToolBar />}
+        actions={
+          <DefaultToolBar
+            canCreate={permissions.includes("create applications")}
+          />
+        }
       >
         {isSmall ? (
           <SimpleList
+            linkType="show"
             primaryText={(record) => "#" + record.id + " - " + record.name}
             secondaryText={
               <ReferenceField source="team_id" reference="teams" link={false}>
@@ -73,9 +81,11 @@ const ApplicationList = (props) => {
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
             <TextField source="id" />
             <TextField source="name" />
-            <ReferenceField source="team_id" reference="teams" link={false}>
-              <TextField source="name" />
-            </ReferenceField>
+            {permissions.includes("view teams") ? (
+              <ReferenceField source="team_id" reference="teams" link={false}>
+                <TextField source="name" />
+              </ReferenceField>
+            ) : null}
             <DateField source="created_at" />
             <DateField source="updated_at" />
           </Datagrid>
@@ -85,4 +95,12 @@ const ApplicationList = (props) => {
   );
 };
 
-export default ApplicationList;
+const ApplicationListWithPermission = (props) => (
+  <WithPermission
+    permission="view applications"
+    element={ApplicationList}
+    elementProps={props}
+  />
+);
+
+export default ApplicationListWithPermission;

@@ -36,6 +36,7 @@ class ServiceAPIController extends AppBaseController
 
     public function __construct(ServiceRepository $serviceRepo)
     {
+        $this->authorizeResource(Service::class);
         $this->serviceRepository = $serviceRepo;
     }
 
@@ -139,7 +140,7 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  Service $service
      * @return Response
      *
      * @SWG\Get(
@@ -180,11 +181,8 @@ class ServiceAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show(Service $service)
     {
-        /** @var Service $service */
-        $service = $this->serviceRepository->find($id);
-
         if (empty($service)) {
             return $this->sendError('Service not found');
         }
@@ -195,7 +193,7 @@ class ServiceAPIController extends AppBaseController
         foreach ($service->versions as $version) {
             $appList = [];
             foreach ($version->instances as $instance) {
-                if (! isset($appList[$instance->application->id])) {
+                if (!isset($appList[$instance->application->id])) {
                     $appList[$instance->application->id] = (object) [
                         'id' => $instance->application->id,
                         'name' => $instance->application->name,
@@ -222,7 +220,7 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  Service $service
      * @return Response
      *
      * @SWG\Put(
@@ -271,24 +269,21 @@ class ServiceAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateServiceAPIRequest $request)
+    public function update(Service $service, UpdateServiceAPIRequest $request)
     {
         $input = $request->all();
-
-        /** @var Service $service */
-        $service = $this->serviceRepository->find($id);
 
         if (empty($service)) {
             return $this->sendError('Service not found');
         }
 
-        $service = $this->serviceRepository->update($input, $id);
+        $service = $this->serviceRepository->update($input, $service->id);
 
         return $this->sendResponse(new ServiceResource($service), 'Service updated successfully');
     }
 
     /**
-     * @param  int  $id
+     * @param  Service $service
      * @return Response
      *
      * @SWG\Delete(
@@ -329,11 +324,8 @@ class ServiceAPIController extends AppBaseController
      *      )
      * )
      */
-    public function destroy($id)
+    public function destroy(Service $service)
     {
-        /** @var Service $service */
-        $service = $this->serviceRepository->find($id);
-
         if (empty($service)) {
             return $this->sendError('Service not found');
         }

@@ -23,6 +23,7 @@ import {
   ReferenceInput,
   SelectInput,
   BulkExportButton,
+  usePermissions,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -31,6 +32,7 @@ import Typography from "@mui/material/Typography";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
+import WithPermission from "@components/WithPermission";
 
 const hostingFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -47,6 +49,7 @@ const hostingFilters = [
 const HostingList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
+  const { permissions } = usePermissions();
 
   return (
     <>
@@ -55,13 +58,20 @@ const HostingList = (props) => {
       <DefaultList
         {...props}
         filters={hostingFilters}
-        actions={<DefaultToolBar />}
+        actions={
+          <DefaultToolBar canCreate={permissions.includes("create hostings")} />
+        }
       >
         {isSmall ? (
           <SimpleList
+            linkType="show"
             primaryText={(record) => "#" + record.id + " - " + record.name}
             secondaryText={
-              <ReferenceField source="hosting_type_id" reference="hosting_types" link={false}>
+              <ReferenceField
+                source="hosting_type_id"
+                reference="hosting_types"
+                link={false}
+              >
                 <TextField source="name" />
               </ReferenceField>
             }
@@ -73,7 +83,7 @@ const HostingList = (props) => {
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
             <TextField source="id" />
             <TextField source="name" />
-            <ReferenceField source="hosting_type_id" reference="hosting_types" >
+            <ReferenceField source="hosting_type_id" reference="hosting_types">
               <TextField source="name" />
             </ReferenceField>
             <TextField source="localisation" />
@@ -86,4 +96,12 @@ const HostingList = (props) => {
   );
 };
 
-export default HostingList;
+const HostingListWithPermission = (props) => (
+  <WithPermission
+    permission="view hostings"
+    element={HostingList}
+    elementProps={props}
+  />
+);
+
+export default HostingListWithPermission;

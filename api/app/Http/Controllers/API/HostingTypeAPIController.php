@@ -37,6 +37,7 @@ class HostingTypeAPIController extends AppBaseController
 
     public function __construct(HostingTypeRepository $hostingTypeRepo)
     {
+        $this->authorizeResource(HostingType::class);
         $this->hostingTypeRepository = $hostingTypeRepo;
     }
 
@@ -140,7 +141,7 @@ class HostingTypeAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  HostingType $hostingType
      * @return Response
      *
      * @SWG\Get(
@@ -181,11 +182,8 @@ class HostingTypeAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show(HostingType $hostingType)
     {
-        /** @var HostingType $hostingType */
-        $hostingType = $this->hostingTypeRepository->find($id);
-
         if (empty($hostingType)) {
             return $this->sendError(Lang::get('hosting_type.not_found'));
         }
@@ -194,7 +192,7 @@ class HostingTypeAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  HostingType $hostingType
      * @return Response
      *
      * @SWG\Put(
@@ -243,24 +241,21 @@ class HostingTypeAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateHostingTypeAPIRequest $request)
+    public function update(HostingType $hostingType, UpdateHostingTypeAPIRequest $request)
     {
         $input = $request->all();
-
-        /** @var HostingType $hostingType */
-        $hostingType = $this->hostingTypeRepository->find($id);
 
         if (empty($hostingType)) {
             return $this->sendError(Lang::get('hosting_type.not_found'));
         }
 
-        $hostingType = $this->hostingTypeRepository->update($input, $id);
+        $hostingType = $this->hostingTypeRepository->update($input, $hostingType->id);
 
         return $this->sendResponse(new HostingTypeResource($hostingType), Lang::get('hosting_type.update_confirm'));
     }
 
     /**
-     * @param  int  $id
+     * @param  HostingType $hostingType
      * @return Response
      *
      * @SWG\Delete(
@@ -301,11 +296,8 @@ class HostingTypeAPIController extends AppBaseController
      *      )
      * )
      */
-    public function destroy($id)
+    public function destroy(HostingType $hostingType)
     {
-        /** @var HostingType $hostingType */
-        $hostingType = $this->hostingTypeRepository->find($id);
-
         if (empty($hostingType)) {
             return $this->sendError(Lang::get('hosting_type.not_found'));
         }

@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import * as React from "react";
 import {
   Create,
   ReferenceArrayInput,
@@ -21,13 +21,14 @@ import {
   SimpleForm,
   TextInput,
 } from "react-admin";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation } from 'react-router-dom';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
-import DefaultEditToolBar from '@/components/toolbar/DefaultEditToolBar';
-import RoleDefaultSchema from './RoleDefaultSchema';
+import DefaultEditToolBar from "@/components/toolbar/DefaultEditToolBar";
+import RoleDefaultSchema from "./RoleDefaultSchema";
+import WithPermission from "@components/WithPermission";
 
 const RoleCreate = () => {
   const location = useLocation();
@@ -42,7 +43,11 @@ const RoleCreate = () => {
           toolbar={<DefaultEditToolBar />}
         >
           <TextInput source="name" fullWidth />
-          <ReferenceArrayInput source="permissions" reference="permissions">
+          <ReferenceArrayInput
+            source="permissions"
+            reference="permissions"
+            perPage={100}
+          >
             <SelectArrayInput optionText="name" optionValue="id" fullWidth />
           </ReferenceArrayInput>
         </SimpleForm>
@@ -51,4 +56,8 @@ const RoleCreate = () => {
   );
 };
 
-export default RoleCreate;
+const RoleCreateWithPermission = () => (
+  <WithPermission permission="create roles" element={RoleCreate} />
+);
+
+export default RoleCreateWithPermission;

@@ -36,6 +36,7 @@ class TeamAPIController extends AppBaseController
 
     public function __construct(TeamRepository $teamRepo)
     {
+        $this->authorizeResource(Team::class);
         $this->teamRepository = $teamRepo;
     }
 
@@ -139,7 +140,7 @@ class TeamAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  Team $team
      * @return Response
      *
      * @SWG\Get(
@@ -180,11 +181,8 @@ class TeamAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show(Team $team)
     {
-        /** @var Team $team */
-        $team = $this->teamRepository->find($id);
-
         if (empty($team)) {
             return $this->sendError('Team not found');
         }
@@ -193,7 +191,7 @@ class TeamAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  Team $team
      * @return Response
      *
      * @SWG\Put(
@@ -242,24 +240,21 @@ class TeamAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateTeamAPIRequest $request)
+    public function update(Team $team, UpdateTeamAPIRequest $request)
     {
         $input = $request->all();
-
-        /** @var Team $team */
-        $team = $this->teamRepository->find($id);
 
         if (empty($team)) {
             return $this->sendError('Team not found');
         }
 
-        $team = $this->teamRepository->update($input, $id);
+        $team = $this->teamRepository->update($input, $team->id);
 
         return $this->sendResponse(new TeamResource($team), 'Team updated successfully');
     }
 
     /**
-     * @param  int  $id
+     * @param  Team $team
      * @return Response
      *
      * @SWG\Delete(
@@ -300,11 +295,8 @@ class TeamAPIController extends AppBaseController
      *      )
      * )
      */
-    public function destroy($id)
+    public function destroy(Team $team)
     {
-        /** @var Team $team */
-        $team = $this->teamRepository->find($id);
-
         if (empty($team)) {
             return $this->sendError('Team not found');
         }

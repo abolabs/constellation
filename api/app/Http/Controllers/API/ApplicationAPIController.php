@@ -41,6 +41,7 @@ class ApplicationAPIController extends AppBaseController
 
     public function __construct(ApplicationRepository $applicationRepo)
     {
+        $this->authorizeResource(Application::class);
         $this->applicationRepository = $applicationRepo;
     }
 
@@ -145,11 +146,11 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  Application $application
      * @return Response
      *
      * @SWG\Get(
-     *      path="/applications/{id}",
+     *      path="/applications/{application}",
      *      summary="Display the specified Application",
      *      tags={"Application"},
      *      description="Get Application",
@@ -186,11 +187,8 @@ class ApplicationAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show(Application $application)
     {
-        /** @var Application $application */
-        $application = $this->applicationRepository->find($id);
-
         if (empty($application)) {
             return $this->sendError(Lang::get('application.not_found'));
         }
@@ -265,18 +263,15 @@ class ApplicationAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateApplicationAPIRequest $request)
+    public function update(Application $application, UpdateApplicationAPIRequest $request)
     {
         $input = $request->all();
-
-        /** @var Application $application */
-        $application = $this->applicationRepository->find($id);
 
         if (empty($application)) {
             return $this->sendError(Lang::get('application.not_found'));
         }
 
-        $application = $this->applicationRepository->update($input, $id);
+        $application = $this->applicationRepository->update($input, $application->id);
 
         return $this->sendResponse(new ApplicationResource($application), Lang::get('application.update_confirm'));
     }

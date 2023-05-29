@@ -13,19 +13,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { DeleteWithConfirmButton } from "react-admin";
+import { DeleteWithConfirmButton, usePermissions } from "react-admin";
 import { useNavigate } from "react-router-dom";
-import {
-  Button,
-  CardHeader,
-  useTheme,
-} from "@mui/material";
+import { Button, CardHeader, useTheme } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import EditIcon from "@mui/icons-material/Edit";
 
-const DefaultCardHeader = ({object, record, canDelete=true, canEdit=true, ...props}) => {
+const DefaultCardHeader = ({
+  object,
+  record,
+  canDelete = true,
+  canEdit = true,
+  ...props
+}) => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const { permissions } = usePermissions();
 
   return (
     <CardHeader
@@ -42,20 +45,15 @@ const DefaultCardHeader = ({object, record, canDelete=true, canEdit=true, ...pro
       }}
       action={
         <>
-          { canDelete
-            ? <DeleteWithConfirmButton />
-            : null
-          }
-          { canEdit
-           ?
-            <Button
-              onClick={() => navigate(`/${object}/${record.id}/edit`)}
-            >
+          {canDelete && permissions.includes(`delete ${object}`) ? (
+            <DeleteWithConfirmButton />
+          ) : null}
+          {canEdit && permissions.includes(`edit ${object}`) ? (
+            <Button onClick={() => navigate(`/${object}/${record.id}/edit`)}>
               <EditIcon />
               &nbsp;&nbsp;Edit
             </Button>
-           : null
-          }
+          ) : null}
           <Button onClick={() => navigate(-1)}>
             <ChevronLeftIcon />
             &nbsp;&nbsp;Go back
@@ -65,6 +63,6 @@ const DefaultCardHeader = ({object, record, canDelete=true, canEdit=true, ...pro
       {...props}
     />
   );
-}
+};
 
 export default DefaultCardHeader;

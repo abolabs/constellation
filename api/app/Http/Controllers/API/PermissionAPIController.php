@@ -20,6 +20,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\PermissionResource;
 use App\Models\Permission;
+use App\Repositories\BaseRepository;
 use App\Repositories\PermissionRepository;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as HttpCode;
@@ -61,12 +62,12 @@ class PermissionAPIController extends AppBaseController
         }
         $permissions = $this->permissionRepository->apiAll(
             $formattedSearch,
-            $request->perPage,
+            $request->perPage ?? BaseRepository::DEFAULT_LIMIT,
             $request->page,
             $request->sort ?? 'name'
         );
 
-        return $this->sendResponse(PermissionResource::collection($permissions), 'Roles retrieved successfully', $permissions->total());
+        return $this->sendResponse(PermissionResource::collection($permissions), 'Permissions retrieved successfully', $permissions->total());
     }
 
     /**

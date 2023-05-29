@@ -44,6 +44,10 @@ const laravelDataProvider = (
   );
 
   return {
+    getPermissions: async () => {
+      const res = await client.get("/user/permissions");
+      return res.data;
+    },
     resetPassword: async (params) => {
       const res = await client.post("/password-reset", params);
       return res.data;

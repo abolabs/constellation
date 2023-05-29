@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import * as React from "react";
 import {
   AutocompleteInput,
   Edit,
@@ -21,20 +21,20 @@ import {
   SimpleForm,
   TextInput,
 } from "react-admin";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation } from 'react-router-dom';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
-import DefaultEditToolBar from '@components/toolbar/DefaultEditToolBar';
+import DefaultEditToolBar from "@components/toolbar/DefaultEditToolBar";
 
-import ServiceDefaultSchema from './ServiceDefaultSchema';
-
+import ServiceDefaultSchema from "./ServiceDefaultSchema";
+import WithPermission from "@components/WithPermission";
 
 const ServiceEdit = () => {
   const location = useLocation();
 
-  const TeamOptionText = (data) =>  `#${data.id} - ${data.name}`;
+  const TeamOptionText = (data) => `#${data.id} - ${data.name}`;
 
   return (
     <>
@@ -64,4 +64,8 @@ const ServiceEdit = () => {
   );
 };
 
-export default ServiceEdit;
+const ServiceEditWithPermission = () => (
+  <WithPermission permission="edit services" element={ServiceEdit} />
+);
+
+export default ServiceEditWithPermission;

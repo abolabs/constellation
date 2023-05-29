@@ -28,6 +28,7 @@ import Typography from "@mui/material/Typography";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
+import WithPermission from "@components/WithPermission";
 
 const envFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -41,13 +42,10 @@ const EnvironmentList = (props) => {
     <>
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Environment</Typography>
-      <DefaultList
-        {...props}
-        filters={envFilters}
-        actions={<DefaultToolBar />}
-      >
+      <DefaultList {...props} filters={envFilters} actions={<DefaultToolBar />}>
         {isSmall ? (
           <SimpleList
+            linkType="show"
             primaryText={(record) => "#" + record.id + " - " + record.name}
             tertiaryText={(record) =>
               new Date(record.created_at).toLocaleDateString()
@@ -66,4 +64,12 @@ const EnvironmentList = (props) => {
   );
 };
 
-export default EnvironmentList;
+const EnvironmentListWithPermission = (props) => (
+  <WithPermission
+    permission="view environments"
+    element={EnvironmentList}
+    elementProps={props}
+  />
+);
+
+export default EnvironmentListWithPermission;

@@ -13,11 +13,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useState } from 'react';
-import * as yup from 'yup';
-import {
-  Box,
-} from "@mui/material";
+import React, { useState } from "react";
+import * as yup from "yup";
+import { Box } from "@mui/material";
 import {
   Create,
   LinearProgress,
@@ -27,25 +25,27 @@ import {
   TextInput,
   useGetList,
 } from "react-admin";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation } from 'react-router-dom';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
-import DefaultEditToolBar from '@/components/toolbar/DefaultEditToolBar';
+import DefaultEditToolBar from "@/components/toolbar/DefaultEditToolBar";
 import AlertError from "@components/alerts/AlertError";
+import WithPermission from "@components/WithPermission";
 
 const UserCreate = () => {
   const location = useLocation();
   const [lastError, setLastError] = useState();
 
-  const { data: rolesList, isLoading, error: errorGetRolesList } = useGetList(
-    'roles',
-    {
-        pagination: { page: 1, perPage: 100 },
-        sort: { field: 'name', order: 'ASC' }
-    }
-  );
+  const {
+    data: rolesList,
+    isLoading,
+    error: errorGetRolesList,
+  } = useGetList("roles", {
+    pagination: { page: 1, perPage: 100 },
+    sort: { field: "name", order: "ASC" },
+  });
 
   if (isLoading) {
     return (
@@ -62,33 +62,38 @@ const UserCreate = () => {
     setLastError(error);
   };
 
-  const UserCreateSchema = yup.object()
+  const UserCreateSchema = yup
+    .object()
     .shape({
-        name: yup.string()
-          .required('Please define a team name')
-          .typeError('Please define a team name')
-          .max(254),
-        email: yup.string()
-          .email()
-          .required('Please define an email')
-          .typeError('Please define an email')
-          .max(254),
-        password: yup.string()
-          .required('Please define a password')
-          .typeError('Please define a password')
-          .max(254),
-        "confirm-password": yup.string()
-          .required('Please confirm the password')
-          .typeError('Please confirm the password')
-          .max(254),
-        roles: yup.array()
-          .ensure()
-          .compact()
-          .of(yup.number())
-          .min(1)
-          .required('Please select at least one role')
-          .typeError('Please select at least one role')
-
+      name: yup
+        .string()
+        .required("Please define a team name")
+        .typeError("Please define a team name")
+        .max(254),
+      email: yup
+        .string()
+        .email()
+        .required("Please define an email")
+        .typeError("Please define an email")
+        .max(254),
+      password: yup
+        .string()
+        .required("Please define a password")
+        .typeError("Please define a password")
+        .max(254),
+      "confirm-password": yup
+        .string()
+        .required("Please confirm the password")
+        .typeError("Please confirm the password")
+        .max(254),
+      roles: yup
+        .array()
+        .ensure()
+        .compact()
+        .of(yup.number())
+        .min(1)
+        .required("Please select at least one role")
+        .typeError("Please select at least one role"),
     })
     .required();
 
@@ -98,16 +103,20 @@ const UserCreate = () => {
       <Typography variant="h3">User</Typography>
       <Create mutationOptions={{ onError }}>
         <>
-          { lastError ? <AlertError {...lastError} /> : null}
+          {lastError ? <AlertError {...lastError} /> : null}
           <SimpleForm
             resolver={yupResolver(UserCreateSchema)}
             toolbar={<DefaultEditToolBar />}
           >
             <TextInput source="name" fullWidth />
             <TextInput source="email" fullWidth />
-            <PasswordInput source="password"  />
-            <PasswordInput source="confirm-password"/>
-            <SelectArrayInput source="roles" optionText="name" choices={rolesList}/>
+            <PasswordInput source="password" />
+            <PasswordInput source="confirm-password" />
+            <SelectArrayInput
+              source="roles"
+              optionText="name"
+              choices={rolesList}
+            />
           </SimpleForm>
         </>
       </Create>
@@ -115,4 +124,8 @@ const UserCreate = () => {
   );
 };
 
-export default UserCreate;
+const UserCreateWithPermission = () => (
+  <WithPermission permission="create users" element={UserCreate} />
+);
+
+export default UserCreateWithPermission;

@@ -39,6 +39,7 @@ import {
   ReferenceField,
   Show,
   TextField,
+  usePermissions,
   useShowContext,
   useShowController,
 } from "react-admin";
@@ -48,12 +49,14 @@ import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
 import CreateVersionModal from "@pages/service-version/CreateVersionModal";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
+import WithPermission from "@components/WithPermission";
 
 const ServiceShow = () => {
   const location = useLocation();
   const theme = useTheme();
   const { error, isLoading, record, refetch } = useShowController();
   const [openModal, setOpenModal] = useState(false);
+  const { permissions } = usePermissions();
 
   if (isLoading) {
     return (
@@ -77,11 +80,9 @@ const ServiceShow = () => {
       >
         Service
       </Typography>
-
       <Show actions={<></>}>
         <ServiceShowLayout />
       </Show>
-
       <Grid container mt={2}>
         <Grid item xs={12}>
           <Card>
@@ -98,13 +99,15 @@ const ServiceShow = () => {
                 },
               }}
               action={
-                <Button
-                  onClick={() => {
-                    setOpenModal(true);
-                  }}
-                >
-                  <AddBoxIcon />
-                </Button>
+                permissions.includes("create service_versions") ? (
+                  <Button
+                    onClick={() => {
+                      setOpenModal(true);
+                    }}
+                  >
+                    <AddBoxIcon />
+                  </Button>
+                ) : null
               }
             />
             <CardContent
@@ -136,14 +139,16 @@ const ServiceShow = () => {
           </Card>
         </Grid>
       </Grid>
-      <CreateVersionModal
-        serviceID={record?.id}
-        open={openModal}
-        handleClose={() => {
-          setOpenModal(false);
-          refetch();
-        }}
-      />
+      {permissions.includes("create service_versions") ? (
+        <CreateVersionModal
+          serviceID={record?.id}
+          open={openModal}
+          handleClose={() => {
+            setOpenModal(false);
+            refetch();
+          }}
+        />
+      ) : null}
     </>
   );
 };
@@ -321,4 +326,8 @@ const ServiceShowLayout = () => {
   );
 };
 
-export default ServiceShow;
+const ServiceShowWithPermission = () => (
+  <WithPermission permission="view services" element={ServiceShow} />
+);
+
+export default ServiceShowWithPermission;

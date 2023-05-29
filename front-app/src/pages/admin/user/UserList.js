@@ -25,9 +25,7 @@ import {
   useRecordContext,
   useGetOne,
 } from "react-admin";
-import {
-  Chip
-} from "@mui/material";
+import { Chip } from "@mui/material";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
@@ -35,6 +33,7 @@ import Typography from "@mui/material/Typography";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
+import WithPermission from "@components/WithPermission";
 
 const userFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -55,10 +54,9 @@ const UserList = (props) => {
       >
         {isSmall ? (
           <SimpleList
+            linkType="show"
             primaryText={(record) => "#" + record.id + " - " + record.name}
-            secondaryText={
-              <TextField source="email" />
-            }
+            secondaryText={<TextField source="email" />}
             tertiaryText={(record) =>
               new Date(record.created_at).toLocaleDateString()
             }
@@ -70,7 +68,7 @@ const UserList = (props) => {
             <TextField source="email" />
             <ArrayField source="roles">
               <SingleFieldList>
-                  <TagsField source="id" />
+                <TagsField source="id" />
               </SingleFieldList>
             </ArrayField>
             <DateField source="created_at" />
@@ -84,12 +82,20 @@ const UserList = (props) => {
 
 const TagsField = () => {
   const record = useRecordContext();
-  const { data: role, isLoading, error } = useGetOne('roles', { id: record });
+  const { data: role, isLoading, error } = useGetOne("roles", { id: record });
 
   if (isLoading) return null;
   if (error) return null;
 
-  return <Chip key={role.id} label={role.name} />
+  return <Chip key={role.id} label={role.name} />;
 };
 
-export default UserList;
+const UserListWithPermission = (props) => (
+  <WithPermission
+    permission="view users"
+    element={UserList}
+    elementProps={props}
+  />
+);
+
+export default UserListWithPermission;

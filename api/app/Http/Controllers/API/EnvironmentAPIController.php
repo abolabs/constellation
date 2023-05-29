@@ -36,6 +36,7 @@ class EnvironmentAPIController extends AppBaseController
 
     public function __construct(EnvironmentRepository $environmentRepo)
     {
+        $this->authorizeResource(Environment::class);
         $this->environmentRepository = $environmentRepo;
     }
 
@@ -143,7 +144,7 @@ class EnvironmentAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  Environment  $environment
      * @return Response
      *
      * @SWG\Get(
@@ -184,11 +185,8 @@ class EnvironmentAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show(Environment $environment)
     {
-        /** @var Environment $environment */
-        $environment = $this->environmentRepository->find($id);
-
         if (empty($environment)) {
             return $this->sendError(\Lang::get('environment.not_found'));
         }
@@ -200,7 +198,7 @@ class EnvironmentAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  Environment  $environment
      * @return Response
      *
      * @SWG\Put(
@@ -249,24 +247,21 @@ class EnvironmentAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateEnvironmentAPIRequest $request)
+    public function update(Environment $environment, UpdateEnvironmentAPIRequest $request)
     {
         $input = $request->all();
-
-        /** @var Environment $environment */
-        $environment = $this->environmentRepository->find($id);
 
         if (empty($environment)) {
             return $this->sendError(\Lang::get('environment.not_found'));
         }
 
-        $environment = $this->environmentRepository->update($input, $id);
+        $environment = $this->environmentRepository->update($input, $environment->id);
 
         return $this->sendResponse(new EnvironmentResource($environment), \Lang::get('environment.update_confirm'));
     }
 
     /**
-     * @param  int  $id
+     * @param  Environment  $environment
      * @return Response
      *
      * @SWG\Delete(
@@ -307,11 +302,8 @@ class EnvironmentAPIController extends AppBaseController
      *      )
      * )
      */
-    public function destroy($id)
+    public function destroy(Environment $environment)
     {
-        /** @var Environment $environment */
-        $environment = $this->environmentRepository->find($id);
-
         if (empty($environment)) {
             return $this->sendError(\Lang::get('environment.not_found'));
         }

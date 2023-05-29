@@ -41,6 +41,7 @@ import {
   TextField,
   UrlField,
   useDelete,
+  usePermissions,
   useRefresh,
   useShowContext,
   useShowController,
@@ -65,6 +66,7 @@ import {
 } from "@pages/admin/service-instance-dep/CreateServiceInstanceDepModal";
 import { EditServiceInstanceDepModal } from "@pages/admin/service-instance-dep/EditServiceInstanceDepModal";
 import { serviceInstanceDepLevel } from "./serviceInstanceDepLevel";
+import WithPermission from "@components/WithPermission";
 
 const ServiceInstanceShow = () => {
   const location = useLocation();
@@ -72,6 +74,7 @@ const ServiceInstanceShow = () => {
   const { error, isLoading, record } = useShowController();
   const [openModalDependsOf, setOpenModalDependsOf] = useState(false);
   const [openModalRequieredBy, setOpenModalRequiredBy] = useState(false);
+  const { permissions } = usePermissions();
 
   if (isLoading) {
     return (
@@ -119,13 +122,15 @@ const ServiceInstanceShow = () => {
                 },
               }}
               action={
-                <Button
-                  onClick={() => {
-                    setOpenModalDependsOf(true);
-                  }}
-                >
-                  <AddBoxIcon />
-                </Button>
+                permissions.includes("create service_instance_dependencies") ? (
+                  <Button
+                    onClick={() => {
+                      setOpenModalDependsOf(true);
+                    }}
+                  >
+                    <AddBoxIcon />
+                  </Button>
+                ) : null
               }
             />
             <CardContent
@@ -176,13 +181,15 @@ const ServiceInstanceShow = () => {
                 },
               }}
               action={
-                <Button
-                  onClick={() => {
-                    setOpenModalRequiredBy(true);
-                  }}
-                >
-                  <AddBoxIcon />
-                </Button>
+                permissions.includes("create service_instance_dependencies") ? (
+                  <Button
+                    onClick={() => {
+                      setOpenModalRequiredBy(true);
+                    }}
+                  >
+                    <AddBoxIcon />
+                  </Button>
+                ) : null
               }
             />
             <CardContent
@@ -289,6 +296,7 @@ const DependencyCard = (dep) => {
       ? dep?.service_instance_dep
       : dep?.service_instance;
   const [openModalEditDependency, setOpenModalEditDependency] = useState(false);
+  const { permissions } = usePermissions();
 
   const onClick = useCallback(() => {
     navigate(`/service_instances/${depInfo?.id}/show`);
@@ -323,16 +331,20 @@ const DependencyCard = (dep) => {
         }}
         action={
           <>
-            <DeleteDependency dep={dep} />
-            <IconButton
-              aria-label="edit"
-              edge="end"
-              onClick={() => {
-                setOpenModalEditDependency(true);
-              }}
-            >
-              <EditIcon color="secondary" />
-            </IconButton>
+            {permissions.includes("delete service_instance_dependencies") ? (
+              <DeleteDependency dep={dep} />
+            ) : null}
+            {permissions.includes("edit service_instance_dependencies") ? (
+              <IconButton
+                aria-label="edit"
+                edge="end"
+                onClick={() => {
+                  setOpenModalEditDependency(true);
+                }}
+              >
+                <EditIcon color="secondary" />
+              </IconButton>
+            ) : null}
           </>
         }
       />
@@ -572,4 +584,11 @@ const ServiceInstanceShowLayout = () => {
   );
 };
 
-export default ServiceInstanceShow;
+const ServiceInstanceShowWithPermission = () => (
+  <WithPermission
+    permission="view service_instances"
+    element={ServiceInstanceShow}
+  />
+);
+
+export default ServiceInstanceShowWithPermission;

@@ -37,6 +37,7 @@ import {
   ReferenceField,
   Show,
   TextField,
+  usePermissions,
   useShowContext,
   useShowController,
 } from "react-admin";
@@ -49,6 +50,7 @@ import CreateServiceInstanceModal from "@pages/service-instance/CreateServiceIns
 import ServiceInstanceCard from "@pages/service-instance/ServiceInstanceCard";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 import Tag from "@components/styled/Tag";
+import WithPermission from "@components/WithPermission";
 
 const ApplicationShow = () => {
   const location = useLocation();
@@ -56,6 +58,7 @@ const ApplicationShow = () => {
   const { error, isLoading, record } = useShowController();
   const [currentEnvId, setCurrentEnvId] = useState(1);
   const [openModal, setOpenModal] = useState(false);
+  const { permissions } = usePermissions();
 
   if (isLoading) {
     return (
@@ -83,84 +86,87 @@ const ApplicationShow = () => {
       <Show actions={<></>}>
         <ApplicationShowLayout />
       </Show>
-
-      <Grid container mt={2}>
-        <Grid item xs={12}>
-          <Card>
-            <CardHeader
-              title="Instance de service"
-              titleTypographyProps={{
-                variant: "h5",
-              }}
-              sx={{
-                background: theme?.palette?.primary?.main,
-                color: theme?.palette?.primary?.contrastText,
-                "& .MuiButton-root": {
+      {permissions.includes("view service_instances") ? (
+        <Grid container mt={2}>
+          <Grid item xs={12}>
+            <Card>
+              <CardHeader
+                title="Instance de service"
+                titleTypographyProps={{
+                  variant: "h5",
+                }}
+                sx={{
+                  background: theme?.palette?.primary?.main,
                   color: theme?.palette?.primary?.contrastText,
-                },
-              }}
-              action={
-                <Button
-                  onClick={() => {
-                    setOpenModal(true);
-                  }}
-                >
-                  <AddBoxIcon />
-                </Button>
-              }
-            />
-            <CardContent
-              sx={{
-                background: theme.palette.background.default,
-              }}
-            >
-              <Grid container>
-                <Grid item xs={4} md={3} lg={2}>
-                  <EnvironmentSelector
-                    record={record}
-                    currentEnvId={currentEnvId}
-                    setCurrentEnvId={setCurrentEnvId}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={8}
-                  md={9}
-                  lg={10}
-                  p={2}
-                  sx={{
-                    borderLeft: 1,
-                    borderColor: grey[300],
-                  }}
-                >
+                  "& .MuiButton-root": {
+                    color: theme?.palette?.primary?.contrastText,
+                  },
+                }}
+                action={
+                  permissions.includes("create service_instances") ? (
+                    <Button
+                      onClick={() => {
+                        setOpenModal(true);
+                      }}
+                    >
+                      <AddBoxIcon />
+                    </Button>
+                  ) : null
+                }
+              />
+              <CardContent
+                sx={{
+                  background: theme.palette.background.default,
+                }}
+              >
+                <Grid container>
+                  <Grid item xs={4} md={3} lg={2}>
+                    <EnvironmentSelector
+                      record={record}
+                      currentEnvId={currentEnvId}
+                      setCurrentEnvId={setCurrentEnvId}
+                    />
+                  </Grid>
                   <Grid
-                    container
-                    direction="row"
-                    justifyContent="flex-start"
-                    alignItems="stretch"
-                    spacing={{ xs: 2, md: 3 }}
-                    columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
+                    item
+                    xs={8}
+                    md={9}
+                    lg={10}
+                    p={2}
+                    sx={{
+                      borderLeft: 1,
+                      borderColor: grey[300],
+                    }}
                   >
-                    {record?.meta?.serviceInstances?.map((instance) =>
-                      instance?.environment_id === currentEnvId ? (
-                        <Fade key={instance?.id} in={true} timeout={500}>
-                          <Grid item xs={8} sm={8} md={4} lg={3}>
-                            <ServiceInstanceCard
-                              key={instance?.id}
-                              {...instance}
-                              {...currentEnvId}
-                            />
-                          </Grid>
-                        </Fade>
-                      ) : null
-                    )}
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="flex-start"
+                      alignItems="stretch"
+                      spacing={{ xs: 2, md: 3 }}
+                      columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
+                    >
+                      {record?.meta?.serviceInstances?.map((instance) =>
+                        instance?.environment_id === currentEnvId ? (
+                          <Fade key={instance?.id} in={true} timeout={500}>
+                            <Grid item xs={8} sm={8} md={4} lg={3}>
+                              <ServiceInstanceCard
+                                key={instance?.id}
+                                {...instance}
+                                {...currentEnvId}
+                              />
+                            </Grid>
+                          </Fade>
+                        ) : null
+                      )}
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
+      ) : null}
       <CreateServiceInstanceModal
         applicationData={record}
         environmentId={currentEnvId}
@@ -196,7 +202,7 @@ const EnvironmentSelector = ({ record, currentEnvId, setCurrentEnvId }) => (
 
 const ApplicationShowLayout = () => {
   const { record } = useShowContext();
-
+  const { permissions } = usePermissions();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
@@ -225,20 +231,22 @@ const ApplicationShowLayout = () => {
                     secondary={<NumberField source="id" />}
                   />
                 </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary="Team"
-                    secondary={
-                      <ReferenceField
-                        source="team_id"
-                        reference="teams"
-                        link="show"
-                      >
-                        <TextField source="name" />
-                      </ReferenceField>
-                    }
-                  />
-                </ListItem>
+                {permissions.includes("view teams") ? (
+                  <ListItem>
+                    <ListItemText
+                      primary="Team"
+                      secondary={
+                        <ReferenceField
+                          source="team_id"
+                          reference="teams"
+                          link="show"
+                        >
+                          <TextField source="name" />
+                        </ReferenceField>
+                      }
+                    />
+                  </ListItem>
+                ) : null}
                 <ListItem>
                   <ListItemText
                     primary="Creation date"
@@ -260,4 +268,8 @@ const ApplicationShowLayout = () => {
   );
 };
 
-export default ApplicationShow;
+const ApplicationShowWithPermission = () => (
+  <WithPermission permission="view applications" element={ApplicationShow} />
+);
+
+export default ApplicationShowWithPermission;

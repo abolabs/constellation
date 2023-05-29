@@ -13,24 +13,29 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import WithPermission from "@components/WithPermission";
-import AbstractMapping from "./AbstractMapping";
+import { createElement } from "react";
+import { usePermissions } from "react-admin";
+import { Navigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const MappingByHosting = () => {
-  return (
-    <AbstractMapping
-      title="Mapping by hosting"
-      mappingUrl="application-mapping/graph-nodes-by-hosting"
-      filterList={["environment_id", "application_id", "team_id", "hosting_id"]}
-    />
-  );
+/**
+ * Render element if the user is allow, redirect to the home page if not.
+ */
+const WithPermission = ({ permission, element, ...elementProps }) => {
+  const { permissions } = usePermissions();
+
+  if (permission && !permissions?.includes(permission)) {
+    return <Navigate to="/" />;
+  }
+  if (element) {
+    return createElement(element, elementProps);
+  }
 };
 
-const MappingByHostingWithPermission = () => (
-  <WithPermission
-    permission="service-mapping-per-host"
-    element={MappingByHosting}
-  />
-);
+WithPermission.propTypes = {
+  permission: PropTypes.string.isRequired,
+  element: PropTypes.func.isRequired,
+  elementProps: PropTypes.object,
+};
 
-export default MappingByHostingWithPermission;
+export default WithPermission;

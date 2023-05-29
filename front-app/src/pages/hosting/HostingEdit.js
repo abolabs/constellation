@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
+import * as React from "react";
 import {
   AutocompleteInput,
   Edit,
@@ -21,20 +21,21 @@ import {
   SimpleForm,
   TextInput,
 } from "react-admin";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation } from 'react-router-dom';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
-import DefaultEditToolBar from '@/components/toolbar/DefaultEditToolBar';
+import DefaultEditToolBar from "@/components/toolbar/DefaultEditToolBar";
 import OptionalFieldTitle from "@components/form/OptionalFieldTitle";
 
-import HostingDefaultSchema from './HostingDefaultSchema';
+import HostingDefaultSchema from "./HostingDefaultSchema";
+import WithPermission from "@components/WithPermission";
 
 const HostingEdit = () => {
   const location = useLocation();
 
-  const HostingTypeOptionText = (data) =>  `#${data.id} - ${data.name}`;
+  const HostingTypeOptionText = (data) => `#${data.id} - ${data.name}`;
 
   return (
     <>
@@ -57,11 +58,19 @@ const HostingEdit = () => {
               fullWidth
             />
           </ReferenceInput>
-          <TextInput source="localisation" label={<OptionalFieldTitle label="Localisation" />} fullWidth />
+          <TextInput
+            source="localisation"
+            label={<OptionalFieldTitle label="Localisation" />}
+            fullWidth
+          />
         </SimpleForm>
       </Edit>
     </>
   );
 };
 
-export default HostingEdit;
+const HostingEditWithPermission = () => (
+  <WithPermission permission="edit hostings" element={HostingEdit} />
+);
+
+export default HostingEditWithPermission;

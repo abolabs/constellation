@@ -4,14 +4,12 @@ namespace Tests\APIs\v1;
 
 use App\Models\Application;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\ApiTestTrait;
 use Tests\TestCase;
 
 class ApplicationApiTest extends TestCase
 {
     use ApiTestTrait;
-    use WithoutMiddleware;
     use DatabaseTransactions;
 
     private const ROUTE_PREFIX = '/api/v1/applications';
@@ -41,7 +39,7 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX.'/'.$application->id
+            self::ROUTE_PREFIX . '/' . $application->id
         );
 
         $this->assertApiResponse($application->toArray());
@@ -57,7 +55,7 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX.'/'.$application->id,
+            self::ROUTE_PREFIX . '/' . $application->id,
             $editedApplication
         );
 
@@ -73,13 +71,13 @@ class ApplicationApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX.'/'.$application->id
+            self::ROUTE_PREFIX . '/' . $application->id
         );
 
         $this->assertApiSuccess();
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX.'/'.$application->id
+            self::ROUTE_PREFIX . '/' . $application->id
         );
 
         $this->response->assertStatus(404);

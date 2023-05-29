@@ -29,6 +29,7 @@ use App\Models\ServiceVersion;
 use App\Models\Team;
 use App\Policies\ApplicationPolicy;
 use App\Policies\AuditPolicy;
+use App\Policies\EnvironmentPolicy;
 use App\Policies\HostingPolicy;
 use App\Policies\HostingTypePolicy;
 use App\Policies\ServiceInstanceDependenciesPolicy;
@@ -38,7 +39,6 @@ use App\Policies\ServiceVersionPolicy;
 use App\Policies\TeamPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -50,7 +50,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Application::class => ApplicationPolicy::class,
         Audit::class => AuditPolicy::class,
-        Environment::class => Environment::class,
+        Environment::class => EnvironmentPolicy::class,
         Hosting::class => HostingPolicy::class,
         HostingType::class => HostingTypePolicy::class,
         Service::class => ServicePolicy::class,
@@ -67,16 +67,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Passport::tokensCan([
-            'name' => 'name',
-            'email' => 'email',
-        ]);
-
-        Passport::setDefaultScope([
-            'name' => 'name',
-            'email' => 'email',
-        ]);
-
         Gate::after(function ($user, $ability) {
             if ($user->hasRole(config('permission.super-admin-role'))) {
                 return true;

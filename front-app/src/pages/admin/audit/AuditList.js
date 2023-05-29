@@ -31,6 +31,7 @@ import Typography from "@mui/material/Typography";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
+import WithPermission from "@components/WithPermission";
 
 const auditFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -59,6 +60,7 @@ const AuditList = (props) => {
       >
         {isSmall ? (
           <SimpleList
+            linkType="show"
             primaryText={(record) =>
               `#${record.id} - [${record.auditable_id}- ${record.auditable_type} ]`
             }
@@ -85,4 +87,12 @@ const AuditList = (props) => {
   );
 };
 
-export default AuditList;
+const AuditListWithPermission = (props) => (
+  <WithPermission
+    permission="view audits"
+    element={AuditList}
+    elementProps={props}
+  />
+);
+
+export default AuditListWithPermission;

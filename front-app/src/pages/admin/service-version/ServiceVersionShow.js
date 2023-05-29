@@ -13,16 +13,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { DateField, LinearProgress, Show, TextField, useShowController } from "react-admin";
-import { useLocation } from "react-router-dom";
 import {
-  Box,
-  Typography
-} from "@mui/material";
+  DateField,
+  LinearProgress,
+  Show,
+  TextField,
+  useShowController,
+} from "react-admin";
+import { useLocation } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
 import DefaultShowLayout from "@components/DefaultShowLayout";
+import WithPermission from "@components/WithPermission";
 
 const ServiceVersionShow = () => {
   const location = useLocation();
@@ -45,14 +49,21 @@ const ServiceVersionShow = () => {
       <Typography variant="h3">Service Version</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
         <DefaultShowLayout title={record?.service_name}>
-            <TextField source="id" />
-            <TextField source="version" />
-            <DateField source="created_at" />
-            <DateField source="updated_at" />
+          <TextField source="id" />
+          <TextField source="version" />
+          <DateField source="created_at" />
+          <DateField source="updated_at" />
         </DefaultShowLayout>
       </Show>
     </>
   );
 };
 
-export default ServiceVersionShow;
+const ServiceVersionShowWithPermission = () => (
+  <WithPermission
+    permission="view service_versions"
+    element={ServiceVersionShow}
+  />
+);
+
+export default ServiceVersionShowWithPermission;

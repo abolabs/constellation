@@ -30,6 +30,7 @@ import Typography from "@mui/material/Typography";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultEditToolBar from "@/components/toolbar/DefaultEditToolBar";
 import AlertError from "@components/alerts/AlertError";
+import WithPermission from "@components/WithPermission";
 
 const UserEdit = () => {
   const location = useLocation();
@@ -94,4 +95,8 @@ const UserEdit = () => {
   );
 };
 
-export default UserEdit;
+const UserEditWithPermission = () => (
+  <WithPermission permission="edit users" element={UserEdit} />
+);
+
+export default UserEditWithPermission;

@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Menu, useSidebarState } from "react-admin";
+import { Menu, useSidebarState, usePermissions } from "react-admin";
 
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
@@ -49,6 +49,7 @@ const AppMenu = () => {
   const [adminOpen, setAdminOpen] = useState();
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const { isLoading, identity } = useGetIdentity();
+  const { permissions } = usePermissions();
 
   useEffect(() => {
     setOpen(isMediumOrUpper);
@@ -148,20 +149,23 @@ const AppMenu = () => {
       ) : (
         <Divider />
       )}
-      <Menu.Item
+      <MenuItem
         to="/application-mapping/by-app"
         primaryText="Applications"
         leftIcon={<WebAssetIcon />}
+        permission="app-mapping"
       />
-      <Menu.Item
+      <MenuItem
         to="/application-mapping/services-by-app"
         primaryText="Services par applications"
         leftIcon={<ShareIcon />}
+        permission="service-mapping-per-app"
       />
-      <Menu.Item
+      <MenuItem
         to="/application-mapping/by-hosting"
         primaryText="Hébergement"
         leftIcon={<LanIcon />}
+        permission="service-mapping-per-host"
       />
       {open ? (
         <Typography variant="h4" pt={1}>
@@ -170,27 +174,31 @@ const AppMenu = () => {
       ) : (
         <Divider />
       )}
-      <Menu.Item
+      <MenuItem
         to="/applications"
         primaryText="Applications"
         leftIcon={<AppRegistrationIcon />}
+        permission="view applications"
       />
-      <Menu.Item
+      <MenuItem
         to="/service_instances"
         primaryText="Instances de services"
         leftIcon={<ViewModuleIcon />}
+        permission="view service_instances"
       />
-      <Menu.Item
+      <MenuItem
         to="/services"
         primaryText="Services"
         leftIcon={<WidgetsIcon />}
+        permission="view services"
       />
-      <Menu.Item
+      <MenuItem
         to="/hostings"
         primaryText="Hébergements"
         leftIcon={<SettingsSystemDaydreamIcon />}
+        permission="view hostings"
       />
-      {open ? (
+      {open && permissions.includes("admin") ? (
         <Typography
           variant="h4"
           pt={1}
@@ -210,49 +218,65 @@ const AppMenu = () => {
         <Divider />
       )}
       <Collapse in={adminOpen || !open}>
-        <Menu.Item
+        <MenuItem
           to="/service_instance_dependencies"
           primaryText="Dépendances d'instances"
           leftIcon={<AccountTreeIcon />}
+          permission="view service_instance_dependencies"
         />
-        <Menu.Item
+        <MenuItem
           to="/environments"
           primaryText="Environments"
           leftIcon={<WindowIcon />}
+          permission="view environments"
         />
-        <Menu.Item
+        <MenuItem
           to="/service_versions"
           primaryText="Versions de service"
           leftIcon={<Replay30Icon />}
+          permission="view service_versions"
         />
-        <Menu.Item
+        <MenuItem
           to="/hosting_types"
           primaryText="Types d'hébergement"
           leftIcon={<StorageIcon />}
+          permission="view hosting_types"
         />
-        <Menu.Item
+        <MenuItem
           to="/teams"
           primaryText="Equipes"
           leftIcon={<GroupsIcon />}
+          permission="view teams"
         />
-        <Menu.Item
+        <MenuItem
           to="/users"
           primaryText="Utilisateurs"
           leftIcon={<PersonIcon />}
+          permission="view users"
         />
-        <Menu.Item
+        <MenuItem
           to="/roles"
           primaryText="Roles"
           leftIcon={<LocalOfferIcon />}
+          permission="view roles"
         />
-        <Menu.Item
+        <MenuItem
           to="/audits"
           primaryText="Audits"
           leftIcon={<HistoryIcon />}
+          permission="view audits"
         />
       </Collapse>
     </Menu>
   );
+};
+
+const MenuItem = ({ permission, ...props }) => {
+  const { permissions } = usePermissions();
+  if (permission && !permissions?.includes(permission)) {
+    return null;
+  }
+  return <Menu.Item {...props} />;
 };
 
 export default AppMenu;

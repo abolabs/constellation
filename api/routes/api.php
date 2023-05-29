@@ -1,9 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\PasswordResetAPIController;
 use App\Http\Controllers\API\InfraAPIController;
 use App\Http\Controllers\API\UserAPIController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,25 +34,25 @@ Route::group([
     /**
      * Resources
      */
-    Route::resource('environments', EnvironmentAPIController::class, ['names' => 'v1.environments']);
-    Route::resource('hosting_types', HostingTypeAPIController::class, ['names' => 'v1.hostingTypes']);
-    Route::resource('hostings', HostingAPIController::class, ['names' => 'v1.hostings']);
-    Route::resource('teams', TeamAPIController::class, ['names' => 'v1.teams']);
-    Route::resource('applications', ApplicationAPIController::class, ['names' => 'v1.applications']);
-    Route::resource('services', ServiceAPIController::class, ['names' => 'v1.services']);
-    Route::resource('service_versions', ServiceVersionAPIController::class, ['names' => 'v1.serviceVersions']);
-    Route::resource('service_version_dependencies', ServiceVersionDependenciesAPIController::class, ['names' => 'v1.service_version_dependencies']);
-    Route::resource('service_instances', ServiceInstanceAPIController::class, ['names' => 'v1.service_instances']);
-    Route::resource('service_instance_dependencies', ServiceInstanceDependenciesAPIController::class, ['names' => 'v1.serviceInstanceDependencies']);
-    Route::resource('roles', RoleAPIController::class, ['names' => 'v1.roles']);
-    Route::resource('permissions', PermissionAPIController::class, ['names' => 'v1.permissions']);
-    Route::resource('users', UserAPIController::class, ['names' => 'v1.users']);
-    Route::resource('audits', AuditAPIController::class, ['names' => 'v1.audits']);
+    Route::apiResource('environments', EnvironmentAPIController::class, ['names' => 'v1.environments']);
+    Route::apiResource('hosting_types', HostingTypeAPIController::class, ['names' => 'v1.hostingTypes']);
+    Route::apiResource('hostings', HostingAPIController::class, ['names' => 'v1.hostings']);
+    Route::apiResource('teams', TeamAPIController::class, ['names' => 'v1.teams']);
+    Route::apiResource('applications', ApplicationAPIController::class, ['names' => 'v1.applications']);
+    Route::apiResource('services', ServiceAPIController::class, ['names' => 'v1.services']);
+    Route::apiResource('service_versions', ServiceVersionAPIController::class, ['names' => 'v1.serviceVersions']);
+    Route::apiResource('service_instances', ServiceInstanceAPIController::class, ['names' => 'v1.service_instances']);
+    Route::apiResource('service_instance_dependencies', ServiceInstanceDependenciesAPIController::class, ['names' => 'v1.serviceInstanceDependencies']);
+    Route::apiResource('roles', RoleAPIController::class, ['names' => 'v1.roles']);
+    Route::apiResource('permissions', PermissionAPIController::class, ['names' => 'v1.permissions']);
+    Route::apiResource('users', UserAPIController::class, ['names' => 'v1.users']);
+    Route::apiResource('audits', AuditAPIController::class, ['names' => 'v1.audits']);
 
     /**
      * Profile
      */
     Route::put('/profile', [UserAPIController::class, 'profileUpdate'])->name('v1.profile.update');
+    Route::get('/user/permissions', [UserAPIController::class, 'getPermissions'])->name('v1.profile.permissions');
 });
 
 Route::group([

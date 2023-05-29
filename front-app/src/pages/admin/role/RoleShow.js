@@ -13,16 +13,24 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { ChipField, DateField, LinearProgress, ReferenceArrayField, Show, SingleFieldList, TextField, useShowController } from "react-admin";
-import { useLocation } from "react-router-dom";
 import {
-  Box,
-  Typography
-} from "@mui/material";
+  ChipField,
+  DateField,
+  LinearProgress,
+  Pagination,
+  ReferenceArrayField,
+  Show,
+  SingleFieldList,
+  TextField,
+  useShowController,
+} from "react-admin";
+import { useLocation } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
 import DefaultShowLayout from "@components/DefaultShowLayout";
+import WithPermission from "@components/WithPermission";
 
 const RoleShow = () => {
   const location = useLocation();
@@ -45,19 +53,28 @@ const RoleShow = () => {
       <Typography variant="h3">Role</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
         <DefaultShowLayout>
-            <TextField source="id" />
-            <TextField source="name" />
-            <ReferenceArrayField source="permissions" reference="permissions">
-              <SingleFieldList sx={{ p: 1 }}>
-                  <ChipField source="name" />
-              </SingleFieldList>
-            </ReferenceArrayField>
-            <DateField source="created_at" />
-            <DateField source="updated_at" />
+          <TextField source="id" />
+          <TextField source="name" />
+          <ReferenceArrayField
+            source="permissions"
+            reference="permissions"
+            perPage={20}
+            pagination={<Pagination />}
+          >
+            <SingleFieldList sx={{ p: 1 }}>
+              <ChipField source="name" />
+            </SingleFieldList>
+          </ReferenceArrayField>
+          <DateField source="created_at" />
+          <DateField source="updated_at" />
         </DefaultShowLayout>
       </Show>
     </>
   );
 };
 
-export default RoleShow;
+const RoleShowWithPermission = () => (
+  <WithPermission permission="view roles" element={RoleShow} />
+);
+
+export default RoleShowWithPermission;

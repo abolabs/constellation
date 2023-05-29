@@ -13,34 +13,56 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Create, SimpleForm, TextInput, ReferenceInput, AutocompleteInput } from 'react-admin';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation } from 'react-router-dom';
+import * as React from "react";
+import {
+  Create,
+  SimpleForm,
+  TextInput,
+  ReferenceInput,
+  AutocompleteInput,
+} from "react-admin";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
-import ApplicationDefaultSchema from './ApplicationDefaultSchema';
+import ApplicationDefaultSchema from "./ApplicationDefaultSchema";
+import WithPermission from "@components/WithPermission";
 
 const ApplicationCreate = () => {
   const location = useLocation();
 
-  const TeamOptionText = (data) =>  `#${data.id} - ${data.name}`;
+  const TeamOptionText = (data) => `#${data.id} - ${data.name}`;
 
   return (
     <>
       <AppBreadCrumd location={location} />
       <Typography variant="h3">Application</Typography>
       <Create>
-          <SimpleForm resolver={yupResolver(ApplicationDefaultSchema)}>
-              <TextInput source="name" fullWidth />
-              <ReferenceInput source="team_id" reference="teams" sort={{field:"name", order:"ASC"}} >
-                <AutocompleteInput label="Team" optionText={TeamOptionText} fullWidth/>
-              </ReferenceInput>
-          </SimpleForm>
+        <SimpleForm resolver={yupResolver(ApplicationDefaultSchema)}>
+          <TextInput source="name" fullWidth />
+          <ReferenceInput
+            source="team_id"
+            reference="teams"
+            sort={{ field: "name", order: "ASC" }}
+          >
+            <AutocompleteInput
+              label="Team"
+              optionText={TeamOptionText}
+              fullWidth
+            />
+          </ReferenceInput>
+        </SimpleForm>
       </Create>
     </>
   );
 };
 
-export default ApplicationCreate;
+const ApplicationCreateWithPermission = () => (
+  <WithPermission
+    permission="create applications"
+    element={ApplicationCreate}
+  />
+);
+
+export default ApplicationCreateWithPermission;

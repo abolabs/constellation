@@ -19,79 +19,62 @@ namespace App\Policies;
 
 use App\Models\ServiceVersion;
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ServiceVersionPolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view any models.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
-        return $user->can('view serviceVersion');
+        return $user->can('view service_versions');
     }
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, ServiceVersion $serviceVersion)
+    public function view(User $user, ServiceVersion $serviceVersion): bool
     {
-        return $user->can('view serviceVersion');
+        return $user->can('view service_versions');
     }
 
     /**
      * Determine whether the user can create models.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
-        return $user->can('create serviceVersion');
+        return $user->can('create service_versions');
     }
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, ServiceVersion $serviceVersion)
+    public function update(User $user, ServiceVersion $serviceVersion): bool
     {
-        return $user->can('edit serviceVersion');
+        return $user->can('edit service_versions');
     }
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, ServiceVersion $serviceVersion)
+    public function delete(User $user, ServiceVersion $serviceVersion): bool
     {
-        return $user->can('delete serviceVersion');
+        return $user->can('delete service_versions');
     }
 
     /**
      * Determine whether the user can restore the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, ServiceVersion $serviceVersion)
+    public function restore(User $user, ServiceVersion $serviceVersion): bool
     {
-        return $user->can('edit serviceVersion');
+        return $user->can('edit service_versions');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, ServiceVersion $serviceVersion)
+    public function forceDelete(User $user, ServiceVersion $serviceVersion): bool
     {
-        return $user->can('delete serviceVersion');
+        return $user->can('delete service_versions');
     }
 }

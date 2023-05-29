@@ -30,34 +30,37 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'app-mapping', 'service-mapping-per-app', 'service-mapping-per-host',
-            'admin',
-            'view audit',
+            'app-mapping',              // Allow to view mapping per app
+            'service-mapping-per-app',  // Allow to view mapping per app <-> service
+            'service-mapping-per-host', // Allow to view mapping per host <-> service
+            'admin',                    // Allow to access to admin menu
+            'view audits',               // Allow to access to audit logs
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
         $entities = [
-            'application',
-            'user',
-            'hostingType',
-            'hosting',
-            'service',
-            'serviceVersion',
-            'serviceVersionDep',
-            'serviceInstance',
-            'serviceInstanceDep',
-            'environment',
-            'team',
+            'applications',
+            'users',
+            'hosting_types',
+            'hostings',
+            'services',
+            'service_versions',
+            'service_instances',
+            'service_instance_dependencies',
+            'environments',
+            'teams',
+            'roles',
         ];
 
-        foreach ($entities as $entitiesPermission) {
-            Permission::create(['name' => 'view '.$entitiesPermission]);
-            Permission::create(['name' => 'create '.$entitiesPermission]);
-            Permission::create(['name' => 'edit '.$entitiesPermission]);
-            Permission::create(['name' => 'delete '.$entitiesPermission]);
+        foreach ($entities as $entity) {
+            // For each resource allow to...
+            Permission::firstOrCreate(['name' => 'view ' . $entity]);      // ... view entities
+            Permission::firstOrCreate(['name' => 'create ' . $entity]);    // ... create new entities
+            Permission::firstOrCreate(['name' => 'edit ' . $entity]);      // ... edit an existing entity
+            Permission::firstOrCreate(['name' => 'delete ' . $entity]);    // ... delete an existing entity
         }
     }
 }

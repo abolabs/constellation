@@ -40,6 +40,7 @@ class HostingAPIController extends AppBaseController
 
     public function __construct(HostingRepository $hostingRepo)
     {
+        $this->authorizeResource(Hosting::class);
         $this->hostingRepository = $hostingRepo;
     }
 
@@ -143,7 +144,7 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  Hosting $hosting
      * @return Response
      *
      * @SWG\Get(
@@ -184,11 +185,8 @@ class HostingAPIController extends AppBaseController
      *      )
      * )
      */
-    public function show($id)
+    public function show(Hosting $hosting)
     {
-        /** @var Hosting $hosting */
-        $hosting = $this->hostingRepository->find($id);
-
         if (empty($hosting)) {
             return $this->sendError('Hosting not found');
         }
@@ -206,7 +204,7 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
+     * @param  Hosting $hosting
      * @return Response
      *
      * @SWG\Put(
@@ -255,24 +253,21 @@ class HostingAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateHostingAPIRequest $request)
+    public function update(Hosting $hosting, UpdateHostingAPIRequest $request)
     {
         $input = $request->all();
-
-        /** @var Hosting $hosting */
-        $hosting = $this->hostingRepository->find($id);
 
         if (empty($hosting)) {
             return $this->sendError(Lang::get('hosting.not_found'));
         }
 
-        $hosting = $this->hostingRepository->update($input, $id);
+        $hosting = $this->hostingRepository->update($input, $hosting->id);
 
         return $this->sendResponse(new HostingResource($hosting), Lang::get('hosting.update_confirm'));
     }
 
     /**
-     * @param  int  $id
+     * @param  Hosting $hosting
      * @return Response
      *
      * @SWG\Delete(
@@ -313,11 +308,8 @@ class HostingAPIController extends AppBaseController
      *      )
      * )
      */
-    public function destroy($id)
+    public function destroy(Hosting $hosting)
     {
-        /** @var Hosting $hosting */
-        $hosting = $this->hostingRepository->find($id);
-
         if (empty($hosting)) {
             return $this->sendError(Lang::get('hosting.not_found'));
         }

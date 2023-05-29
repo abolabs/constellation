@@ -4,7 +4,6 @@ namespace Tests\APIs\v1;
 
 use App\Models\Audit;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Symfony\Component\HttpFoundation\Response as HttpCode;
 use Tests\ApiTestTrait;
 use Tests\TestCase;
@@ -12,7 +11,6 @@ use Tests\TestCase;
 class AuditApiTest extends TestCase
 {
     use ApiTestTrait;
-    use WithoutMiddleware;
     use DatabaseTransactions;
 
     private const ROUTE_PREFIX = '/api/v1/audits';
@@ -42,7 +40,7 @@ class AuditApiTest extends TestCase
 
         $this->response = $this->json(
             'GET',
-            self::ROUTE_PREFIX.'/'.$audit->id
+            self::ROUTE_PREFIX . '/' . $audit->id
         );
 
         $this->assertApiResponse($audit->toArray());
@@ -57,7 +55,7 @@ class AuditApiTest extends TestCase
 
         $this->response = $this->json(
             'PUT',
-            self::ROUTE_PREFIX.'/'.$audit->id
+            self::ROUTE_PREFIX . '/' . $audit->id
         );
 
         $this->response->assertStatus(HttpCode::HTTP_NOT_IMPLEMENTED);
@@ -72,7 +70,7 @@ class AuditApiTest extends TestCase
 
         $this->response = $this->json(
             'DELETE',
-            self::ROUTE_PREFIX.'/'.$audit->id
+            self::ROUTE_PREFIX . '/' . $audit->id
         );
 
         $this->response->assertStatus(HttpCode::HTTP_NOT_IMPLEMENTED);

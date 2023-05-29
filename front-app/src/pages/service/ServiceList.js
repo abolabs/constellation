@@ -23,6 +23,7 @@ import {
   ReferenceInput,
   SelectInput,
   BulkExportButton,
+  usePermissions,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -31,6 +32,7 @@ import Typography from "@mui/material/Typography";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import DefaultList from "@components/styled/DefaultList";
+import WithPermission from "@components/WithPermission";
 
 const servicesFilters = [
   <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
@@ -47,6 +49,7 @@ const servicesFilters = [
 const ServiceList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
+  const { permissions } = usePermissions();
 
   return (
     <>
@@ -55,10 +58,13 @@ const ServiceList = (props) => {
       <DefaultList
         {...props}
         filters={servicesFilters}
-        actions={<DefaultToolBar />}
+        actions={
+          <DefaultToolBar canCreate={permissions.includes("create services")} />
+        }
       >
         {isSmall ? (
           <SimpleList
+            linkType="show"
             primaryText={(record) => "#" + record.id + " - " + record.name}
             secondaryText={
               <ReferenceField source="team_id" reference="teams" link={false}>
@@ -71,14 +77,14 @@ const ServiceList = (props) => {
           />
         ) : (
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
-              <TextField source="id" />
+            <TextField source="id" />
+            <TextField source="name" />
+            <TextField source="git_repo" />
+            <ReferenceField source="team_id" reference="teams">
               <TextField source="name" />
-              <TextField source="git_repo" />
-              <ReferenceField source="team_id" reference="teams">
-                <TextField source="name" />
-              </ReferenceField>
-              <DateField source="created_at" />
-              <DateField source="updated_at" />
+            </ReferenceField>
+            <DateField source="created_at" />
+            <DateField source="updated_at" />
           </Datagrid>
         )}
       </DefaultList>
@@ -86,4 +92,12 @@ const ServiceList = (props) => {
   );
 };
 
-export default ServiceList;
+const ServiceListWithPermission = (props) => (
+  <WithPermission
+    permission="view services"
+    element={ServiceList}
+    elementProps={props}
+  />
+);
+
+export default ServiceListWithPermission;

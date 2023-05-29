@@ -42,6 +42,7 @@ import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
 import ServiceInstanceCard from "@pages/service-instance/ServiceInstanceCard";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
+import WithPermission from "@components/WithPermission";
 
 const HostingShow = () => {
   const location = useLocation();
@@ -106,13 +107,16 @@ const HostingShow = () => {
                     spacing={{ xs: 2, md: 4, lg: 4 }}
                     columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
                   >
-                  {record?.meta?.serviceInstances?.map((instance) => (
-                    <Fade key={instance?.id} in={true} timeout={500}>
-                      <Grid item xs={8} sm={8} md={4} lg={3}>
-                          <ServiceInstanceCard key={instance?.id} {...instance} />
-                      </Grid>
-                    </Fade>
-                  ))}
+                    {record?.meta?.serviceInstances?.map((instance) => (
+                      <Fade key={instance?.id} in={true} timeout={500}>
+                        <Grid item xs={8} sm={8} md={4} lg={3}>
+                          <ServiceInstanceCard
+                            key={instance?.id}
+                            {...instance}
+                          />
+                        </Grid>
+                      </Fade>
+                    ))}
                   </Grid>
                 </Grid>
               </Grid>
@@ -122,7 +126,7 @@ const HostingShow = () => {
       </Grid>
     </>
   );
-}
+};
 
 const HostingShowLayout = () => {
   const { record } = useShowContext();
@@ -132,7 +136,12 @@ const HostingShowLayout = () => {
       <Grid container>
         <Grid item xs={12}>
           <Card>
-            <DefaultCardHeader object="hostings" record={record} title={record?.name} canDelete={!record?.meta?.serviceInstances?.length}/>
+            <DefaultCardHeader
+              object="hostings"
+              record={record}
+              title={record?.name}
+              canDelete={!record?.meta?.serviceInstances?.length}
+            />
             <CardContent>
               <List
                 sx={{
@@ -161,7 +170,11 @@ const HostingShowLayout = () => {
                   <ListItemText
                     primary="Hosting type"
                     secondary={
-                      <ReferenceField source="hosting_type_id" reference="hosting_types" link="show">
+                      <ReferenceField
+                        source="hosting_type_id"
+                        reference="hosting_types"
+                        link="show"
+                      >
                         <TextField source="name" />
                       </ReferenceField>
                     }
@@ -194,4 +207,8 @@ const HostingShowLayout = () => {
   );
 };
 
-export default HostingShow;
+const HostingShowWithPermission = () => (
+  <WithPermission permission="view hostings" element={HostingShow} />
+);
+
+export default HostingShowWithPermission;

@@ -13,20 +13,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import {
-  Edit,
-  SimpleForm,
-  TextInput,
-} from "react-admin";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation } from 'react-router-dom';
+import * as React from "react";
+import { Edit, SimpleForm, TextInput } from "react-admin";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
-import DefaultEditToolBar from '@/components/toolbar/DefaultEditToolBar';
+import DefaultEditToolBar from "@/components/toolbar/DefaultEditToolBar";
 
-import ServiceVersionDefaultSchema from './ServiceVersionDefaultSchema';
+import ServiceVersionDefaultSchema from "./ServiceVersionDefaultSchema";
+import WithPermission from "@components/WithPermission";
 
 const ServiceVersionEdit = () => {
   const location = useLocation();
@@ -47,4 +44,11 @@ const ServiceVersionEdit = () => {
   );
 };
 
-export default ServiceVersionEdit;
+const ServiceVersionEditWithPermission = () => (
+  <WithPermission
+    permission="edit service_versions"
+    element={ServiceVersionEdit}
+  />
+);
+
+export default ServiceVersionEditWithPermission;

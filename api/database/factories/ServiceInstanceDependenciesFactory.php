@@ -43,12 +43,8 @@ class ServiceInstanceDependenciesFactory extends Factory
         ]);
 
         return [
-            'instance_id' => function () use ($sourceService) {
-                return $sourceService->id;
-            },
-            'instance_dep_id' => function () use ($targetService) {
-                return $targetService->id;
-            },
+            'instance_id' => $sourceService->id,
+            'instance_dep_id' => $targetService->id,
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
         ];
