@@ -38,8 +38,9 @@ use Laravel\Scout\Searchable;
  * @property string $user_agent
  * @property string $tags
  */
-class Audit extends Model
+class Audit extends Model implements \OwenIt\Auditing\Contracts\Audit
 {
+    use \OwenIt\Auditing\Audit;
     use HasFactory;
     use Searchable;
 
@@ -52,6 +53,11 @@ class Audit extends Model
     protected $dates = ['deleted_at'];
 
     public $connection = 'mysql';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $guarded = [];
 
     public $fillable = [
         'user_type',
@@ -79,8 +85,8 @@ class Audit extends Model
         'event' => 'string',
         'auditable_type' => 'string',
         'auditable_id' => 'integer',
-        'old_values' => 'string',
-        'new_values' => 'string',
+        'old_values' => 'json',
+        'new_values' => 'json',
         'url' => 'string',
         'ip_address' => 'string',
         'user_agent' => 'string',
@@ -109,14 +115,6 @@ class Audit extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function user()
-    {
-        return $this->belongsTo(\App\Models\User::class, 'user_id');
-    }
-
-    /**
      * Get the indexable data array for the model.
      *
      * @return array
@@ -139,5 +137,21 @@ class Audit extends Model
             'tags' => $this->tags,
             'created_at' => $this->created_at,
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function auditable()
+    {
+        return $this->morphTo();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 }

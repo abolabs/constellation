@@ -71,7 +71,6 @@ const AuditShow = () => {
           <DateField source="updated_at" />
           <JsonField
             source="old_values"
-            jsonString={true} // Set to true if the value is a string, default: false
             reactJsonOptions={{
               // Props passed to react-json-view
               collapsed: true,
@@ -82,7 +81,6 @@ const AuditShow = () => {
           />
           <JsonField
             source="new_values"
-            jsonString={true} // Set to true if the value is a string, default: false
             reactJsonOptions={{
               // Props passed to react-json-view
               collapsed: true,

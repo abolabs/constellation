@@ -81,9 +81,11 @@ const ApplicationList = (props) => {
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
             <TextField source="id" />
             <TextField source="name" />
-            <ReferenceField source="team_id" reference="teams" link={false}>
-              <TextField source="name" />
-            </ReferenceField>
+            {permissions.includes("view teams") ? (
+              <ReferenceField source="team_id" reference="teams" link={false}>
+                <TextField source="name" />
+              </ReferenceField>
+            ) : null}
             <DateField source="created_at" />
             <DateField source="updated_at" />
           </Datagrid>
