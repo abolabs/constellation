@@ -22,14 +22,14 @@ const AuthProvider = {
   login: async ({ email, password }) => {
     const response = await axios
       .post(
-        `${window?.env?.REACT_APP_ISSUER}/oauth/token`,
+        `${import.meta.env?.VITE_ISSUER}/oauth/token`,
         {
           grant_type: "password",
           username: email,
           password: password,
           scope: "*",
-          client_id: window?.env?.REACT_APP_CLIENT_ID,
-          client_secret: window?.env?.REACT_APP_CLIENT_SECRET,
+          client_id: import.meta.env?.VITE_CLIENT_ID,
+          client_secret: import.meta.env?.VITE_CLIENT_SECRET,
         },
         {
           headers: {

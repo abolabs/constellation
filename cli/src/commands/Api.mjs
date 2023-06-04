@@ -15,16 +15,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-import Console from '../utils/Console.mjs';
-import AbstractCommand from './AbstractCommand.mjs';
+import Console from "../utils/Console.mjs";
+import AbstractCommand from "./AbstractCommand.mjs";
 
 export default class Api extends AbstractCommand {
-
     actions() {
         return {
             logs: () => this.logs(),
             test: () => this.test(),
+            pint: () => this.pint(),
             "show-unused-package": () => this.showUnusedPackages(),
         };
     }
@@ -47,44 +46,52 @@ export default class Api extends AbstractCommand {
 
             --nginx   Display Nginx logs
 
-        test                    executes phpunit tests
-        show-unused-package     executes vendor/bin/composer-unused
+        test                    run phpunit tests
+        pint                    run Laravel Pint
+        show-unused-package     run vendor/bin/composer-unused
 
-        `
+        `;
         Console.log(usageText);
     }
 
     async logs() {
-        try{
-
-            if(this.additionnal.includes('--nginx')){
+        try {
+            if (this.additionnal.includes("--nginx")) {
                 await $`docker compose logs -f -n 100 --no-log-prefix nginx`;
-            }else{
+            } else {
                 await $`docker compose logs -f -n 100 --no-log-prefix api`;
             }
-
-        }catch(e){
+        } catch (e) {
             Console.printError(e);
             return;
         }
-        Console.confirm('up done');
+        Console.confirm("up done");
     }
 
     async test() {
-        cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
+        cd(path.join(this.cliEnv?.rootDir, "install", process.env.APP_ENV));
         await $`docker compose exec -it api ./vendor/bin/phpunit`
-        .pipe(process.stdout)
-        .catch((p) => {
-            Console.printError(p);
-        });
+            .pipe(process.stdout)
+            .catch((p) => {
+                Console.printError(p);
+            });
+    }
+
+    async pint() {
+        cd(path.join(this.cliEnv?.rootDir, "install", process.env.APP_ENV));
+        await $`docker compose exec -it api ./vendor/bin/pint`
+            .pipe(process.stdout)
+            .catch((p) => {
+                Console.printError(p);
+            });
     }
 
     async showUnusedPackages() {
-        cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
+        cd(path.join(this.cliEnv?.rootDir, "install", process.env.APP_ENV));
         await $`docker compose exec -it api ./vendor/bin/composer-unused`
-        .pipe(process.stdout)
-        .catch((p) => {
-            Console.printError(p);
-        });
+            .pipe(process.stdout)
+            .catch((p) => {
+                Console.printError(p);
+            });
     }
 }

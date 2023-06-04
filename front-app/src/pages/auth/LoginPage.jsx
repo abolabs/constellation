@@ -26,18 +26,34 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Container } from "@mui/material";
+import {
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 
 import LightTheme from "@themes/LightTheme";
 import Copyright from "@components/Copyright";
 import Logo from "@components/Logo";
 
-export default function LoginPage() {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const login = useLogin();
   const notify = useNotify();
   const location = useLocation();
+  const [openNoAccountModal, setOpenNoAccountModal] = useState(false);
+
+  const handleClickOpenNoAccountModal = () => {
+    setOpenNoAccountModal(true);
+  };
+
+  const handleCloseNoAccountModal = () => {
+    setOpenNoAccountModal(false);
+  };
 
   useEffect(() => {
     if (location?.state?.notification) {
@@ -132,8 +148,12 @@ export default function LoginPage() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link
+                  href="#"
+                  variant="body2"
+                  onClick={handleClickOpenNoAccountModal}
+                >
+                  {"Don't have an account?"}
                 </Link>
               </Grid>
             </Grid>
@@ -143,6 +163,19 @@ export default function LoginPage() {
           sx={{ mt: 8, mb: 4, color: theme.palette.text.contrastText }}
         />
       </Container>
+      <Dialog open={openNoAccountModal} onClose={handleCloseNoAccountModal}>
+        <DialogTitle>{"Don't have an account?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ p: 2 }}>
+            Please contact your administrator to request an account.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseNoAccountModal}>Fermer</Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
-}
+};
+
+export default LoginPage;
