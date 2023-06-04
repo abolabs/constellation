@@ -24,8 +24,8 @@ RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRA
 
 # Copy Front
 RUN cd /tmp/front-app && \
-    rm /tmp/front-app/public/env.config.example.js && \
-    npm install --production && \
+    mv .env.example .env && \
+    npm install && \
     npm run build
 RUN mv /tmp/front-app/build /var/www
 

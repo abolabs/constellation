@@ -16,7 +16,7 @@
 import laravelDataProvider from "./LaravelDataProvider";
 
 const dataProvider = laravelDataProvider(
-  `${window.env.REACT_APP_API_URL}/v1`,
+  `${import.meta.env.VITE_API_URL}/v1`,
   {
     headers: {
       "Access-Control-Allow-Origin": "*",
