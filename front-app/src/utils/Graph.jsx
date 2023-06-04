@@ -250,8 +250,12 @@ class Graph {
 
   load({ selector, elements, theme }) {
     let currentGraph = this;
+    const container = document.getElementById(selector);
+    if (!container) {
+        return null;
+    }
     this.cy = Cytoscape({
-      container: document.getElementById(selector),
+      container: container,
 
       ready: function () {
         this.layoutUtilities({
