@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from "react";
-import { Edit, SimpleForm, TextInput } from "react-admin";
+import { Edit, SimpleForm, TextInput, useTranslate } from "react-admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
@@ -27,11 +27,12 @@ import WithPermission from "@components/WithPermission";
 
 const EnvironmentEdit = () => {
   const location = useLocation();
+  const t = useTranslate();
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Environment</Typography>
+      <Typography variant="h3">{t('resources.environments.name')}</Typography>
       <Edit>
         <SimpleForm
           resolver={yupResolver(EnvironmentDefaultSchema)}

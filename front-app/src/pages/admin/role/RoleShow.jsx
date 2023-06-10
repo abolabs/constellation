@@ -23,6 +23,7 @@ import {
   SingleFieldList,
   TextField,
   useShowController,
+  useTranslate,
 } from "react-admin";
 import { useLocation } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
@@ -35,6 +36,7 @@ import WithPermission from "@components/WithPermission";
 const RoleShow = () => {
   const location = useLocation();
   const { error, isLoading } = useShowController();
+  const t = useTranslate();
 
   if (isLoading) {
     return (
@@ -50,7 +52,7 @@ const RoleShow = () => {
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Role</Typography>
+      <Typography variant="h3">{t('resources.roles.name')}</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
         <DefaultShowLayout>
           <TextField source="id" />

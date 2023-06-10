@@ -20,6 +20,7 @@ import {
   SelectArrayInput,
   SimpleForm,
   TextInput,
+  useTranslate,
 } from "react-admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocation } from "react-router-dom";
@@ -32,11 +33,12 @@ import WithPermission from "@components/WithPermission";
 
 const RoleCreate = () => {
   const location = useLocation();
+  const t = useTranslate();
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Role</Typography>
+      <Typography variant="h3">{t('resources.roles.name')}</Typography>
       <Create>
         <SimpleForm
           resolver={yupResolver(RoleDefaultSchema)}

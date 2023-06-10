@@ -26,6 +26,7 @@ import {
   useNotify,
   usePermissions,
   useRefresh,
+  useTranslate,
 } from "react-admin";
 import CloseIcon from "@mui/icons-material/Close";
 import * as yup from "yup";
@@ -47,13 +48,14 @@ const CreateInstanceModal = ({
   const [defaultValues, setDefaultValues] = useState({});
   const [lastError, setLastError] = useState();
   const { permissions } = usePermissions();
+  const t = useTranslate();
 
   if (!permissions.includes("create service_instances")) {
     return null;
   }
 
   const onSuccess = (_data) => {
-    notify(`Instance de service créée`, { type: "success" });
+    notify("Service instance created", { type: "success" });
     handleClose();
     refresh();
   };
@@ -83,16 +85,16 @@ const CreateInstanceModal = ({
     .shape({
       service_version_id: yup
         .number()
-        .required("Please select a service version")
-        .typeError("Please select a service version"),
+        .required(t("Please select a service version"))
+        .typeError(t("Please select a service version")),
       environment_id: yup
         .number()
-        .required("Please select an environment")
-        .typeError("Please select an environment"),
+        .required(t("Please select an environment"))
+        .typeError(t("Please select an environment")),
       hosting_id: yup
         .number()
-        .required("Please select an hosting")
-        .typeError("Please select an hosting"),
+        .required(t("Please select an hosting"))
+        .typeError(t("Please select an hosting")),
       url: yup.string().nullable().url().max(254),
       role: yup.string().nullable().max(254),
     })
@@ -105,10 +107,10 @@ const CreateInstanceModal = ({
   return (
     <Dialog open={open} fullWidth>
       <DialogTitle>
-        Ajouter une nouvelle instance de service
+        {t("Add a new service instance")}
         {handleClose ? (
           <IconButton
-            aria-label="close"
+            aria-label={t("ra.action.close")}
             onClick={() => {
               setLastError(null);
               setDefaultValues({});
@@ -146,7 +148,6 @@ const CreateInstanceModal = ({
               sort={{ field: "name", order: "ASC" }}
             >
               <AutocompleteInput
-                label="Environment"
                 optionText="name"
                 defaultValue={environmentId}
                 fullWidth
@@ -158,26 +159,30 @@ const CreateInstanceModal = ({
               reference="hostings"
               sort={{ field: "name", order: "ASC" }}
             >
-              <AutocompleteInput
-                label="Hébergement"
-                optionText={hostingOptionText}
-                fullWidth
-              />
+              <AutocompleteInput optionText={hostingOptionText} fullWidth />
             </ReferenceInput>
 
             <TextInput
               source="url"
-              label={<OptionalFieldTitle label="Url" />}
+              label={
+                <OptionalFieldTitle
+                  label={t("resources.service_instances.fields.url")}
+                />
+              }
               fullWidth
             />
 
             <TextInput
               source="role"
-              label={<OptionalFieldTitle label="Role" />}
+              label={
+                <OptionalFieldTitle
+                  label={t("resources.service_instances.fields.role")}
+                />
+              }
               fullWidth
             />
 
-            <BooleanInput label="Statut" source="statut" defaultValue={true} />
+            <BooleanInput source="statut" defaultValue={true} />
           </SimpleForm>
         </Create>
       </DialogContent>

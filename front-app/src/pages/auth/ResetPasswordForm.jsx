@@ -40,11 +40,14 @@ import dataProvider from "@providers/DataProvider";
 import AlertError from "@components/alerts/AlertError";
 import Logo from "@components/Logo";
 
+import i18nProvider from "@providers/I18nProvider";
+
 const ResetPasswordForm = () => {
   const theme = useMemo(() => createTheme(LightTheme), []);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [formError, setFormError] = useState();
+  const t = i18nProvider.translate;
 
   const resetPasswordSchema = yup
     .object()
@@ -52,20 +55,20 @@ const ResetPasswordForm = () => {
       email: yup
         .string()
         .email()
-        .required("Please define an email.")
-        .typeError("Please define an email.")
+        .required(t("Please define an email"))
+        .typeError(t("Please define an email"))
         .max(254),
       password: yup
         .string()
-        .required("Please enter your new password.")
-        .typeError("Please enter your new password.")
+        .required(t("Please enter your new password"))
+        .typeError(t("Please enter your new password"))
         .min(8)
         .max(254),
       password_confirmation: yup
         .string()
-        .oneOf([yup.ref("password"), null], "Passwords must match")
-        .required("Please confirm the password.")
-        .typeError("Please confirm the password.")
+        .oneOf([yup.ref("password"), null], t("Passwords must match"))
+        .required(t("Please confirm the password"))
+        .typeError(t("Please confirm the password"))
         .min(8)
         .max(254),
     })
@@ -140,7 +143,7 @@ const ResetPasswordForm = () => {
             <Card sx={{ mt: 1 }}>
               <CardContent>
                 <Typography gutterBottom variant="h3" component="div">
-                  Nouveau mot de passe
+                  {t("New password")}
                 </Typography>
                 {formError ? <AlertError error={formError} /> : null}
                 <form>
@@ -152,7 +155,7 @@ const ResetPasswordForm = () => {
                     {...methods.register("email")}
                   />
                   <TextField
-                    label="New password"
+                    label={t("New password")}
                     type="password"
                     fullWidth
                     error={!!errors?.["password"]}
@@ -160,7 +163,7 @@ const ResetPasswordForm = () => {
                     {...methods.register("password")}
                   />
                   <TextField
-                    label="Confirm password"
+                    label={t("Confirm password")}
                     type="password"
                     fullWidth
                     error={!!errors?.["password_confirmation"]}
@@ -179,7 +182,7 @@ const ResetPasswordForm = () => {
                 startIcon={<ArrowBackIosNewIcon />}
                 onClick={() => navigate("/login", { replace: true })}
               >
-                Cancel
+                {t("ra.action.cancel")}
               </Button>
               <Button
                 size="small"
@@ -187,7 +190,7 @@ const ResetPasswordForm = () => {
                 disabled={!isDirty}
                 onClick={methods.handleSubmit(onSubmit)}
               >
-                Envoyer
+                {t("ra.action.confirm")}
               </Button>
             </CardActions>
           </FormProvider>

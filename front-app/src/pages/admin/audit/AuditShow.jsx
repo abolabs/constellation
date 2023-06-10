@@ -21,6 +21,7 @@ import {
   TextField,
   UrlField,
   useShowController,
+  useTranslate,
 } from "react-admin";
 import { JsonField } from "react-admin-json-view";
 import { useLocation } from "react-router-dom";
@@ -34,6 +35,7 @@ import WithPermission from "@components/WithPermission";
 const AuditShow = () => {
   const location = useLocation();
   const { error, isLoading, record } = useShowController();
+  const t = useTranslate();
 
   if (isLoading) {
     return (
@@ -49,7 +51,7 @@ const AuditShow = () => {
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Audit</Typography>
+      <Typography variant="h3">{t('resources.audits.name')}</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
         <DefaultShowLayout
           title={record?.auditable_type}

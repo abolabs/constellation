@@ -15,9 +15,11 @@
 
 import { Stack, Alert, AlertTitle } from "@mui/material";
 import he from "he";
+import { useTranslate } from "react-admin";
 
 const AlertError = ({ error }) => {
-  let errorMsg = "Internal error";
+  const t = useTranslate();
+  let errorMsg = t("Internal error");
 
   if (typeof error === "object") {
     errorMsg = error?.response?.data?.message
@@ -34,7 +36,7 @@ const AlertError = ({ error }) => {
           borderRadius: 0,
         }}
       >
-        <AlertTitle>Error</AlertTitle>
+        <AlertTitle>{t('Error')}</AlertTitle>
         {errorMsg}
       </Alert>
     </Stack>

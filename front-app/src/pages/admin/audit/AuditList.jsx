@@ -23,6 +23,7 @@ import {
   NumberField,
   ReferenceInput,
   SelectInput,
+  useTranslate,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -33,10 +34,11 @@ import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
 import WithPermission from "@components/WithPermission";
 
+import i18nProvider from "@providers/I18nProvider";
+
 const auditFilters = [
-  <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
+  <TextInput label={i18nProvider.translate("ra.action.search")} source="q" alwaysOn variant="outlined" />,
   <ReferenceInput
-    label="User"
     source="user_id"
     reference="users"
     sort={{ field: "name", order: "ASC" }}
@@ -48,15 +50,16 @@ const auditFilters = [
 const AuditList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
+  const t = useTranslate();
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Audit</Typography>
+      <Typography variant="h3">{t('resources.audits.name')}</Typography>
       <DefaultList
         {...props}
         filters={auditFilters}
-        actions={<DefaultToolBar />}
+        actions={<DefaultToolBar canCreate={false}/>}
       >
         {isSmall ? (
           <SimpleList

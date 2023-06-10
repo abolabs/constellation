@@ -22,6 +22,7 @@ import {
   SelectArrayInput,
   SimpleForm,
   TextInput,
+  useTranslate,
 } from "react-admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocation } from "react-router-dom";
@@ -35,6 +36,7 @@ import WithPermission from "@components/WithPermission";
 const UserEdit = () => {
   const location = useLocation();
   const [lastError, setLastError] = useState();
+  const t = useTranslate();
 
   const onError = (error) => {
     setLastError(error);
@@ -45,19 +47,19 @@ const UserEdit = () => {
     .shape({
       name: yup
         .string()
-        .required("Please define a team name")
-        .typeError("Please define a team name")
+        .required(t("Please define a team name"))
+        .typeError(t("Please define a team name"))
         .max(254),
       email: yup
         .string()
         .email()
-        .required("Please define an email")
-        .typeError("Please define an email")
+        .required(t("Please define an email"))
+        .typeError(t("Please define an email"))
         .max(254),
-      password: yup.string().typeError("Please define a password").max(254),
+      password: yup.string().typeError(t("Please define a password")).max(254),
       "confirm-password": yup
         .string()
-        .typeError("Please confirm the password")
+        .typeError(t("Please confirm the password"))
         .max(254),
       roles: yup
         .array()
@@ -65,15 +67,15 @@ const UserEdit = () => {
         .compact()
         .of(yup.number())
         .min(1)
-        .required("Please select at least one role")
-        .typeError("Please select at least one role"),
+        .required(t("Please select at least one role"))
+        .typeError(t("Please select at least one role")),
     })
     .required();
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">User</Typography>
+      <Typography variant="h3">{t('resources.users.name')}</Typography>
       <Edit mutationOptions={{ onError }}>
         <>
           {lastError ? <AlertError {...lastError} /> : null}

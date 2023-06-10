@@ -13,22 +13,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// Librairies
 import * as React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Admin, Authenticated, CustomRoutes, Resource } from "react-admin";
-
 import { responsiveFontSizes, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
+// Providers
+import authProvider from "@providers/AuthProvider";
+import dataProvider from "@providers/DataProvider";
+import i18nProvider from "@providers/I18nProvider";
+
+// Theme
 import LightTheme from "@themes/LightTheme";
 import DarkTheme from "@themes/DarkTheme";
 import ColorModeContext from "@contexts/ColorModeContext";
 
-import AuthProvider from "@providers/AuthProvider";
-import dataProvider from "@providers/DataProvider";
-
+// Layout
 import AppLayout from "@layouts/AppLayout";
 
+// Pages
 import LoginPage from "@pages/auth/LoginPage";
 import ApplicationList from "@pages/application/ApplicationList";
 import ApplicationShow from "@pages/application/ApplicationShow";
@@ -92,7 +97,7 @@ const App = () => {
       toggleColorMode: () => {
         setMode((prevMode) => {
           let nextMode = "light";
-          if (prevMode === "light") {
+          if (prevMode === "light" || !prevMode) {
             nextMode = "dark";
           }
           localStorage.setItem("themeMode", nextMode);
@@ -135,8 +140,9 @@ const App = () => {
                 theme={responsiveFontSizes(theme)}
                 dashboard={Dashboard}
                 loginPage={LoginPage}
-                authProvider={AuthProvider}
+                authProvider={authProvider}
                 dataProvider={dataProvider}
+                i18nProvider={i18nProvider}
                 disableTelemetry
                 requireAuth
               >

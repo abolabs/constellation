@@ -24,6 +24,7 @@ import {
   SingleFieldList,
   useRecordContext,
   useGetOne,
+  useTranslate,
 } from "react-admin";
 import { Chip } from "@mui/material";
 import { useMediaQuery } from "@mui/material";
@@ -34,19 +35,21 @@ import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
 import WithPermission from "@components/WithPermission";
+import i18nProvider from "@providers/I18nProvider";
 
 const userFilters = [
-  <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
+  <TextInput label={i18nProvider.translate("ra.action.search")} source="q" alwaysOn variant="outlined" />,
 ];
 
 const UserList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
+  const t = useTranslate();
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">User</Typography>
+      <Typography variant="h3">{t('resources.users.name')}</Typography>
       <DefaultList
         {...props}
         filters={userFilters}

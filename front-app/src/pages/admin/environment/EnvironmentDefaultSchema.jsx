@@ -14,12 +14,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as yup from 'yup';
+import i18nProvider from '@providers/I18nProvider';
 
 const EnvironmentDefaultSchema = yup.object()
     .shape({
         name: yup.string()
-          .required('Please define an environment name')
-          .typeError('Please define an environment name')
+          .required(i18nProvider.translate('Please define an environment name'))
+          .typeError(i18nProvider.translate('Please define an environment name'))
           .max(254),
     })
     .required();

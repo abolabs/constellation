@@ -40,6 +40,7 @@ import {
   usePermissions,
   useShowContext,
   useShowController,
+  useTranslate,
 } from "react-admin";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { grey } from "@mui/material/colors";
@@ -59,6 +60,7 @@ const ApplicationShow = () => {
   const [currentEnvId, setCurrentEnvId] = useState(1);
   const [openModal, setOpenModal] = useState(false);
   const { permissions } = usePermissions();
+  const t = useTranslate();
 
   if (isLoading) {
     return (
@@ -80,7 +82,7 @@ const ApplicationShow = () => {
           mb: 2,
         }}
       >
-        Application
+        {t("resources.applications.name")}
       </Typography>
 
       <Show actions={<></>}>
@@ -91,7 +93,7 @@ const ApplicationShow = () => {
           <Grid item xs={12}>
             <Card>
               <CardHeader
-                title="Instance de service"
+                title={t("resources.service_instances.name")}
                 titleTypographyProps={{
                   variant: "h5",
                 }}
@@ -203,6 +205,8 @@ const EnvironmentSelector = ({ record, currentEnvId, setCurrentEnvId }) => (
 const ApplicationShowLayout = () => {
   const { record } = useShowContext();
   const { permissions } = usePermissions();
+  const t = useTranslate();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container>
@@ -227,14 +231,14 @@ const ApplicationShowLayout = () => {
               >
                 <ListItem>
                   <ListItemText
-                    primary="id"
+                    primary={t("resources.applications.fields.id")}
                     secondary={<NumberField source="id" />}
                   />
                 </ListItem>
                 {permissions.includes("view teams") ? (
                   <ListItem>
                     <ListItemText
-                      primary="Team"
+                      primary={t("resources.applications.fields.team_id")}
                       secondary={
                         <ReferenceField
                           source="team_id"
@@ -249,13 +253,13 @@ const ApplicationShowLayout = () => {
                 ) : null}
                 <ListItem>
                   <ListItemText
-                    primary="Creation date"
+                    primary={t("resources.applications.fields.created_at")}
                     secondary={<DateField source="created_at" />}
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="Last update date"
+                    primary={t("resources.applications.fields.updated_at")}
                     secondary={<DateField source="updated_at" />}
                   />
                 </ListItem>

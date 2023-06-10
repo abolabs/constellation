@@ -19,6 +19,7 @@ import {
   Card,
   CardActions,
   CardContent,
+  Divider,
   Grid,
   IconButton,
   LinearProgress,
@@ -37,6 +38,7 @@ import {
   SimpleForm,
   useDataProvider,
   useShowController,
+  useTranslate,
 } from "react-admin";
 import CytoscapeComponent from "react-cytoscapejs";
 
@@ -68,6 +70,7 @@ const AbstractMapping = ({
   });
   const [showFooter, setShowFooter] = useState(false);
   const cyRef = useRef();
+  const t = useTranslate();
 
   useEffect(() => {
     dataProvider
@@ -195,10 +198,9 @@ const AbstractMapping = ({
               }}
             >
               <Typography variant="caption">
-                Utiliser le menu contextuel pour accéder au détail de chaque
-                noeud.
+                {t('Use the contextual menu to access to the detail of each node.')}
                 <br />
-                (Clic gauche 2s ou clic droit)
+                ({t('Left click 2s or right click')})
               </Typography>
             </CardActions>
           ) : null}
@@ -259,6 +261,7 @@ const MappingFilters = ({
 }) => {
   useFormContext();
   const watchFields = useWatch([...filterList]);
+  const t = useTranslate();
 
   const refreshGraph = useCallback(
     (filterParams) => {
@@ -305,7 +308,6 @@ const MappingFilters = ({
 
   return (
     <>
-      <Typography variant="h5">Filter</Typography>
       <ReferenceInput source="environment_id" reference="environments">
         <SelectInput
           isRequired={true}
@@ -328,12 +330,12 @@ const MappingFilters = ({
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
       ) : null}
-      <Typography variant="h5">Legend</Typography>
-      <Typography variant="h6">Dependency level</Typography>
+      <Divider />
+      <Typography variant="h6">{t("Dependency level")}</Typography>
       {Object.values(serviceInstanceDepLevel).map((level, index) => (
         <Tooltip key={index} title={level?.description}>
           <Tag
-            label={`Level: ${level.label}`}
+            label={level.label}
             color={level?.color}
             size="small"
             component="span"
@@ -356,6 +358,7 @@ const DetailFooter = memo(({ resource, id, setShowFooter }) => {
     resource: resource,
     id: id,
   });
+  const t = useTranslate();
 
   if (isLoading) {
     return (
@@ -395,7 +398,7 @@ const DetailFooter = memo(({ resource, id, setShowFooter }) => {
         <TextField
           fullWidth
           inputProps={{ readOnly: true }}
-          label="Service version"
+          label={t("resources.service_instances.fields.service_version")}
           defaultValue={record?.service_version}
         />
       </Grid>
@@ -403,7 +406,7 @@ const DetailFooter = memo(({ resource, id, setShowFooter }) => {
         <TextField
           fullWidth
           inputProps={{ readOnly: true }}
-          label="Application name"
+          label={t("resources.service_instances.fields.application_name")}
           defaultValue={record?.application_name}
         />
       </Grid>
@@ -411,7 +414,7 @@ const DetailFooter = memo(({ resource, id, setShowFooter }) => {
         <TextField
           fullWidth
           inputProps={{ readOnly: true }}
-          label="Hosting name"
+          label={t("resources.service_instances.fields.hosting_name")}
           defaultValue={record?.hosting_name}
         />
       </Grid>

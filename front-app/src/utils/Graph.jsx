@@ -18,6 +18,7 @@ import cxtmenu from "cytoscape-cxtmenu";
 import layoutUtilities from "cytoscape-layout-utilities";
 import fcose from "cytoscape-fcose";
 import "tippy.js/dist/tippy.css";
+import i18nProvider from "@providers/I18nProvider";
 
 Cytoscape.use(fcose);
 Cytoscape.use(cxtmenu);
@@ -252,7 +253,7 @@ class Graph {
     let currentGraph = this;
     const container = document.getElementById(selector);
     if (!container) {
-        return null;
+      return null;
     }
     this.cy = Cytoscape({
       container: container,
@@ -304,7 +305,9 @@ class Graph {
       selector: "node",
       commands: [
         {
-          content: '<span><i class="fa fa-flash"></i> common.details </span>',
+          content: `<span><i class="fa fa-flash"></i> ${i18nProvider.translate(
+            "ra.action.show"
+          )} </span>`,
           select: (ele) => {
             let eltData = ele.id().split("_");
             const eltId = eltData.pop();
@@ -314,10 +317,9 @@ class Graph {
           },
         },
         {
-          content:
-            '<span><i class="fa fa-bomb"></i> ' +
-            "infra.impacts_detection" +
-            " </span>",
+          content: `<span><i class="fa fa-bomb"></i>
+            ${i18nProvider.translate("ra.action.impact_detection")}
+             </span>`,
           select: (ele) => {
             currentGraph.resetFocusedElts();
             return currentGraph.recursiveConnectedEdges(ele, null);

@@ -23,6 +23,7 @@ import {
   SimpleForm,
   TextInput,
   useShowController,
+  useTranslate,
 } from "react-admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocation } from "react-router-dom";
@@ -39,6 +40,7 @@ import WithPermission from "@components/WithPermission";
 const ServiceInstanceEdit = () => {
   const location = useLocation();
   const { error, isLoading, record } = useShowController();
+  const t = useTranslate();
 
   const ApplicationOptionText = (data) => `#${data.id} - ${data.name}`;
   const hostingOptionText = (data) => `#${data.id} - ${data.name}`;
@@ -81,11 +83,7 @@ const ServiceInstanceEdit = () => {
             reference="applications"
             sort={{ field: "name", order: "ASC" }}
           >
-            <AutocompleteInput
-              label="Application"
-              optionText={ApplicationOptionText}
-              fullWidth
-            />
+            <AutocompleteInput optionText={ApplicationOptionText} fullWidth />
           </ReferenceInput>
 
           <ServiceVersionInput />
@@ -95,11 +93,7 @@ const ServiceInstanceEdit = () => {
             reference="environments"
             sort={{ field: "name", order: "ASC" }}
           >
-            <AutocompleteInput
-              label="Environment"
-              optionText="name"
-              fullWidth
-            />
+            <AutocompleteInput optionText="name" fullWidth />
           </ReferenceInput>
 
           <ReferenceInput
@@ -107,26 +101,30 @@ const ServiceInstanceEdit = () => {
             reference="hostings"
             sort={{ field: "name", order: "ASC" }}
           >
-            <AutocompleteInput
-              label="Hébergement"
-              optionText={hostingOptionText}
-              fullWidth
-            />
+            <AutocompleteInput optionText={hostingOptionText} fullWidth />
           </ReferenceInput>
 
           <TextInput
             source="url"
-            label={<OptionalFieldTitle label="Url" />}
+            label={
+              <OptionalFieldTitle
+                label={t("resources.service_instances.fields.url")}
+              />
+            }
             fullWidth
           />
 
           <TextInput
             source="role"
-            label={<OptionalFieldTitle label="Role" />}
+            label={
+              <OptionalFieldTitle
+                label={t("resources.service_instances.fields.role")}
+              />
+            }
             fullWidth
           />
 
-          <BooleanInput label="Statut" source="statut" defaultValue={true} />
+          <BooleanInput source="statut" defaultValue={true} />
         </SimpleForm>
       </Edit>
     </>

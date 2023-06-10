@@ -14,20 +14,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as yup from 'yup';
+import i18nProvider from '@providers/I18nProvider';
 
 const RoleDefaultSchema = yup.object()
     .shape({
         name: yup.string()
-          .required('Please define a team name')
-          .typeError('Please define a team name')
+          .required(i18nProvider.translate('Please define a name'))
+          .typeError(i18nProvider.translate('Please define a name'))
           .max(254),
         permissions: yup.array()
           .ensure()
           .compact()
           .of(yup.string())
-          .min(1)
-          .required('Please select at least one permission')
-          .typeError('Please select at least one permission')
+          .min(1,i18nProvider.translate('Please select at least one permission'))
+          .required(i18nProvider.translate('Please select at least one permission'))
+          .typeError(i18nProvider.translate('Please select at least one permission'))
     })
     .required();
 

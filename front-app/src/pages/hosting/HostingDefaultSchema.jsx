@@ -13,21 +13,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import * as yup from 'yup';
+import * as yup from "yup";
+import i18nProvider from "@providers/I18nProvider";
 
-const HostingDefaultSchema = yup.object()
-    .shape({
-        name: yup.string()
-          .required('Please define a hosting name')
-          .typeError('Please define a hosting name')
-          .max(254),
-        localisation: yup.string()
-          .nullable()
-          .max(254),
-        hosting_type_id: yup.number()
-          .required('Please select a hosting type')
-          .typeError('Please select a hosting type')
-    })
-    .required();
+const HostingDefaultSchema = yup
+  .object()
+  .shape({
+    name: yup
+      .string()
+      .required(i18nProvider.translate("Please define a hosting name"))
+      .typeError(i18nProvider.translate("Please define a hosting name"))
+      .max(254),
+    localisation: yup.string().nullable().max(254),
+    hosting_type_id: yup
+      .number()
+      .required(i18nProvider.translate("Please select a hosting type"))
+      .typeError(i18nProvider.translate("Please select a hosting type")),
+  })
+  .required();
 
 export default HostingDefaultSchema;

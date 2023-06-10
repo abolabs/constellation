@@ -24,6 +24,7 @@ import {
   TopToolbar,
   FilterButton,
   ExportButton,
+  useTranslate,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -41,11 +42,14 @@ const serviceInstanceDepListFilters = [
 const ServiceInstanceDepList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
+  const t = useTranslate();
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Service instance dependencies</Typography>
+      <Typography variant="h3">
+        {t("resources.service_instance_dependencies.name")}
+      </Typography>
       <DefaultList
         {...props}
         filters={serviceInstanceDepListFilters}
@@ -59,10 +63,17 @@ const ServiceInstanceDepList = (props) => {
         {isSmall ? (
           <SimpleList
             linkType="show"
-            primaryText={(record) =>
-              "#" + record.id + " - " + record.service_name
-            }
-            secondaryText={<TextField source="version" />}
+            primaryText={(record) => {
+              return (
+                <>
+                  <LevelChip source="level" />
+                  &nbsp; #{record.instance_id} -{record.instance_service_name}{" "}
+                  {t("needs")} #{record.instance_dep_id} -{" "}
+                  {record.instance_dep_service_name}
+                </>
+              );
+            }}
+            secondaryText={<TextField source="instance_application_name" />}
             tertiaryText={(record) =>
               new Date(record.created_at).toLocaleDateString()
             }
@@ -70,14 +81,13 @@ const ServiceInstanceDepList = (props) => {
         ) : (
           <Datagrid rowClick="show" bulkActionButtons={<BulkExportButton />}>
             <TextField source="id" />
-            <TextField source="instance_application_name" label="Source app" />
+            <TextField source="instance_application_name" />
             <NumberField source="instance_id" />
             <TextField source="instance_service_name" />
-            <TextField source="instance_dep_application_name" label="Dep app" />
+            <TextField source="instance_dep_application_name" />
             <NumberField source="instance_dep_id" />
             <TextField source="instance_dep_service_name" />
             <LevelChip source="level" />
-            <TextField source="level" />
             <DateField source="updated_at" />
           </Datagrid>
         )}

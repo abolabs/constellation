@@ -45,6 +45,7 @@ import {
   useRefresh,
   useShowContext,
   useShowController,
+  useTranslate,
 } from "react-admin";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import EditIcon from "@mui/icons-material/Edit";
@@ -75,6 +76,7 @@ const ServiceInstanceShow = () => {
   const [openModalDependsOf, setOpenModalDependsOf] = useState(false);
   const [openModalRequieredBy, setOpenModalRequiredBy] = useState(false);
   const { permissions } = usePermissions();
+  const t = useTranslate();
 
   if (isLoading) {
     return (
@@ -110,7 +112,7 @@ const ServiceInstanceShow = () => {
         <Grid item xs={12}>
           <Card>
             <CardHeader
-              title="Dependencies"
+              title={t("Dependencies")}
               titleTypographyProps={{
                 variant: "h5",
               }}
@@ -169,7 +171,7 @@ const ServiceInstanceShow = () => {
         <Grid item xs={12}>
           <Card>
             <CardHeader
-              title="Required by"
+              title={t("Required by")}
               titleTypographyProps={{
                 variant: "h5",
               }}
@@ -249,6 +251,7 @@ const DeleteDependency = ({ dep }) => {
       : dep?.service_instance;
   const refresh = useRefresh();
   const [open, setOpen] = useState(false);
+  const t = useTranslate();
   const [deleteOne, { isLoading }] = useDelete(
     "service_instance_dependencies",
     { id: dep?.id },
@@ -269,7 +272,7 @@ const DeleteDependency = ({ dep }) => {
   return (
     <>
       <IconButton
-        aria-label="settings"
+        aria-label={t("ra.action.delete")}
         disabled={isLoading}
         onClick={handleClick}
       >
@@ -278,8 +281,14 @@ const DeleteDependency = ({ dep }) => {
       <Confirm
         isOpen={open}
         loading={isLoading}
-        title={`Remove dependency`}
-        content={`Are you sure you to remove #${dep?.id} - ${depInfo?.service_version?.service?.name} instance has dependency ?`}
+        title={t("Remove dependency")}
+        content={t(
+          "Are you sure you to remove #%{dep_id} - %{service_name} instance has dependency ?",
+          {
+            dep_id: dep?.id,
+            service_name: depInfo?.service_version?.service?.name,
+          }
+        )}
         onConfirm={handleConfirm}
         onClose={handleDialogClose}
       />
@@ -291,6 +300,7 @@ const DependencyCard = (dep) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { record } = useShowController();
+  const t = useTranslate();
   const depInfo =
     dep?.type === "depend_of"
       ? dep?.service_instance_dep
@@ -336,7 +346,7 @@ const DependencyCard = (dep) => {
             ) : null}
             {permissions.includes("edit service_instance_dependencies") ? (
               <IconButton
-                aria-label="edit"
+                aria-label={t("ra.action.edit")}
                 edge="end"
                 onClick={() => {
                   setOpenModalEditDependency(true);
@@ -363,41 +373,55 @@ const DependencyCard = (dep) => {
         >
           <ListItem
             secondaryAction={
-              <IconButton aria-label="detail" onClick={onClick} color="primary">
+              <IconButton
+                aria-label={t("ra.action.show")}
+                onClick={onClick}
+                color="primary"
+              >
                 <KeyboardArrowRightIcon />
               </IconButton>
             }
           >
-            <ListItemText primary="Service instance" />
+            <ListItemText primary={t("resources.service_instances.name")} />
           </ListItem>
           <ListItem sx={{ flexWrap: "wrap" }}>
             <Tag
-              label={`Instance id: ${depInfo?.id}`}
+              label={`${t("resources.service_instances.fields.id")}: ${
+                depInfo?.id
+              }`}
               color="primary"
               size="small"
             />
             &nbsp;
             <Tag
-              label={`Statut: ${depInfo?.statut ? "Active" : "Inactive"}`}
+              label={`${t("resources.service_instances.fields.statut")}: ${
+                depInfo?.statut ? "Active" : "Inactive"
+              }`}
               color={depInfo?.statut ? "success" : "warning"}
               size="small"
             />
             &nbsp;
             <Tag
-              label={`Version: ${depInfo?.service_version?.version}`}
+              label={`${t("resources.service_versions.fields.version")}: ${
+                depInfo?.service_version?.version
+              }`}
               color={"primary"}
               size="small"
             />
             &nbsp;
             <Tag
-              label={`Hébergement: ${depInfo?.hosting?.name}`}
+              label={`${t("resources.hostings.fields.name")}: ${
+                depInfo?.hosting?.name
+              }`}
               color={"info"}
               size="small"
             />
             &nbsp;
             {depInfo?.role ? (
               <Tag
-                label={`Role: ${depInfo?.role}`}
+                label={`${t("resources.service_instances.fields.role")}: ${
+                  depInfo?.role
+                }`}
                 color="secondary"
                 size="small"
               />
@@ -407,7 +431,7 @@ const DependencyCard = (dep) => {
               label={
                 <Link href={depInfo?.url} target="_blank" rel="noopener">
                   <FontAwesomeIcon icon={faGitAlt} />
-                  &nbsp;Git url
+                  &nbsp;{t("resources.services.fields.git_repo")}
                 </Link>
               }
               size="small"
@@ -415,7 +439,7 @@ const DependencyCard = (dep) => {
           </ListItem>
           <ListItem>
             <ListItemText
-              primary="Dependency"
+              primary={t("Dependency")}
               primaryTypographyProps={{
                 sx: {
                   fontWeight: "bold",
@@ -461,6 +485,7 @@ const DependencyCard = (dep) => {
 
 const ServiceInstanceShowLayout = () => {
   const { record } = useShowContext();
+  const t = useTranslate();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -493,7 +518,7 @@ const ServiceInstanceShowLayout = () => {
                 </Grid>
                 <Grid item xs={3}>
                   <ListItemText
-                    primary="Service"
+                    primary={t("resources.services.fields.name")}
                     secondary={
                       <Link href={`/services/${record?.service_id}/show`}>
                         <TextField
@@ -515,7 +540,9 @@ const ServiceInstanceShowLayout = () => {
                 </Grid>
                 <Grid item xs={3}>
                   <ListItemText
-                    primary="Environment"
+                    primary={t(
+                      "resources.service_instances.fields.environment_name"
+                    )}
                     secondary={
                       <Link
                         href={`/environments/${record?.environment_id}/show`}
@@ -532,7 +559,9 @@ const ServiceInstanceShowLayout = () => {
                 </Grid>
                 <Grid item xs={3}>
                   <ListItemText
-                    primary="Hosting"
+                    primary={t(
+                      "resources.service_instances.fields.hosting_name"
+                    )}
                     secondary={
                       <Link href={`/hostings/${record?.hosting_id}/show`}>
                         <TextField
@@ -547,31 +576,31 @@ const ServiceInstanceShowLayout = () => {
                 </Grid>
                 <Grid item xs={3}>
                   <ListItemText
-                    primary="Url"
+                    primary={t("resources.service_instances.fields.url")}
                     secondary={<UrlField source="url" />}
                   />
                 </Grid>
                 <Grid item xs={3}>
                   <ListItemText
-                    primary="Role"
+                    primary={t("resources.service_instances.fields.role")}
                     secondary={<TextField source="role" />}
                   />
                 </Grid>
                 <Grid item xs={3}>
                   <ListItemText
-                    primary="Status"
+                    primary={t("resources.service_instances.fields.statut")}
                     secondary={<BooleanField source="statut" />}
                   />
                 </Grid>
                 <Grid item xs={3}>
                   <ListItemText
-                    primary="Creation date"
+                    primary={t("resources.service_instances.fields.created_at")}
                     secondary={<DateField source="created_at" />}
                   />
                 </Grid>
                 <Grid item xs={3}>
                   <ListItemText
-                    primary="Last update date"
+                    primary={t("resources.service_instances.fields.updated_at")}
                     secondary={<DateField source="updated_at" />}
                   />
                 </Grid>

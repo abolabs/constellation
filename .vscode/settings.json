@@ -1,0 +1,3 @@
+{
+    "prettier.prettierPath": "./front-app/node_modules/prettier"
+}

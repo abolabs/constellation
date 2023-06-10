@@ -15,11 +15,13 @@
 
 import WithPermission from "@components/WithPermission";
 import AbstractMapping from "./AbstractMapping";
+import { useTranslate } from "react-admin";
 
 const MappingServicesByApp = () => {
+  const t = useTranslate();
   return (
     <AbstractMapping
-      title="Mapping by service"
+      title={t("Mapping by service")}
       mappingUrl="application-mapping/graph-nodes-by-app"
       filterList={["environment_id", "application_id", "team_id", "hosting_id"]}
     />

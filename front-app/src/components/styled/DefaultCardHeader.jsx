@@ -13,7 +13,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { DeleteWithConfirmButton, usePermissions } from "react-admin";
+import {
+  DeleteWithConfirmButton,
+  usePermissions,
+  useTranslate,
+} from "react-admin";
 import { useNavigate } from "react-router-dom";
 import { Button, CardHeader, useTheme } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -29,6 +33,7 @@ const DefaultCardHeader = ({
   const navigate = useNavigate();
   const theme = useTheme();
   const { permissions } = usePermissions();
+  const t = useTranslate();
 
   return (
     <CardHeader
@@ -51,12 +56,12 @@ const DefaultCardHeader = ({
           {canEdit && permissions.includes(`edit ${object}`) ? (
             <Button onClick={() => navigate(`/${object}/${record.id}/edit`)}>
               <EditIcon />
-              &nbsp;&nbsp;Edit
+              &nbsp;&nbsp;{t("ra.action.edit")}
             </Button>
           ) : null}
           <Button onClick={() => navigate(-1)}>
             <ChevronLeftIcon />
-            &nbsp;&nbsp;Go back
+            &nbsp;&nbsp;{t("ra.action.back")}
           </Button>
         </>
       }
