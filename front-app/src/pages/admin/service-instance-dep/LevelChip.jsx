@@ -17,10 +17,11 @@ import { Chip } from "@mui/material";
 import ErrorIcon from '@mui/icons-material/Error';
 import WarningIcon from '@mui/icons-material/Warning';
 import InfoIcon from '@mui/icons-material/Info';
-import { useRecordContext } from "react-admin";
+import { useRecordContext, useTranslate } from "react-admin";
 
 const LevelChip =  ({ source }) => {
   const record = useRecordContext();
+  const t = useTranslate();
   if (!record) return null;
   let color = null;
   let label = "Unknown";
@@ -28,17 +29,17 @@ const LevelChip =  ({ source }) => {
   switch (record?.[source]) {
     case 1:
       color = "info";
-      label = "Mineure";
+      label = t('minor');
       icon = <InfoIcon />;
       break;
     case 2:
       color = "warning";
-      label = "Majeure";
+      label = t('major');
       icon = <WarningIcon />;
       break;
     case 3:
       color = "error";
-      label = "Critique";
+      label = t('critic');
       icon = <ErrorIcon />;
       break;
     default:

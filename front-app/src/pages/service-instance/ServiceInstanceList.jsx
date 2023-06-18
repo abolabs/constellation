@@ -24,6 +24,7 @@ import {
   BulkExportButton,
   BooleanField,
   usePermissions,
+  useTranslate,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -33,11 +34,17 @@ import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import DefaultList from "@components/styled/DefaultList";
 import WithPermission from "@components/WithPermission";
+import i18nProvider from "@providers/I18nProvider";
 
 const servicesInstancesFilters = [
-  <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
+  <TextInput
+    label={i18nProvider.translate("ra.action.search")}
+    source="q"
+    alwaysOn
+    variant="outlined"
+  />,
   <ReferenceInput
-    label="Hosting"
+    key="hosting_filter"
     source="hosting_id"
     reference="hostings"
     sort={{ field: "name", order: "ASC" }}
@@ -45,7 +52,7 @@ const servicesInstancesFilters = [
     <SelectInput optionText="name" variant="outlined" />
   </ReferenceInput>,
   <ReferenceInput
-    label="Environment"
+    key="env_filter"
     source="environment_id"
     reference="environments"
     sort={{ field: "name", order: "ASC" }}
@@ -58,11 +65,14 @@ const ServiceInstanceList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
   const { permissions } = usePermissions();
+  const t = useTranslate();
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Service Instance</Typography>
+      <Typography variant="h3">
+        {t("resources.service_instances.name")}
+      </Typography>
       <DefaultList
         {...props}
         filters={servicesInstancesFilters}

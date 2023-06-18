@@ -24,6 +24,7 @@ import {
   SelectInput,
   BulkExportButton,
   usePermissions,
+  useTranslate,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -33,11 +34,16 @@ import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultList from "@components/styled/DefaultList";
 import WithPermission from "@components/WithPermission";
+import i18nProvider from "@providers/I18nProvider";
 
 const hostingFilters = [
-  <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
+  <TextInput
+    label={i18nProvider.translate("ra.action.search")}
+    source="q"
+    alwaysOn
+    variant="outlined"
+  />,
   <ReferenceInput
-    label="Hosting type"
     source="hosting_type_id"
     reference="hosting_types"
     sort={{ field: "name", order: "ASC" }}
@@ -50,11 +56,12 @@ const HostingList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
   const { permissions } = usePermissions();
+  const t = useTranslate();
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Hosting</Typography>
+      <Typography variant="h3">{t("resources.hostings.name")}</Typography>
       <DefaultList
         {...props}
         filters={hostingFilters}

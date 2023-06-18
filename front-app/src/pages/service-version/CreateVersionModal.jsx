@@ -21,22 +21,23 @@ import {
   TextInput,
   useCreate,
   useNotify,
+  useTranslate,
 } from "react-admin";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CloseIcon from "@mui/icons-material/Close";
 
 import AlertError from "@components/alerts/AlertError";
-import WithPermission from "@components/WithPermission";
 
-const CreateVersionModal = ({ serviceID, handleClose, open = false }) => {
+const CreateVersionModal = ({ serviceID, handleClose, open }) => {
   const [create, { isLoading }] = useCreate();
   const notify = useNotify();
   const [defaultValues, setDefaultValues] = useState({});
   const [lastError, setLastError] = useState();
+  const t = useTranslate();
 
   const onSuccess = () => {
-    notify(`Version ajoutée`, { type: "success" });
+    notify("Version added", { type: "success" });
     handleClose();
   };
 
@@ -67,10 +68,10 @@ const CreateVersionModal = ({ serviceID, handleClose, open = false }) => {
   return (
     <Dialog open={open} fullWidth>
       <DialogTitle>
-        Nouvelle version
+        {t("New version")}
         {handleClose ? (
           <IconButton
-            aria-label="close"
+            aria-label={t("ra.action.close")}
             onClick={() => {
               setLastError(null);
               setDefaultValues({});
@@ -96,7 +97,7 @@ const CreateVersionModal = ({ serviceID, handleClose, open = false }) => {
             defaultValues={defaultValues}
             sx={{ padding: "0 2rem" }}
           >
-            <TextInput source="version" label="Version" fullWidth />
+            <TextInput source="version" fullWidth />
           </SimpleForm>
         </Create>
       </DialogContent>
@@ -104,12 +105,4 @@ const CreateVersionModal = ({ serviceID, handleClose, open = false }) => {
   );
 };
 
-const CreateVersionModalWithPermission = (props) => (
-  <WithPermission
-    permission="create service_versions"
-    element={CreateVersionModal}
-    elementProps={props}
-  />
-);
-
-export default CreateVersionModalWithPermission;
+export default CreateVersionModal;

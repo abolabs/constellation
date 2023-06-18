@@ -26,7 +26,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDataProvider } from "react-admin";
+import { useDataProvider, useTranslate } from "react-admin";
 
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
@@ -44,6 +44,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
   const [stats, setStats] = useState({});
+  const t = useTranslate();
 
   useEffect(() => {
     dataProvider
@@ -72,7 +73,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Typography variant="h3">Dashboard</Typography>
+      <Typography variant="h3">{t("Dashboard")}</Typography>
       <Divider sx={{ mb: 2, color: theme.palette.divider }} />
       <Grid
         container
@@ -81,7 +82,7 @@ const Dashboard = () => {
       >
         <Grid item xs={4}>
           <StatisticCard
-            title="Applications"
+            title={t("resources.applications.name")}
             value={stats?.nbApp}
             color={theme.palette.primary.main}
             colorText={theme.palette.primary.contrastText}
@@ -103,7 +104,7 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={4}>
           <StatisticCard
-            title="Instances de services / Services"
+            title={t("Service instances / Service")}
             value={`${stats?.nbInstances} / ${stats?.nbServices}`}
             color={theme.palette.error.main}
             colorText={theme.palette.error.contrastText}
@@ -125,7 +126,7 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={4}>
           <StatisticCard
-            title="Hébergements"
+            title={t("resources.hostings.name")}
             value={stats?.nbHostings}
             color={theme.palette.info.main}
             colorText={theme.palette.info.contrastText}
@@ -152,6 +153,7 @@ const Dashboard = () => {
 
 const StatisticCard = ({ title, value, icon, color, colorText, ...rest }) => {
   const theme = useTheme();
+  const t = useTranslate();
   return (
     <Card
       sx={{
@@ -188,7 +190,7 @@ const StatisticCard = ({ title, value, icon, color, colorText, ...rest }) => {
             opacity: 0.6,
           }}
         >
-          Voir plus
+          {t("View more")}
         </Button>
         <ChevronRightIcon sx={{ ml: "auto" }} fontSize="small" />
       </CardActions>

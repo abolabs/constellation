@@ -26,7 +26,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useLocation } from "react-router-dom";
-import { LinearProgress, useDataProvider, useGetIdentity } from "react-admin";
+import { LinearProgress, useDataProvider, useGetIdentity, useTranslate } from "react-admin";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
@@ -42,28 +42,29 @@ const AccountEdit = () => {
     refetch,
   } = useGetIdentity();
   const dataProvider = useDataProvider();
+  const t = useTranslate();
 
   const AccountEditSchema = yup
     .object()
     .shape({
       name: yup
         .string()
-        .required("Full name required.")
-        .typeError("Full name required.")
+        .required(t("Full name required"))
+        .typeError(t("Full name required"))
         .max(254),
       email: yup
         .string()
         .email()
-        .required("Please define an email.")
-        .typeError("Please define an email.")
+        .required(t("Please define an email"))
+        .typeError(t("Please define an email"))
         .max(254),
       "current-password": yup
         .string()
-        .typeError("Please confirm the password.")
+        .typeError(t("Please confirm the password"))
         .when("email", {
           is: (newEmail) => newEmail !== data?.email,
           then: (schema) =>
-            schema.required("Please enter your current password to confirm."),
+            schema.required(t("Please enter your current password to confirm")),
         })
         .max(254),
     })
@@ -117,7 +118,7 @@ const AccountEdit = () => {
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Editer le profil</Typography>
+      <Typography variant="h3">{t('Profil')}</Typography>
       <FormProvider {...methods}>
         <Card sx={{ mt: 1 }}>
           <CardContent>
@@ -138,19 +139,19 @@ const AccountEdit = () => {
               />
               {dirtyFields?.email ? (
                 <TextField
-                  label="Confirm password"
+                  label={t("Confirm your password")}
                   type="password"
                   fullWidth
                   error={!!errors?.["current-password"]}
                   helperText={
                     errors?.["current-password"]?.message ??
-                    "Confirm e-mail change by entering your current password."
+                    t("Confirm e-mail change by entering your current password")
                   }
                   {...methods.register("current-password")}
                 />
               ) : null}
               <Link to="/public/password-reset-request">
-                <Button>Reset password</Button>
+                <Button>{t('Reset the password')}</Button>
               </Link>
             </form>
           </CardContent>
@@ -161,7 +162,7 @@ const AccountEdit = () => {
             disabled={!isDirty}
             onClick={methods.handleSubmit(onSubmit)}
           >
-            Save
+            {t('ra.action.save')}
           </Button>
         </Toolbar>
       </FormProvider>

@@ -13,7 +13,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Menu, useSidebarState, usePermissions } from "react-admin";
+import {
+  Menu,
+  useSidebarState,
+  usePermissions,
+  useTranslate,
+} from "react-admin";
 
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
@@ -50,6 +55,7 @@ const AppMenu = () => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const { isLoading, identity } = useGetIdentity();
   const { permissions } = usePermissions();
+  const t = useTranslate();
 
   useEffect(() => {
     setOpen(isMediumOrUpper);
@@ -144,57 +150,57 @@ const AppMenu = () => {
       <Menu.DashboardItem />
       {open ? (
         <Typography variant="h4" pt={1}>
-          Application mapping
+          {t("Application mapping")}
         </Typography>
       ) : (
         <Divider />
       )}
       <MenuItem
         to="/application-mapping/by-app"
-        primaryText="Applications"
+        primaryText={t("resources.applications.name")}
         leftIcon={<WebAssetIcon />}
         permission="app-mapping"
       />
       <MenuItem
         to="/application-mapping/services-by-app"
-        primaryText="Services par applications"
+        primaryText={t("resources.services.name")}
         leftIcon={<ShareIcon />}
         permission="service-mapping-per-app"
       />
       <MenuItem
         to="/application-mapping/by-hosting"
-        primaryText="Hébergement"
+        primaryText={t("resources.hostings.name")}
         leftIcon={<LanIcon />}
         permission="service-mapping-per-host"
       />
       {open ? (
         <Typography variant="h4" pt={1}>
-          Inventaire
+          {t("Inventory")}
         </Typography>
       ) : (
         <Divider />
       )}
       <MenuItem
         to="/applications"
-        primaryText="Applications"
+        primaryText={t("resources.applications.name")}
         leftIcon={<AppRegistrationIcon />}
         permission="view applications"
       />
       <MenuItem
         to="/service_instances"
-        primaryText="Instances de services"
+        primaryText={t("resources.service_instances.name")}
         leftIcon={<ViewModuleIcon />}
         permission="view service_instances"
       />
       <MenuItem
         to="/services"
-        primaryText="Services"
+        primaryText={t("resources.services.name")}
         leftIcon={<WidgetsIcon />}
         permission="view services"
       />
       <MenuItem
         to="/hostings"
-        primaryText="Hébergements"
+        primaryText={t("resources.hostings.name")}
         leftIcon={<SettingsSystemDaydreamIcon />}
         permission="view hostings"
       />
@@ -211,7 +217,7 @@ const AppMenu = () => {
           }}
           onClick={() => setAdminOpen(!adminOpen)}
         >
-          Administration{" "}
+          {t("Admin")}{" "}
           {adminOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
         </Typography>
       ) : (
@@ -220,49 +226,49 @@ const AppMenu = () => {
       <Collapse in={adminOpen || !open}>
         <MenuItem
           to="/service_instance_dependencies"
-          primaryText="Dépendances d'instances"
+          primaryText={t("resources.service_instance_dependencies.name")}
           leftIcon={<AccountTreeIcon />}
           permission="view service_instance_dependencies"
         />
         <MenuItem
           to="/environments"
-          primaryText="Environments"
+          primaryText={t("resources.environments.name")}
           leftIcon={<WindowIcon />}
           permission="view environments"
         />
         <MenuItem
           to="/service_versions"
-          primaryText="Versions de service"
+          primaryText={t("resources.service_versions.name")}
           leftIcon={<Replay30Icon />}
           permission="view service_versions"
         />
         <MenuItem
           to="/hosting_types"
-          primaryText="Types d'hébergement"
+          primaryText={t("resources.hosting_types.name")}
           leftIcon={<StorageIcon />}
           permission="view hosting_types"
         />
         <MenuItem
           to="/teams"
-          primaryText="Equipes"
+          primaryText={t("resources.teams.name")}
           leftIcon={<GroupsIcon />}
           permission="view teams"
         />
         <MenuItem
           to="/users"
-          primaryText="Utilisateurs"
+          primaryText={t("resources.users.name")}
           leftIcon={<PersonIcon />}
           permission="view users"
         />
         <MenuItem
           to="/roles"
-          primaryText="Roles"
+          primaryText={t("resources.roles.name")}
           leftIcon={<LocalOfferIcon />}
           permission="view roles"
         />
         <MenuItem
           to="/audits"
-          primaryText="Audits"
+          primaryText={t("resources.audits.name")}
           leftIcon={<HistoryIcon />}
           permission="view audits"
         />

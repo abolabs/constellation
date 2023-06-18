@@ -14,35 +14,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { useEffect } from "react";
-import { AutocompleteInput, ReferenceInput, useRecordContext } from "react-admin";
-import { useFormContext, useWatch } from "react-hook-form";
 import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-} from "@mui/material";
+  AutocompleteInput,
+  ReferenceInput,
+  useRecordContext,
+  useTranslate,
+} from "react-admin";
+import { useFormContext, useWatch } from "react-hook-form";
+import { List, ListItem, ListItemText, ListItemAvatar } from "@mui/material";
 
 import Tag from "@components/styled/Tag";
 
 const ServiceVersionInput = () => {
   const { resetField } = useFormContext();
-  const service = useWatch({ name: 'service' });
+  const service = useWatch({ name: "service" });
 
   useEffect(() => {
-    resetField('service_version_id');
+    resetField("service_version_id");
   }, [service, resetField]);
 
-  const serviceVersionInputText = choice => `${choice.service_name} / Version ${choice.version}`;
-  const serviceVersionMatchSuggestion = (_filter, _choice) =>  true;
+  const serviceVersionInputText = (choice) =>
+    `${choice.service_name} / Version ${choice.version}`;
+  const serviceVersionMatchSuggestion = (_filter, _choice) => true;
 
   return (
     <ReferenceInput
       source="service_version_id"
       reference="service_versions"
-      sort={{field:"service_name", order:"ASC"}}
+      sort={{ field: "service_name", order: "ASC" }}
     >
-      <AutocompleteInput label="Version de service"
+      <AutocompleteInput
         ListboxComponent={List}
         optionText={<OptionRenderer />}
         inputText={serviceVersionInputText}
@@ -51,15 +52,16 @@ const ServiceVersionInput = () => {
       />
     </ReferenceInput>
   );
-}
+};
 
 const OptionRenderer = () => {
   const record = useRecordContext();
+  const t = useTranslate();
   return (
     <ListItem>
       <ListItemAvatar>
         <Tag
-          label={`Id: ${record.id}`}
+          label={`${t("resources.service_versions.fields.id")}: ${record.id}`}
           component="span"
           color="primary"
           size="small"
@@ -68,7 +70,9 @@ const OptionRenderer = () => {
       </ListItemAvatar>
       <ListItemText
         primary={record.service_name}
-        secondary={`Version : ${record.version}`}
+        secondary={`${t("resources.service_versions.fields.version")}: ${
+          record.version
+        }`}
       />
     </ListItem>
   );

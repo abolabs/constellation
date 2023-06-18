@@ -12,21 +12,23 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import polyglotI18nProvider from "ra-i18n-polyglot";
 
-import * as yup from 'yup';
-import i18nProvider from '@providers/I18nProvider';
+import frenchMessages from "@i18n/frenchMessages";
+import englishMessages from "@i18n/englishMessages";
 
-const HostingTypeDefaultSchema = yup.object()
-    .shape({
-        name: yup.string()
-          .required(i18nProvider.translate('Please define a name'))
-          .typeError(i18nProvider.translate('Please define a name'))
-          .max(254),
-        description: yup.string()
-          .required(i18nProvider.translate('Please define a description'))
-          .typeError(i18nProvider.translate('Please define a description'))
-          .max(254),
-    })
-    .required();
+const translations = {
+  fr: frenchMessages,
+  en: englishMessages,
+};
 
-export default HostingTypeDefaultSchema;
+const i18nProvider = polyglotI18nProvider(
+  (locale) => translations[locale],
+  "en", // default locale
+  [
+    { locale: "en", name: "English" },
+    { locale: "fr", name: "Français" },
+  ]
+);
+
+export default i18nProvider;

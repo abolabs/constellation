@@ -32,10 +32,12 @@ import { faGitAlt } from "@fortawesome/free-brands-svg-icons";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Tag from "@components/styled/Tag";
 import ItemCardHeader from "@components/styled/ItemCardHeader";
+import { useTranslate } from "react-admin";
 
 const ServiceInstanceCard = (instance) => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const t = useTranslate();
 
   const onClick = useCallback(() => {
     navigate(`/service_instances/${instance?.id}/show`);
@@ -56,7 +58,9 @@ const ServiceInstanceCard = (instance) => {
         }}
         action={
           <Tag
-            label={`Version ${instance?.service_version}`}
+            label={`${t("resources.service_versions.fields.version")} ${
+              instance?.service_version
+            }`}
             color="primary"
             size="small"
           />
@@ -78,10 +82,18 @@ const ServiceInstanceCard = (instance) => {
           }}
         >
           <ListItem sx={{ flexWrap: "wrap" }}>
-            <Tag label={`ID: ${instance?.id}`} color="primary" size="small" />
+            <Tag
+              label={`${t("resources.service_instances.fields.id")}: ${
+                instance?.id
+              }`}
+              color="primary"
+              size="small"
+            />
             &nbsp;
             <Tag
-              label={`Statut: ${instance?.statut ? "Active" : "Inactive"}`}
+              label={`${t("resources.service_instances.fields.statut")}: ${
+                instance?.statut ? "Active" : "Inactive"
+              }`}
               color={instance?.statut ? "success" : "warning"}
               size="small"
             />
@@ -90,7 +102,7 @@ const ServiceInstanceCard = (instance) => {
               label={
                 <Link href={instance?.url} target="_blank" rel="noopener">
                   <FontAwesomeIcon icon={faGitAlt} />
-                  &nbsp;Git url
+                  &nbsp;{t("resources.services.fields.git_repo")}
                 </Link>
               }
               size="small"
@@ -98,7 +110,9 @@ const ServiceInstanceCard = (instance) => {
             &nbsp;
             {instance?.role ? (
               <Tag
-                label={`Role: ${instance?.role}`}
+                label={`${t("resources.service_instances.fields.role")}: ${
+                  instance?.role
+                }`}
                 color="secondary"
                 size="small"
               />
@@ -107,7 +121,7 @@ const ServiceInstanceCard = (instance) => {
           <Link href={`/hostings/${instance?.hosting_id}/show`}>
             <ListItem>
               <ListItemText
-                primary="Hébergement"
+                primary={t("resources.service_instances.fields.hosting_name")}
                 secondary={instance?.hosting_name}
               />
             </ListItem>
@@ -120,7 +134,7 @@ const ServiceInstanceCard = (instance) => {
           endIcon={<KeyboardArrowRightIcon />}
           onClick={onClick}
         >
-          Voir plus
+          {t("View more")}
         </Button>
       </CardActions>
     </Card>

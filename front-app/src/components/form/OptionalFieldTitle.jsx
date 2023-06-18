@@ -14,13 +14,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { Typography } from "@mui/material";
+import { useTranslate } from "react-admin";
 
 const OptionalFieldTitle = ({label}) => {
+const t = useTranslate();
   return (
     <>
       {label}&nbsp;
       <Typography component="span" variant="subtitle1" fontSize="0.7rem">
-        (optional)
+        ({t('optional')})
       </Typography>
     </>
   );

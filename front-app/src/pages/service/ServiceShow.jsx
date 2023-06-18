@@ -42,6 +42,7 @@ import {
   usePermissions,
   useShowContext,
   useShowController,
+  useTranslate,
 } from "react-admin";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
@@ -57,6 +58,7 @@ const ServiceShow = () => {
   const { error, isLoading, record, refetch } = useShowController();
   const [openModal, setOpenModal] = useState(false);
   const { permissions } = usePermissions();
+  const t = useTranslate();
 
   if (isLoading) {
     return (
@@ -78,7 +80,7 @@ const ServiceShow = () => {
           mb: 2,
         }}
       >
-        Service
+        {t("resources.services.name")}
       </Typography>
       <Show actions={<></>}>
         <ServiceShowLayout />
@@ -87,7 +89,7 @@ const ServiceShow = () => {
         <Grid item xs={12}>
           <Card>
             <CardHeader
-              title="Version(s)"
+              title={t("resources.service_versions.fields.version")}
               titleTypographyProps={{
                 variant: "h5",
               }}
@@ -139,16 +141,14 @@ const ServiceShow = () => {
           </Card>
         </Grid>
       </Grid>
-      {permissions.includes("create service_versions") ? (
-        <CreateVersionModal
-          serviceID={record?.id}
-          open={openModal}
-          handleClose={() => {
-            setOpenModal(false);
-            refetch();
-          }}
-        />
-      ) : null}
+      <CreateVersionModal
+        serviceID={record?.id}
+        open={openModal}
+        handleClose={() => {
+          setOpenModal(false);
+          refetch();
+        }}
+      />
     </>
   );
 };
@@ -156,6 +156,7 @@ const ServiceShow = () => {
 const VersionCard = (versionObj) => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const t = useTranslate();
 
   return (
     <Card
@@ -188,19 +189,19 @@ const VersionCard = (versionObj) => {
         >
           <ListItem>
             <ListItemText
-              primary="Creation date"
+              primary={t("resources.services.fields.created_at")}
               secondary={<DateField source="created_at" record={versionObj} />}
             />
           </ListItem>
           <ListItem>
             <ListItemText
-              primary="Updated date"
+              primary={t("resources.services.fields.updated_at")}
               secondary={<DateField source="updated_at" record={versionObj} />}
             />
           </ListItem>
           <ListItem>
             <ListItemText
-              primary="Nb instances par application"
+              primary={t("Instances per application")}
               secondaryTypographyProps={{
                 component: "div",
               }}
@@ -253,6 +254,7 @@ const VersionCard = (versionObj) => {
 
 const ServiceShowLayout = () => {
   const { record } = useShowContext();
+  const t = useTranslate();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -285,7 +287,7 @@ const ServiceShowLayout = () => {
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="Team"
+                    primary={t("resources.services.fields.team_id")}
                     secondary={
                       <ReferenceField
                         source="team_id"
@@ -299,7 +301,7 @@ const ServiceShowLayout = () => {
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="Git Repo"
+                    primary={t("resources.services.fields.git_repo")}
                     secondary={
                       <Link href={record?.git_repo}>{record?.git_repo}</Link>
                     }
@@ -307,13 +309,13 @@ const ServiceShowLayout = () => {
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="Creation date"
+                    primary={t("resources.services.fields.created_at")}
                     secondary={<DateField source="created_at" />}
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="Last update date"
+                    primary={t("resources.services.fields.updated_at")}
                     secondary={<DateField source="updated_at" />}
                   />
                 </ListItem>

@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from "react";
-import { Create, SimpleForm, TextInput } from "react-admin";
+import { Create, SimpleForm, TextInput, useTranslate } from "react-admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
@@ -26,11 +26,12 @@ import WithPermission from "@components/WithPermission";
 
 const TeamCreate = () => {
   const location = useLocation();
+  const t = useTranslate();
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Team</Typography>
+      <Typography variant="h3">{t('resources.teams.name')}</Typography>
       <Create>
         <SimpleForm
           resolver={yupResolver(TeamDefaultSchema)}

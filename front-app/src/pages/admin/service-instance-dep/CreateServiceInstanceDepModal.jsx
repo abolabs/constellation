@@ -35,6 +35,7 @@ import {
   useNotify,
   useRecordContext,
   useRefresh,
+  useTranslate,
 } from "react-admin";
 import CloseIcon from "@mui/icons-material/Close";
 import * as yup from "yup";
@@ -63,6 +64,7 @@ const CreateServiceInstanceDepBaseModal = ({
   const [defaultValues, setDefaultValues] = useState({});
   const [lastError, setLastError] = useState();
   const refresh = useRefresh();
+  const t = useTranslate();
 
   if (isLoading) {
     return null;
@@ -88,7 +90,7 @@ const CreateServiceInstanceDepBaseModal = ({
   idsToExclude?.push(sourceServiceInstance?.id);
 
   const onSuccess = (_data) => {
-    notify(`Dépendance de service ajoutée`, { type: "success" });
+    notify("Service dependency added", { type: "success" });
     handleClose();
   };
 
@@ -122,8 +124,8 @@ const CreateServiceInstanceDepBaseModal = ({
   const dependencySchema = {};
   dependencySchema[targetFieldName] = yup
     .number()
-    .required("Please select a dependency")
-    .typeError("Please select a dependency");
+    .required(t("Please select a dependency"))
+    .typeError(t("Please select a dependency"));
 
   const schema = yup
     .object()
@@ -131,8 +133,8 @@ const CreateServiceInstanceDepBaseModal = ({
       ...dependencySchema,
       level: yup
         .number()
-        .required("Please select a level")
-        .typeError("Please select a level"),
+        .required(t("Please select a dependency level"))
+        .typeError(t("Please select a dependency level")),
       description: yup.string().nullable().max(254),
     })
     .required();
@@ -140,10 +142,10 @@ const CreateServiceInstanceDepBaseModal = ({
   return (
     <Dialog open={open} fullWidth>
       <DialogTitle>
-        Ajouter une nouvelle instance dépendance
+        {t('Add a service dependency')}
         {handleClose ? (
           <IconButton
-            aria-label="close"
+            aria-label={t('ra.action.close')}
             onClick={() => {
               setLastError(null);
               setDefaultValues({});
@@ -184,7 +186,7 @@ const CreateServiceInstanceDepBaseModal = ({
               {...referenceInputProps}
             >
               <AutocompleteInput
-                label="Service"
+                label={t('resources.service_instance_dependencies.fields.instance_service_name')}
                 ListboxComponent={List}
                 optionText={<OptionRenderer />}
                 inputText={serviceInstanceInputText}
@@ -195,18 +197,17 @@ const CreateServiceInstanceDepBaseModal = ({
 
             <RadioButtonGroupInput
               source="level"
-              label="Niveau de dépendance"
               row={false}
               choices={[
-                { id: 1, name: "Faible" },
-                { id: 2, name: "Majeur" },
-                { id: 3, name: "Critique" },
+                { id: 1, name: t('minor') },
+                { id: 2, name: t('major') },
+                { id: 3, name: t('critic') },
               ]}
             />
 
             <TextInput
               source="description"
-              label={<OptionalFieldTitle label="Description" />}
+              label={<OptionalFieldTitle label={t('resources.service_instance_dependencies.fields.description')} />}
               multiline
               fullWidth
             />
@@ -219,11 +220,12 @@ const CreateServiceInstanceDepBaseModal = ({
 
 const OptionRenderer = () => {
   const record = useRecordContext();
+  const t = useTranslate();
   return (
     <ListItem>
       <ListItemAvatar>
         <Tag
-          label={`Id: ${record.id}`}
+          label={`${t('resources.service_instance_dependencies.fields.id')}: ${record.id}`}
           component="span"
           color="primary"
           size="small"
@@ -232,7 +234,7 @@ const OptionRenderer = () => {
       </ListItemAvatar>
       <ListItemText
         primary={record.service_name}
-        secondary={`Application : ${record.application_name} ${record.environment_name}`}
+        secondary={`${t('resources.service_instance_dependencies.fields.instance_application_name')} : ${record.application_name} ${record.environment_name}`}
       />
     </ListItem>
   );

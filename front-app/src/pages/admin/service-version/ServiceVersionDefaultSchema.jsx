@@ -14,12 +14,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as yup from 'yup';
+import i18nProvider from '@providers/I18nProvider';
 
 const ServiceVersionDefaultSchema = yup.object()
     .shape({
         version: yup.string()
-          .required('Please define a version')
-          .typeError('Please define a version')
+          .required(i18nProvider.translate('Please define a version'))
+          .typeError(i18nProvider.translate('Please define a version'))
           .max(254),
     })
     .required();

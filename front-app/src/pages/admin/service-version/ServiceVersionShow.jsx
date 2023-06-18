@@ -19,6 +19,7 @@ import {
   Show,
   TextField,
   useShowController,
+  useTranslate,
 } from "react-admin";
 import { useLocation } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
@@ -31,6 +32,7 @@ import WithPermission from "@components/WithPermission";
 const ServiceVersionShow = () => {
   const location = useLocation();
   const { error, isLoading, record } = useShowController();
+  const t = useTranslate();
 
   if (isLoading) {
     return (
@@ -46,7 +48,7 @@ const ServiceVersionShow = () => {
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Service Version</Typography>
+      <Typography variant="h3">{t('resources.service_versions.name')}</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
         <DefaultShowLayout title={record?.service_name}>
           <TextField source="id" />

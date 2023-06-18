@@ -20,6 +20,7 @@ import {
   ReferenceInput,
   SimpleForm,
   TextInput,
+  useTranslate,
 } from "react-admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocation } from "react-router-dom";
@@ -33,13 +34,13 @@ import WithPermission from "@components/WithPermission";
 
 const ServiceEdit = () => {
   const location = useLocation();
-
+  const t = useTranslate();
   const TeamOptionText = (data) => `#${data.id} - ${data.name}`;
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Service</Typography>
+      <Typography variant="h3">{t("resources.services.name")}</Typography>
       <Edit redirect="show">
         <SimpleForm
           resolver={yupResolver(ServiceDefaultSchema)}
@@ -52,11 +53,7 @@ const ServiceEdit = () => {
             reference="teams"
             sort={{ field: "name", order: "ASC" }}
           >
-            <AutocompleteInput
-              label="Team"
-              optionText={TeamOptionText}
-              fullWidth
-            />
+            <AutocompleteInput optionText={TeamOptionText} fullWidth />
           </ReferenceInput>
         </SimpleForm>
       </Edit>

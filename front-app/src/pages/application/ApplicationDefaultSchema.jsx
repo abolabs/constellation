@@ -13,17 +13,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import i18nProvider from '@providers/I18nProvider';
 import * as yup from 'yup';
 
 const ApplicationDefaultSchema = yup.object()
   .shape({
       name: yup.string()
-        .required('Please select a service')
-        .typeError('Please select a service')
+        .required(i18nProvider.translate('Please select a service'))
+        .typeError(i18nProvider.translate('Please select a service'))
         .max(254),
       team_id: yup.number()
-        .required('Please select a team')
-        .typeError('Please select a team')
+        .required(i18nProvider.translate('Please select a team'))
+        .typeError(i18nProvider.translate('Please select a team'))
   })
   .required();;
 

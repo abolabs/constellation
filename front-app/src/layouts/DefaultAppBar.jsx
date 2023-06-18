@@ -18,9 +18,8 @@ import * as React from "react";
 import {
   Logout,
   UserMenu,
-  useUserMenu,
-  useLocaleState,
   AppBar,
+  useTranslate,
 } from "react-admin";
 import { Link } from "react-router-dom";
 
@@ -29,7 +28,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import LanguageIcon from "@mui/icons-material/Language";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
@@ -39,6 +37,7 @@ import ColorModeContext from "@contexts/ColorModeContext";
 
 // It's important to pass the ref to allow MUI to manage the keyboard navigation
 const ConfigurationMenu = React.forwardRef((props, ref) => {
+  const t = useTranslate();
   return (
     <MenuItem
       ref={ref}
@@ -50,32 +49,7 @@ const ConfigurationMenu = React.forwardRef((props, ref) => {
       <ListItemIcon>
         <SettingsIcon />
       </ListItemIcon>
-      <ListItemText>Profile</ListItemText>
-    </MenuItem>
-  );
-});
-
-// It's important to pass the ref to allow MUI to manage the keyboard navigation
-const SwitchLanguage = React.forwardRef((props, ref) => {
-  const [locale, setLocale] = useLocaleState();
-  // We are not using MenuItemLink so we retrieve the onClose function from the UserContext
-  const { onClose } = useUserMenu();
-
-  return (
-    <MenuItem
-      ref={ref}
-      // It's important to pass the props to allow MUI to manage the keyboard navigation
-      {...props}
-      sx={{ color: "text.secondary" }}
-      onClick={(event) => {
-        setLocale(locale === "en" ? "fr" : "en");
-        onClose(); // Close the menu
-      }}
-    >
-      <ListItemIcon sx={{ minWidth: 5 }}>
-        <LanguageIcon />
-      </ListItemIcon>
-      <ListItemText>Switch Language</ListItemText>
+      <ListItemText>{t("Profile")}</ListItemText>
     </MenuItem>
   );
 });
@@ -83,7 +57,6 @@ const SwitchLanguage = React.forwardRef((props, ref) => {
 const AppUserMenu = (props) => (
   <UserMenu {...props} icon={<SettingsIcon />}>
     <ConfigurationMenu />
-    <SwitchLanguage />
     <Logout />
   </UserMenu>
 );
@@ -117,7 +90,7 @@ const DefaultAppBar = (props) => {
         boxShadow: "none",
         ".RaAppBar-toolbar": {
           minHeight: 0,
-        }
+        },
       }}
       {...props}
       userMenu={<AppUserMenu />}

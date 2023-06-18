@@ -21,6 +21,7 @@ import {
   TextField,
   WrapperField,
   useShowController,
+  useTranslate,
 } from "react-admin";
 import { Link, useLocation } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
@@ -35,6 +36,7 @@ import WithPermission from "@components/WithPermission";
 const ServiceInstanceDepShow = () => {
   const location = useLocation();
   const { error, isLoading, record } = useShowController();
+  const t = useTranslate();
 
   if (isLoading) {
     return (
@@ -50,14 +52,14 @@ const ServiceInstanceDepShow = () => {
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Service instance dependency</Typography>
+      <Typography variant="h3">{t("resources.service_instance_dependencies.name")}</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
         <DefaultShowLayout
           title={`${record?.instance_application_name} / ${record?.id} - ${record?.instance_service_name}`}
           canEdit={false}
         >
-          <TextField source="id" label="Dependency id" />
-          <WrapperField label="Source application">
+          <TextField source="id"/>
+          <WrapperField label={t("resources.service_instance_dependencies.fields.instance_application_name")}>
             <NumberField source="instance_application_id" />
             &nbsp;-&nbsp;
             <TextField source="instance_application_name" />
@@ -65,7 +67,7 @@ const ServiceInstanceDepShow = () => {
               <LaunchIcon fontSize="small" sx={{ p: 0.1 }} />
             </Link>
           </WrapperField>
-          <WrapperField label="Source instance">
+          <WrapperField label={t("resources.service_instance_dependencies.fields.instance_service_name")}>
             <NumberField source="instance_id" />
             &nbsp;-&nbsp;
             <TextField source="instance_service_name" />
@@ -74,7 +76,7 @@ const ServiceInstanceDepShow = () => {
               <LaunchIcon fontSize="small" sx={{ p: 0.1 }} />
             </Link>
           </WrapperField>
-          <WrapperField label="Dependency app">
+          <WrapperField label={t("resources.service_instance_dependencies.fields.instance_dep_application_name")}>
             <NumberField source="instance_dep_application_id" />
             &nbsp;-&nbsp;
             <TextField source="instance_dep_application_name" />
@@ -82,7 +84,7 @@ const ServiceInstanceDepShow = () => {
               <LaunchIcon fontSize="small" sx={{ p: 0.1 }} />
             </Link>
           </WrapperField>
-          <WrapperField label="Dependency instance">
+          <WrapperField label={t("resources.service_instance_dependencies.fields.instance_dep_service_name")}>
             <NumberField source="instance_dep_id" />
             &nbsp;-&nbsp;
             <TextField source="instance_dep_service_name" />

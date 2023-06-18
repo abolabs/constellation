@@ -39,10 +39,12 @@ import { useNavigate } from "react-router-dom";
 import AuthProvider from "@providers/AuthProvider";
 import dataProvider from "@providers/DataProvider";
 import Logo from "@components/Logo";
+import i18nProvider from "@providers/I18nProvider";
 
 const ResetPasswordRequest = () => {
   const theme = useMemo(() => createTheme(LightTheme), []);
   const navigate = useNavigate();
+  const t = i18nProvider.translate;
 
   const requestResetPasswordSchema = yup
     .object()
@@ -50,8 +52,8 @@ const ResetPasswordRequest = () => {
       email: yup
         .string()
         .email()
-        .required("Please define an email.")
-        .typeError("Please define an email.")
+        .required(t("Please define an email"))
+        .typeError(t("Please define an email"))
         .max(254),
     })
     .required();
@@ -87,7 +89,7 @@ const ResetPasswordRequest = () => {
       <CssBaseline />
       <Container
         component="main"
-        maxWidth="sm"
+        maxWidth="md"
         sx={{
           pt: 8,
           height: "100vh",
@@ -101,7 +103,7 @@ const ResetPasswordRequest = () => {
             background: theme.palette.background.paper,
             color: theme.palette.text.primary,
             p: 2,
-            borderRadius: theme.shape.borderRadius,
+            borderRadius: theme.shape.borderRadius
           }}
         >
           <Logo />
@@ -109,11 +111,10 @@ const ResetPasswordRequest = () => {
             <Card sx={{ mt: 1 }}>
               <CardContent>
                 <Typography gutterBottom variant="h3" component="div">
-                  Réinitialiser votre mot de passe
+                  {t("Reset your password")}
                 </Typography>
                 <Typography gutterBottom variant="body2" component="div">
-                  Entrer l'e-mail pour envoyer le lien de réinitialisation de
-                  mot de passe.
+                  {t("Enter the email to send the reset link.")}
                 </Typography>
                 <form>
                   <TextField
@@ -133,7 +134,7 @@ const ResetPasswordRequest = () => {
                 startIcon={<ArrowBackIosNewIcon />}
                 onClick={() => navigate(-1, { state: {} })}
               >
-                Retour
+                {t("ra.action.back")}
               </Button>
               <Button
                 size="small"
@@ -142,7 +143,7 @@ const ResetPasswordRequest = () => {
                 disabled={!isDirty}
                 onClick={methods.handleSubmit(onSubmit)}
               >
-                Envoyer
+                {t("ra.action.send")}
               </Button>
             </CardActions>
           </FormProvider>

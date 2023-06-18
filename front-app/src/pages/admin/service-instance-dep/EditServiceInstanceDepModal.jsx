@@ -37,6 +37,7 @@ import {
   useRefresh,
   Toolbar,
   SaveButton,
+  useTranslate,
 } from "react-admin";
 import CloseIcon from "@mui/icons-material/Close";
 import * as yup from "yup";
@@ -64,6 +65,7 @@ const EditServiceInstanceDepModal = ({
   const [defaultValues, setDefaultValues] = useState({});
   const [lastError, setLastError] = useState();
   const refresh = useRefresh();
+  const t = useTranslate();
 
   let idsToExclude, sourceFieldName, targetFieldName;
 
@@ -83,7 +85,7 @@ const EditServiceInstanceDepModal = ({
   idsToExclude.push(sourceServiceInstance?.id);
 
   const onSuccess = (_data) => {
-    notify(`Dépendance de service modifiée`, { type: "success" });
+    notify("Service dependency edited", { type: "success" });
     handleClose();
   };
 
@@ -117,8 +119,8 @@ const EditServiceInstanceDepModal = ({
   const dependencySchema = {};
   dependencySchema[targetFieldName] = yup
     .number()
-    .required("Please select a dependency")
-    .typeError("Please select a dependency");
+    .required(t("Please select a dependency"))
+    .typeError(t("Please select a dependency"));
 
   const schema = yup
     .object()
@@ -126,8 +128,8 @@ const EditServiceInstanceDepModal = ({
       ...dependencySchema,
       level: yup
         .number()
-        .required("Please select a level")
-        .typeError("Please select a level"),
+        .required(t("Please select a dependency level"))
+        .typeError(t("Please select a dependency level")),
       description: yup.string().nullable().max(254),
     })
     .required();
@@ -139,7 +141,7 @@ const EditServiceInstanceDepModal = ({
   return (
     <Dialog open={open} fullWidth>
       <DialogTitle>
-        Editer la dépendance
+        {t("Edit the dependency")}
         {handleClose ? (
           <IconButton
             aria-label="close"
@@ -184,7 +186,6 @@ const EditServiceInstanceDepModal = ({
               {...referenceInputProps}
             >
               <AutocompleteInput
-                label="Service"
                 ListboxComponent={List}
                 optionText={<OptionRenderer />}
                 inputText={serviceInstanceInputText}
@@ -195,18 +196,23 @@ const EditServiceInstanceDepModal = ({
 
             <RadioButtonGroupInput
               source="level"
-              label="Niveau de dépendance"
               row={false}
               choices={[
-                { id: 1, name: "Faible" },
-                { id: 2, name: "Majeur" },
-                { id: 3, name: "Critique" },
+                { id: 1, name: t("minor") },
+                { id: 2, name: t("major") },
+                { id: 3, name: t("critic") },
               ]}
             />
 
             <TextInput
               source="description"
-              label={<OptionalFieldTitle label="Description" />}
+              label={
+                <OptionalFieldTitle
+                  label={t(
+                    "resources.service_instance_dependencies.fields.description"
+                  )}
+                />
+              }
               multiline
               fullWidth
             />
@@ -219,11 +225,14 @@ const EditServiceInstanceDepModal = ({
 
 const OptionRenderer = () => {
   const record = useRecordContext();
+  const t = useTranslate();
   return (
     <ListItem>
       <ListItemAvatar>
         <Tag
-          label={`Id: ${record.id}`}
+          label={`${t("resources.service_instance_dependencies.fields.id")}: ${
+            record.id
+          }`}
           component="span"
           color="primary"
           size="small"
@@ -232,7 +241,9 @@ const OptionRenderer = () => {
       </ListItemAvatar>
       <ListItemText
         primary={record.service_name}
-        secondary={`Application : ${record.application_name} ${record.environment_name}`}
+        secondary={`${t(
+          "resources.service_instance_dependencies.fields.instance_application_name"
+        )} : ${record.application_name} ${record.environment_name}`}
       />
     </ListItem>
   );

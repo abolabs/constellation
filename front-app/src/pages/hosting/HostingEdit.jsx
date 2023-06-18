@@ -20,6 +20,7 @@ import {
   ReferenceInput,
   SimpleForm,
   TextInput,
+  useTranslate,
 } from "react-admin";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocation } from "react-router-dom";
@@ -34,13 +35,13 @@ import WithPermission from "@components/WithPermission";
 
 const HostingEdit = () => {
   const location = useLocation();
-
+  const t = useTranslate();
   const HostingTypeOptionText = (data) => `#${data.id} - ${data.name}`;
 
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">Hosting</Typography>
+      <Typography variant="h3">{t("resources.hostings.name")}</Typography>
       <Edit>
         <SimpleForm
           resolver={yupResolver(HostingDefaultSchema)}
@@ -52,15 +53,15 @@ const HostingEdit = () => {
             reference="hosting_types"
             sort={{ field: "name", order: "ASC" }}
           >
-            <AutocompleteInput
-              label="Hosting type"
-              optionText={HostingTypeOptionText}
-              fullWidth
-            />
+            <AutocompleteInput optionText={HostingTypeOptionText} fullWidth />
           </ReferenceInput>
           <TextInput
             source="localisation"
-            label={<OptionalFieldTitle label="Localisation" />}
+            label={
+              <OptionalFieldTitle
+                label={t("resources.hostings.fields.localisation")}
+              />
+            }
             fullWidth
           />
         </SimpleForm>

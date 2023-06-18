@@ -15,7 +15,7 @@
 
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { useLogin, useNotify } from "react-admin";
+import { useLogin, useNotify, useTranslate } from "react-admin";
 import { useLocation } from "react-router-dom";
 
 import Button from "@mui/material/Button";
@@ -46,6 +46,7 @@ const LoginPage = () => {
   const notify = useNotify();
   const location = useLocation();
   const [openNoAccountModal, setOpenNoAccountModal] = useState(false);
+  const t = useTranslate();
 
   const handleClickOpenNoAccountModal = () => {
     setOpenNoAccountModal(true);
@@ -96,9 +97,6 @@ const LoginPage = () => {
           }}
         >
           <Logo />
-          <Typography component="h3" variant="h3">
-            Sign in
-          </Typography>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -110,7 +108,7 @@ const LoginPage = () => {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={t("Email Address")}
               name="email"
               autoComplete="email"
               autoFocus
@@ -121,7 +119,7 @@ const LoginPage = () => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label={t("Password")}
               type="password"
               id="password"
               autoComplete="current-password"
@@ -139,12 +137,12 @@ const LoginPage = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {t('ra.auth.sign_in')}
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="/public/password-reset-request" variant="body2">
-                  Forgot password?
+                  {t("Forgot password?")}
                 </Link>
               </Grid>
               <Grid item>
@@ -153,7 +151,7 @@ const LoginPage = () => {
                   variant="body2"
                   onClick={handleClickOpenNoAccountModal}
                 >
-                  {"Don't have an account?"}
+                  {t("Don't have an account?")}
                 </Link>
               </Grid>
             </Grid>
@@ -164,14 +162,14 @@ const LoginPage = () => {
         />
       </Container>
       <Dialog open={openNoAccountModal} onClose={handleCloseNoAccountModal}>
-        <DialogTitle>{"Don't have an account?"}</DialogTitle>
+        <DialogTitle>{t("Don't have an account?")}</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ p: 2 }}>
-            Please contact your administrator to request an account.
+            {t("Please contact your administrator to request an account.")}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseNoAccountModal}>Fermer</Button>
+          <Button onClick={handleCloseNoAccountModal}>{t("ra.action.close")}</Button>
         </DialogActions>
       </Dialog>
     </ThemeProvider>

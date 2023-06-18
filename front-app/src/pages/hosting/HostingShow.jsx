@@ -36,6 +36,7 @@ import {
   TextField,
   useShowContext,
   useShowController,
+  useTranslate,
 } from "react-admin";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
@@ -48,6 +49,7 @@ const HostingShow = () => {
   const location = useLocation();
   const theme = useTheme();
   const { error, isLoading, record } = useShowController();
+  const t = useTranslate();
 
   if (isLoading) {
     return (
@@ -69,7 +71,7 @@ const HostingShow = () => {
           mb: 2,
         }}
       >
-        Hosting
+        {t("resources.hostings.name")}
       </Typography>
 
       <Show actions={<></>}>
@@ -80,7 +82,7 @@ const HostingShow = () => {
         <Grid item xs={12}>
           <Card>
             <CardHeader
-              title="Instances"
+              title={t("Instances")}
               titleTypographyProps={{
                 variant: "h5",
               }}
@@ -130,6 +132,7 @@ const HostingShow = () => {
 
 const HostingShowLayout = () => {
   const { record } = useShowContext();
+  const t = useTranslate();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -156,19 +159,19 @@ const HostingShowLayout = () => {
               >
                 <ListItem>
                   <ListItemText
-                    primary="id"
+                    primary={t("resources.hostings.fields.id")}
                     secondary={<NumberField source="id" />}
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="name"
+                    primary={t("resources.hostings.fields.name")}
                     secondary={<TextField source="name" />}
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="Hosting type"
+                    primary={t("resources.hostings.fields.hosting_type_id")}
                     secondary={
                       <ReferenceField
                         source="hosting_type_id"
@@ -182,19 +185,19 @@ const HostingShowLayout = () => {
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="Localisation"
+                    primary={t("resources.hostings.fields.localisation")}
                     secondary={<TextField source="localisation" />}
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="Creation date"
+                    primary={t("resources.hostings.fields.created_at")}
                     secondary={<DateField source="created_at" />}
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="Last update date"
+                    primary={t("resources.hostings.fields.updated_at")}
                     secondary={<DateField source="updated_at" />}
                   />
                 </ListItem>

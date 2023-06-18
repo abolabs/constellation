@@ -13,25 +13,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import i18nProvider from "@providers/I18nProvider";
+
 const serviceInstanceDepLevel = {
   1: {
     color: "primary",
-    label: "minor",
+    label: i18nProvider.translate("minor"),
     value: 1,
-    description: "En cas d'indisponibilité : impact sur fonctionnalité(s) mineure(s) ou majeure(s) avec solution de contournement."
+    description: i18nProvider.translate("level_description.minor"),
   },
   2: {
     color: "warning",
-    label: "major",
+    label: i18nProvider.translate("major"),
     value: 2,
-    description: "En cas d'indisponibilité : impact sur fonctionnalité(s) majeure(s) sans solution de contournement mais sans indisponibilité générale."
+    description: i18nProvider.translate("level_description.major"),
   },
   3: {
     color: "error",
-    label: "critic",
+    label: i18nProvider.translate("critic"),
     value: 3,
-    description: "En cas d'indisponibilité : impact de fonctionnalité(s) majeure(s) sans solution de contournement entrainant une indisponibilité générale de l'application."
-  }
+    description: i18nProvider.translate("level_description.critic"),
+  },
 };
 
 export { serviceInstanceDepLevel };
