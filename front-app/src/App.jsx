@@ -96,9 +96,9 @@ const App = () => {
       // The dark mode switch would invoke this method
       toggleColorMode: () => {
         setMode((prevMode) => {
-          let nextMode = "light";
-          if (prevMode === "light" || !prevMode) {
-            nextMode = "dark";
+          let nextMode = "dark";
+          if (prevMode === "dark" || !prevMode) {
+            nextMode = "light";
           }
           localStorage.setItem("themeMode", nextMode);
           return nextMode;
