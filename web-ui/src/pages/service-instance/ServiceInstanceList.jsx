@@ -23,7 +23,6 @@ import {
   SelectInput,
   BulkExportButton,
   BooleanField,
-  usePermissions,
   useTranslate,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
@@ -64,7 +63,6 @@ const servicesInstancesFilters = [
 const ServiceInstanceList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
-  const { permissions } = usePermissions();
   const t = useTranslate();
 
   return (
@@ -76,11 +74,7 @@ const ServiceInstanceList = (props) => {
       <DefaultList
         {...props}
         filters={servicesInstancesFilters}
-        actions={
-          <DefaultToolBar
-            canCreate={permissions.includes("create service_instances")}
-          />
-        }
+        actions={<DefaultToolBar canCreate={false} />}
       >
         {isSmall ? (
           <SimpleList

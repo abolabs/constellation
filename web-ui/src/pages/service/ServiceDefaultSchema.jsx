@@ -26,7 +26,6 @@ const ServiceDefaultSchema = yup
       .max(254),
     git_repo: yup
       .string()
-      .required(i18nProvider.translate("Please define a git url"))
       .typeError(i18nProvider.translate("Please define a git url"))
       .url()
       .nullable()
