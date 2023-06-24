@@ -25,10 +25,18 @@ services:
     volumes:
       - ./api/oauth-private.key:/var/www/constellation/api/storage/oauth-private.key
       - ./api/oauth-public.key:/var/www/constellation/api/storage/oauth-public.key
+    depends_on:
+      - nginx-fpm
+      - redis
+      - mariadb
+      - meilisearch
 
   migrate:
     image: registry.gitlab.com/abolabs/constellation/api:${TAG_NAME}
     entrypoint: ["php","artisan","migrate"]
+    depends_on:
+      - mariadb
+      - redis
 
   nginx-fpm:
     image: registry.gitlab.com/abolabs/constellation/nginx-fpm:${TAG_NAME}
@@ -46,6 +54,8 @@ services:
       - ./web-ui/env.config.js:/var/www/env.config.js
       - ${DATA_VOLUME}/nginx:/var/log/nginx
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - api
 
   redis:
     image: redis
@@ -53,3 +63,14 @@ services:
       - "6379:6379"
     volumes:
       - ${DATA_VOLUME}/redis:/data
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.1
+    environment:
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+    volumes:
+      - ${DATA_VOLUME}/meili_data:/meili_data
+    ports:
+     - "7700:7700"
+    depends_on:
+      - mariadb
