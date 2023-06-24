@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.2
-FROM nginx:1.23
+FROM nginx:1.25
 
 LABEL maintainer="Alexandre BORDIN <bordin.alexandre@gmail.com>"
 
@@ -10,7 +10,7 @@ ARG APP_PATH=/var/www/constellation
 
 RUN apt-get update -yqq \
     && apt-get install -yqq git
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get -yqq install nodejs
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && apt-get -yqq install nodejs
 
 # Add user
 RUN useradd -ms /bin/bash -G www-data ${MYUSER} || echo "User already exists."
@@ -23,11 +23,11 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRANCH /tmp/
 
 # Copy Front
-RUN cd /tmp/front-app && \
+RUN cd /tmp/web-ui && \
     mv .env.example .env && \
     npm install && \
     npm run build
-RUN mv /tmp/front-app/build /var/www
+RUN mv /tmp/web-ui/build /var/www
 
 RUN chown -R ${MYUSER}:www-data /var/www
 RUN rm -r /tmp/*

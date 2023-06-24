@@ -19,7 +19,7 @@
 import Console from '../utils/Console.mjs';
 import AbstractCommand from './AbstractCommand.mjs';
 
-export default class Api extends AbstractCommand {
+export default class WebUI extends AbstractCommand {
 
     actions() {
         return {
@@ -32,7 +32,7 @@ export default class Api extends AbstractCommand {
         const usageText = `
         Constellation CLI utils.
 
-        Usage: constellation-cli front-app [OPTIONS] COMMAND
+        Usage: constellation-cli web-ui [OPTIONS] COMMAND
 
         Options:
 
@@ -50,7 +50,7 @@ export default class Api extends AbstractCommand {
 
     async logs() {
         try{
-            await $`docker compose logs -f -n 300 --no-log-prefix front-app`;
+            await $`docker compose logs -f -n 300 --no-log-prefix web-ui`;
         }catch(e){
             Console.printError(e);
             return;
@@ -60,7 +60,7 @@ export default class Api extends AbstractCommand {
 
     async restart() {
         try{
-            await $`docker compose restart front-app`;
+            await $`docker compose restart web-ui`;
         }catch(e){
             Console.printError(e);
             return;

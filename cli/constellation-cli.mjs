@@ -23,7 +23,7 @@ import Docker from './src/commands/Docker.mjs';
 import * as Environment from './src/utils/Environment.mjs';
 import Setup from './src/commands/Setup.mjs';
 import Api from './src/commands/Api.mjs';
-import FrontApp from './src/commands/FrontApp.mjs';
+import WebUI from './src/commands/WebUI.mjs';
 import CI from './src/commands/CI.mjs';
 import * as dotenv from 'dotenv';
 import { $ } from 'zx/core';
@@ -44,7 +44,7 @@ if (!mainCommand) {
     mainCommand = await Base.selectAction([
         'setup',
         'api',
-        'front-app',
+        'web-ui',
         'docker',
         'artisan',
         'ci'
@@ -59,8 +59,8 @@ switch(mainCommand){
     case 'api':
         new Api(args).run();
         break;
-    case 'front-app':
-        new FrontApp(args).run();
+    case 'web-ui':
+        new WebUI(args).run();
         break;
     // Wrappers
     case 'docker':
@@ -94,7 +94,7 @@ function usage() {
     Services commands:
         setup           Shorcuts to mount/unmout/update the environment.
         api             Globals utils for the API service.
-        front-app       Front App commands.
+        web-ui          Front App commands.
 
     Wrappers commands:
         docker          Wrapper for ./install/{env}/docker-compose.yml files.
