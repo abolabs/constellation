@@ -19,10 +19,10 @@ services:
     volumes:
       - ${DATA_VOLUME}/mariadb:/var/lib/mysql
 
-  front-app:
+  web-ui:
       build:
         context: .
-        dockerfile: front-app/Dockerfile
+        dockerfile: web-ui/Dockerfile
         args:
         - MYUSER=${MYUSER}
       ports:

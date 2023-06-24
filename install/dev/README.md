@@ -2,7 +2,7 @@
 
 ```sh
 cp ./install/dev/.env.example .env
-``` 
+```
 
 #### 2. Edit the Docker stack environment file
 
@@ -20,7 +20,7 @@ _(see https://hub.docker.com/r/maildev/maildev)_
     * `SMTP` Port shared with the host for listening to messages to be captured.
     * `WEBUI` Port shared with the host to access the email display interface.
 
-#### 3. Build the stack    
+#### 3. Build the stack
 
 ```sh
 docker-compose up -d
@@ -50,11 +50,11 @@ If the ports are already in used by other services, change the configuration.
     * PHP
     ```sh
     composer install
-    ```        
+    ```
 * Initialize the database
-    * Edit the administrator. 
+    * Edit the administrator.
     Edit file `./database/seeders/CreateAdminUserSeeder.php`.
-    Edit the name, email and password at your convenience 
+    Edit the name, email and password at your convenience
     ```php
     'name' => 'Super Admin',
     'email' => 'admin@localhost',
@@ -78,7 +78,7 @@ Generate the OAuth2 keys and client.
 
 * Generate a client with passport grant with `php artisan passport:client --password`.
 
-  *Example :* 
+  *Example :*
 
   ```sh
     app_user@2aff63ab4afa:/var/www$ php artisan passport:client --password
@@ -96,21 +96,21 @@ Generate the OAuth2 keys and client.
     ```
     Keep client information in a safe place.
 
-* Configure the front app
+* Configure the web ui
 
-  * Open a new bash on the front-app container 
-    `docker exec -it constellation-front-app-1 bash`
+  * Open a new bash on the web-ui container
+    `docker exec -it constellation-web-ui-1 bash`
 
   * Switch to app_user
     ```sh
     su app_user
-    ```   
+    ```
 
   * Init the environment file
     `cp .env.example .env`
 
   * Configure the environment file
-    Edit the client information 
+    Edit the client information
     ```sh
     REACT_APP_CLIENT_ID="9749af7c-bd7b-4a8f-af93-da0735447434"
     REACT_APP_CLIENT_SECRET="62xSrCWaW6VfIdszfVYoXyKFVzOjYHHZplVQWO84"
@@ -118,7 +118,7 @@ Generate the OAuth2 keys and client.
 
 #### 7. Front App configuration
 
-Always on the front-app container and as app_user.
+Always on the web-ui container and as app_user.
 
 * Install npm librairies
 

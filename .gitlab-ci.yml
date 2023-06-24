@@ -58,9 +58,9 @@ cache:
   - api/.env
   - api/composer.lock
   - api/bootstrap/
-  - front-app/.env
-  - front-app/node_modules/
-  - front-app/package-lock.json
+  - web-ui/.env
+  - web-ui/node_modules/
+  - web-ui/package-lock.json
   - .sonar/cache
 
 stages:
@@ -133,9 +133,9 @@ stages:
 #         Pre-Build
 prebuild-api:
   stage: prebuild
-  image: docker:20
+  image: docker:24
   services:
-    - docker:20-dind
+    - docker:24-dind
   script:
     - *script-docker-registry-login
     - docker pull $CI_REGISTRY_IMAGE/api:ci || true
@@ -223,9 +223,9 @@ sonarcloud-check:
 #           Build
 build:
   stage: build
-  image: docker:20
+  image: docker:24
   services:
-    - docker:20-dind
+    - docker:24-dind
   variables:
     SERVICE_NAME: "api"
   script:
@@ -236,9 +236,9 @@ build:
 
 build_nginx_fpm:
   stage: build
-  image: docker:20
+  image: docker:24
   services:
-    - docker:20-dind
+    - docker:24-dind
   needs:
     - build
   variables:
@@ -249,13 +249,13 @@ build_nginx_fpm:
   rules:
     - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
 
-build_nginx:
+build_web_ui:
   stage: build
-  image: docker:20
+  image: docker:24
   services:
-    - docker:20-dind
+    - docker:24-dind
   variables:
-    SERVICE_NAME: "nginx"
+    SERVICE_NAME: "web-ui"
   script:
     - *script-docker-registry-login
     - *script-docker-build
@@ -281,12 +281,12 @@ container_scanning_nginx_fpm:
   needs:
     - build_nginx_fpm
 
-container_scanning_nginx:
+container_scanning_web_ui:
   extends: container_scanning
   variables:
-    CS_IMAGE: $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
+    CS_IMAGE: $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_SHA
   needs:
-    - build_nginx
+    - build_web_ui
 
 # --------------------------
 #        Push images
@@ -297,24 +297,24 @@ push_latest:
     # We do not need GitLab to clone the source code.
     GIT_STRATEGY: none
   stage: push
-  image: docker:20
+  image: docker:24
   services:
-    - docker:20-dind
+    - docker:24-dind
   script:
     - *script-docker-registry-login
     # Because we have no guarantee that this job will be picked up by the same runner
     # that built the image in the previous step, we pull it again locally
     - docker pull $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
     - docker pull $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_SHA
-    - docker pull $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
+    - docker pull $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_SHA
     # Then we tag it "latest"
     - docker tag $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/api:latest
     - docker tag $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/nginx-fpm:latest
-    - docker tag $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/nginx:latest
+    - docker tag $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/web-ui:latest
     # And we push it.
     - docker push $CI_REGISTRY_IMAGE/api:latest
     - docker push $CI_REGISTRY_IMAGE/nginx-fpm:latest
-    - docker push $CI_REGISTRY_IMAGE/nginx:latest
+    - docker push $CI_REGISTRY_IMAGE/web-ui:latest
   only:
     # Only "master" should be tagged "latest"
     - master
@@ -325,9 +325,9 @@ push_tag:
     # Again, we do not need the source code here. Just playing with Docker.
     GIT_STRATEGY: none
   stage: push
-  image: docker:20
+  image: docker:24
   services:
-    - docker:20-dind
+    - docker:24-dind
   only:
     # We want this job to be run on tags only.
     - tags
@@ -341,7 +341,7 @@ push_tag:
     - docker pull $CI_REGISTRY_IMAGE/nginx-fpm:latest
     - docker tag $CI_REGISTRY_IMAGE/nginx-fpm:latest $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_REF_NAME
-    # nginx front
-    - docker pull $CI_REGISTRY_IMAGE/nginx:latest
-    - docker tag $CI_REGISTRY_IMAGE/nginx:latest $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME
-    - docker push $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME
+    # web-ui
+    - docker pull $CI_REGISTRY_IMAGE/web-ui:latest
+    - docker tag $CI_REGISTRY_IMAGE/web-ui:latest $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/web-ui$CI_COMMIT_REF_NAME

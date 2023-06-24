@@ -49,7 +49,7 @@ export default class Setup extends AbstractCommand {
 
             --fresh         Fresh database after mounting.
             --seed          Php artisan db:seed
-            --logs          Display front logs at the end of the setup.
+            --logs          Display web ui logs at the end of the setup.
 
         down        Alias for docker compose down
         restart     Alias for docker compose restart
@@ -69,8 +69,8 @@ export default class Setup extends AbstractCommand {
                 async () => await $`docker compose exec -it api composer install`
             );
 
-            await spinner('front app npm install',
-                async () => await $`docker compose exec -it front-app npm i`
+            await spinner('web ui npm install',
+                async () => await $`docker compose exec -it web-ui npm i`
             );
 
             if(this.additionnal.includes('--fresh')){
@@ -90,8 +90,8 @@ export default class Setup extends AbstractCommand {
                     Console.error("Watch is only available on dev environment");
                     process.exit(1);
                 }
-                await $`docker compose restart front-app`
-                await $`docker compose logs -f -t 100  --no-log-prefix front-app`
+                await $`docker compose restart web-ui`
+                await $`docker compose logs -f -t 100  --no-log-prefix web-ui`
             }
 
         }catch(e){
