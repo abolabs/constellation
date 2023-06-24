@@ -41,6 +41,7 @@ class ServiceInstanceResource extends JsonResource
             'environment_name' => $this->environment->name,
             'hosting_id' => $this->hosting_id,
             'hosting_name' => $this->hosting->name,
+            'service_git_repo' => $this->serviceVersion->service->git_repo,
             'url' => $this->url,
             'role' => $this->role,
             'statut' => $this->statut,

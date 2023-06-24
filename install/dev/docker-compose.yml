@@ -29,6 +29,8 @@ services:
         - "${HTTP}:3000"
       volumes:
         -  ${FRONT_SOURCE_VOLUME}:/var/www
+      depends_on:
+        - api
 
   nginx:
       image: nginx:latest
@@ -46,6 +48,11 @@ services:
         - MYUSER=${MYUSER}
       volumes:
         -  ${API_SOURCE_VOLUME}:/var/www
+      depends_on:
+        - nginx
+        - redis
+        - mariadb
+        - meilisearch
 
   redis:
     image: redis
@@ -62,3 +69,6 @@ services:
       - ${DATA_VOLUME}/meili_data:/meili_data
     ports:
      - "7700:7700"
+    depends_on:
+      - mariadb
+

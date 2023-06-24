@@ -28,6 +28,7 @@ import {
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGitAlt } from "@fortawesome/free-brands-svg-icons";
+import LinkIcon from "@mui/icons-material/Link";
 
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Tag from "@components/styled/Tag";
@@ -98,15 +99,31 @@ const ServiceInstanceCard = (instance) => {
               size="small"
             />
             &nbsp;
-            <Tag
-              label={
-                <Link href={instance?.url} target="_blank" rel="noopener">
-                  <FontAwesomeIcon icon={faGitAlt} />
-                  &nbsp;{t("resources.services.fields.git_repo")}
-                </Link>
-              }
-              size="small"
-            />
+            {instance?.service_git_repo ? (
+              <Link
+                href={instance?.service_git_repo}
+                target="_blank"
+                rel="noopener"
+              >
+                <Tag
+                  label={t("resources.services.fields.git_repo")}
+                  icon={<FontAwesomeIcon icon={faGitAlt} />}
+                  size="small"
+                  sx={{ cursor: "pointer" }}
+                />
+              </Link>
+            ) : null}
+            &nbsp;
+            {instance?.url ? (
+              <Link href={instance?.url} target="_blank" rel="noopener">
+                <Tag
+                  label={t("resources.service_instances.fields.url")}
+                  icon={<LinkIcon />}
+                  size="small"
+                  sx={{ cursor: "pointer" }}
+                />
+              </Link>
+            ) : null}
             &nbsp;
             {instance?.role ? (
               <Tag

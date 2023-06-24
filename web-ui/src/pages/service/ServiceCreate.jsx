@@ -29,6 +29,7 @@ import Typography from "@mui/material/Typography";
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import ServiceDefaultSchema from "./ServiceDefaultSchema";
 import WithPermission from "@components/WithPermission";
+import OptionalFieldTitle from "@components/form/OptionalFieldTitle";
 
 const ServiceCreate = () => {
   const location = useLocation();
@@ -43,7 +44,15 @@ const ServiceCreate = () => {
       <Create>
         <SimpleForm resolver={yupResolver(ServiceDefaultSchema)}>
           <TextInput source="name" fullWidth />
-          <TextInput source="git_repo" fullWidth />
+          <TextInput
+            source="git_repo"
+            fullWidth
+            label={
+              <OptionalFieldTitle
+                label={t("resources.services.fields.git_repo")}
+              />
+            }
+          />
           <ReferenceInput
             source="team_id"
             reference="teams"
