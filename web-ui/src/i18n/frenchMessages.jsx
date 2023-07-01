@@ -310,6 +310,4 @@ const frenchMessages = {
   "Version added": "Version ajoutée",
 };
 
-console.log(frenchMessages);
-
 export default frenchMessages;
