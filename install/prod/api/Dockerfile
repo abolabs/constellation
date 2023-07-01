@@ -35,12 +35,15 @@ RUN apt-get update -yqq && \
     libpcre3-dev \
     libtidy-dev \
     libfontconfig \
-    libxrender1
+    libxrender1 \
+    libyaml-dev
 # Add user
 RUN useradd -ms /bin/bash -G www-data ${MYUSER} || echo "User already exists."
 
 # Install PHP EXTENSIONS
 RUN docker-php-ext-install ldap mbstring pdo_mysql curl intl gd xml zip bz2 opcache
+
+RUN pecl install yaml && docker-php-ext-enable yaml
 
 # COMPOSER
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer

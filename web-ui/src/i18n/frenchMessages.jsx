@@ -24,6 +24,7 @@ const frenchMessages = {
       create: "Créer",
       send: "Envoyer",
       impact_detection: "Détection d'impact",
+      import: "Importer",
     },
   },
   resources: {
@@ -52,6 +53,10 @@ const frenchMessages = {
     "by-hosting": {
       // not a dedicated resources, but needed for the breadcrumd
       name: "Hébergments",
+    },
+    import: {
+      // not a dedicated resources, but needed for the breadcrumd
+      name: "Importer",
     },
     service_instances: {
       name: "Instances de service",
@@ -308,6 +313,7 @@ const frenchMessages = {
   "Service instances / Service": "Instances de services / Service",
   "New version": "Nouvelle version",
   "Version added": "Version ajoutée",
+  "Application imported": "Application importée",
 };
 
 export default frenchMessages;

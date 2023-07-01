@@ -19,14 +19,19 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateApplicationAPIRequest;
+use App\Http\Requests\API\ImportApplicationAPIRequest;
 use App\Http\Requests\API\GetListAppBaseAPIRequest;
 use App\Http\Requests\API\UpdateApplicationAPIRequest;
 use App\Http\Resources\ApplicationResource;
 use App\Http\Resources\ServiceInstanceResource;
 use App\Models\Application;
 use App\Models\Environment;
+use App\Models\Service;
 use App\Models\ServiceInstance;
+use App\Models\ServiceInstanceDependencies;
+use App\Models\ServiceVersion;
 use App\Repositories\ApplicationRepository;
+use DB;
 use Illuminate\Http\Request;
 use Lang;
 use Response;
@@ -143,6 +148,88 @@ class ApplicationAPIController extends AppBaseController
         $application = $this->applicationRepository->create($input);
 
         return $this->sendResponse(new ApplicationResource($application), Lang::get('application.saved_confirm'));
+    }
+
+    public function import(ImportApplicationAPIRequest $request)
+    {
+        try {
+            $input = $request->all();
+
+            DB::transaction(function () use ($input) {
+                $application = Application::firstOrCreate([
+                    'name' => $input['name'],
+                    'team_id' => $input['team_id'],
+                ]);
+
+                list($_contentType, $base64File) = explode(";base64,", $input['stack_file'], 2);
+                $decodedFile = base64_decode($base64File);
+                $stack = yaml_parse($decodedFile);
+                $servicesInstances = [];
+                foreach ($stack['services'] as $serviceName => $serviceProps) {
+                    $service = Service::firstOrCreate([
+                        'team_id' => $input['team_id'],
+                        'name' => $serviceName
+                    ]);
+                    $version = "latest";
+                    if (isset($serviceProps['image'])) {
+                        $imageProps = explode(":", $serviceProps['image']);
+                        $version = isset($imageProps[1]) ? $imageProps[1] : "latest";
+                    }
+                    $serviceVersion = ServiceVersion::firstOrCreate([
+                        'service_id' => $service->id,
+                        'version' => $version,
+                    ]);
+                    $serviceNb = 1;
+                    if (isset($serviceProps['deploy']) && isset($serviceProps['deploy']['replicas'])) {
+                        $serviceNb = $serviceProps['deploy']['replicas'];
+                    }
+                    $deps = [];
+                    if (isset($serviceProps['depends_on']) && is_array($serviceProps['depends_on'])) {
+                        foreach ($serviceProps['depends_on'] as $depKey => $depValue) {
+                            if (isset($stack['services'][$depKey])) {
+                                $deps[] = $depKey;
+                                continue;
+                            }
+                            if (isset($stack['services'][$depValue])) {
+                                $deps[] = $depValue;
+                            }
+                        }
+                    }
+                    for ($i = 1; $i <= $serviceNb; $i++) {
+                        $serviceInstance = ServiceInstance::create([
+                            'application_id' => $application->id,
+                            'service_version_id' => $serviceVersion->id,
+                            'environment_id' => $input['environment_id'],
+                            'hosting_id' => $input['hosting_id'],
+                            'statut' => true,
+                        ]);
+                        $servicesInstances[$serviceName][] = [
+                            'id' => $serviceInstance->id,
+                            'depends_on' => $deps
+                        ];
+                    }
+                }
+
+                foreach ($servicesInstances as $servicesInstance) {
+                    foreach ($servicesInstance as $serviceInstanceProps) {
+                        foreach ($serviceInstanceProps['depends_on'] as $depName) {
+                            foreach ($servicesInstances[$depName] as $serviceDepId) {
+                                ServiceInstanceDependencies::create([
+                                    'instance_id' => $serviceInstanceProps['id'],
+                                    'instance_dep_id' => $serviceDepId['id'],
+                                    'level' => 1
+                                ]);
+                            }
+                        }
+                    }
+                }
+
+                return $this->sendResponse(new ApplicationResource($application), Lang::get('application.saved_confirm'));
+            });
+        } catch (\Exception $e) {
+            \Log::error("Error during import application " . $e);
+            return $this->sendError('Error during import application', 422);
+        }
     }
 
     /**

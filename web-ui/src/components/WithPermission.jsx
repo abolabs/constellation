@@ -24,6 +24,15 @@ import PropTypes from "prop-types";
 const WithPermission = ({ permission, element, ...elementProps }) => {
   const { permissions } = usePermissions();
 
+  if (Array.isArray(permission)) {
+    permission.forEach((currentPermission) => {
+      if (!permissions?.includes(currentPermission)) {
+        return <Navigate to="/" />;
+      }
+    });
+    return createElement(element, elementProps);
+  }
+
   if (permission && !permissions?.includes(permission)) {
     return <Navigate to="/" />;
   }
@@ -33,7 +42,10 @@ const WithPermission = ({ permission, element, ...elementProps }) => {
 };
 
 WithPermission.propTypes = {
-  permission: PropTypes.string.isRequired,
+  permission: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.array.isRequired,
+  ]),
   element: PropTypes.func.isRequired,
   elementProps: PropTypes.object,
 };

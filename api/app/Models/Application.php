@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 
 /**
  * @SWG\Definition(
@@ -65,8 +66,11 @@ class Application extends Model implements Auditable
     use SoftDeletes;
     use HasFactory;
     use Searchable;
+    use CascadeSoftDeletes;
 
     public $table = 'application';
+
+    protected $cascadeDeletes = ['serviceInstances'];
 
     protected $dates = ['deleted_at'];
 
@@ -97,11 +101,19 @@ class Application extends Model implements Auditable
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
     public function team()
     {
         return $this->belongsTo(\App\Models\Team::class, 'team_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function serviceInstances()
+    {
+        return $this->hasMany(ServiceInstance::class, 'application_id', 'id');
     }
 
     /**
@@ -117,5 +129,15 @@ class Application extends Model implements Auditable
             'team_id' => $this->team_id,
             'team_name' => $this->team->name,
         ];
+    }
+
+    /**
+     * Determine if the model should be searchable.
+     *
+     * @return bool
+     */
+    public function shouldBeSearchable()
+    {
+        return $this->delete_at === null;
     }
 }
