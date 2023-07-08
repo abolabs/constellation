@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ApplicationAPIController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\PasswordResetAPIController;
 use App\Http\Controllers\API\InfraAPIController;
@@ -39,6 +40,7 @@ Route::group([
     Route::apiResource('hostings', HostingAPIController::class, ['names' => 'v1.hostings']);
     Route::apiResource('teams', TeamAPIController::class, ['names' => 'v1.teams']);
     Route::apiResource('applications', ApplicationAPIController::class, ['names' => 'v1.applications']);
+    Route::post('/applications/import', [ApplicationAPIController::class, 'import'], ['names' => 'v1.applications.import']);
     Route::apiResource('services', ServiceAPIController::class, ['names' => 'v1.services']);
     Route::apiResource('service_versions', ServiceVersionAPIController::class, ['names' => 'v1.serviceVersions']);
     Route::apiResource('service_instances', ServiceInstanceAPIController::class, ['names' => 'v1.service_instances']);

@@ -20,10 +20,11 @@ import {
   ExportButton,
 } from "react-admin";
 
-const DefaultToolBar = ({ canCreate = true }) => (
+const DefaultToolBar = ({ canCreate = true, children }) => (
   <TopToolbar>
     <FilterButton />
     {canCreate ? <CreateButton /> : null}
+    {children}
     <ExportButton />
   </TopToolbar>
 );

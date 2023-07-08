@@ -26,9 +26,10 @@ import {
   usePermissions,
   useTranslate,
 } from "react-admin";
-import { useMediaQuery } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { Button, useMediaQuery } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
@@ -69,7 +70,18 @@ const ApplicationList = (props) => {
         actions={
           <DefaultToolBar
             canCreate={permissions.includes("create applications")}
-          />
+          >
+            <Link to="/applications/import">
+              <Button
+                startIcon={<UploadFileIcon />}
+                variant="text"
+                size="small"
+                sx={{ lineHeight: "inherit" }}
+              >
+                {t("ra.action.import")}
+              </Button>
+            </Link>
+          </DefaultToolBar>
         }
       >
         {isSmall ? (

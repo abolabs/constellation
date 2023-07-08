@@ -265,7 +265,6 @@ const ServiceShowLayout = () => {
               object="services"
               record={record}
               title={record?.name}
-              canDelete={!record?.meta?.serviceByApplication?.length}
             />
             <CardContent>
               <List

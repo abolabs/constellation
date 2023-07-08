@@ -24,7 +24,6 @@ import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   Container,
@@ -137,7 +136,7 @@ const LoginPage = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {t('ra.auth.sign_in')}
+              {t("ra.auth.sign_in")}
             </Button>
             <Grid container>
               <Grid item xs>
@@ -169,7 +168,9 @@ const LoginPage = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseNoAccountModal}>{t("ra.action.close")}</Button>
+          <Button onClick={handleCloseNoAccountModal}>
+            {t("ra.action.close")}
+          </Button>
         </DialogActions>
       </Dialog>
     </ThemeProvider>

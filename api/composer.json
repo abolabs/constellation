@@ -10,6 +10,7 @@
   "require": {
     "php": "^8.2",
     "corbosman/laravel-passport-claims": "^5",
+    "dyrynda/laravel-cascade-soft-deletes": "^4.3",
     "guzzlehttp/guzzle": "^7.5",
     "guzzlehttp/psr7": "^2.5",
     "http-interop/http-factory-guzzle": "^1.2",

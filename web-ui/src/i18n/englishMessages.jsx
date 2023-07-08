@@ -24,6 +24,7 @@ const englishMessages = {
       create: "Create",
       send: "Send",
       impact_detection: "Impact detection",
+      import: "Import",
     },
   },
   resources: {
@@ -52,6 +53,10 @@ const englishMessages = {
     "by-hosting": {
       // not a dedicated resources, but needed for the breadcrumd
       name: "Hostings",
+    },
+    import: {
+      // not a dedicated resources, but needed for the breadcrumd
+      name: "Import",
     },
     service_instances: {
       name: "Service instances",
@@ -304,6 +309,7 @@ const englishMessages = {
   "Service instances / Service": "Service instances / Service",
   "New version": "New version",
   "Version added": "Version added",
+  "Application imported": "Application imported",
 };
 
 export default englishMessages;

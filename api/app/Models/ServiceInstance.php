@@ -17,6 +17,7 @@
 
 namespace App\Models;
 
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -46,8 +47,11 @@ class ServiceInstance extends Model implements Auditable
     use SoftDeletes;
     use HasFactory;
     use Searchable;
+    use CascadeSoftDeletes;
 
     public $table = 'service_instance';
+
+    protected $cascadeDeletes = ['serviceInstanceSourceDeps', 'serviceInstanceTargetDeps'];
 
     protected $dates = ['deleted_at'];
 
@@ -124,6 +128,22 @@ class ServiceInstance extends Model implements Auditable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function serviceInstanceSourceDeps()
+    {
+        return $this->hasMany(ServiceInstanceDependencies::class, 'instance_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function serviceInstanceTargetDeps()
+    {
+        return $this->hasMany(ServiceInstanceDependencies::class, 'instance_dep_id', 'id');
+    }
+
+    /**
      * Get the value used to index the model.
      *
      * @return mixed
@@ -181,7 +201,7 @@ class ServiceInstance extends Model implements Auditable
                 ->first()
                 ->toArray();
         } catch (\Throwable $e) {
-            \Log::error(' getMainEnvironment '.$e);
+            \Log::error(' getMainEnvironment ' . $e);
         }
 
         if (empty($env)) {

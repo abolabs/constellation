@@ -39,6 +39,7 @@ import ApplicationList from "@pages/application/ApplicationList";
 import ApplicationShow from "@pages/application/ApplicationShow";
 import ApplicationCreate from "@pages/application/ApplicationCreate";
 import ApplicationEdit from "@pages/application/ApplicationEdit";
+import ApplicationImport from "@pages/application/ApplicationImport";
 import ServiceList from "@pages/service/ServiceList";
 import ServiceShow from "@pages/service/ServiceShow";
 import ServiceEdit from "@pages/service/ServiceEdit";
@@ -186,6 +187,10 @@ const App = () => {
                   <Route
                     path="/account/*"
                     element={<Navigate to="/account/edit" />}
+                  />
+                  <Route
+                    path="/applications/import"
+                    element={<ApplicationImport />}
                   />
                 </CustomRoutes>
                 <Resource
