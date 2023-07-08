@@ -106,6 +106,7 @@ stages:
     --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
     --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
     --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
+    --label "org.opencontainers.image.vendor=https://gitlab.com/abolabs/"
     --tag $CI_REGISTRY_IMAGE/${SERVICE_NAME}:$CI_COMMIT_SHA
     --build-arg GIT_BRANCH="${CI_COMMIT_REF_NAME}"
     --build-arg MYUSER="constellation_user"
@@ -138,7 +139,6 @@ prebuild-api:
     - docker:24-dind
   script:
     - *script-docker-registry-login
-    - docker pull $CI_REGISTRY_IMAGE/api:ci || true
     # builds the project, using OCI labels
     # notice the cache-from, which is going to use the image we just pulled locally
     # the built image is tagged locally with the commit SHA, and then pushed to
@@ -152,6 +152,7 @@ prebuild-api:
       --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
       --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
       --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
+      --label "org.opencontainers.image.vendor=https://gitlab.com/abolabs/"
       --tag $CI_REGISTRY_IMAGE/api:ci
       ./install/CI/api
     - docker push $CI_REGISTRY_IMAGE/api:ci
