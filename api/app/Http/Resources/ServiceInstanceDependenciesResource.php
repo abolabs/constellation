@@ -18,9 +18,84 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "ServiceInstanceDependencies",
+    schema: "resource-service-instance-dependencies",
+    description: "Service instance dependencies resource",
+    type: "object"
+)]
 class ServiceInstanceDependenciesResource extends JsonResource
 {
+    #[OAT\Property(
+        property: "id",
+        description: "Id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "instance_application_id",
+        description: "Instance application id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "instance_application_name",
+        description: "Instance application name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "instance_id",
+        description: "Instance id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "instance_service_name",
+        description: "Instance service name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "instance_dep_application_id",
+        description: "Application id of the instance dependency",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "instance_dep_application_name",
+        description: "Application name of the instance dependency",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "instance_dep_id",
+        description: "Instance dependency id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "instance_dep_service_name",
+        description: "Service name of the instance dependency",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "level",
+        description: "Dependency level (1: minor, 2: major, 3: critical)",
+        type: "integer",
+        enum: [1, 2, 3]
+    )]
+    #[OAT\Property(
+        property: "description",
+        description: "Dependency description",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "created_at",
+        description: "created_at",
+        type: "string",
+        format: "date-time"
+    )]
+    #[OAT\Property(
+        property: "updated_at",
+        description: "updated_at",
+        type: "string",
+        format: "date-time"
+    )]
     /**
      * Transform the resource into an array.
      *

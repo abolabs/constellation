@@ -18,13 +18,20 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\OAT\Responses\NotFoundDeleteResponse;
+use App\Http\OAT\Responses\NotFoundItemResponse;
+use App\Http\OAT\Responses\SuccessCreateResponse;
+use App\Http\OAT\Responses\SuccessDeleteResponse;
+use App\Http\OAT\Responses\SuccessGetListResponse;
+use App\Http\OAT\Responses\SuccessGetViewResponse;
+use App\Http\OAT\Responses\UnprocessableContentResponse;
 use App\Http\Requests\API\CreateServiceVersionAPIRequest;
 use App\Http\Requests\API\UpdateServiceVersionAPIRequest;
 use App\Http\Resources\ServiceVersionResource;
 use App\Models\ServiceVersion;
 use App\Repositories\ServiceVersionRepository;
 use Illuminate\Http\Request;
-use Response;
+use OpenApi\Attributes as OAT;
 
 /**
  * Class ServiceVersionController.
@@ -41,41 +48,39 @@ class ServiceVersionAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/serviceVersions",
-     *      summary="Get a listing of the ServiceVersions.",
-     *      tags={"ServiceVersion"},
-     *      description="Get all ServiceVersions",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @SWG\Items(ref="#/definitions/ServiceVersion")
-     *              ),
-     *
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Index
      */
+    #[OAT\Get(
+        path: '/v1/service_versions',
+        operationId: 'getServiceVersions',
+        summary: "Get a listing of the service versions",
+        description: "Get all service versions.",
+        tags: ["Service version"],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-per-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-sort'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-q'),
+            new OAT\Parameter(
+                name: "filter[id]",
+                description: "Filter by service version id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+            new OAT\Parameter(
+                name: "filter[service_id]",
+                description: "Filter by service id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+        ],
+        responses: [
+            new SuccessGetListResponse(
+                description: 'Service versions list',
+                resourceSchema: '#/components/schemas/resource-service-version'
+            )
+        ]
+    )]
     public function index(Request $request)
     {
         $serviceVersions = $this->serviceVersionRepository->apiAll(
@@ -86,224 +91,171 @@ class ServiceVersionAPIController extends AppBaseController
         );
         $serviceVersions->load('service');
 
-        return $this->sendResponse(ServiceVersionResource::collection($serviceVersions), 'Service Versions retrieved successfully', $serviceVersions->total());
+        return $this->sendResponse(
+            result: ServiceVersionResource::collection($serviceVersions),
+            message: 'Service versions successfully retrieved',
+            total: $serviceVersions->total()
+        );
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Post(
-     *      path="/serviceVersions",
-     *      summary="Store a newly created ServiceVersion in storage",
-     *      tags={"ServiceVersion"},
-     *      description="Store ServiceVersion",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="ServiceVersion that should be stored",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/ServiceVersion")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/ServiceVersion"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Store
      */
+    #[OAT\Post(
+        path: '/v1/service_versions',
+        operationId: 'storeServiceVersion',
+        summary: "Store a service version",
+        description: "Store a service version.",
+        tags: ["Service version"],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-service-version'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Created service version data.',
+                resourceSchema: '#/components/schemas/resource-service-version'
+            ),
+            new UnprocessableContentResponse()
+        ]
+    )]
     public function store(CreateServiceVersionAPIRequest $request)
     {
         $input = $request->all();
 
         $serviceVersion = $this->serviceVersionRepository->create($input);
 
-        return $this->sendResponse(new ServiceVersionResource($serviceVersion), 'Service Version saved successfully');
+        return $this->sendResponse(
+            result: new ServiceVersionResource($serviceVersion),
+            message: 'Service version successfully saved'
+        );
     }
 
     /**
-     * @param  ServiceVersion $serviceVersion
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/serviceVersions/{id}",
-     *      summary="Display the specified ServiceVersion",
-     *      tags={"ServiceVersion"},
-     *      description="Get ServiceVersion",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of ServiceVersion",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/ServiceVersion"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * View
      */
+    #[OAT\Get(
+        path: '/v1/service_versions/{id}',
+        operationId: 'showServiceVersion',
+        summary: "Display the specified service version",
+        description: "Get a service version.",
+        tags: ["Service version"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the service version",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessGetViewResponse(
+                description: 'Service version detail',
+                resourceSchema: '#/components/schemas/resource-service-version'
+            ),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function show(ServiceVersion $serviceVersion)
     {
         if (empty($serviceVersion)) {
-            return $this->sendError('Service Version not found');
+            return $this->sendError('Service version not found');
         }
 
-        return $this->sendResponse(new ServiceVersionResource($serviceVersion), 'Service Version retrieved successfully');
+        return $this->sendResponse(
+            result: new ServiceVersionResource($serviceVersion),
+            message: 'Service version successfully retrieved'
+        );
     }
 
     /**
-     * @param  ServiceVersion $serviceVersion
-     * @return Response
-     *
-     * @SWG\Put(
-     *      path="/serviceVersions/{id}",
-     *      summary="Update the specified ServiceVersion in storage",
-     *      tags={"ServiceVersion"},
-     *      description="Update ServiceVersion",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of ServiceVersion",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="ServiceVersion that should be updated",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/ServiceVersion")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/ServiceVersion"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Update
      */
+    #[OAT\Put(
+        path: '/v1/service_versions/{id}',
+        operationId: 'updateServiceVersion',
+        summary: "Update an service version",
+        description: "Update an service version.",
+        tags: ["Service version"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the service version",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-service-version'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Updated service version data.',
+                resourceSchema: '#/components/schemas/resource-service-version'
+            ),
+            new UnprocessableContentResponse(),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function update(ServiceVersion $serviceVersion, UpdateServiceVersionAPIRequest $request)
     {
         $input = $request->all();
 
         if (empty($serviceVersion)) {
-            return $this->sendError('Service Version not found');
+            return $this->sendError('Service version not found');
         }
 
         $serviceVersion = $this->serviceVersionRepository->update($input, $serviceVersion->id);
 
-        return $this->sendResponse(new ServiceVersionResource($serviceVersion), 'ServiceVersion updated successfully');
+        return $this->sendResponse(
+            result: new ServiceVersionResource($serviceVersion),
+            message: 'Service version successfully updated'
+        );
     }
 
     /**
-     * @param  ServiceVersion $serviceVersion
-     * @return Response
-     *
-     * @SWG\Delete(
-     *      path="/serviceVersions/{id}",
-     *      summary="Remove the specified ServiceVersion from storage",
-     *      tags={"ServiceVersion"},
-     *      description="Delete ServiceVersion",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of ServiceVersion",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Delete
      */
+    #[OAT\Delete(
+        path: '/v1/service_versions/{id}',
+        operationId: 'deleteServiceVersion',
+        summary: "Delete an service version",
+        description: "Remove the specified service version from storage.",
+        tags: ["Service version"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the service version",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessDeleteResponse(
+                description: 'Service version deleted.'
+            ),
+            new NotFoundDeleteResponse(
+                description: 'Service version not found.',
+            ),
+        ]
+    )]
     public function destroy(ServiceVersion $serviceVersion)
     {
         if (empty($serviceVersion)) {
-            return $this->sendError('Service Version not found');
+            return $this->sendError('Service version not found');
         }
 
         $serviceVersion->delete();
 
-        return $this->sendSuccess('Service Version deleted successfully');
+        return $this->sendSuccess('Service version successfully deleted');
     }
 }

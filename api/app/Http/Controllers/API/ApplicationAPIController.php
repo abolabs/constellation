@@ -18,6 +18,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\OAT\Responses\NotFoundDeleteResponse;
+use App\Http\OAT\Responses\SuccessCreateResponse;
+use App\Http\OAT\Responses\SuccessGetListResponse;
+use App\Http\OAT\Responses\NotFoundItemResponse;
+use App\Http\OAT\Responses\SuccessDeleteResponse;
+use App\Http\OAT\Responses\SuccessGetViewResponse;
+use App\Http\OAT\Responses\UnprocessableContentResponse;
 use App\Http\Requests\API\CreateApplicationAPIRequest;
 use App\Http\Requests\API\ImportApplicationAPIRequest;
 use App\Http\Requests\API\GetListAppBaseAPIRequest;
@@ -32,9 +39,9 @@ use App\Models\ServiceInstanceDependencies;
 use App\Models\ServiceVersion;
 use App\Repositories\ApplicationRepository;
 use DB;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Lang;
-use Response;
+use OpenApi\Attributes as OAT;
 
 /**
  * Class ApplicationController.
@@ -51,43 +58,46 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @param  Request  $request
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/applications",
-     *      summary="Get a listing of the Applications.",
-     *      tags={"Application"},
-     *      description="Get all Applications",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @SWG\Items(ref="#/definitions/Application")
-     *              ),
-     *
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Index
      */
-    public function index(GetListAppBaseAPIRequest $request)
+    #[OAT\Get(
+        path: '/v1/applications',
+        operationId: 'getApplications',
+        summary: "Get a listing of the applications.",
+        description: "Get all Applications",
+        tags: ["Application"],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-per-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-sort'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-q'),
+            new OAT\Parameter(
+                name: "filter[id]",
+                description: "Filter by id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "string")
+            ),
+            new OAT\Parameter(
+                name: "filter[name]",
+                description: "Filter by name.",
+                in: 'query',
+                schema: new OAT\Schema(type: "string")
+            ),
+            new OAT\Parameter(
+                name: "filter[team_id]",
+                description: "Filter by team id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+        ],
+        responses: [
+            new SuccessGetListResponse(
+                description: 'Applications list',
+                resourceSchema: '#/components/schemas/resource-application'
+            ),
+        ]
+    )]
+    public function index(GetListAppBaseAPIRequest $request): JsonResponse
     {
         $applications = $this->applicationRepository->apiAll(
             $request->except(['perPage', 'page', 'sort']),
@@ -100,48 +110,28 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Post(
-     *      path="/applications",
-     *      summary="Store a newly created Application in storage",
-     *      tags={"Application"},
-     *      description="Store Application",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Application that should be stored",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Application")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Application"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Store
      */
-    public function store(CreateApplicationAPIRequest $request)
+    #[OAT\Post(
+        path: '/v1/applications',
+        operationId: 'storeApplication',
+        summary: "Store an application.",
+        description: "Store an application.",
+        tags: ["Application"],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-application'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Created application data.',
+                resourceSchema: '#/components/schemas/resource-application'
+            ),
+            new UnprocessableContentResponse()
+        ]
+    )]
+    public function store(CreateApplicationAPIRequest $request): JsonResponse
     {
         $input = $request->all();
 
@@ -150,6 +140,28 @@ class ApplicationAPIController extends AppBaseController
         return $this->sendResponse(new ApplicationResource($application), Lang::get('application.saved_confirm'));
     }
 
+    /**
+     * Import from docker-compose.yml file
+     */
+    #[OAT\Post(
+        path: '/v1/applications/import',
+        operationId: 'importApplication',
+        summary: "Import an application.",
+        description: "Import an application from a docker-compose.yml file (base64 encoded).",
+        tags: ["Application"],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-import-application'
+            )
+        ),
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'Created application data.'
+            ),
+            new UnprocessableContentResponse()
+        ]
+    )]
     public function import(ImportApplicationAPIRequest $request)
     {
         try {
@@ -233,48 +245,33 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @param  Application $application
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/applications/{application}",
-     *      summary="Display the specified Application",
-     *      tags={"Application"},
-     *      description="Get Application",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Application",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Application"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * View
      */
-    public function show(Application $application)
+    #[OAT\Get(
+        path: '/v1/applications/{id}',
+        operationId: 'showApplication',
+        summary: "Display the specified Application.",
+        description: "Get Application",
+        tags: ["Application"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the application",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessGetViewResponse(
+                description: 'Application detail',
+                resourceSchema: '#/components/schemas/resource-application'
+            ),
+            new NotFoundItemResponse()
+        ]
+    )]
+    public function show(Application $application): JsonResponse
     {
         if (empty($application)) {
             return $this->sendError(Lang::get('application.not_found'));
@@ -301,56 +298,39 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
-     * @return Response
-     *
-     * @SWG\Put(
-     *      path="/applications/{id}",
-     *      summary="Update the specified Application in storage",
-     *      tags={"Application"},
-     *      description="Update Application",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Application",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Application that should be updated",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Application")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Application"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Update
      */
-    public function update(Application $application, UpdateApplicationAPIRequest $request)
+    #[OAT\Put(
+        path: '/v1/applications/{id}',
+        operationId: 'updateApplication',
+        summary: "Update an application.",
+        description: "Update an application.",
+        tags: ["Application"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the application",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-application'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Updated application data.',
+                resourceSchema: '#/components/schemas/resource-application'
+            ),
+            new UnprocessableContentResponse(),
+            new NotFoundItemResponse()
+        ]
+    )]
+    public function update(Application $application, UpdateApplicationAPIRequest $request): JsonResponse
     {
         $input = $request->all();
 
@@ -364,48 +344,34 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
-     * @return Response
-     *
-     * @SWG\Delete(
-     *      path="/applications/{id}",
-     *      summary="Remove the specified Application from storage",
-     *      tags={"Application"},
-     *      description="Delete Application",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Application",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Delete
      */
-    public function destroy($id)
+    #[OAT\Delete(
+        path: '/v1/applications/{id}',
+        operationId: 'deleteApplication',
+        summary: "Delete an application.",
+        description: "Delete an application and all the associated service instances.",
+        tags: ["Application"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the application",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessDeleteResponse(
+                description: 'Application deleted.'
+            ),
+            new NotFoundDeleteResponse(
+                description: 'Application not found.',
+            )
+        ]
+    )]
+    public function destroy($id): JsonResponse
     {
         /** @var Application $application */
         $application = $this->applicationRepository->find($id);

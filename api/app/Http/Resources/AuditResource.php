@@ -18,9 +18,94 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OAT;
+
+#[OAT\Schema(
+    title: "Audit",
+    schema: "resource-audit",
+    description: "Audit resource",
+    type: "object"
+)]
 
 class AuditResource extends JsonResource
 {
+    #[OAT\Property(
+        property: "id",
+        description: "Id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "user_type",
+        description: "User type",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "user_id",
+        description: "User id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "user_name",
+        description: "User name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "event",
+        description: "Event",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "auditable_type",
+        description: "Auditable type",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "auditable_id",
+        description: "Auditable id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "old_values",
+        description: "Old values",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "new_values",
+        description: "New values",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "url",
+        description: "Url",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "ip_address",
+        description: "Ip address",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "user_agent",
+        description: "User-agent",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "tags",
+        description: "Tags",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "created_at",
+        description: "Creation date",
+        type: "string",
+        format: "date-time"
+    )]
+    #[OAT\Property(
+        property: "updated_at",
+        description: "Last update date",
+        type: "string",
+        format: "date-time"
+    )]
     /**
      * Transform the resource into an array.
      *

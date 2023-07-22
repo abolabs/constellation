@@ -18,6 +18,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\OAT\Responses\NotFoundDeleteResponse;
+use App\Http\OAT\Responses\SuccessCreateResponse;
+use App\Http\OAT\Responses\SuccessGetListResponse;
+use App\Http\OAT\Responses\NotFoundItemResponse;
+use App\Http\OAT\Responses\SuccessDeleteResponse;
+use App\Http\OAT\Responses\SuccessGetViewResponse;
+use App\Http\OAT\Responses\UnprocessableContentResponse;
 use App\Http\Requests\API\CreateHostingTypeAPIRequest;
 use App\Http\Requests\API\UpdateHostingTypeAPIRequest;
 use App\Http\Resources\HostingTypeResource;
@@ -25,7 +32,7 @@ use App\Models\HostingType;
 use App\Repositories\HostingTypeRepository;
 use Illuminate\Http\Request;
 use Lang;
-use Response;
+use OpenApi\Attributes as OAT;
 
 /**
  * Class HostingTypeController.
@@ -42,41 +49,33 @@ class HostingTypeAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/hostingTypes",
-     *      summary="Get a listing of the HostingTypes.",
-     *      tags={"HostingType"},
-     *      description="Get all HostingTypes",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @SWG\Items(ref="#/definitions/HostingType")
-     *              ),
-     *
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Index
      */
+    #[OAT\Get(
+        path: '/v1/hosting_types',
+        operationId: 'getHostingTypes',
+        summary: "Get a listing of the hosting types",
+        description: "Get all hosting types.",
+        tags: ["Hosting type"],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-per-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-sort'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-q'),
+            new OAT\Parameter(
+                name: "filter[id]",
+                description: "Filter by hosting type id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+        ],
+        responses: [
+            new SuccessGetListResponse(
+                description: 'Hosting types list',
+                resourceSchema: '#/components/schemas/resource-hosting-type'
+            ),
+        ]
+    )]
     public function index(Request $request)
     {
         $hostingTypes = $this->hostingTypeRepository->apiAll(
@@ -90,47 +89,27 @@ class HostingTypeAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Post(
-     *      path="/hostingTypes",
-     *      summary="Store a newly created HostingType in storage",
-     *      tags={"HostingType"},
-     *      description="Store HostingType",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="HostingType that should be stored",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/HostingType")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/HostingType"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Store
      */
+    #[OAT\Post(
+        path: '/v1/hosting_types',
+        operationId: 'storeHostingType',
+        summary: "Store an hosting type",
+        description: "Store an hosting type.",
+        tags: ["Hosting type"],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-hosting-type'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Created hosting type data.',
+                resourceSchema: '#/components/schemas/resource-hosting-type'
+            ),
+            new UnprocessableContentResponse()
+        ]
+    )]
     public function store(CreateHostingTypeAPIRequest $request)
     {
         $input = $request->all();
@@ -141,47 +120,32 @@ class HostingTypeAPIController extends AppBaseController
     }
 
     /**
-     * @param  HostingType $hostingType
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/hostingTypes/{id}",
-     *      summary="Display the specified HostingType",
-     *      tags={"HostingType"},
-     *      description="Get HostingType",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of HostingType",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/HostingType"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * View
      */
+    #[OAT\Get(
+        path: '/v1/hosting_types/{id}',
+        operationId: 'showHostingType',
+        summary: "Display the specified hosting type",
+        description: "Get an hosting type.",
+        tags: ["Hosting type"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the hosting type",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessGetViewResponse(
+                description: 'Hosting type detail',
+                resourceSchema: '#/components/schemas/resource-hosting-type'
+            ),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function show(HostingType $hostingType)
     {
         if (empty($hostingType)) {
@@ -192,55 +156,38 @@ class HostingTypeAPIController extends AppBaseController
     }
 
     /**
-     * @param  HostingType $hostingType
-     * @return Response
-     *
-     * @SWG\Put(
-     *      path="/hostingTypes/{id}",
-     *      summary="Update the specified HostingType in storage",
-     *      tags={"HostingType"},
-     *      description="Update HostingType",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of HostingType",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="HostingType that should be updated",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/HostingType")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/HostingType"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Update
      */
+    #[OAT\Put(
+        path: '/v1/hosting_types/{id}',
+        operationId: 'updateHostingType',
+        summary: "Update an hostingType",
+        description: "Update an hosting type.",
+        tags: ["Hosting type"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the hosting type",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-hosting-type'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Updated hosting type data.',
+                resourceSchema: '#/components/schemas/resource-hosting-type'
+            ),
+            new UnprocessableContentResponse(),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function update(HostingType $hostingType, UpdateHostingTypeAPIRequest $request)
     {
         $input = $request->all();
@@ -255,47 +202,33 @@ class HostingTypeAPIController extends AppBaseController
     }
 
     /**
-     * @param  HostingType $hostingType
-     * @return Response
-     *
-     * @SWG\Delete(
-     *      path="/hostingTypes/{id}",
-     *      summary="Remove the specified HostingType from storage",
-     *      tags={"HostingType"},
-     *      description="Delete HostingType",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of HostingType",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Delete
      */
+    #[OAT\Delete(
+        path: '/v1/hosting_types/{id}',
+        operationId: 'deleteHostingType',
+        summary: "Delete an hosting type",
+        description: "Remove the specified hosting type from storage.",
+        tags: ["Hosting type"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the hosting type",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessDeleteResponse(
+                description: 'Hosting type deleted.'
+            ),
+            new NotFoundDeleteResponse(
+                description: 'Hosting type not found.',
+            ),
+        ]
+    )]
     public function destroy(HostingType $hostingType)
     {
         if (empty($hostingType)) {

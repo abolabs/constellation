@@ -18,13 +18,20 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\OAT\Responses\NotFoundDeleteResponse;
+use App\Http\OAT\Responses\NotFoundItemResponse;
+use App\Http\OAT\Responses\SuccessCreateResponse;
+use App\Http\OAT\Responses\SuccessDeleteResponse;
+use App\Http\OAT\Responses\SuccessGetListResponse;
+use App\Http\OAT\Responses\SuccessGetViewResponse;
+use App\Http\OAT\Responses\UnprocessableContentResponse;
 use App\Http\Requests\API\CreateServiceInstanceDependenciesAPIRequest;
 use App\Http\Requests\API\UpdateServiceInstanceDependenciesAPIRequest;
 use App\Http\Resources\ServiceInstanceDependenciesResource;
 use App\Models\ServiceInstanceDependencies;
 use App\Repositories\ServiceInstanceDependenciesRepository;
 use Illuminate\Http\Request;
-use Response;
+use OpenApi\Attributes as OAT;
 
 /**
  * Class ServiceInstanceDependenciesController.
@@ -41,41 +48,33 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/serviceInstanceDependencies",
-     *      summary="Get a listing of the ServiceInstanceDependencies.",
-     *      tags={"ServiceInstanceDependencies"},
-     *      description="Get all ServiceInstanceDependencies",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @SWG\Items(ref="#/definitions/ServiceInstanceDependencies")
-     *              ),
-     *
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Index
      */
+    #[OAT\Get(
+        path: '/v1/service_instance_dependencies',
+        operationId: 'getServiceInstanceDependenciess',
+        summary: "Get a listing of the service instance dependencies",
+        description: "Get all service instance dependenciess.",
+        tags: ["Service instance dependencies"],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-per-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-sort'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-q'),
+            new OAT\Parameter(
+                name: "filter[id]",
+                description: "Filter by service instance dependency id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+        ],
+        responses: [
+            new SuccessGetListResponse(
+                description: 'Service instance dependenciess list',
+                resourceSchema: '#/components/schemas/resource-service-instance-dependencies'
+            )
+        ]
+    )]
     public function index(Request $request)
     {
         $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->apiAll(
@@ -85,166 +84,129 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
             $request->sort
         );
 
-        return $this->sendResponse(ServiceInstanceDependenciesResource::collection($serviceInstanceDependencies), 'Service Instance Dependencies retrieved successfully', $serviceInstanceDependencies->total());
+        return $this->sendResponse(
+            result: ServiceInstanceDependenciesResource::collection($serviceInstanceDependencies),
+            message: 'Service instance dependencies retrieved successfully',
+            total: $serviceInstanceDependencies->total()
+        );
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Post(
-     *      path="/serviceInstanceDependencies",
-     *      summary="Store a newly created ServiceInstanceDependencies in storage",
-     *      tags={"ServiceInstanceDependencies"},
-     *      description="Store ServiceInstanceDependencies",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="ServiceInstanceDependencies that should be stored",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/ServiceInstanceDependencies")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/ServiceInstanceDependencies"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Store
      */
+    #[OAT\Post(
+        path: '/v1/service_instance_dependencies',
+        operationId: 'storeServiceInstanceDependency',
+        summary: "Store an service instance dependency",
+        description: "Store an service instance dependency.",
+        tags: ["Service instance dependencies"],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-service-instance-dependency'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Created serviceinstancedependencies data.',
+                resourceSchema: '#/components/schemas/resource-service-instance-dependencies'
+            ),
+            new UnprocessableContentResponse()
+        ]
+    )]
     public function store(CreateServiceInstanceDependenciesAPIRequest $request)
     {
         $input = $request->all();
 
         $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->create($input);
 
-        return $this->sendResponse(new ServiceInstanceDependenciesResource($serviceInstanceDependencies), 'Service Instance Dependencies saved successfully');
+        return $this->sendResponse(
+            result: new ServiceInstanceDependenciesResource($serviceInstanceDependencies),
+            message: 'Service instance dependency successfully saved'
+        );
     }
 
     /**
-     * @param  int $id
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/serviceInstanceDependencies/{id}",
-     *      summary="Display the specified ServiceInstanceDependencies",
-     *      tags={"ServiceInstanceDependencies"},
-     *      description="Get ServiceInstanceDependencies",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of ServiceInstanceDependencies",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/ServiceInstanceDependencies"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * View
      */
+    #[OAT\Get(
+        path: '/v1/service_instance_dependencies/{id}',
+        operationId: 'showServiceInstanceDependency',
+        summary: "Display the specified service instance dependency",
+        description: "Get an service instance dependency.",
+        tags: ["Service instance dependencies"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the service instance dependency",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessGetViewResponse(
+                description: 'Service instance dependency detail',
+                resourceSchema: '#/components/schemas/resource-service-instance-dependencies'
+            ),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function show(int $id)
     {
         /** @var ServiceInstanceDependencies $serviceInstanceDependencies */
         $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->find($id);
 
         if (empty($serviceInstanceDependencies)) {
-            return $this->sendError('Service Instance Dependencies not found');
+            return $this->sendError('Service instance dependency not found');
         }
 
-        $serviceInstanceDependencies->load(['serviceInstance', 'serviceInstance.application', 'serviceInstanceDep', 'serviceInstanceDep.application']);
+        $serviceInstanceDependencies->load([
+            'serviceInstance',
+            'serviceInstance.application',
+            'serviceInstanceDep',
+            'serviceInstanceDep.application'
+        ]);
 
-        return $this->sendResponse(new ServiceInstanceDependenciesResource($serviceInstanceDependencies), 'Service Instance Dependencies retrieved successfully');
+        return $this->sendResponse(
+            result: new ServiceInstanceDependenciesResource($serviceInstanceDependencies),
+            message: 'Service instance dependency retrieved successfully'
+        );
     }
 
     /**
-     * @param  ServiceInstanceDependencies $serviceInstanceDependencies
-     * @return Response
-     *
-     * @SWG\Put(
-     *      path="/serviceInstanceDependencies/{id}",
-     *      summary="Update the specified ServiceInstanceDependencies in storage",
-     *      tags={"ServiceInstanceDependencies"},
-     *      description="Update ServiceInstanceDependencies",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of ServiceInstanceDependencies",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="ServiceInstanceDependencies that should be updated",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/ServiceInstanceDependencies")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/ServiceInstanceDependencies"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Update
      */
+    #[OAT\Put(
+        path: '/v1/service_instance_dependencies/{id}',
+        operationId: 'updateServiceInstanceDependency',
+        summary: "Update a service instance dependency",
+        description: "Update a service instance dependency.",
+        tags: ["Service instance dependencies"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the service instance dependency",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-service-instance-dependency'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Updated serviceinstancedependencies data.',
+                resourceSchema: '#/components/schemas/resource-service-instance-dependencies'
+            ),
+            new UnprocessableContentResponse(),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function update(int $id, UpdateServiceInstanceDependenciesAPIRequest $request)
     {
         $input = $request->all();
@@ -253,56 +215,41 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
         $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->find($id);
 
         if (empty($serviceInstanceDependencies)) {
-            return $this->sendError('Service Instance Dependencies not found');
+            return $this->sendError('Service instance dependency not found');
         }
 
         $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->update($input, $serviceInstanceDependencies->id);
 
-        return $this->sendResponse(new ServiceInstanceDependenciesResource($serviceInstanceDependencies), 'ServiceInstanceDependencies updated successfully');
+        return $this->sendResponse(
+            result: new ServiceInstanceDependenciesResource($serviceInstanceDependencies),
+            message: 'Service instance dependency updated successfully'
+        );
     }
 
     /**
-     * @param  int $id
-     * @return Response
-     *
-     * @SWG\Delete(
-     *      path="/serviceInstanceDependencies/{id}",
-     *      summary="Remove the specified ServiceInstanceDependencies from storage",
-     *      tags={"ServiceInstanceDependencies"},
-     *      description="Delete ServiceInstanceDependencies",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of ServiceInstanceDependencies",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Delete
      */
+    #[OAT\Delete(
+        path: '/v1/service_instance_dependencies/{id}',
+        operationId: 'deleteServiceInstanceDependency',
+        summary: "Delete a service instance dependency",
+        description: "Remove the specified service instance dependency from storage.",
+        tags: ["Service instance dependencies"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the service instance dependency",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessDeleteResponse(description: 'Service instance dependency deleted.'),
+            new NotFoundDeleteResponse(description: 'Service instance dependency not found.'),
+        ]
+    )]
     public function destroy(int $id)
     {
 
@@ -310,11 +257,11 @@ class ServiceInstanceDependenciesAPIController extends AppBaseController
         $serviceInstanceDependencies = $this->serviceInstanceDependenciesRepository->find($id);
 
         if (empty($serviceInstanceDependencies)) {
-            return $this->sendError('Service Instance Dependencies not found');
+            return $this->sendError('Service instance dependency not found');
         }
 
         $serviceInstanceDependencies->delete();
 
-        return $this->sendSuccess('Service Instance Dependencies deleted successfully');
+        return $this->sendSuccess('Service instance dependency successfully deleted');
     }
 }

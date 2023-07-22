@@ -30,7 +30,7 @@ class ResponseUtil
             'data' => $data,
             'message' => $message,
         ];
-        if (! is_null($total)) {
+        if (!is_null($total)) {
             $response['total'] = $total;
         }
 
@@ -48,7 +48,7 @@ class ResponseUtil
             'message' => $message,
         ];
 
-        if (! empty($data)) {
+        if (!empty($data)) {
             $res['data'] = $data;
         }
 

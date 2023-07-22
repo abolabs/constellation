@@ -18,9 +18,52 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "User",
+    schema: "resource-user",
+    description: "User resource",
+    type: "object"
+)]
 class UserResource extends JsonResource
 {
+    #[OAT\Property(
+        property: "id",
+        description: "Id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "name",
+        description: "Name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "email",
+        description: "Email",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "roles",
+        description: "Role ids",
+        type: "array",
+        items: new OAT\Items(
+            description: "Role id",
+            type: "string"
+        )
+    )]
+    #[OAT\Property(
+        property: "created_at",
+        description: "Creation date",
+        type: "string",
+        format: "date-time"
+    )]
+    #[OAT\Property(
+        property: "updated_at",
+        description: "Last update date",
+        type: "string",
+        format: "date-time"
+    )]
     /**
      * Transform the resource into an array.
      *

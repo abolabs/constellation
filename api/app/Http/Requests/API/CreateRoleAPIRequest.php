@@ -18,9 +18,28 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Create role",
+    schema: "request-create-role",
+    description: "Create role request",
+    type: "object",
+    required: ["name", "permissions"]
+)]
 class CreateRoleAPIRequest extends FormRequest
 {
+    #[OAT\Property(
+        property: "name",
+        description: "Name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "team_id",
+        description: "Team id",
+        type: "array",
+        items: new OAT\Items(type: "integer")
+    )]
     /**
      * Determine if the user is authorized to make this request.
      *

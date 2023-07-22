@@ -19,9 +19,46 @@ namespace App\Http\Requests\API;
 
 use App\Models\User;
 use InfyOm\Generator\Request\APIRequest;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Create user",
+    schema: "request-create-user",
+    description: "Create user request",
+    type: "object",
+    required: ["name", "email", "password", "confirm-password", "roles"]
+)]
 class CreateUserAPIRequest extends APIRequest
 {
+    #[OAT\Property(
+        property: "name",
+        description: "Name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "email",
+        description: "Email",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "password",
+        description: "Password",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "confirm-password",
+        description: "Confirmation password",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "roles",
+        description: "Role ids",
+        type: "array",
+        items: new OAT\Items(
+            description: "Role id",
+            type: "string"
+        )
+    )]
     /**
      * Determine if the user is authorized to make this request.
      *

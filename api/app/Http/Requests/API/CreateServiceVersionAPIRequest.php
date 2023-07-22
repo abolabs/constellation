@@ -19,9 +19,27 @@ namespace App\Http\Requests\API;
 
 use App\Models\ServiceVersion;
 use InfyOm\Generator\Request\APIRequest;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Create service version",
+    schema: "request-create-service-version",
+    description: "Create service version request",
+    type: "object",
+    required: ["version", "service_id"]
+)]
 class CreateServiceVersionAPIRequest extends APIRequest
 {
+    #[OAT\Property(
+        property: "version",
+        description: "Version",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "service_id",
+        description: "Service id",
+        type: "integer"
+    )]
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -44,7 +62,7 @@ class CreateServiceVersionAPIRequest extends APIRequest
                 ...ServiceVersion::$rules['service_id'],
             ],
             'version' => [
-                'unique:service_version,version,NULL,id,service_id,'.$this->service_id,
+                'unique:service_version,version,NULL,id,service_id,' . $this->service_id,
                 ...ServiceVersion::$rules['version'],
             ],
         ];

@@ -22,43 +22,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-/**
- * @SWG\Definition(
- *      definition="ServiceInstanceDependencies",
- *      required={""},
- *
- *      @SWG\Property(
- *          property="id",
- *          description="id",
- *          type="integer",
- *          format="int32"
- *      ),
- *      @SWG\Property(
- *          property="instance_id",
- *          description="instance_id",
- *          type="integer",
- *          format="int32"
- *      ),
- *      @SWG\Property(
- *          property="instance_dep_id",
- *          description="instance_dep_id",
- *          type="integer",
- *          format="int32"
- *      ),
- *      @SWG\Property(
- *          property="created_at",
- *          description="created_at",
- *          type="string",
- *          format="date-time"
- *      ),
- *      @SWG\Property(
- *          property="updated_at",
- *          description="updated_at",
- *          type="string",
- *          format="date-time"
- *      )
- * )
- */
 class ServiceInstanceDependencies extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;

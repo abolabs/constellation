@@ -18,12 +18,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\OAT\Responses\SuccessGetListResponse;
+use App\Http\OAT\Responses\NotFoundItemResponse;
+use App\Http\OAT\Responses\SuccessGetViewResponse;
 use App\Http\Resources\AuditResource;
 use App\Models\Audit;
 use App\Repositories\AuditRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Response;
 use Symfony\Component\HttpFoundation\Response as HttpCode;
+use OpenApi\Attributes as OAT;
 
 /**
  * Class AuditAPIController.
@@ -40,42 +44,34 @@ class AuditAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/Audits",
-     *      summary="Get a listing of the Audits.",
-     *      tags={"Audits"},
-     *      description="Get all Audits",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @SWG\Items(ref="#/definitions/Audit")
-     *              ),
-     *
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Index
      */
-    public function index(Request $request)
+    #[OAT\Get(
+        path: '/v1/audits',
+        operationId: 'getAudits',
+        summary: "Get a listing of the audits.",
+        description: "Get all audits",
+        tags: ["Audit"],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-per-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-sort'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-q'),
+            new OAT\Parameter(
+                name: "filter[user_id]",
+                description: "Filter by user id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+        ],
+        responses: [
+            new SuccessGetListResponse(
+                description: 'Audits list',
+                resourceSchema: '#/components/schemas/resource-audit'
+            ),
+        ]
+    )]
+    public function index(Request $request): JsonResponse
     {
         $audits = $this->auditRepository->apiAll(
             $request->except(['perPage', 'page', 'sort']),
@@ -93,48 +89,33 @@ class AuditAPIController extends AppBaseController
     }
 
     /**
-     * @param  Audit  $audit
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/Audit/{id}",
-     *      summary="Display the specified Audit",
-     *      tags={"Audit"},
-     *      description="Get Audit",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Audit",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Audit"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * View
      */
-    public function show(Audit $audit)
+    #[OAT\Get(
+        path: '/v1/audits/{id}',
+        operationId: 'showAudit',
+        summary: "Display the specified audit.",
+        description: "Get audit",
+        tags: ["Audit"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the audit",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessGetViewResponse(
+                description: 'Audit detail',
+                resourceSchema: '#/components/schemas/resource-audit'
+            ),
+            new NotFoundItemResponse()
+        ]
+    )]
+    public function show(Audit $audit): JsonResponse
     {
         if (empty($audit)) {
             return $this->sendError('Audit not found');

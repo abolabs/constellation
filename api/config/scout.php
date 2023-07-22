@@ -151,6 +151,7 @@ return [
                 'filterableAttributes' => [
                     'id',
                     'team_id',
+                    'name',
                 ],
                 'sortableAttributes' => [
                     'id',

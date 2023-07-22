@@ -18,13 +18,20 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\OAT\Responses\NotFoundDeleteResponse;
+use App\Http\OAT\Responses\NotFoundItemResponse;
+use App\Http\OAT\Responses\SuccessCreateResponse;
+use App\Http\OAT\Responses\SuccessDeleteResponse;
+use App\Http\OAT\Responses\SuccessGetListResponse;
+use App\Http\OAT\Responses\SuccessGetViewResponse;
+use App\Http\OAT\Responses\UnprocessableContentResponse;
 use App\Http\Requests\API\CreateServiceAPIRequest;
 use App\Http\Requests\API\UpdateServiceAPIRequest;
 use App\Http\Resources\ServiceResource;
 use App\Models\Service;
 use App\Repositories\ServiceRepository;
 use Illuminate\Http\Request;
-use Response;
+use OpenApi\Attributes as OAT;
 
 /**
  * Class ServiceController.
@@ -41,41 +48,39 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/services",
-     *      summary="Get a listing of the Services.",
-     *      tags={"Service"},
-     *      description="Get all Services",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @SWG\Items(ref="#/definitions/Service")
-     *              ),
-     *
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Index
      */
+    #[OAT\Get(
+        path: '/v1/services',
+        operationId: 'getServices',
+        summary: "Get a listing of the services",
+        description: "Get all services.",
+        tags: ["Service"],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-per-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-sort'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-q'),
+            new OAT\Parameter(
+                name: "filter[id]",
+                description: "Filter by service id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+            new OAT\Parameter(
+                name: "filter[team_id]",
+                description: "Filter by team id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+        ],
+        responses: [
+            new SuccessGetListResponse(
+                description: 'Services list',
+                resourceSchema: '#/components/schemas/resource-service'
+            )
+        ]
+    )]
     public function index(Request $request)
     {
         $services = $this->serviceRepository->apiAll(
@@ -89,47 +94,27 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Post(
-     *      path="/services",
-     *      summary="Store a newly created Service in storage",
-     *      tags={"Service"},
-     *      description="Store Service",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Service that should be stored",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Service")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Service"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Store
      */
+    #[OAT\Post(
+        path: '/v1/services',
+        operationId: 'storeService',
+        summary: "Store an service",
+        description: "Store an service.",
+        tags: ["Service"],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-service'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Created service data.',
+                resourceSchema: '#/components/schemas/resource-service'
+            ),
+            new UnprocessableContentResponse()
+        ]
+    )]
     public function store(CreateServiceAPIRequest $request)
     {
         $input = $request->all();
@@ -140,47 +125,32 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param  Service $service
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/services/{id}",
-     *      summary="Display the specified Service",
-     *      tags={"Service"},
-     *      description="Get Service",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Service",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Service"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * View
      */
+    #[OAT\Get(
+        path: '/v1/services/{id}',
+        operationId: 'showService',
+        summary: "Display the specified service",
+        description: "Get an service.",
+        tags: ["Service"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the service",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessGetViewResponse(
+                description: 'Service detail',
+                resourceSchema: '#/components/schemas/resource-service'
+            ),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function show(Service $service)
     {
         if (empty($service)) {
@@ -220,55 +190,38 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param  Service $service
-     * @return Response
-     *
-     * @SWG\Put(
-     *      path="/services/{id}",
-     *      summary="Update the specified Service in storage",
-     *      tags={"Service"},
-     *      description="Update Service",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Service",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Service that should be updated",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Service")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Service"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Update
      */
+    #[OAT\Put(
+        path: '/v1/services/{id}',
+        operationId: 'updateService',
+        summary: "Update an service",
+        description: "Update an service.",
+        tags: ["Service"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the service",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-service'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Updated service data.',
+                resourceSchema: '#/components/schemas/resource-service'
+            ),
+            new UnprocessableContentResponse(),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function update(Service $service, UpdateServiceAPIRequest $request)
     {
         $input = $request->all();
@@ -283,47 +236,33 @@ class ServiceAPIController extends AppBaseController
     }
 
     /**
-     * @param  Service $service
-     * @return Response
-     *
-     * @SWG\Delete(
-     *      path="/services/{id}",
-     *      summary="Remove the specified Service from storage",
-     *      tags={"Service"},
-     *      description="Delete Service",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Service",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Delete
      */
+    #[OAT\Delete(
+        path: '/v1/services/{id}',
+        operationId: 'deleteService',
+        summary: "Delete an service",
+        description: "Remove the specified Service from storage.",
+        tags: ["Service"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the service",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessDeleteResponse(
+                description: 'Service deleted.'
+            ),
+            new NotFoundDeleteResponse(
+                description: 'Service not found.',
+            ),
+        ]
+    )]
     public function destroy(Service $service)
     {
         if (empty($service)) {

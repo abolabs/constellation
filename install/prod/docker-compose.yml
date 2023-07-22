@@ -1,7 +1,6 @@
-version: '3.8'
+version: "3.8"
 
 services:
-
   maildev:
     image: djfarrelly/maildev
     ports:
@@ -26,14 +25,13 @@ services:
       - ./api/oauth-private.key:/var/www/constellation/api/storage/oauth-private.key
       - ./api/oauth-public.key:/var/www/constellation/api/storage/oauth-public.key
     depends_on:
-      - nginx-fpm
       - redis
       - mariadb
       - meilisearch
 
   migrate:
     image: registry.gitlab.com/abolabs/constellation/api:${TAG_NAME}
-    entrypoint: ["php","artisan","migrate"]
+    entrypoint: ["php", "artisan", "migrate"]
     depends_on:
       - mariadb
       - redis
@@ -45,6 +43,8 @@ services:
     volumes:
       - ${DATA_VOLUME}/nginx-fpm:/var/log/nginx
       - ./nginx-fpm/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - api
 
   web-ui:
     image: registry.gitlab.com/abolabs/constellation/web-ui:${TAG_NAME}

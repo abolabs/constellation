@@ -18,6 +18,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\OAT\Responses\SuccessMappingNodesResponse;
+use App\Http\OAT\Responses\SuccessMappingPerServiceResponse;
 use App\Http\Requests\API\GetGraphServicesByAppAPIRequest;
 use App\Models\Application;
 use App\Models\Hosting;
@@ -25,14 +27,56 @@ use App\Models\Service;
 use App\Models\ServiceInstance;
 use App\Models\ServiceInstanceDependencies;
 use Illuminate\Database\Eloquent\Builder;
+use OpenApi\Attributes as OAT;
 
 class InfraAPIController extends AppBaseController
 {
     /**
      * Display the IT Infrastructure dashboard.
-     *
-     * @return Response
      */
+    #[OAT\Get(
+        path: '/v1/application-mapping/dashboard',
+        operationId: 'getMainMetrics',
+        summary: "Display the main data and metrics.",
+        description: "Get the main environment, the number of: hostings, services, instances, applications.",
+        tags: ["Mapping"],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'Success',
+                content: new OAT\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OAT\Property(property: 'success', type: 'boolean'),
+                        new OAT\Property(
+                            property: 'data',
+                            type: 'object',
+                            properties: [
+                                new OAT\Property(
+                                    property: 'mainEnvironment',
+                                    type: 'object',
+                                    properties: [
+                                        new OAT\Property(property: 'environment_id', type: 'integer'),
+                                        new OAT\Property(property: 'total', type: 'integer'),
+                                        new OAT\Property(
+                                            property: 'environment',
+                                            ref: '#/components/schemas/resource-environment'
+                                        )
+                                    ]
+                                ),
+                                new OAT\Property(property: 'nbHostings', type: 'integer'),
+                                new OAT\Property(property: 'nbServices', type: 'integer'),
+                                new OAT\Property(property: 'nbInstances', type: 'integer'),
+                                new OAT\Property(property: 'nbApp', type: 'integer'),
+                            ]
+                        ),
+                        new OAT\Property(property: 'message', type: 'string'),
+                        new OAT\Property(property: 'total', type: 'int'),
+                    ]
+                ),
+            )
+        ]
+    )]
     public function index()
     {
         $nbApp = Application::count();
@@ -41,54 +85,103 @@ class InfraAPIController extends AppBaseController
         $nbHostings = Hosting::count();
         $mainEnvironment = ServiceInstance::getMainEnvironment();
 
-        return $this->sendResponse(collect([
-            'mainEnvironment' => $mainEnvironment,
-            'nbHostings' => $nbHostings,
-            'nbServices' => $nbServices,
-            'nbInstances' => $nbInstances,
-            'nbApp' => $nbApp,
-        ]), 'Mapping data retrieved successfully');
+        return $this->sendResponse(
+            result: collect([
+                'mainEnvironment' => $mainEnvironment,
+                'nbHostings' => $nbHostings,
+                'nbServices' => $nbServices,
+                'nbInstances' => $nbInstances,
+                'nbApp' => $nbApp,
+            ]),
+            message: 'Mapping data retrieved successfully'
+        );
     }
 
     /**
-     * Display App Map.
-     *
-     * @return Response
+     * Get the dependencies mapping per application
      */
-    public function displayAppMap()
-    {
-        $mainEnvironment = ServiceInstance::getMainEnvironment();
+    #[OAT\Get(
+        path: '/v1/application-mapping/by-app',
+        operationId: 'getMappingByApp',
+        summary: "Retrieve the application dependencies mapping.",
+        description: "Used to build the application mapping view.",
+        tags: ["Mapping"],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'Success',
+                content: new OAT\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OAT\Property(property: 'success', type: 'boolean'),
+                        new OAT\Property(
+                            property: 'data',
+                            type: 'object',
+                            properties: [
+                                new OAT\Property(property: 'environment_id', type: 'int'),
+                                new OAT\Property(property: 'total', type: 'int'),
+                                new OAT\Property(
+                                    property: 'environment',
+                                    ref: '#/components/schemas/resource-environment'
+                                )
+                            ]
+                        ),
+                        new OAT\Property(property: 'message', type: 'string'),
 
-        return $this->sendResponse(collect($mainEnvironment), 'Mapping data retrieved successfully');
-    }
-
-    /**
-     * Display the IT Infrastructure dashboard.
-     *
-     * @return Response
-     */
+                    ]
+                ),
+            )
+        ]
+    )]
     public function displayByApp()
     {
         $mainEnvironment = ServiceInstance::getMainEnvironment();
 
-        return $this->sendResponse(collect($mainEnvironment), 'Mapping data retrieved successfully');
+        return $this->sendResponse(
+            result: collect($mainEnvironment),
+            message: 'Mapping data successfully retrieved'
+        );
     }
 
     /**
-     * Display App map by hosting solution.
-     *
-     * @return Response
+     * Get nodes informations per application
      */
-    public function displayByHosting()
-    {
-        $mainEnvironment = ServiceInstance::getMainEnvironment();
-
-        return $this->sendResponse(collect($mainEnvironment), 'Mapping data retrieved successfully');
-    }
-
-    /**
-     * Get nodes informations for the graph.
-     */
+    #[OAT\Get(
+        path: '/v1/application-mapping/graph-nodes-app-map',
+        operationId: 'getAppMapping',
+        summary: "Retrieve the application dependencies mapping.",
+        description: "Used to build the application mapping view.",
+        tags: ["Mapping"],
+        parameters: [
+            new OAT\Parameter(
+                name: "environment_id",
+                description: "Filter by environment id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+            new OAT\Parameter(
+                name: "application_id",
+                description: "Filter by application id.",
+                in: 'query',
+                schema: new OAT\Schema(
+                    type: "array",
+                    items: new OAT\Items(type: "integer")
+                )
+            ),
+            new OAT\Parameter(
+                name: "team_id",
+                description: "Filter by team id.",
+                in: 'query',
+                schema: new OAT\Schema(
+                    type: "array",
+                    items: new OAT\Items(type: "integer")
+                )
+            ),
+        ],
+        responses: [
+            new SuccessMappingNodesResponse("Success")
+        ]
+    )]
     public function getGraphByApp(GetGraphServicesByAppAPIRequest $request)
     {
         $nodesData = [];
@@ -163,12 +256,60 @@ class InfraAPIController extends AppBaseController
             ];
         }
 
-        return $this->sendResponse($nodesData, 'Mapping data retrieved successfully');
+        return $this->sendResponse(
+            result: $nodesData,
+            message: 'Mapping data successfully retrieved'
+        );
     }
 
     /**
-     * Get nodes informations for the graph.
+     * Get service instance dependencies per application
      */
+    #[OAT\Get(
+        path: '/v1/application-mapping/graph-nodes-by-app',
+        operationId: 'getMappingNodesByApp',
+        summary: "Retrieve the service instance dependencies mapping per application.",
+        description: "Used to build the service mapping view.",
+        tags: ["Mapping"],
+        parameters: [
+            new OAT\Parameter(
+                name: "environment_id",
+                description: "Filter by environment id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+            new OAT\Parameter(
+                name: "application_id",
+                description: "Filter by application id.",
+                in: 'query',
+                schema: new OAT\Schema(
+                    type: "array",
+                    items: new OAT\Items(type: "integer")
+                )
+            ),
+            new OAT\Parameter(
+                name: "team_id",
+                description: "Filter by team id.",
+                in: 'query',
+                schema: new OAT\Schema(
+                    type: "array",
+                    items: new OAT\Items(type: "integer")
+                )
+            ),
+            new OAT\Parameter(
+                name: "hosting_id",
+                description: "Filter by hosting id.",
+                in: 'query',
+                schema: new OAT\Schema(
+                    type: "array",
+                    items: new OAT\Items(type: "integer")
+                )
+            ),
+        ],
+        responses: [
+            new SuccessMappingPerServiceResponse("Success")
+        ]
+    )]
     public function getGraphServicesByApp(GetGraphServicesByAppAPIRequest $request)
     {
         $nodesData = [];
@@ -253,12 +394,60 @@ class InfraAPIController extends AppBaseController
             $this->generateEdges($nodesData, $appDependencies, $serviceInstance);
         }
 
-        return $this->sendResponse($nodesData, 'Mapping data retrieved successfully');
+        return $this->sendResponse(
+            result: $nodesData,
+            message: 'Mapping data retrieved successfully'
+        );
     }
 
     /**
      * Get nodes informations for the graph.
      */
+    #[OAT\Get(
+        path: '/v1/application-mapping/graph-nodes-by-hosting',
+        operationId: 'getMappingNodesByHosting',
+        summary: "Retrieve the service instances dependencies mapping per hosting.",
+        description: "Used to build the hosting mapping view.",
+        tags: ["Mapping"],
+        parameters: [
+            new OAT\Parameter(
+                name: "environment_id",
+                description: "Filter by environment id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+            new OAT\Parameter(
+                name: "application_id",
+                description: "Filter by application id.",
+                in: 'query',
+                schema: new OAT\Schema(
+                    type: "array",
+                    items: new OAT\Items(type: "integer")
+                )
+            ),
+            new OAT\Parameter(
+                name: "team_id",
+                description: "Filter by team id.",
+                in: 'query',
+                schema: new OAT\Schema(
+                    type: "array",
+                    items: new OAT\Items(type: "integer")
+                )
+            ),
+            new OAT\Parameter(
+                name: "hosting_id",
+                description: "Filter by hosting id.",
+                in: 'query',
+                schema: new OAT\Schema(
+                    type: "array",
+                    items: new OAT\Items(type: "integer")
+                )
+            ),
+        ],
+        responses: [
+            new SuccessMappingPerServiceResponse("Success")
+        ]
+    )]
     public function getGraphServicesByHosting(GetGraphServicesByAppAPIRequest $request)
     {
         $nodesData = [];
@@ -331,9 +520,9 @@ class InfraAPIController extends AppBaseController
                 'group' => 'nodes',
                 'data' => (object) [
                     'id' => 'service_instances_' . $serviceInstance->id,
-                    'name' => $serviceInstance->serviceVersion->service->name,
+                    'name' => $serviceInstance?->serviceVersion?->service?->name,
                     'tag' => $tag,
-                    'parent' => 'hosting_' . $serviceInstance->hosting->id,
+                    'parent' => 'hosting_' . $serviceInstance?->hosting?->id,
                 ],
                 'classes' => 'serviceInstance ' . $classStatut,
             ];
@@ -342,7 +531,10 @@ class InfraAPIController extends AppBaseController
             $this->generateEdges($nodesData, $appDependencies, $serviceInstance);
         }
 
-        return $this->sendResponse($nodesData, 'Mapping data retrieved successfully');
+        return $this->sendResponse(
+            result: $nodesData,
+            message: 'Mapping data retrieved successfully'
+        );
     }
 
     /**

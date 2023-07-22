@@ -18,13 +18,21 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\OAT\Responses\NotFoundDeleteResponse;
+use App\Http\OAT\Responses\SuccessCreateResponse;
+use App\Http\OAT\Responses\SuccessGetListResponse;
+use App\Http\OAT\Responses\NotFoundItemResponse;
+use App\Http\OAT\Responses\SuccessDeleteResponse;
+use App\Http\OAT\Responses\SuccessGetViewResponse;
+use App\Http\OAT\Responses\UnprocessableContentResponse;
 use App\Http\Requests\API\CreateEnvironmentAPIRequest;
 use App\Http\Requests\API\UpdateEnvironmentAPIRequest;
 use App\Http\Resources\EnvironmentResource;
 use App\Models\Environment;
 use App\Repositories\EnvironmentRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Response;
+use OpenApi\Attributes as OAT;
 
 /**
  * Class EnvironmentController.
@@ -41,42 +49,34 @@ class EnvironmentAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/environments",
-     *      summary="Get a listing of the Environments.",
-     *      tags={"Environment"},
-     *      description="Get all Environments",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @SWG\Items(ref="#/definitions/Environment")
-     *              ),
-     *
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Index
      */
-    public function index(Request $request)
+    #[OAT\Get(
+        path: '/v1/environments',
+        operationId: 'getEnvironments',
+        summary: "Get a listing of the environments",
+        description: "Get all environments.",
+        tags: ["Environment"],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-per-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-sort'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-q'),
+            new OAT\Parameter(
+                name: "filter[id]",
+                description: "Filter by environment id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+        ],
+        responses: [
+            new SuccessGetListResponse(
+                description: 'Environments list',
+                resourceSchema: '#/components/schemas/resource-environment'
+            ),
+        ]
+    )]
+    public function index(Request $request): JsonResponse
     {
         $environments = $this->environmentRepository->apiAll(
             $request->except(['perPage', 'page', 'sort']),
@@ -93,48 +93,28 @@ class EnvironmentAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Post(
-     *      path="/environments",
-     *      summary="Store a newly created Environment in storage",
-     *      tags={"Environment"},
-     *      description="Store Environment",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Environment that should be stored",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Environment")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Environment"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Store
      */
-    public function store(CreateEnvironmentAPIRequest $request)
+    #[OAT\Post(
+        path: '/v1/environments',
+        operationId: 'storeEnvironment',
+        summary: "Store an environment",
+        description: "Store an environment.",
+        tags: ["Environment"],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-environment'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Created environment data.',
+                resourceSchema: '#/components/schemas/resource-environment'
+            ),
+            new UnprocessableContentResponse()
+        ]
+    )]
+    public function store(CreateEnvironmentAPIRequest $request): JsonResponse
     {
         $input = $request->all();
 
@@ -144,48 +124,33 @@ class EnvironmentAPIController extends AppBaseController
     }
 
     /**
-     * @param  Environment  $environment
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/environments/{id}",
-     *      summary="Display the specified Environment",
-     *      tags={"Environment"},
-     *      description="Get Environment",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Environment",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Environment"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * View
      */
-    public function show(Environment $environment)
+    #[OAT\Get(
+        path: '/v1/environments/{id}',
+        operationId: 'showEnvironment',
+        summary: "Display the specified environment",
+        description: "Get an environment.",
+        tags: ["Environment"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the environment",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessGetViewResponse(
+                description: 'Environment detail',
+                resourceSchema: '#/components/schemas/resource-environment'
+            ),
+            new NotFoundItemResponse()
+        ]
+    )]
+    public function show(Environment $environment): JsonResponse
     {
         if (empty($environment)) {
             return $this->sendError(\Lang::get('environment.not_found'));
@@ -198,56 +163,39 @@ class EnvironmentAPIController extends AppBaseController
     }
 
     /**
-     * @param  Environment  $environment
-     * @return Response
-     *
-     * @SWG\Put(
-     *      path="/environments/{id}",
-     *      summary="Update the specified Environment in storage",
-     *      tags={"Environment"},
-     *      description="Update Environment",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Environment",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Environment that should be updated",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Environment")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Environment"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Update
      */
-    public function update(Environment $environment, UpdateEnvironmentAPIRequest $request)
+    #[OAT\Put(
+        path: '/v1/environments/{id}',
+        operationId: 'updateEnvironment',
+        summary: "Update an environment",
+        description: "Update an environment.",
+        tags: ["Environment"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the environment",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-environment'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Updated environment data.',
+                resourceSchema: '#/components/schemas/resource-environment'
+            ),
+            new UnprocessableContentResponse(),
+            new NotFoundItemResponse()
+        ]
+    )]
+    public function update(Environment $environment, UpdateEnvironmentAPIRequest $request): JsonResponse
     {
         $input = $request->all();
 
@@ -261,48 +209,34 @@ class EnvironmentAPIController extends AppBaseController
     }
 
     /**
-     * @param  Environment  $environment
-     * @return Response
-     *
-     * @SWG\Delete(
-     *      path="/environments/{id}",
-     *      summary="Remove the specified Environment from storage",
-     *      tags={"Environment"},
-     *      description="Delete Environment",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Environment",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Delete
      */
-    public function destroy(Environment $environment)
+    #[OAT\Delete(
+        path: '/v1/environments/{id}',
+        operationId: 'deleteEnvironment',
+        summary: "Delete an environment",
+        description: "Remove the specified Environment from storage.",
+        tags: ["Environment"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the environment",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessDeleteResponse(
+                description: 'Environment deleted.'
+            ),
+            new NotFoundDeleteResponse(
+                description: 'Environment not found.',
+            ),
+        ]
+    )]
+    public function destroy(Environment $environment): JsonResponse
     {
         if (empty($environment)) {
             return $this->sendError(\Lang::get('environment.not_found'));

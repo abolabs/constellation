@@ -19,9 +19,27 @@ namespace App\Http\Requests\API;
 
 use App\Models\Team;
 use InfyOm\Generator\Request\APIRequest;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Create team",
+    schema: "request-create-team",
+    description: "Create team request",
+    type: "object",
+    required: ["name", "manager"]
+)]
 class CreateTeamAPIRequest extends APIRequest
 {
+    #[OAT\Property(
+        property: "name",
+        description: "Name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "manager",
+        description: "Manager name",
+        type: "string"
+    )]
     /**
      * Determine if the user is authorized to make this request.
      *

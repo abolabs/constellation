@@ -18,13 +18,20 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\OAT\Responses\NotFoundDeleteResponse;
+use App\Http\OAT\Responses\NotFoundItemResponse;
+use App\Http\OAT\Responses\SuccessCreateResponse;
+use App\Http\OAT\Responses\SuccessDeleteResponse;
+use App\Http\OAT\Responses\SuccessGetListResponse;
+use App\Http\OAT\Responses\SuccessGetViewResponse;
+use App\Http\OAT\Responses\UnprocessableContentResponse;
 use App\Http\Requests\API\CreateTeamAPIRequest;
 use App\Http\Requests\API\UpdateTeamAPIRequest;
 use App\Http\Resources\TeamResource;
 use App\Models\Team;
 use App\Repositories\TeamRepository;
 use Illuminate\Http\Request;
-use Response;
+use OpenApi\Attributes as OAT;
 
 /**
  * Class TeamController.
@@ -41,41 +48,33 @@ class TeamAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/teams",
-     *      summary="Get a listing of the Teams.",
-     *      tags={"Team"},
-     *      description="Get all Teams",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @SWG\Items(ref="#/definitions/Team")
-     *              ),
-     *
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Index
      */
+    #[OAT\Get(
+        path: '/v1/teams',
+        operationId: 'getTeams',
+        summary: "Get a listing of the teams",
+        description: "Get all teams.",
+        tags: ["Team"],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-per-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-sort'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-q'),
+            new OAT\Parameter(
+                name: "filter[id]",
+                description: "Filter by team id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+        ],
+        responses: [
+            new SuccessGetListResponse(
+                description: 'Teams list',
+                resourceSchema: '#/components/schemas/resource-team'
+            )
+        ]
+    )]
     public function index(Request $request)
     {
         $teams = $this->teamRepository->apiAll(
@@ -85,161 +84,119 @@ class TeamAPIController extends AppBaseController
             $request->sort
         );
 
-        return $this->sendResponse(TeamResource::collection($teams), 'Teams retrieved successfully', $teams->total());
+        return $this->sendResponse(
+            result: TeamResource::collection($teams),
+            message: 'Teams retrieved successfully',
+            total: $teams->total()
+        );
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Post(
-     *      path="/teams",
-     *      summary="Store a newly created Team in storage",
-     *      tags={"Team"},
-     *      description="Store Team",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Team that should be stored",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Team")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Team"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Store
      */
+    #[OAT\Post(
+        path: '/v1/teams',
+        operationId: 'storeTeam',
+        summary: "Store an team",
+        description: "Store an team.",
+        tags: ["Team"],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-team'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Created team data.',
+                resourceSchema: '#/components/schemas/resource-team'
+            ),
+            new UnprocessableContentResponse()
+        ]
+    )]
     public function store(CreateTeamAPIRequest $request)
     {
         $input = $request->all();
 
         $team = $this->teamRepository->create($input);
 
-        return $this->sendResponse(new TeamResource($team), 'Team saved successfully');
+        return $this->sendResponse(
+            result: new TeamResource($team),
+            message: 'Team successfully saved'
+        );
     }
 
     /**
-     * @param  Team $team
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/teams/{id}",
-     *      summary="Display the specified Team",
-     *      tags={"Team"},
-     *      description="Get Team",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Team",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Team"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * View
      */
+    #[OAT\Get(
+        path: '/v1/teams/{id}',
+        operationId: 'showTeam',
+        summary: "Display the specified team",
+        description: "Get an team.",
+        tags: ["Team"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the team",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessGetViewResponse(
+                description: 'Team detail',
+                resourceSchema: '#/components/schemas/resource-team'
+            ),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function show(Team $team)
     {
         if (empty($team)) {
             return $this->sendError('Team not found');
         }
 
-        return $this->sendResponse(new TeamResource($team), 'Team retrieved successfully');
+        return $this->sendResponse(
+            result: new TeamResource($team),
+            message: 'Team successfully retrieved'
+        );
     }
 
     /**
-     * @param  Team $team
-     * @return Response
-     *
-     * @SWG\Put(
-     *      path="/teams/{id}",
-     *      summary="Update the specified Team in storage",
-     *      tags={"Team"},
-     *      description="Update Team",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Team",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Team that should be updated",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Team")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Team"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Update
      */
+    #[OAT\Put(
+        path: '/v1/teams/{id}',
+        operationId: 'updateTeam',
+        summary: "Update a team",
+        description: "Update a team.",
+        tags: ["Team"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the team",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-team'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Updated team data.',
+                resourceSchema: '#/components/schemas/resource-team'
+            ),
+            new UnprocessableContentResponse(),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function update(Team $team, UpdateTeamAPIRequest $request)
     {
         $input = $request->all();
@@ -250,51 +207,40 @@ class TeamAPIController extends AppBaseController
 
         $team = $this->teamRepository->update($input, $team->id);
 
-        return $this->sendResponse(new TeamResource($team), 'Team updated successfully');
+        return $this->sendResponse(
+            result: new TeamResource($team),
+            message: 'Team successfully updated'
+        );
     }
 
     /**
-     * @param  Team $team
-     * @return Response
-     *
-     * @SWG\Delete(
-     *      path="/teams/{id}",
-     *      summary="Remove the specified Team from storage",
-     *      tags={"Team"},
-     *      description="Delete Team",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Team",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Delete
      */
+    #[OAT\Delete(
+        path: '/v1/teams/{id}',
+        operationId: 'deleteTeam',
+        summary: "Delete an team",
+        description: "Remove the specified Team from storage.",
+        tags: ["Team"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the team",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessDeleteResponse(
+                description: 'Team deleted.'
+            ),
+            new NotFoundDeleteResponse(
+                description: 'Team not found.',
+            ),
+        ]
+    )]
     public function destroy(Team $team)
     {
         if (empty($team)) {
@@ -303,6 +249,6 @@ class TeamAPIController extends AppBaseController
 
         $team->delete();
 
-        return $this->sendSuccess('Team deleted successfully');
+        return $this->sendSuccess('Team successfully deleted');
     }
 }

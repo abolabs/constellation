@@ -24,6 +24,7 @@ use App\Repositories\BaseRepository;
 use App\Repositories\PermissionRepository;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as HttpCode;
+use OpenApi\Attributes as OAT;
 
 class PermissionAPIController extends AppBaseController
 {
@@ -37,10 +38,54 @@ class PermissionAPIController extends AppBaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Index
      */
+    #[OAT\Get(
+        path: '/v1/permissions',
+        operationId: 'getPermissions',
+        summary: "Get a listing of the permissions",
+        description: "Get all permissions.",
+        tags: ["Permission"],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-per-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-sort'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-q'),
+            new OAT\Parameter(
+                name: "filter[id]",
+                description: "Filter by permission id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+            new OAT\Parameter(
+                name: "filter[name]",
+                description: "Filter by permission name.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+        ],
+        responses: [
+            new OAT\Response(
+                response: 200,
+                description: 'Permissions list',
+                content: new OAT\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OAT\Property(property: 'success', type: 'boolean'),
+                        new OAT\Property(
+                            property: 'data',
+                            type: 'array',
+                            items: new OAT\Items(
+                                ref: '#/components/schemas/resource-permission'
+                            )
+                        ),
+                        new OAT\Property(property: 'message', type: 'string'),
+                        new OAT\Property(property: 'total', type: 'int'),
+                    ]
+                ),
+            ),
+        ]
+    )]
     public function index(Request $request)
     {
         $search = $request->except(['perPage', 'page', 'sort']);

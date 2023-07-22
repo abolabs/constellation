@@ -27,20 +27,6 @@ use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-/**
- * Class ServiceInstance.
- *
- * @version September 4, 2021, 4:52 pm UTC
- *
- * @property \Illuminate\Database\Eloquent\Collection $serviceVersions
- * @property \Illuminate\Database\Eloquent\Collection $environments
- * @property \Illuminate\Database\Eloquent\Collection $applications
- * @property int $application_id
- * @property int $service_version_id
- * @property int $environment_id
- * @property string $url
- * @property bool $statut
- */
 class ServiceInstance extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
@@ -93,6 +79,7 @@ class ServiceInstance extends Model implements Auditable
         'hosting_id' => 'required|exists:hosting,id',
         'url' => 'nullable|url|max:255',
         'role' => 'nullable|string|max:255',
+        'statut' => 'nullable|boolean',
     ];
 
     /**
@@ -175,14 +162,14 @@ class ServiceInstance extends Model implements Auditable
         return [
             'id' => $this->id,
             'application_id' => $this->application_id,
-            'application_name' => $this->application->name,
+            'application_name' => $this->application?->name,
             'service_version_id' => $this->service_version_id,
-            'service_version' => $this->serviceVersion->version,
-            'service_name' => $this->serviceVersion->service->name,
+            'service_version' => $this->serviceVersion?->version,
+            'service_name' => $this->serviceVersion?->service?->name,
             'environment_id' => $this->environment_id,
-            'environment_name' => $this->environment->name,
+            'environment_name' => $this->environment?->name,
             'hosting_id' => $this->hosting_id,
-            'hosting_name' => $this->hosting->name,
+            'hosting_name' => $this->hosting?->name,
             'role' => $this->role,
             'statut' => $this->statut,
         ];

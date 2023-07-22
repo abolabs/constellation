@@ -24,8 +24,7 @@
     "owen-it/laravel-auditing": "^13.0",
     "predis/predis": "^2.1",
     "spatie/laravel-permission": "^5.10",
-    "swagger-api/swagger-ui": "^4.0",
-    "zircote/swagger-php": "2.*"
+    "zircote/swagger-php": "^4.7"
   },
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^2.12",

@@ -24,42 +24,6 @@ use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 
-/**
- * @SWG\Definition(
- *      definition="Application",
- *      required={""},
- *
- *      @SWG\Property(
- *          property="id",
- *          description="id",
- *          type="integer",
- *          format="int32"
- *      ),
- *      @SWG\Property(
- *          property="name",
- *          description="name",
- *          type="string"
- *      ),
- *      @SWG\Property(
- *          property="team_id",
- *          description="team_id",
- *          type="integer",
- *          format="int32"
- *      ),
- *      @SWG\Property(
- *          property="created_at",
- *          description="created_at",
- *          type="string",
- *          format="date-time"
- *      ),
- *      @SWG\Property(
- *          property="updated_at",
- *          description="updated_at",
- *          type="string",
- *          format="date-time"
- *      )
- * )
- */
 class Application extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;

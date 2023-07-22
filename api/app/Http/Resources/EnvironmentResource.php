@@ -18,9 +18,38 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Environment",
+    schema: "resource-environment",
+    description: "Environment resource",
+    type: "object"
+)]
 class EnvironmentResource extends JsonResource
 {
+    #[OAT\Property(
+        property: "id",
+        description: "id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "name",
+        description: "name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "created_at",
+        description: "created_at",
+        type: "string",
+        format: "date-time"
+    )]
+    #[OAT\Property(
+        property: "updated_at",
+        description: "updated_at",
+        type: "string",
+        format: "date-time"
+    )]
     /**
      * Transform the resource into an array.
      *

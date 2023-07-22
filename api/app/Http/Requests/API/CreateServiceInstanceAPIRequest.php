@@ -19,9 +19,52 @@ namespace App\Http\Requests\API;
 
 use App\Models\ServiceInstance;
 use InfyOm\Generator\Request\APIRequest;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Create service instance",
+    schema: "request-create-service-instance",
+    description: "Create service instance request",
+    type: "object",
+    required: ["application_id", "service_version_id", "environment_id", "hosting_id"]
+)]
 class CreateServiceInstanceAPIRequest extends APIRequest
 {
+    #[OAT\Property(
+        property: "application_id",
+        description: "Application id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "service_version_id",
+        description: "Service version id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "environment_id",
+        description: "Environment id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "hosting_id",
+        description: "Hosting id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "url",
+        description: "Url",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "role",
+        description: "Role",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "statut",
+        description: "Status",
+        type: "boolean"
+    )]
     /**
      * Determine if the user is authorized to make this request.
      *

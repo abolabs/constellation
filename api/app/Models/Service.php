@@ -23,47 +23,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 use OwenIt\Auditing\Contracts\Auditable;
 
-/**
- * @SWG\Definition(
- *      definition="Service",
- *      required={""},
- *
- *      @SWG\Property(
- *          property="id",
- *          description="id",
- *          type="integer",
- *          format="int32"
- *      ),
- *      @SWG\Property(
- *          property="team_id",
- *          description="team_id",
- *          type="integer",
- *          format="int32"
- *      ),
- *      @SWG\Property(
- *          property="name",
- *          description="name",
- *          type="string"
- *      ),
- *      @SWG\Property(
- *          property="git_repo",
- *          description="git_repo",
- *          type="string"
- *      ),
- *      @SWG\Property(
- *          property="created_at",
- *          description="created_at",
- *          type="string",
- *          format="date-time"
- *      ),
- *      @SWG\Property(
- *          property="updated_at",
- *          description="updated_at",
- *          type="string",
- *          format="date-time"
- *      )
- * )
- */
 class Service extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
@@ -99,6 +58,7 @@ class Service extends Model implements Auditable
      * @var array
      */
     public static $rules = [
+        'name' => 'required',
         'team_id' => 'required|exists:team,id',
         'git_repo' => 'url|max:255',
     ];

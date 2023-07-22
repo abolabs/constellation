@@ -19,9 +19,22 @@ namespace App\Http\Requests\API;
 
 use App\Models\Environment;
 use InfyOm\Generator\Request\APIRequest;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Create environment",
+    schema: "request-create-environment",
+    description: "Create environment request",
+    type: "object",
+    required: ["name"]
+)]
 class CreateEnvironmentAPIRequest extends APIRequest
 {
+    #[OAT\Property(
+        property: "name",
+        description: "Name",
+        type: "string"
+    )]
     /**
      * Determine if the user is authorized to make this request.
      *

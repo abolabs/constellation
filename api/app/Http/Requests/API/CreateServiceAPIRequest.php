@@ -19,9 +19,32 @@ namespace App\Http\Requests\API;
 
 use App\Models\Service;
 use InfyOm\Generator\Request\APIRequest;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Create service",
+    schema: "request-create-service",
+    description: "Create service request",
+    type: "object",
+    required: ["name", "team_id"]
+)]
 class CreateServiceAPIRequest extends APIRequest
 {
+    #[OAT\Property(
+        property: "name",
+        description: "Name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "team_id",
+        description: "Team id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "git_repo",
+        description: "Git repository url",
+        type: "string"
+    )]
     /**
      * Determine if the user is authorized to make this request.
      *

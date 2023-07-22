@@ -73,7 +73,7 @@ class User extends Authenticatable implements Auditable
     public static $rules = [
         'name' => 'required',
         'email' => 'required|email|unique:users,email',
-        'password' => 'same:confirm-password',
+        'password' => 'required|same:confirm-password',
         'roles' => 'required|array',
     ];
 

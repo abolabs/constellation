@@ -19,9 +19,51 @@ namespace App\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use OpenApi\Attributes as OAT;
 
 class GetListAppBaseAPIRequest extends FormRequest
 {
+    #[OAT\Parameter(
+        name: "perPage",
+        parameter: "base-filter-per-page",
+        description: "Number of items displayed by page.",
+        in: 'query',
+        schema: new OAT\Schema(
+            type: "integer",
+            default: 100,
+            enum: [5, 10, 25, 100, 1000]
+        )
+    )]
+    #[OAT\Parameter(
+        name: "page",
+        parameter: "base-filter-page",
+        description: "Current page.",
+        in: 'query',
+        schema: new OAT\Schema(
+            type: "integer"
+        )
+    )]
+    #[OAT\Parameter(
+        name: "sort",
+        parameter: "base-filter-sort",
+        description: "Field used to sort the result.",
+        in: 'query',
+        examples: [new OAT\Examples(example: "string", value: "-id", summary: "-id")],
+        schema: new OAT\Schema(
+            type: "string",
+        )
+    )]
+    #[OAT\Parameter(
+        name: 'q',
+        parameter: "base-filter-q",
+        description: "Query string",
+        in: 'query',
+        required: false,
+        schema: new OAT\Schema(
+            type: "string",
+        )
+    )]
+
     /**
      * Determine if the user is authorized to make this request.
      *

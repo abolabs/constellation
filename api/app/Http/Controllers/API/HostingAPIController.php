@@ -18,6 +18,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\OAT\Responses\NotFoundDeleteResponse;
+use App\Http\OAT\Responses\SuccessCreateResponse;
+use App\Http\OAT\Responses\SuccessGetListResponse;
+use App\Http\OAT\Responses\NotFoundItemResponse;
+use App\Http\OAT\Responses\SuccessDeleteResponse;
+use App\Http\OAT\Responses\SuccessGetViewResponse;
+use App\Http\OAT\Responses\UnprocessableContentResponse;
 use App\Http\Requests\API\CreateHostingAPIRequest;
 use App\Http\Requests\API\UpdateHostingAPIRequest;
 use App\Http\Resources\HostingResource;
@@ -27,8 +34,8 @@ use App\Models\ServiceInstance;
 use App\Repositories\HostingRepository;
 use Illuminate\Http\Request;
 use Lang;
-use Response;
 use Symfony\Component\HttpFoundation\Response as HttpCode;
+use OpenApi\Attributes as OAT;
 
 /**
  * Class HostingController.
@@ -45,41 +52,39 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/hostings",
-     *      summary="Get a listing of the Hostings.",
-     *      tags={"Hosting"},
-     *      description="Get all Hostings",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @SWG\Items(ref="#/definitions/Hosting")
-     *              ),
-     *
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Index
      */
+    #[OAT\Get(
+        path: '/v1/hostings',
+        operationId: 'getHostings',
+        summary: "Get a listing of the hostings",
+        description: "Get all hostings.",
+        tags: ["Hosting"],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-per-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-sort'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-q'),
+            new OAT\Parameter(
+                name: "filter[id]",
+                description: "Filter by hosting id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+            new OAT\Parameter(
+                name: "filter[hosting_type_id]",
+                description: "Filter by hosting type id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+        ],
+        responses: [
+            new SuccessGetListResponse(
+                description: 'Hostings list',
+                resourceSchema: '#/components/schemas/resource-hosting'
+            ),
+        ]
+    )]
     public function index(Request $request)
     {
         $hostings = $this->hostingRepository->apiAll(
@@ -89,51 +94,35 @@ class HostingAPIController extends AppBaseController
             $request->sort
         );
 
-        return $this->sendResponse(HostingResource::collection($hostings), Lang::get('hosting.index_confirm'), $hostings->total());
+        return $this->sendResponse(
+            HostingResource::collection($hostings),
+            Lang::get('hosting.index_confirm'),
+            $hostings->total()
+        );
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Post(
-     *      path="/hostings",
-     *      summary="Store a newly created Hosting in storage",
-     *      tags={"Hosting"},
-     *      description="Store Hosting",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Hosting that should be stored",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Hosting")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Hosting"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Store
      */
+    #[OAT\Post(
+        path: '/v1/hostings',
+        operationId: 'storeHosting',
+        summary: "Store an hosting",
+        description: "Store an hosting.",
+        tags: ["Hosting"],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-hosting'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Created hosting data.',
+                resourceSchema: '#/components/schemas/resource-hosting'
+            ),
+            new UnprocessableContentResponse()
+        ]
+    )]
     public function store(CreateHostingAPIRequest $request)
     {
         $input = $request->all();
@@ -144,47 +133,32 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param  Hosting $hosting
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/hostings/{id}",
-     *      summary="Display the specified Hosting",
-     *      tags={"Hosting"},
-     *      description="Get Hosting",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Hosting",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Hosting"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * View
      */
+    #[OAT\Get(
+        path: '/v1/hostings/{id}',
+        operationId: 'showHosting',
+        summary: "Display the specified hosting",
+        description: "Get an hosting.",
+        tags: ["Hosting"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the hosting",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessGetViewResponse(
+                description: 'Hosting detail',
+                resourceSchema: '#/components/schemas/resource-hosting'
+            ),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function show(Hosting $hosting)
     {
         if (empty($hosting)) {
@@ -204,55 +178,38 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param  Hosting $hosting
-     * @return Response
-     *
-     * @SWG\Put(
-     *      path="/hostings/{id}",
-     *      summary="Update the specified Hosting in storage",
-     *      tags={"Hosting"},
-     *      description="Update Hosting",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Hosting",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Hosting that should be updated",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Hosting")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Hosting"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Update
      */
+    #[OAT\Put(
+        path: '/v1/hostings/{id}',
+        operationId: 'updateHosting',
+        summary: "Update an hosting",
+        description: "Update an hosting.",
+        tags: ["Hosting"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the hosting",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-hosting'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Updated hosting data.',
+                resourceSchema: '#/components/schemas/resource-hosting'
+            ),
+            new UnprocessableContentResponse(),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function update(Hosting $hosting, UpdateHostingAPIRequest $request)
     {
         $input = $request->all();
@@ -267,47 +224,33 @@ class HostingAPIController extends AppBaseController
     }
 
     /**
-     * @param  Hosting $hosting
-     * @return Response
-     *
-     * @SWG\Delete(
-     *      path="/hostings/{id}",
-     *      summary="Remove the specified Hosting from storage",
-     *      tags={"Hosting"},
-     *      description="Delete Hosting",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Hosting",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Delete
      */
+    #[OAT\Delete(
+        path: '/v1/hostings/{id}',
+        operationId: 'deleteHosting',
+        summary: "Delete an hosting",
+        description: "Remove the specified Hosting from storage.",
+        tags: ["Hosting"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the hosting",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessDeleteResponse(
+                description: 'Hosting deleted.'
+            ),
+            new NotFoundDeleteResponse(
+                description: 'Hosting not found.',
+            ),
+        ]
+    )]
     public function destroy(Hosting $hosting)
     {
         if (empty($hosting)) {

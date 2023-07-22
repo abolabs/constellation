@@ -25,9 +25,7 @@ Route::group([
      * Application Mapping.
      */
     Route::get('/application-mapping/dashboard', [InfraAPIController::class, 'index'])->name('v1.application-mapping.dashboard');
-    Route::get('/application-mapping/app-map', [InfraAPIController::class, 'displayAppMap'])->name('v1.application-mapping.AppMap');
     Route::get('/application-mapping/by-app', [InfraAPIController::class, 'displayByApp'])->name('v1.application-mapping.byApp');
-    Route::get('/application-mapping/by-hosting', [InfraAPIController::class, 'displayByHosting'])->name('v1.application-mapping.byHosting');
     Route::get('/application-mapping/graph-nodes-by-app', [InfraAPIController::class, 'getGraphServicesByApp'])->name('v1.application-mapping.graphNodesByApp');
     Route::get('/application-mapping/graph-nodes-by-hosting', [InfraAPIController::class, 'getGraphServicesByHosting'])->name('v1.application-mapping.graphNodesByHosting');
     Route::get('/application-mapping/graph-nodes-app-map', [InfraAPIController::class, 'getGraphByApp'])->name('v1.application-mapping.getGraphByApp');

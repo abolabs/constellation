@@ -18,9 +18,54 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Service",
+    schema: "resource-service",
+    description: "Service resource",
+    type: "object"
+)]
 class ServiceResource extends JsonResource
 {
+    #[OAT\Property(
+        property: "id",
+        description: "Id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "name",
+        description: "Name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "team_id",
+        description: "Team id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "git_repo",
+        description: "Git repository url",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "created_at",
+        description: "Creation date",
+        type: "string",
+        format: "date-time"
+    )]
+    #[OAT\Property(
+        property: "updated_at",
+        description: "Last update date",
+        type: "string",
+        format: "date-time"
+    )]
+    #[OAT\Property(
+        property: "meta",
+        description: "meta",
+        type: "array",
+        items: new OAT\Items(type: "string")
+    )]
     /**
      * Transform the resource into an array.
      *

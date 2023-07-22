@@ -19,9 +19,27 @@ namespace App\Http\Requests\API;
 
 use App\Models\Hosting;
 use InfyOm\Generator\Request\APIRequest;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Create hosting",
+    schema: "request-create-hosting",
+    description: "Create hosting request",
+    type: "object",
+    required: ["name", "hosting_type_id"]
+)]
 class CreateHostingAPIRequest extends APIRequest
 {
+    #[OAT\Property(
+        property: "name",
+        description: "Name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "hosting_type_id",
+        description: "Hosting type id",
+        type: "integer"
+    )]
     /**
      * Determine if the user is authorized to make this request.
      *

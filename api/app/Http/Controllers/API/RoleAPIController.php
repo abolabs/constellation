@@ -18,13 +18,19 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\OAT\Responses\NotFoundDeleteResponse;
+use App\Http\OAT\Responses\SuccessCreateResponse;
+use App\Http\OAT\Responses\SuccessGetListResponse;
+use App\Http\OAT\Responses\NotFoundItemResponse;
+use App\Http\OAT\Responses\SuccessDeleteResponse;
+use App\Http\OAT\Responses\SuccessGetViewResponse;
+use App\Http\OAT\Responses\UnprocessableContentResponse;
 use App\Http\Requests\API\CreateRoleAPIRequest;
-use App\Http\Requests\API\UpdateRoleAPIRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
 use App\Repositories\RoleRepository;
 use Illuminate\Http\Request;
-use Response;
+use OpenApi\Attributes as OAT;
 
 /**
  * Class RoleController.
@@ -41,41 +47,39 @@ class RoleAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/Roles",
-     *      summary="Get a listing of the Roles.",
-     *      tags={"Role"},
-     *      description="Get all Roles",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @SWG\Items(ref="#/definitions/Role")
-     *              ),
-     *
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Index
      */
+    #[OAT\Get(
+        path: '/v1/roles',
+        operationId: 'getRoles',
+        summary: "Get a listing of the roles",
+        description: "Get all roles.",
+        tags: ["Role"],
+        parameters: [
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-per-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-page'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-sort'),
+            new OAT\Parameter(ref: '#/components/parameters/base-filter-q'),
+            new OAT\Parameter(
+                name: "filter[id]",
+                description: "Filter by role id.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+            new OAT\Parameter(
+                name: "filter[name]",
+                description: "Filter by role name.",
+                in: 'query',
+                schema: new OAT\Schema(type: "integer")
+            ),
+        ],
+        responses: [
+            new SuccessGetListResponse(
+                description: 'Roles list',
+                resourceSchema: '#/components/schemas/resource-role'
+            )
+        ]
+    )]
     public function index(Request $request)
     {
         $roles = $this->roleRepository->apiAll(
@@ -89,47 +93,27 @@ class RoleAPIController extends AppBaseController
     }
 
     /**
-     * @return Response
-     *
-     * @SWG\Post(
-     *      path="/Roles",
-     *      summary="Store a newly created Role in storage",
-     *      tags={"Role"},
-     *      description="Store Role",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Role that should be stored",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Role")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Role"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Store
      */
+    #[OAT\Post(
+        path: '/v1/roles',
+        operationId: 'storeRole',
+        summary: "Store an role",
+        description: "Store an role.",
+        tags: ["Role"],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-role'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Created role data.',
+                resourceSchema: '#/components/schemas/resource-role'
+            ),
+            new UnprocessableContentResponse()
+        ]
+    )]
     public function store(CreateRoleAPIRequest $request)
     {
         $role = $this->roleRepository->create([
@@ -143,47 +127,32 @@ class RoleAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
-     * @return Response
-     *
-     * @SWG\Get(
-     *      path="/Roles/{id}",
-     *      summary="Display the specified Role",
-     *      tags={"Role"},
-     *      description="Get Role",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Role",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Role"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * View
      */
+    #[OAT\Get(
+        path: '/v1/roles/{id}',
+        operationId: 'showRole',
+        summary: "Display the specified role",
+        description: "Get an role.",
+        tags: ["Role"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the role",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessGetViewResponse(
+                description: 'Role detail',
+                resourceSchema: '#/components/schemas/resource-role'
+            ),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function show($id)
     {
         /** @var Role $Role */
@@ -196,56 +165,38 @@ class RoleAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
-     * @param  UpdateRoleAPIRequest  $request
-     * @return Response
-     *
-     * @SWG\Put(
-     *      path="/Roles/{id}",
-     *      summary="Update the specified Role in storage",
-     *      tags={"Role"},
-     *      description="Update Role",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Role",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *      @SWG\Parameter(
-     *          name="body",
-     *          in="body",
-     *          description="Role that should be updated",
-     *          required=false,
-     *
-     *          @SWG\Schema(ref="#/definitions/Role")
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  ref="#/definitions/Role"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Update
      */
+    #[OAT\Put(
+        path: '/v1/roles/{id}',
+        operationId: 'updateRole',
+        summary: "Update an role",
+        description: "Update an role.",
+        tags: ["Role"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the role",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        requestBody: new OAT\RequestBody(
+            content: new OAT\JsonContent(
+                ref: '#/components/schemas/request-create-role'
+            )
+        ),
+        responses: [
+            new SuccessCreateResponse(
+                description: 'Updated role data.',
+                resourceSchema: '#/components/schemas/resource-role'
+            ),
+            new UnprocessableContentResponse(),
+            new NotFoundItemResponse()
+        ]
+    )]
     public function update($id, Request $request)
     {
         $input = $request->all();
@@ -264,47 +215,29 @@ class RoleAPIController extends AppBaseController
     }
 
     /**
-     * @param  int  $id
-     * @return Response
-     *
-     * @SWG\Delete(
-     *      path="/Roles/{id}",
-     *      summary="Remove the specified Role from storage",
-     *      tags={"Role"},
-     *      description="Delete Role",
-     *      produces={"application/json"},
-     *
-     *      @SWG\Parameter(
-     *          name="id",
-     *          description="id of Role",
-     *          type="integer",
-     *          required=true,
-     *          in="path"
-     *      ),
-     *
-     *      @SWG\Response(
-     *          response=200,
-     *          description="successful operation",
-     *
-     *          @SWG\Schema(
-     *              type="object",
-     *
-     *              @SWG\Property(
-     *                  property="success",
-     *                  type="boolean"
-     *              ),
-     *              @SWG\Property(
-     *                  property="data",
-     *                  type="string"
-     *              ),
-     *              @SWG\Property(
-     *                  property="message",
-     *                  type="string"
-     *              )
-     *          )
-     *      )
-     * )
+     * Delete
      */
+    #[OAT\Delete(
+        path: '/v1/roles/{id}',
+        operationId: 'deleteRole',
+        summary: "Delete an role",
+        description: "Remove the specified role from storage.",
+        tags: ["Role"],
+        parameters: [
+            new OAT\PathParameter(
+                name: "id",
+                required: true,
+                description: "id of the role",
+                schema: new OAT\Schema(
+                    type: "integer"
+                )
+            ),
+        ],
+        responses: [
+            new SuccessDeleteResponse(description: 'Role deleted.'),
+            new NotFoundDeleteResponse(description: 'Role not found.'),
+        ]
+    )]
     public function destroy($id)
     {
         /** @var Role $Role */

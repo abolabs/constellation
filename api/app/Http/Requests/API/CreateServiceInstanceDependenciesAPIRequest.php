@@ -20,9 +20,38 @@ namespace App\Http\Requests\API;
 use App\Models\ServiceInstanceDependencies;
 use App\Rules\ServiceInstancesDep\ServiceInstancesHasSameEnv;
 use InfyOm\Generator\Request\APIRequest;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Create service instance dependency",
+    schema: "request-create-service-instance-dependency",
+    description: "Create service instance dependency request",
+    type: "object",
+    required: ["instance_id", "instance_dep_id"]
+)]
 class CreateServiceInstanceDependenciesAPIRequest extends APIRequest
 {
+    #[OAT\Property(
+        property: "instance_id",
+        description: "Instance id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "instance_dep_id",
+        description: "Instance dependency id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "level",
+        description: "Dependency level (1: minor, 2: major, 3: critical)",
+        type: "integer",
+        enum: [1, 2, 3]
+    )]
+    #[OAT\Property(
+        property: "description",
+        description: "Dependency description",
+        type: "string"
+    )]
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -48,6 +77,8 @@ class CreateServiceInstanceDependenciesAPIRequest extends APIRequest
             'instance_dep_id' => [
                 ...ServiceInstanceDependencies::$rules['instance_dep_id'],
             ],
+            'level' => 'integer|between:1,3',
+            'description' => 'string|nullable|max:255',
         ];
     }
 }

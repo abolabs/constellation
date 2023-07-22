@@ -18,9 +18,48 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OAT;
 
+#[OAT\Schema(
+    title: "Hosting",
+    schema: "resource-hosting",
+    description: "Hosting resource",
+    type: "object"
+)]
 class HostingResource extends JsonResource
 {
+    #[OAT\Property(
+        property: "id",
+        description: "id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "name",
+        description: "name",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "hosting_type_id",
+        description: "hosting_type_id",
+        type: "integer"
+    )]
+    #[OAT\Property(
+        property: "localisation",
+        description: "localisation",
+        type: "string"
+    )]
+    #[OAT\Property(
+        property: "created_at",
+        description: "created_at",
+        type: "string",
+        format: "date-time"
+    )]
+    #[OAT\Property(
+        property: "updated_at",
+        description: "updated_at",
+        type: "string",
+        format: "date-time"
+    )]
     /**
      * Transform the resource into an array.
      *
