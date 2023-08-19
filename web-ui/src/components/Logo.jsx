@@ -16,7 +16,7 @@
 import { Avatar, SvgIcon, Typography, useTheme } from "@mui/material";
 import { ReactComponent as LogoSvg } from "@/logo50.svg";
 
-const Logo = () => {
+const Logo = ({ withTitle = true }) => {
   const theme = useTheme();
 
   return (
@@ -43,9 +43,11 @@ const Logo = () => {
           }}
         />
       </Avatar>
-      <Typography component="h2" variant="h2">
-        Constellation
-      </Typography>
+      {withTitle ? (
+        <Typography component="h2" variant="h2">
+          Constellation
+        </Typography>
+      ) : null}
     </>
   );
 };

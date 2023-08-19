@@ -24,19 +24,19 @@ const theme = createTheme(
     palette: {
       mode: "light",
       primary: {
-        main: "#0b5b61",
+        main: "#0c2d46",
       },
       secondary: {
-        main: "#546e7a",
+        main: "#1c4d6d",
+      },
+      info: {
+        main: "#3c7c96",
       },
       error: {
-        main: "#d02536",
+        main: "#f45b69",
       },
       warning: {
         main: "#ffc857",
-      },
-      info: {
-        main: "#54aeb9",
       },
       success: {
         main: "#177E89",

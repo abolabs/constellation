@@ -142,6 +142,7 @@ const AbstractMapping = ({
           backgroundImage: `radial-gradient(circle, ${theme.palette.grey[500]} 1px, rgba(0, 0, 0, 0) 1px)`,
           height: height,
           borderRadius: theme.shape.borderRadius,
+          borderTopLeftRadius: 0,
           position: "relative",
           border: 4,
           borderColor: theme.palette.secondary.light,
@@ -155,7 +156,9 @@ const AbstractMapping = ({
           sx={{
             maxWidth: 316,
             borderTopRightRadius: 0,
+            borderTopLeftRadius: theme.shape.borderRadius,
             borderBottomLeftRadius: 0,
+            borderBottomRightRadius: theme.shape.borderRadius,
             mt: 0,
             p: asWidget ? 0.5 : 1,
             pt: 0,
@@ -198,9 +201,10 @@ const AbstractMapping = ({
               }}
             >
               <Typography variant="caption">
-                {t('Use the contextual menu to access to the detail of each node.')}
-                <br />
-                ({t('Left click 2s or right click')})
+                {t(
+                  "Use the contextual menu to access to the detail of each node."
+                )}
+                <br />({t("Left click 2s or right click")})
               </Typography>
             </CardActions>
           ) : null}

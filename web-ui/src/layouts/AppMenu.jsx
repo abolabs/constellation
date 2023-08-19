@@ -46,6 +46,8 @@ import { useMediaQuery, Grid, Collapse } from "@mui/material";
 import { useGetIdentity } from "ra-core";
 import { useEffect, useState } from "react";
 import Gravatar from "react-gravatar";
+import { grey } from "@mui/material/colors";
+import Logo from "@components/Logo";
 
 const AppMenu = () => {
   const theme = useTheme();
@@ -53,7 +55,6 @@ const AppMenu = () => {
   const [open, setOpen] = useSidebarState(isMediumOrUpper);
   const [adminOpen, setAdminOpen] = useState();
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const { isLoading, identity } = useGetIdentity();
   const { permissions } = usePermissions();
   const t = useTranslate();
 
@@ -71,9 +72,13 @@ const AppMenu = () => {
         pt: 0.5,
         pb: 0.5,
         h4: {
-          textAlign: "center",
+          textAlign: "left",
+          ml: 1,
           mt: 0.5,
           mb: 0.5,
+          textTransform: "uppercase",
+          fontSize: "0.75rem",
+          color: grey[600],
         },
         h5: {
           textAlign: "center",
@@ -129,24 +134,6 @@ const AppMenu = () => {
         },
       }}
     >
-      {!isLoading && open ? (
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          className="SidebarAvatar"
-          mb={2}
-        >
-          <Grid item>
-            <Gravatar email={identity.email} style={{ borderRadius: "50%" }} />
-          </Grid>
-          <Grid item>
-            <Typography variant="h5" align="center">
-              {identity.fullName}
-            </Typography>
-          </Grid>
-        </Grid>
-      ) : null}
       <Menu.DashboardItem />
       {open ? (
         <Typography variant="h4" pt={1}>

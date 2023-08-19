@@ -15,12 +15,7 @@
 
 // external-lib
 import * as React from "react";
-import {
-  Logout,
-  UserMenu,
-  AppBar,
-  useTranslate,
-} from "react-admin";
+import { Logout, UserMenu, AppBar, useTranslate } from "react-admin";
 import { Link } from "react-router-dom";
 
 import { useTheme } from "@mui/material/styles";
@@ -34,6 +29,8 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import IconButton from "@mui/material/IconButton";
 // local
 import ColorModeContext from "@contexts/ColorModeContext";
+import { Avatar, SvgIcon } from "@mui/material";
+import { ReactComponent as LogoSvg } from "@/logo50.svg";
 
 // It's important to pass the ref to allow MUI to manage the keyboard navigation
 const ConfigurationMenu = React.forwardRef((props, ref) => {
@@ -96,6 +93,30 @@ const DefaultAppBar = (props) => {
       userMenu={<AppUserMenu />}
     >
       <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
+        <Avatar
+          sx={{
+            m: 1,
+            bgcolor: "primary.main",
+            height: "2rem",
+            width: "2rem",
+            p: 0,
+            display: "inline-flex",
+          }}
+        >
+          <SvgIcon
+            component={LogoSvg}
+            inheritViewBox
+            shapeRendering="path"
+            color="primary"
+            sx={{
+              path: {
+                fill: `${theme.palette.primary.contrastText} !important`,
+              },
+              height: "80%",
+              width: "80%",
+            }}
+          />
+        </Avatar>
         Constellation
       </Typography>
       <ToggleThemeButton />

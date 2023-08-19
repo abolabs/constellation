@@ -23,7 +23,7 @@ const componentsOverride = (theme) => {
         md: 900,
         lg: 1200,
         xl: 1536,
-      }
+      },
     },
     typography: {
       ...theme.typography,
@@ -54,7 +54,7 @@ const componentsOverride = (theme) => {
     },
     shape: {
       ...theme.shape,
-      borderRadius: 3,
+      borderRadius: 5,
     },
     components: {
       ...theme.components,
@@ -84,9 +84,9 @@ const componentsOverride = (theme) => {
             },
             "& .MuiTableCell-root": {
               borderBottom: 0,
-            }
-          }
-        }
+            },
+          },
+        },
       },
       MuiCard: {
         styleOverrides: {
@@ -100,8 +100,8 @@ const componentsOverride = (theme) => {
           root: {
             backgroundColor: theme?.palette?.primary?.main,
             color: theme?.palette?.primary?.contrastText,
-          }
-        }
+          },
+        },
       },
       MuiOutlinedInput: {
         styleOverrides: {
@@ -120,7 +120,7 @@ const componentsOverride = (theme) => {
         },
       },
     },
-  }
+  };
 };
 
-export default componentsOverride ;
+export default componentsOverride;
