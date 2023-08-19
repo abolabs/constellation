@@ -45,6 +45,7 @@ import { useTheme } from "@mui/material/styles";
 import { useMediaQuery, Collapse } from "@mui/material";
 import { useEffect, useState } from "react";
 import { grey } from "@mui/material/colors";
+import Logo from "@components/Logo";
 
 const AppMenu = () => {
   const theme = useTheme();
