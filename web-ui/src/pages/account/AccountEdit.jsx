@@ -26,7 +26,12 @@ import SaveIcon from "@mui/icons-material/Save";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useLocation } from "react-router-dom";
-import { LinearProgress, useDataProvider, useGetIdentity, useTranslate } from "react-admin";
+import {
+  LinearProgress,
+  useDataProvider,
+  useGetIdentity,
+  useTranslate,
+} from "react-admin";
 
 import AppBreadCrumd from "@layouts/AppBreadCrumd";
 import AlertError from "@components/alerts/AlertError";
@@ -118,20 +123,20 @@ const AccountEdit = () => {
   return (
     <>
       <AppBreadCrumd location={location} />
-      <Typography variant="h3">{t('Profil')}</Typography>
+      <Typography variant="h3">{t("Profil")}</Typography>
       <FormProvider {...methods}>
         <Card sx={{ mt: 1 }}>
           <CardContent>
             <form action="/account/edit" method="put">
               <TextField
-                label="Full name"
+                label={t("resources.account.fields.name")}
                 error={!!errors?.name}
                 helperText={errors?.name?.message}
                 fullWidth
                 {...methods.register("name")}
               />
               <TextField
-                label="Email"
+                label={t("resources.account.fields.email")}
                 error={!!errors?.email}
                 helperText={errors?.email?.message}
                 fullWidth
@@ -151,7 +156,7 @@ const AccountEdit = () => {
                 />
               ) : null}
               <Link to="/public/password-reset-request">
-                <Button>{t('Reset the password')}</Button>
+                <Button>{t("Reset the password")}</Button>
               </Link>
             </form>
           </CardContent>
@@ -162,7 +167,7 @@ const AccountEdit = () => {
             disabled={!isDirty}
             onClick={methods.handleSubmit(onSubmit)}
           >
-            {t('ra.action.save')}
+            {t("ra.action.save")}
           </Button>
         </Toolbar>
       </FormProvider>

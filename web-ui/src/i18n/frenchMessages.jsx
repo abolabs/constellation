@@ -28,6 +28,13 @@ const frenchMessages = {
     },
   },
   resources: {
+    account: {
+      name: "Account",
+      fields: {
+        name: "Nom complet",
+        email: "Email",
+      },
+    },
     applications: {
       name: "Applications",
       fields: {
