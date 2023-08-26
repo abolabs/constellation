@@ -14,11 +14,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from "react";
-import { Box, LinearProgress, Link, Typography } from "@mui/material";
+import { Box, LinearProgress, Typography } from "@mui/material";
 import {
   AutocompleteInput,
   BooleanInput,
   Edit,
+  Link,
   ReferenceInput,
   SimpleForm,
   TextInput,
@@ -65,11 +66,11 @@ const ServiceInstanceEdit = () => {
           mb: 2,
         }}
       >
-        <Link href={`/applications/${record?.application_id}/show`}>
+        <Link to={`/applications/${record?.application_id}/show`}>
           {record?.application_name}
         </Link>{" "}
         /{" "}
-        <Link href={`/service_instances/${record?.id}/show`}>
+        <Link to={`/service_instances/${record?.id}/show`}>
           {record?.service_name}
         </Link>
       </Typography>

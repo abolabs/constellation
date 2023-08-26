@@ -42,12 +42,9 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
 import { useTheme } from "@mui/material/styles";
-import { useMediaQuery, Grid, Collapse } from "@mui/material";
-import { useGetIdentity } from "ra-core";
+import { useMediaQuery, Collapse } from "@mui/material";
 import { useEffect, useState } from "react";
-import Gravatar from "react-gravatar";
 import { grey } from "@mui/material/colors";
-import Logo from "@components/Logo";
 
 const AppMenu = () => {
   const theme = useTheme();
@@ -126,7 +123,7 @@ const AppMenu = () => {
         },
 
         "& .RaMenuItemLink-active": {
-          color: `${theme.palette.primary.main}`,
+          color: theme.palette.primary.main,
           ".MuiSvgIcon-root": {
             background: theme.palette.primary.main,
             color: theme.palette.secondary.contrastText,

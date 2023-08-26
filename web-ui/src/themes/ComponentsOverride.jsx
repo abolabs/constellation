@@ -63,6 +63,15 @@ const componentsOverride = (theme) => {
           root: {
             //boxShadow: theme.palette.shadows[1],
             boxShadow: "none",
+            "& .RaDatagrid-headerCell": {
+              backgroundColor: theme.palette.primary.main,
+              "& .MuiTableSortLabel-root": {
+                color: theme.palette.primary.contrastText,
+              },
+              "& .Mui-active .MuiTableSortLabel-icon": {
+                color: theme.palette.primary.contrastText,
+              },
+            },
           },
         },
       },

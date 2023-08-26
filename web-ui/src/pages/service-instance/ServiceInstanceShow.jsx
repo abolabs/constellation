@@ -25,7 +25,6 @@ import {
   Fade,
   IconButton,
   LinearProgress,
-  Link,
   List,
   ListItem,
   ListItemText,
@@ -36,6 +35,7 @@ import {
   BooleanField,
   Confirm,
   DateField,
+  Link,
   NumberField,
   Show,
   TextField,
@@ -98,7 +98,7 @@ const ServiceInstanceShow = () => {
           mb: 2,
         }}
       >
-        <Link href={`/applications/${record?.application_id}/show`}>
+        <Link to={`/applications/${record?.application_id}/show`}>
           {record?.application_name}
         </Link>{" "}
         / {record?.service_name}
@@ -429,7 +429,7 @@ const DependencyCard = (dep) => {
             <br />
             <Tag
               label={
-                <Link href={depInfo?.url} target="_blank" rel="noopener">
+                <Link to={depInfo?.url} target="_blank" rel="noopener">
                   <FontAwesomeIcon icon={faGitAlt} />
                   &nbsp;{t("resources.services.fields.git_repo")}
                 </Link>
@@ -520,7 +520,7 @@ const ServiceInstanceShowLayout = () => {
                   <ListItemText
                     primary={t("resources.services.fields.name")}
                     secondary={
-                      <Link href={`/services/${record?.service_id}/show`}>
+                      <Link to={`/services/${record?.service_id}/show`}>
                         <TextField
                           source="service_name"
                           sx={{
@@ -544,9 +544,7 @@ const ServiceInstanceShowLayout = () => {
                       "resources.service_instances.fields.environment_name"
                     )}
                     secondary={
-                      <Link
-                        href={`/environments/${record?.environment_id}/show`}
-                      >
+                      <Link to={`/environments/${record?.environment_id}/show`}>
                         <TextField
                           source="environment_name"
                           sx={{
@@ -563,7 +561,7 @@ const ServiceInstanceShowLayout = () => {
                       "resources.service_instances.fields.hosting_name"
                     )}
                     secondary={
-                      <Link href={`/hostings/${record?.hosting_id}/show`}>
+                      <Link to={`/hostings/${record?.hosting_id}/show`}>
                         <TextField
                           source="hosting_name"
                           sx={{

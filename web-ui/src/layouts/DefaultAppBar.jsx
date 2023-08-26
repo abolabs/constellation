@@ -92,14 +92,19 @@ const DefaultAppBar = (props) => {
       {...props}
       userMenu={<AppUserMenu />}
     >
-      <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
+      <Typography
+        variant="h3"
+        component="div"
+        sx={{ flexGrow: 1, display: "flex", alignContent: "center" }}
+      >
         <Avatar
           sx={{
             m: 1,
             bgcolor: "primary.main",
-            height: "2rem",
-            width: "2rem",
+            height: "1.25rem",
+            width: "1.25rem",
             p: 0,
+            margin: "0.25rem",
             display: "inline-flex",
           }}
         >

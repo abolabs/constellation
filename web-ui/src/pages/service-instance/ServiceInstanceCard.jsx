@@ -20,7 +20,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  Link,
   List,
   ListItem,
   ListItemText,
@@ -33,7 +32,7 @@ import LinkIcon from "@mui/icons-material/Link";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Tag from "@components/styled/Tag";
 import ItemCardHeader from "@components/styled/ItemCardHeader";
-import { useTranslate } from "react-admin";
+import { Link, useTranslate } from "react-admin";
 
 const ServiceInstanceCard = (instance) => {
   const navigate = useNavigate();
@@ -135,7 +134,7 @@ const ServiceInstanceCard = (instance) => {
               />
             ) : null}
           </ListItem>
-          <Link href={`/hostings/${instance?.hosting_id}/show`}>
+          <Link to={`/hostings/${instance?.hosting_id}/show`}>
             <ListItem>
               <ListItemText
                 primary={t("resources.service_instances.fields.hosting_name")}

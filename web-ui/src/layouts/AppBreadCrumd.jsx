@@ -16,18 +16,18 @@
 import * as React from "react";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
+
 import Stack from "@mui/material/Stack";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import HomeIcon from "@mui/icons-material/Home";
-import { useTranslate } from "react-admin";
+import { Link, useTranslate } from "react-admin";
 
 const AppBreadCrumd = (props) => {
   const routePrefix = "/";
   const t = useTranslate();
 
   const breadcrumbs = [
-    <Link underline="hover" key="route-0" color="inherit" href="/">
+    <Link underline="hover" key="route-0" color="inherit" to="/">
       <HomeIcon fontSize="small" />
     </Link>,
   ];
@@ -44,7 +44,7 @@ const AppBreadCrumd = (props) => {
               underline="hover"
               key="route-{i}"
               color="inherit"
-              href={routePrefix + paths[i]}
+              to={routePrefix + paths[i]}
             >
               {["add", "show", "edit", "list", "delete"].includes(paths[i])
                 ? t(`ra.action.${paths[i]}`)
