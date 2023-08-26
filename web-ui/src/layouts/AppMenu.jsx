@@ -65,6 +65,7 @@ const AppMenu = () => {
         color: theme.palette.primary.main,
         marginTop: 0,
         borderRadius: isSmall ? 0 : 1,
+        zIndex: 10,
         mr: 3,
         pt: 0.5,
         pb: 0.5,
@@ -93,7 +94,7 @@ const AppMenu = () => {
           m: isSmall ? 0 : "default",
         },
         "&.RaMenu-closed": {
-          ml: 0.5,
+          ml: "0.75rem",
           width: "2.5rem",
           ".MuiMenuItem-root": {
             m: 0,

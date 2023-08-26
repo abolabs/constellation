@@ -26,7 +26,7 @@ const AppLayout = (props) => (
         transition: "background-color 1s",
         "& .RaLayout-content": {
           transition: "background-color 1s",
-          padding: "0 1rem",
+          padding: "0 3rem",
         },
         ".RaLayout-appFrame": {
           marginTop: 4,

@@ -144,8 +144,6 @@ const AppBar = React.memo((props) => {
   // eslint-disable-next-line no-unused-vars
   const [_openSideBar, setOpenSideBar] = useSidebarState();
 
-  console.log(theme.transitions);
-
   return (
     <Container className={className}>
       <StyledAppBar className={AppBarClasses.appBar} color={color} {...rest}>
