@@ -77,8 +77,8 @@ const Dashboard = () => {
       <Divider sx={{ mb: 2, color: theme.palette.divider }} />
       <Grid
         container
-        spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
+        spacing={{ xs: 3, md: 3 }}
+        columns={{ xs: 6, sm: 6, md: 8, lg: 12 }}
       >
         <Grid item xs={4}>
           <StatisticCard

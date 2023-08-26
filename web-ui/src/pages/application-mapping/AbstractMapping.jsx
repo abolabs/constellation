@@ -154,7 +154,7 @@ const AbstractMapping = ({
       >
         <Card
           sx={{
-            maxWidth: 316,
+            maxWidth: "15rem",
             borderTopRightRadius: 0,
             borderTopLeftRadius: 2,
             borderBottomLeftRadius: 0,
@@ -174,7 +174,8 @@ const AbstractMapping = ({
               p: 0,
               m: 0,
               ".MuiFormControl-root": {
-                minWidth: "280px",
+                minWidth: "13rem",
+                maxWidth: "100%",
               },
               height: asWidget ? "3.5rem" : "auto",
             }}
