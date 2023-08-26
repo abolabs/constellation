@@ -62,7 +62,7 @@ const englishMessages = {
       name: "Service instances",
       fields: {
         id: "Id",
-        application_id: "Application ID",
+        application_id: "Application Id",
         application_name: "Application",
         service_version_id: "Service version",
         service_name: "Service",
@@ -83,7 +83,7 @@ const englishMessages = {
     environments: {
       name: "Environments",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Environment",
         created_at: "Created at",
         updated_at: "Updated at",
@@ -92,7 +92,7 @@ const englishMessages = {
     hosting_types: {
       name: "Hosting types",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Hosting type",
         description: "Description",
         created_at: "Created at",
@@ -102,7 +102,7 @@ const englishMessages = {
     hostings: {
       name: "Hostings",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Hosting",
         hosting_type_id: "Hosting type",
         hosting_type_name: "Hosting type",
@@ -115,7 +115,7 @@ const englishMessages = {
     teams: {
       name: "Teams",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Team",
         created_at: "Created at",
         updated_at: "Updated at",
@@ -124,7 +124,7 @@ const englishMessages = {
     services: {
       name: "Services",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Service",
         team_id: "Team",
         git_repo: "Git repository",
@@ -136,7 +136,7 @@ const englishMessages = {
     service_versions: {
       name: "Service versions",
       fields: {
-        id: "ID",
+        id: "Id",
         service_id: "Service",
         service_name: "Service",
         version: "Version",
@@ -147,14 +147,14 @@ const englishMessages = {
     service_instance_dependencies: {
       name: "Service dependencies",
       fields: {
-        id: "ID",
+        id: "Id",
         instance_application_id: "Application",
         instance_application_name: "Application",
-        instance_id: "Instance ID",
+        instance_id: "Instance Id",
         instance_service_name: "Service",
         instance_dep_application_id: "Dependency app",
         instance_dep_application_name: "Dependency app",
-        instance_dep_id: "Dependency ID",
+        instance_dep_id: "Dependency Id",
         instance_dep_service_name: "Dependency",
         level: "Dependency level",
         description: "Description",
@@ -165,7 +165,7 @@ const englishMessages = {
     roles: {
       name: "Roles",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Role",
         permissions: "Permissions",
         created_at: "Created at",
@@ -175,7 +175,7 @@ const englishMessages = {
     permissions: {
       name: "Permissions",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Permission",
         created_at: "Created at",
         updated_at: "Updated at",
@@ -184,7 +184,7 @@ const englishMessages = {
     users: {
       name: "Users",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Name",
         email: "email",
         roles: "roles",
@@ -197,11 +197,11 @@ const englishMessages = {
       name: "Audits",
       fields: {
         user_type: "User type",
-        user_id: "User ID",
+        user_id: "User Id",
         user_name: "User name",
         event: "Event",
         auditable_type: "Auditable type",
-        auditable_id: "Auditable ID",
+        auditable_id: "Auditable Id",
         old_values: "Old values",
         new_values: "New values",
         url: "url",

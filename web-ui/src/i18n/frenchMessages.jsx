@@ -62,7 +62,7 @@ const frenchMessages = {
       name: "Instances de service",
       fields: {
         id: "Id",
-        application_id: "ID application",
+        application_id: "Id application",
         application_name: "Application",
         service_version_id: "Version de service",
         service_name: "Service",
@@ -83,7 +83,7 @@ const frenchMessages = {
     environments: {
       name: "Environnements",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Environnement",
         created_at: "Date de création",
         updated_at: "Date de mise à jour",
@@ -92,7 +92,7 @@ const frenchMessages = {
     hosting_types: {
       name: "Types d'hébergement",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Type d'hébergement",
         description: "Description",
         created_at: "Date de création",
@@ -102,7 +102,7 @@ const frenchMessages = {
     hostings: {
       name: "Hébergements",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Hébergement",
         hosting_type_id: "Type d'hébergement",
         hosting_type_name: "Type d'hébergement",
@@ -115,7 +115,7 @@ const frenchMessages = {
     teams: {
       name: "Equipes",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Equipe",
         created_at: "Date de création",
         updated_at: "Date de mise à jour",
@@ -124,7 +124,7 @@ const frenchMessages = {
     services: {
       name: "Services",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Service",
         team_id: "Equipe",
         git_repo: "Dépôt Git",
@@ -136,7 +136,7 @@ const frenchMessages = {
     service_versions: {
       name: "Versions de service",
       fields: {
-        id: "ID",
+        id: "Id",
         service_id: "Service",
         service_name: "Service",
         version: "Version",
@@ -147,14 +147,14 @@ const frenchMessages = {
     service_instance_dependencies: {
       name: "Dépendances de services",
       fields: {
-        id: "ID",
+        id: "Id",
         instance_application_id: "Application",
         instance_application_name: "Application",
-        instance_id: "ID instance",
+        instance_id: "Id instance",
         instance_service_name: "Service",
         instance_dep_application_id: "Application de la dépendance",
         instance_dep_application_name: "Application de la dépendance",
-        instance_dep_id: "ID dépendance",
+        instance_dep_id: "Id dépendance",
         instance_dep_service_name: "Dépendance",
         level: "Niveau de dépendance",
         description: "Description",
@@ -165,7 +165,7 @@ const frenchMessages = {
     roles: {
       name: "Rôles",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Rôle",
         permissions: "Permissions",
         created_at: "Date de création",
@@ -175,7 +175,7 @@ const frenchMessages = {
     permissions: {
       name: "Permissions",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Permission",
         created_at: "Date de création",
         updated_at: "Date de mise à jour",
@@ -184,7 +184,7 @@ const frenchMessages = {
     users: {
       name: "Utilisateurs",
       fields: {
-        id: "ID",
+        id: "Id",
         name: "Nom",
         email: "email",
         roles: "roles",
@@ -197,11 +197,11 @@ const frenchMessages = {
       name: "Audits",
       fields: {
         user_type: "Type d'utilisateur",
-        user_id: "ID utilisateur",
+        user_id: "Id utilisateur",
         user_name: "Nom utilisateur",
         event: "Evénement",
         auditable_type: "Auditable type",
-        auditable_id: "ID audit",
+        auditable_id: "Id audit",
         old_values: "Valeurs précédentes",
         new_values: "Nouvelles valeurs",
         url: "url",
