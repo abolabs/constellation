@@ -33,7 +33,8 @@ const AuthProvider = {
         },
         {
           headers: {
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin":
+              import.meta.env?.CORS_ALLOWED_ORIGINS ?? "*",
             "Content-Type": "application/json",
           },
         }
