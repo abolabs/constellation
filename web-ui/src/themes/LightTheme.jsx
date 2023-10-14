@@ -52,7 +52,6 @@ const theme = createTheme(
       contrastThreshold: 3,
       tonalOffset: 0.2,
     },
-    spacing: 15,
     props: {
       AppBar: {
         color: "#0f7b8a",

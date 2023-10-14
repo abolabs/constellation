@@ -15,6 +15,7 @@
 
 const componentsOverride = (theme) => {
   return {
+    spacing: 15,
     breakpoints: {
       ...theme.breakpoints,
       values: {
