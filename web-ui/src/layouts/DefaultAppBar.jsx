@@ -43,7 +43,7 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import IconButton from "@mui/material/IconButton";
 // local
 import ColorModeContext from "@contexts/ColorModeContext";
-import { Avatar, SvgIcon, useMediaQuery } from "@mui/material";
+import { Avatar, SvgIcon } from "@mui/material";
 import { ReactComponent as LogoSvg } from "@/logo50.svg";
 
 // It's important to pass the ref to allow MUI to manage the keyboard navigation
