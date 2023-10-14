@@ -111,7 +111,7 @@ const PREFIX = "RaAppBar";
 
 const StyledAppBar = styled(MuiAppBar, {
   name: PREFIX,
-  overridesResolver: (props, styles) => styles.root,
+  overridesResolver: (_props, styles) => styles.root,
 })(({ theme }) => ({
   [`& .${AppBarClasses.toolbar}`]: {
     padding: `0 ${theme.spacing(1)}`,
