@@ -15,6 +15,7 @@
 
 const componentsOverride = (theme) => {
   return {
+    spacing: 15,
     breakpoints: {
       ...theme.breakpoints,
       values: {
@@ -128,6 +129,10 @@ const componentsOverride = (theme) => {
           },
         },
       },
+    },
+    sidebar: {
+      width: 200, // The default value is 240
+      closedWidth: 40, // The default value is 55
     },
   };
 };

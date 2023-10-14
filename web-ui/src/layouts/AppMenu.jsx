@@ -45,14 +45,12 @@ import { useTheme } from "@mui/material/styles";
 import { useMediaQuery, Collapse } from "@mui/material";
 import { useEffect, useState } from "react";
 import { grey } from "@mui/material/colors";
-import Logo from "@components/Logo";
 
 const AppMenu = () => {
   const theme = useTheme();
   const isMediumOrUpper = useMediaQuery((theme) => theme.breakpoints.up("md"));
   const [open, setOpen] = useSidebarState(isMediumOrUpper);
   const [adminOpen, setAdminOpen] = useState();
-  const isSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const { permissions } = usePermissions();
   const t = useTranslate();
 
@@ -65,9 +63,9 @@ const AppMenu = () => {
       sx={{
         color: theme.palette.primary.main,
         marginTop: 0,
-        borderRadius: isSmall ? 0 : 1,
+        borderRadius: 1,
         zIndex: 10,
-        mr: 3,
+        mr: 0,
         pt: 0.5,
         pb: 0.5,
         h4: {
@@ -87,13 +85,7 @@ const AppMenu = () => {
         "& .SidebarAvatar": {
           pt: 1,
         },
-        "&.RaMenu-open": {
-          width: isSmall ? "100%" : "14rem",
-          height: isSmall ? "100%" : "auto",
-          ml: isSmall ? 0 : 1,
-          p: isSmall ? 0 : "default",
-          m: isSmall ? 0 : "default",
-        },
+        "&.RaMenu-open": {},
         "&.RaMenu-closed": {
           ml: "0.75rem",
           width: "2.5rem",
@@ -133,7 +125,7 @@ const AppMenu = () => {
         },
       }}
     >
-      <Menu.DashboardItem />
+      <Menu.DashboardItem primaryText={open ? "Dashboard" : ""} />
       {open ? (
         <Typography variant="h4" pt={1}>
           {t("Application mapping")}
@@ -264,9 +256,14 @@ const AppMenu = () => {
 };
 
 const MenuItem = ({ permission, ...props }) => {
+  const isMediumOrUpper = useMediaQuery((theme) => theme.breakpoints.up("md"));
+  const [open] = useSidebarState(isMediumOrUpper);
   const { permissions } = usePermissions();
   if (permission && !permissions?.includes(permission)) {
     return null;
+  }
+  if (!open) {
+    props.primaryText = "";
   }
   return <Menu.Item {...props} />;
 };

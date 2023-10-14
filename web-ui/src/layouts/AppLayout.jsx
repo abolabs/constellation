@@ -41,7 +41,7 @@ const AppLayout = (props) => (
       }}
       {...props}
       appBar={DefaultAppBar}
-      menu={AppMenu}
+      sidebar={AppMenu}
     />
     {process.env.NODE_ENV === "development" ? <ReactQueryDevtools /> : null}
   </>

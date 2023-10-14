@@ -155,6 +155,7 @@ return [
                 ],
                 'sortableAttributes' => [
                     'id',
+                    'team_id',
                     'name',
                     'user_type',
                     'user_id',
@@ -163,6 +164,7 @@ return [
                     'auditable_type',
                     'ip_address',
                     'created_at',
+                    'updated_at',
                 ],
             ],
             Audit::class => [
@@ -173,6 +175,13 @@ return [
                     'id',
                     'name',
                     'team_name',
+                    'user_name',
+                    'auditable_id',
+                    'auditable_type',
+                    'event',
+                    'ip_address',
+                    'created_at',
+                    'updated_at',
                 ],
             ],
             Environment::class => [
@@ -182,6 +191,8 @@ return [
                 'sortableAttributes' => [
                     'id',
                     'name',
+                    'created_at',
+                    'updated_at',
                 ],
             ],
             Hosting::class => [
@@ -195,6 +206,8 @@ return [
                     'hosting_type_id',
                     'hosting_type_name',
                     'localisation',
+                    'created_at',
+                    'updated_at',
                 ],
             ],
             HostingType::class => [
@@ -205,6 +218,8 @@ return [
                     'id',
                     'name',
                     'description',
+                    'created_at',
+                    'updated_at',
                 ],
             ],
             Permission::class => [
@@ -225,6 +240,8 @@ return [
                 'sortableAttributes' => [
                     'id',
                     'name',
+                    'created_at',
+                    'updated_at',
                 ],
             ],
             Service::class => [
@@ -237,6 +254,8 @@ return [
                     'team_id',
                     'name',
                     'git_repo',
+                    'created_at',
+                    'updated_at',
                 ],
             ],
             ServiceInstance::class => [
@@ -269,6 +288,12 @@ return [
                     'instance_dep_id',
                     'level',
                     'description',
+                    'instance_application_name',
+                    'instance_service_name',
+                    'instance_dep_application_name',
+                    'instance_dep_service_name',
+                    'created_at',
+                    'updated_at',
                 ],
             ],
             ServiceVersion::class => [
@@ -281,6 +306,8 @@ return [
                     'service_id',
                     'version',
                     'service_name',
+                    'created_at',
+                    'updated_at',
                 ],
             ],
             Team::class => [
@@ -290,6 +317,9 @@ return [
                 'sortableAttributes' => [
                     'id',
                     'name',
+                    'manager',
+                    'created_at',
+                    'updated_at',
                 ],
             ],
             User::class => [
@@ -300,6 +330,9 @@ return [
                     'id',
                     'name',
                     'email',
+                    'roles',
+                    'created_at',
+                    'updated_at',
                 ],
             ],
         ],

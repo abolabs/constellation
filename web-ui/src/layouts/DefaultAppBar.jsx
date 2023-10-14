@@ -43,7 +43,7 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import IconButton from "@mui/material/IconButton";
 // local
 import ColorModeContext from "@contexts/ColorModeContext";
-import { Avatar, SvgIcon, useMediaQuery } from "@mui/material";
+import { Avatar, SvgIcon } from "@mui/material";
 import { ReactComponent as LogoSvg } from "@/logo50.svg";
 
 // It's important to pass the ref to allow MUI to manage the keyboard navigation
@@ -111,7 +111,7 @@ const PREFIX = "RaAppBar";
 
 const StyledAppBar = styled(MuiAppBar, {
   name: PREFIX,
-  overridesResolver: (props, styles) => styles.root,
+  overridesResolver: (_props, styles) => styles.root,
 })(({ theme }) => ({
   [`& .${AppBarClasses.toolbar}`]: {
     padding: `0 ${theme.spacing(1)}`,
@@ -139,7 +139,6 @@ const AppBar = React.memo((props) => {
     ...rest
   } = props;
 
-  const isXSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const theme = useTheme();
   // eslint-disable-next-line no-unused-vars
   const [_openSideBar, setOpenSideBar] = useSidebarState();
@@ -149,7 +148,7 @@ const AppBar = React.memo((props) => {
       <StyledAppBar className={AppBarClasses.appBar} color={color} {...rest}>
         <Toolbar
           disableGutters
-          variant={isXSmall ? "regular" : "dense"}
+          variant={"dense"}
           className={AppBarClasses.toolbar}
         >
           <Avatar

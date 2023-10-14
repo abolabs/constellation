@@ -15,7 +15,7 @@
 
 import { defaultTheme } from "react-admin";
 import { createTheme } from "@mui/material/styles";
-import { grey, blueGrey } from '@mui/material/colors';
+import { grey, blueGrey } from "@mui/material/colors";
 import componentsOverride from "./ComponentsOverride";
 
 const theme = createTheme(
@@ -27,7 +27,7 @@ const theme = createTheme(
         main: "#51d7ee",
       },
       secondary: {
-        main: "#4dd9e4",
+        main: "#0f7b8a",
       },
       error: {
         main: "#DB3A34",
@@ -55,11 +55,10 @@ const theme = createTheme(
       contrastThreshold: 3,
       tonalOffset: 0.2,
     },
-    spacing: 15,
     props: {
       AppBar: {
         color: "#0f7b8a",
-      }
+      },
     },
   },
   {
