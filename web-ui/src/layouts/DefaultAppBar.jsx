@@ -139,7 +139,6 @@ const AppBar = React.memo((props) => {
     ...rest
   } = props;
 
-  const isXSmall = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const theme = useTheme();
   // eslint-disable-next-line no-unused-vars
   const [_openSideBar, setOpenSideBar] = useSidebarState();
@@ -149,7 +148,7 @@ const AppBar = React.memo((props) => {
       <StyledAppBar className={AppBarClasses.appBar} color={color} {...rest}>
         <Toolbar
           disableGutters
-          variant={isXSmall ? "regular" : "dense"}
+          variant={"dense"}
           className={AppBarClasses.toolbar}
         >
           <Avatar
