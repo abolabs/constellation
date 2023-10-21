@@ -5,7 +5,7 @@ import AuthProvider from "../AuthProvider";
 
 const defaultSettings = {
   headers: {
-    "Access-Control-Allow-Origin": import.meta.env?.CORS_ALLOWED_ORIGINS ?? "*",
+    "Access-Control-Allow-Origin": window.env?.CORS_ALLOWED_ORIGINS ?? "*",
     "Content-Type": "application/json",
   },
   initPage: 1,

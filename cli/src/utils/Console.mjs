@@ -20,72 +20,72 @@ import gradient from 'gradient-string';
 import prompts from 'prompts';
 import { $ } from 'zx/core';
 
-function log(...message){
-    const firstMessage = message?.[0];
-    const otherMessages = message.slice(1);
+function log(...message) {
+  const firstMessage = message?.[0];
+  const otherMessages = message.slice(1);
 
-    console.log(firstMessage);
-    if (otherMessages.length > 0) {
-        console.group();
-    }
-    otherMessages.forEach((otherMessage) => {
-        console.log(otherMessage);
-    });
-    if (otherMessages.length > 0) {
-        console.groupEnd();
-    }
+  console.log(firstMessage);
+  if (otherMessages.length > 0) {
+    console.group();
+  }
+  otherMessages.forEach((otherMessage) => {
+    console.log(otherMessage);
+  });
+  if (otherMessages.length > 0) {
+    console.groupEnd();
+  }
 }
 
-function debug(message){
-    if($.verbose){
-        console.log(message);
-    }
+function debug(message) {
+  if ($.verbose) {
+    console.log(message);
+  }
 }
 
-function info(...message){
-    if($.verbose){
-        const infoGradient = gradient(['#084C61','#177E89','#084C61']);
-        printGradient(infoGradient, '[Info]', ...message);
-    }
+function info(...message) {
+  if ($.verbose) {
+    const infoGradient = gradient(['#084C61', '#177E89', '#084C61']);
+    printGradient(infoGradient, '[Info]', ...message);
+  }
 }
 
-function warn(...message){
-    const infoGradient = gradient(['#d08025','#e67b00']);
-    printGradient(infoGradient, '[Warn]', ...message);
+function warn(...message) {
+  const infoGradient = gradient(['#d08025', '#e67b00']);
+  printGradient(infoGradient, '[Warn]', ...message);
 }
 
-function error(...message){
-    const errorGradient = gradient(['#ff0025','purple']);
-    printGradient(errorGradient, '[Error]', ...message);
+function error(...message) {
+  const errorGradient = gradient(['#ff0025', 'purple']);
+  printGradient(errorGradient, '[Error]', ...message);
 }
 
-function confirm(...message){
-    const errorGradient = gradient(['#38c172','#128e46']);
-    printGradient(errorGradient, '[OK]', ...message);
+function confirm(...message) {
+  const errorGradient = gradient(['#38c172', '#128e46']);
+  printGradient(errorGradient, '[OK]', ...message);
 }
 
-function printError(promise){
-    error(`[Exit=${promise.exitCode}] ${promise?.stderr}`, `signal: ${promise.signal}`);
-    debug(promise.stdout);
+function printError(promise) {
+  error(`[Exit=${promise.exitCode}] ${promise?.stderr}`, `signal: ${promise.signal}`);
+  debug(promise.stdout);
 }
 
-function printGradient(gradient, prefix, ...message){
-    const coloredPrefix = gradient(prefix);
+function printGradient(gradient, prefix, ...message) {
+  const coloredPrefix = gradient(prefix);
 
-    const firstMessage = message?.[0];
-    const otherMessages = message.slice(1);
+  const firstMessage = message?.[0];
+  const otherMessages = message.slice(1);
 
-    console.log(`${coloredPrefix}`, firstMessage);
+  console.log(`${coloredPrefix}`, firstMessage);
 
-    if (otherMessages.length > 0) {
-        console.group();
-    }
-    otherMessages.forEach((otherMessage) => {
-        console.log(otherMessage);
-    });
-    if (otherMessages.length > 0) {
-        console.groupEnd();
-    }
+  if (otherMessages.length > 0) {
+    console.group();
+  }
+  otherMessages.forEach((otherMessage) => {
+    console.log(otherMessage);
+  });
+  if (otherMessages.length > 0) {
+    console.groupEnd();
+  }
 }
 
-export default {confirm, error, log, info, warn, printError, prompts};
+export default { confirm, error, log, info, warn, printError, prompts };

@@ -16,11 +16,11 @@
 import laravelDataProvider from "./LaravelDataProvider";
 
 const dataProvider = laravelDataProvider(
-  `${import.meta.env.VITE_API_URL}/v1`,
+  `${window.env.APP_API_URL}/v1`,
   {
     headers: {
       "Access-Control-Allow-Origin":
-        import.meta.env?.CORS_ALLOWED_ORIGINS ?? "*",
+      window.env?.CORS_ALLOWED_ORIGINS ?? "*",
       "Content-Type": "application/json",
     },
     offsetPageNum: 0,

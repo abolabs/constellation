@@ -1,4 +1,4 @@
-#!/usr/bin/env zx
+#!/usr/bin/npx zx
 
 // Copyright (C) 2022 Abolabs (https://gitlab.com/abolabs/)
 //
@@ -32,7 +32,7 @@ import path from 'path';
 dotenv.config({ path: path.join(__dirname, '/.env') });
 
 if ($.verbose) {
-    Base.printTitle()
+  Base.printTitle()
 }
 
 await Environment.initEnv();
@@ -41,45 +41,49 @@ const args = Base.getArgs();
 
 let mainCommand = args?.main;
 if (!mainCommand) {
-    mainCommand = await Base.selectAction([
-        'setup',
-        'api',
-        'web-ui',
-        'docker',
-        'artisan',
-        'ci'
-    ]);
+  mainCommand = await Base.selectAction([
+    'setup',
+    'api',
+    'web-ui',
+    'docker',
+    'artisan',
+    'ci'
+  ]);
 }
 
-switch(mainCommand){
-    // Services
-    case 'setup':
-        new Setup(args).run();
-        break;
-    case 'api':
-        new Api(args).run();
-        break;
-    case 'web-ui':
-        new WebUI(args).run();
-        break;
-    // Wrappers
-    case 'docker':
-        new Docker(args).run();
-        break;
-    case 'artisan':
-        new Artisan(args).run();
-        break;
-    // CI
-    case 'ci':
-        new CI(args).run();
-        break;
-    default:
-        usage();
-        break;
+let commandObj;
+
+switch (mainCommand) {
+  // Services
+  case 'setup':
+    commandObj = Setup;
+    break;
+  case 'api':
+    commandObj = Api;
+    break;
+  case 'web-ui':
+    commandObj = WebUI;
+    break;
+  // Wrappers
+  case 'docker':
+    commandObj = Docker;
+    break;
+  case 'artisan':
+    commandObj = Artisan;
+    break;
+  // CI
+  case 'ci':
+    commandObj = CI;
+    break;
+  default:
+    usage();
+    process.exit(0);
 }
+
+new (commandObj)(args).run();
 
 function usage() {
-    const usageText = `
+  const usageText = `
     Constellation CLI utils.
 
     Usage: constellation-cli [OPTIONS] COMMAND
@@ -104,5 +108,5 @@ function usage() {
         ci              Commands for CI environment.
 
     `
-    Console.log(usageText);
+  Console.log(usageText);
 }

@@ -1,8 +1,10 @@
 .env
 .env.backup
 cli/node_modules
-install/prod/web-ui/env.config.js
 install/prod/api/oauth-public.key
 install/prod/api/oauth-private.key
-web-ui/public/env.config.js
 **/.vite
+install/prod/letsencrypt/acme.json
+install/dev/web-ui/env.js
+install/prod/web-ui/env.js
+web-ui/public/env.js

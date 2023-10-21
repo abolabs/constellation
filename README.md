@@ -7,8 +7,6 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 
-
-
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
@@ -17,12 +15,12 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
+
 [![Pipeline Status](https://gitlab.com/abolabs/constellation/badges/master/pipeline.svg)](https://gitlab.com/abolabs/constellation/commits/master)
 [![Stars](https://badgen.net//gitlab/stars/abolabs/constellation/)](https://gitlab.com/abolabs/constellation/commits/master)
 [![GitLab issues open](https://badgen.net/gitlab/open-issues/abolabs/constellation)](https://gitlab.com/gitlab-org/gitlab-runner)
 [![GitLab issues closed](https://badgen.net/gitlab/closed-issues/abolabs/constellation)](https://gitlab.com/abolabs/constellation)
- [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -34,231 +32,255 @@
   <h3 align="center">Constellation</h3>
 
   <p align="center">
-    Interface de cartographie applicative
+    IT services mapping interface
     <br />
-    <a href="README-en.md"><strong>English version »</strong></a>
     <br />
-    <br />        
-    <a href="https://gitlab.com/abolabs/constellation/-/issues">Rapporter un Bug</a>
+    <a href="https://gitlab.com/abolabs/constellation/-/issues">Report a Bug</a>
     ·
-    <a href="https://gitlab.com/abolabs/constellation/-/issues">Partager une idée d'évolution</a>
+    <a href="https://gitlab.com/abolabs/constellation/-/issues">Request Feature</a>
   </p>
 </div>
 
-
-
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table des matières</summary>
+  <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#a-propos-du-projet">A propos du project</a>
+      <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#librairies-et-frameworks">Librairies et Frameworks</a></li>
+        <li><a href="#main-features">Main features</a></li>
+      </ul>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
     <li>
-      <a href="#commencer">Commencer</a>
+      <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prérequis">Prérequis</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>    
-    <li><a href="#contribuer">Contribuer</a></li>
-    <li><a href="#licence">Licence</a></li>
-    <li><a href="#contact">Contact</a></li>    
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
-## A propos du projet
 
-Constellation est une interface de cartographie applicative permettant à toute structure IT de visualiser et contrôler ses dépendances par service. 
+## About The Project
 
-### Fontionnalités
+Constellation is an IT services mapping interface, allowing any IT structure to view and control its dependencies by application.
 
-* Modélisation des applications et services applicatifs
-* Gestion des versions par service
-* Déclaration des dépendances de service selon 3 niveaux :
-    * **Faible** 
-    En cas d'indisponibilité : impact sur fonctionnalité(s) mineure(s) ou majeure(s) avec solution de contournement
-    * **Majeur** 
-    En cas d'indisponibilité : impact sur fonctionnalité(s) majeure(s) sans solution de contournement mais sans indisponibilité générale
-    * **Critique** 
-    En cas d'indisponibilité : impact de fonctionnalité(s) majeure(s) sans solution de contournement entrainant une indisponibilité générale de l'application
+### Main features
+
+- Modeling of applications and application services.
+- Service management by version.
+- Declaration of service dependencies according to 3 levels:
+  - :large_blue_circle: **Minor**
+    In the event of unavailability: impact on minor or major functionality (s) with workaround.
+  - :large_orange_diamond: **Major**
+    In the event of unavailability: impact on major feature (s) without workaround but without general unavailability.
+  - :red_circle: **Critical**
+    In the event of unavailability: impact of major functionality (s) without a workaround resulting in general unavailability of the application.
 
 <img src="doc/images/Screenshot.png" alt="Screenshot" width="500px">
 
-* **3 types de visualisations possibles** 
-    * Dépendances entre les applications
-    * Dépendances des services par application    
-    * Dépendances des services par solutions d'hébergement
+- **3 possible types of visualizations**
+  - Dependencies between applications
+  - Service dependencies by application
+  - Service dependencies by hosting solutions
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-<p align="right">(<a href="#top">revenir en haut</a>)</p>
+### :hammer: Built With
 
+This section lists the main libraries and frameworks used during the development of the solution:
 
+#### API
 
-### Librairies et Frameworks
+- [Laravel](https://laravel.com)
+- [MariaDB](https://mariadb.org/)
+- [Meilisearch](https://www.meilisearch.com/)
+- [Redis](https://redis.io/)
 
-La solution a été volontaire implémentée avec des solutions faciles d'accès, permettant au plus grand nombre de s'approprier le projet.
-Cette section liste les librairies et frameworks principaux utilisés durant l'élaboration de la solution :
+#### Web UI
 
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [CoreUI](https://coreui.io/)
-* [InfyOm](https://infyom.com/open-source)
-* [Cytoscape](https://js.cytoscape.org/)
+- [React](https://react.dev)
+- [Cytoscape](https://js.cytoscape.org/)
 
-<p align="right">(<a href="#top">revenir en haut</a>)</p>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
-## Commencer
 
-Les instructions ci-dessous décrivent les différentes étapes pour initialiser l'application via Docker.
+## Getting Started
 
-### Prérequis
+The instructions below show the different steps to initialize the application via Docker.
 
-L'application a été développée en utilisant les versions ci-dessous :
+### Prerequisites
 
-* Docker version 20.10.9, build c2ea9bc
-* docker-compose version 1.29.2, build 5becea4c
+The app has been developed using the versions below:
 
-Les versions de services utilisés sont déclarés dans le fichier `./install/dev/docker-compose.yml`. 
+- Docker version `21.0.6`, build `ed223bc`.
+- Docker compose v2:
+  - That means all commands with be executed with `docker compose ...` instead of `docker-compose ...`.
+  - See [migration guide](https://docs.docker.com/compose/migrate/) to upgrade to v2.
+
+Each service version is declared in the file `./install/dev/docker-compose.yml`.
+
+<!-- Todo: ajouter le setup du CLI (zx) -->
+
 ### Installation
-Les instructions ci-dessous décrivent comment monter un environnement de production.
-Si vous souhaitez monter un environnement de développement, merci de voir le [wiki](https://gitlab.com/abolabs/constellation/-/wikis/Setup-Dev-environnement)
 
-#### 1. Initialiser le fichier d'environnement du docker-compose
+#### 1. Initialize the docker-compose environment file
 
 ```sh
-cp ./install/prod/.env.example .env
-``` 
-
-#### 2. Editer le fichier d'environnement de la stack Docker
-
-* `MYUSER` Nom de l'utilisateur dans le conteneur api. 
-* `DATA_VOLUME` Répertoire de partage pour le stockage des données des services (Mariadb, Nginx, Redis).
-* Mariadb - Les informations ci-dessous devront correspondre à celles du `.env` Laravel, à la racine du projet).
-    * `MARIADB_ROOT_PASSWORD` Mot de passe root
-    * `MARIADB_USER` Nom utilisateur Mariadb.
-    * `MARIADB_PASSWORD` Mot de passe.
-    * `MARIADB_PORT` Port Mariadb partagé avec le host Docker.
-    * `MARIADB_DATABASE` Nom de la base de données initialisée par défaut.
-* MailDev - Service de debug pour l'envoi de mail.
-_(Voir https://hub.docker.com/r/maildev/maildev)_
-    * `SMTP` Port partagé avec le host pour l'écoute des messages à capturer.
-    * `WEBUI` Port partagé avec le host pour accéder à l'interface de visualisation des emails
-
-#### 3. Monter la stack    
-
-```sh
-docker-compose up -d
+cd ./install/prod/
+cp .env.example .env
 ```
-Tous les services devraient monter, vous permettant de passer à l'initialisation de l'application.
-Si ce n'est pas le cas, vérifiez les informations saisies dans le fichier `./install/dev/.env`.
-Si des ports sont déjà utilisés par d'autres services, modifiez la configuration.
 
-#### 4. Initialisation de l'application
+#### 2. Edit the Docker stack environment file
 
-* Initialisez le fichier d'environnement Laravel
-    ```sh
-    cp .env.example .env
-    ```
-* Editez le fichier d'environnement Laravel
-  * Générer une nouvelle clé applicative (il est déconseillé d'utiliser celle utilisée pour la construction de l'image Docker).
-  `docker-compose exec api php artisan key:generate`
-  * Editer les variables commençant `DB_` pour correspondre à ce qui a été défini dans le fichier `./install/dev/.env`.
-  `docker-compose exec api nano .env`
-  Vous pouvez également modifier les autres variables en fonction de votre environnement (voir https://laravel.com/docs/8.x/configuration).
+- `MYUSER` Username in the api container.
+- `DATA_VOLUME` Sharing directory for storing service data (Mariadb, Nginx, Redis, Meilisearch).
+- `SOURCE_VOLUME` Location of application sources (ex.: `/srv/Constellation`).
+- Mariadb - _The informations below must match that of the `.env` Laravel file, at the root of the project._
+  - `MARIADB_ROOT_PASSWORD` Root user Mariadb password
+  - `MARIADB_USER` Mariadb username.
+  - `MARIADB_PWD` User password.
+  - `MARIADB_PORT` Port Mariadb shared with the Docker host.
+  - `MARIADB_DATABASE` Database name initialized by default.
+- Meilisearch - _The informations below must match that of the .env Laravel file, at the root of the project._
+  - `MEILI_MASTER_KEY` Master key securing the meilisearch api.
+- MailDev - Service de debug pour l'envoi de mail.
+  _(see https://hub.docker.com/r/maildev/maildev)_
+  _ `SMTP` Port shared with the host for listening to messages to be captured.
+  _ `WEBUI` Port shared with the host to access the email display interface.
 
-* Initialisez la base de données    
-    * Editez l'administrateur.     
-    Modifier le fichier `./database/seeders/CreateAdminUserSeeder.php`.
-    `docker-compose exec api nano database/seeders/CreateAdminUserSeeder.php`
-    Editez le nom, l'email et mot de passe à votre convenance 
+#### 3. Build the stack
+
+```sh
+docker compose up -d
+```
+
+You can check the stack is up with:
+
+```sh
+docker compose ps
+```
+
+All services should go up, allowing you to move on to initializing the application.
+If not, check the information entered in the `./install/prod/.env`.
+If the ports are already in use by other services, adapt your configuration.
+
+#### 4. Application initialization
+
+- Initialize the Laravel environment file
+  ```sh
+  cp .env.example .env
+  ```
+- Edit the Laravel environment file.
+
+  - Generate a new application key (it is not recommended to use the one used for building the Docker image).
+    `docker compose exec api php artisan key:generate`
+  - Edit variables starting `DB_` to match what has been defined in the file `./install/prod/.env`.
+    `docker compose exec api nano .env`
+    You can also modify the other variables according to your environment (see https://laravel.com/docs/10.x/configuration).
+
+- Initialize the database:
+
+  - Edit the administrator.
+  - Edit file [`api/database/seeders/CreateAdminUserSeeder.php`](api/database/seeders/CreateAdminUserSeeder.php).
+    `docker compose exec api nano database/seeders/CreateAdminUserSeeder.php`
+  - Edit the name, email and password at your convenience
+
     ```php
     'name' => 'Super Admin',
     'email' => 'admin@localhost',
     'password' => bcrypt('super_secured_password')
     ```
-    * Initialisation des tables
+
+  - Initialization of tables
+
     ```sh
-    docker-compose exec api php artisan migrate --seed
+    docker compose exec api php artisan migrate --seed
     ```
-    * (Optionnel) Chargez des applications d'exemple
+
+  - (Optional) Load example applications
+
     ```sh
-    docker-compose exec api php artisan db:seed --class=AppExampleSeeder
+    docker compose exec api php artisan db:seed --class=AppExampleSeeder
     ```
-#### 5. Finalisation
 
-Bravo vous venez de terminer l'installation de la solution.
-Il ne vous reste plus qu'à vous connecter.
-Avec la configuration par défaut, l'application sera accessible en local depuis l'url suivante : http://localhost:8080
+  - Initialize the search engine:
 
-<p align="right">(<a href="#top">revenir en haut</a>)</p>
+    ```sh
+    php artisan app:refresh-all-indexes
+    ```
 
+#### 5. Finalization
 
+Well done, you have just finished installing the solution.
+You can now log in the interface.
+With the default configuration, the application will be accessible locally from the following url: http://localhost:8080
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
-Exemples d'usages
-### Visualisation des dépendances applicatives
+Examples of uses
 
-<img src="doc/images/Screenshot_2.png" alt="Visualisation dépendances applicatives" width="500px">
+### Visualization of application dependencies
 
-### Visualisation des dépendances de service par application
+<img src="doc/images/Screenshot_2.png" alt="Visualization of application dependencies" width="500px">
 
-<img src="doc/images/Screenshot.png" alt="Visualisation dépendances de service par application" width="500px">
+### Viewing service dependencies by application
 
-### Visualisation des dépendances de service par solution d'hébergement
+<img src="doc/images/Screenshot.png" alt="Viewing service dependencies by application" width="500px">
 
-<img src="doc/images/Screenshot.png" alt="Visualisation dépendances de service par solution d'hébergement" width="500px">
+### Visualization of service dependencies by hosting solution
 
-<p align="right">(<a href="#top">revenir en haut</a>)</p>
+<img src="doc/images/Screenshot.png" alt="Visualization of service dependencies by hosting solution" width="500px">
 
-
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
-## Contribuer
 
-Les contributions sont ce qui fait de la communauté open source un endroit incroyable pour apprendre, s'inspirer et créer. Toutes les contributions que vous apportez sont **très appréciées**.
+## Contributing
 
-Si vous avez une suggestion pour améliorer la solution, veuillez créer un repo et créer une merge request. Vous pouvez aussi simplement ouvrir un ticket avec le tag « enhancement ».
-N'oubliez pas de donner une étoile au projet ! Merci à vous !
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-1. Faire un fork du projet
-2. Créez votre branche (`git checkout -b feature/AmazingFeature`)
-3. Validez vos modifications (`git commit -m 'Add some AmazingFeature'`)
-4. Poussez votre branche (`git push origin feature/AmazingFeature`)
-5. Ouvrez une merge request
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
-<p align="right">(<a href="#top">revenir en haut</a>)</p>
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- LICENSE -->
-## Licence
 
-Distribué sous licence  GNU AFFERO GENERAL PUBLIC LICENSE. Voir [LICENSE](LICENSE) pour plus d'informations.
+## License
 
-<p align="right">(<a href="#top">revenir en haut</a>)</p>
+Distributed under GNU AFFERO GENERAL PUBLIC LICENSE. See `LICENSE` for more information.
 
-
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTACT -->
+
 ## Contact
 
-### Contributeur(s)
+### Contributor(s)
 
-(Créateur) Alexandre Bordin - [@Linkedin](https://www.linkedin.com/in/alexandre-bordin/)
+(Creator) Alexandre Bordin - [@Linkedin](https://www.linkedin.com/in/alexandre-bordin/)
 
+Project Link: [https://gitlab.com/abolabs/constellation](https://gitlab.com/abolabs/constellation)
 
-Lien vers le projet : [https://gitlab.com/abolabs/constellation](https://gitlab.com/abolabs/constellation)
-
-<p align="right">(<a href="#top">revenir en haut</a>)</p>
-
+<p align="right">(<a href="#top">back to top</a>)</p>
