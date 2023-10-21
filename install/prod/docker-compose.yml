@@ -65,7 +65,7 @@ services:
       - ${DATA_VOLUME}/redis:/data
 
   meilisearch:
-    image: getmeili/meilisearch:v1.1
+    image: getmeili/meilisearch:v1.4
     environment:
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
     volumes:
