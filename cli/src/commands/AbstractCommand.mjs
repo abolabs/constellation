@@ -41,12 +41,16 @@ export default class AbstractCommand {
     if (availableOptions?.length === 0 || !availableOptions) {
       return [];
     }
+    const onCancel = prompt => {
+      Console.warn("Command cancelled. Exit.");
+      process.exit(0);
+    }
     const response = await Console.prompts({
       type: multiple ? 'multiselect' : 'autocomplete',
       name: 'options',
       message: 'Select options',
       choices: availableOptions,
-    });
+    }, { onCancel });
     if (multiple) {
       this.additionnal = response.options;
     } else {
