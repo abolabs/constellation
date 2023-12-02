@@ -32,7 +32,7 @@
   <h3 align="center">Constellation</h3>
 
   <p align="center">
-    IT services mapping interface
+    IT service mapping interface
     <br />
     <br />
     <a href="https://gitlab.com/abolabs/constellation/-/issues">Report a Bug</a>
@@ -58,7 +58,7 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#setup">Setup</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -72,7 +72,7 @@
 
 ## About The Project
 
-Constellation is an IT services mapping interface, allowing any IT structure to view and control its dependencies by application.
+Constellation is an IT service mapping interface, enabling any IT organization to visualize and control its dependencies by application.
 
 ### Main features
 
@@ -80,24 +80,26 @@ Constellation is an IT services mapping interface, allowing any IT structure to 
 - Service management by version.
 - Declaration of service dependencies according to 3 levels:
   - :large_blue_circle: **Minor**
-    In the event of unavailability: impact on minor or major functionality (s) with workaround.
+    In the event of unavailability: impact on minor or major functionality(ies) with workaround solution.
   - :large_orange_diamond: **Major**
-    In the event of unavailability: impact on major feature (s) without workaround but without general unavailability.
+    In the event of unavailability: impact on major function(s) with no workaround but no general unavailability.
   - :red_circle: **Critical**
-    In the event of unavailability: impact of major functionality (s) without a workaround resulting in general unavailability of the application.
+    In the event of unavailability: impact of one (or more) major function(s) with no workaround, resulting in general unavailability of the application.
 
-<img src="doc/images/Screenshot.png" alt="Screenshot" width="500px">
+<img src="doc/images/Screenshot.png" alt="Screenshot" width="500px" />
 
-- **3 possible types of visualizations**
+- **3 types of visualization possible**
   - Dependencies between applications
   - Service dependencies by application
   - Service dependencies by hosting solutions
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+- **Impact detection**
+
+<img src="doc/images/impact_detection.gif" alt="Impact detection" width="500px" />
+
+<p align="right" dir="">(<a href="#top">back to top</a>)</p>
 
 ### :hammer: Built With
-
-This section lists the main libraries and frameworks used during the development of the solution:
 
 #### API
 
@@ -108,16 +110,16 @@ This section lists the main libraries and frameworks used during the development
 
 #### Web UI
 
-- [React](https://react.dev)
+- [React](https://react.dev) with [ReactAdmin](https://marmelab.com/react-admin/)
 - [Cytoscape](https://js.cytoscape.org/)
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right" dir="">(<a href="#top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
 
 ## Getting Started
 
-The instructions below show the different steps to initialize the application via Docker.
+The instructions below show the various steps involved in initializing the application via Docker.
 
 ### Prerequisites
 
@@ -130,103 +132,9 @@ The app has been developed using the versions below:
 
 Each service version is declared in the file `./install/dev/docker-compose.yml`.
 
-<!-- Todo: ajouter le setup du CLI (zx) -->
+### Setup
 
-### Installation
-
-#### 1. Initialize the docker-compose environment file
-
-```sh
-cd ./install/prod/
-cp .env.example .env
-```
-
-#### 2. Edit the Docker stack environment file
-
-- `MYUSER` Username in the api container.
-- `DATA_VOLUME` Sharing directory for storing service data (Mariadb, Nginx, Redis, Meilisearch).
-- `SOURCE_VOLUME` Location of application sources (ex.: `/srv/Constellation`).
-- Mariadb - _The informations below must match that of the `.env` Laravel file, at the root of the project._
-  - `MARIADB_ROOT_PASSWORD` Root user Mariadb password
-  - `MARIADB_USER` Mariadb username.
-  - `MARIADB_PWD` User password.
-  - `MARIADB_PORT` Port Mariadb shared with the Docker host.
-  - `MARIADB_DATABASE` Database name initialized by default.
-- Meilisearch - _The informations below must match that of the .env Laravel file, at the root of the project._
-  - `MEILI_MASTER_KEY` Master key securing the meilisearch api.
-- MailDev - Service de debug pour l'envoi de mail.
-  _(see https://hub.docker.com/r/maildev/maildev)_
-  _ `SMTP` Port shared with the host for listening to messages to be captured.
-  _ `WEBUI` Port shared with the host to access the email display interface.
-
-#### 3. Build the stack
-
-```sh
-docker compose up -d
-```
-
-You can check the stack is up with:
-
-```sh
-docker compose ps
-```
-
-All services should go up, allowing you to move on to initializing the application.
-If not, check the information entered in the `./install/prod/.env`.
-If the ports are already in use by other services, adapt your configuration.
-
-#### 4. Application initialization
-
-- Initialize the Laravel environment file
-  ```sh
-  cp .env.example .env
-  ```
-- Edit the Laravel environment file.
-
-  - Generate a new application key (it is not recommended to use the one used for building the Docker image).
-    `docker compose exec api php artisan key:generate`
-  - Edit variables starting `DB_` to match what has been defined in the file `./install/prod/.env`.
-    `docker compose exec api nano .env`
-    You can also modify the other variables according to your environment (see https://laravel.com/docs/10.x/configuration).
-
-- Initialize the database:
-
-  - Edit the administrator.
-  - Edit file [`api/database/seeders/CreateAdminUserSeeder.php`](api/database/seeders/CreateAdminUserSeeder.php).
-    `docker compose exec api nano database/seeders/CreateAdminUserSeeder.php`
-  - Edit the name, email and password at your convenience
-
-    ```php
-    'name' => 'Super Admin',
-    'email' => 'admin@localhost',
-    'password' => bcrypt('super_secured_password')
-    ```
-
-  - Initialization of tables
-
-    ```sh
-    docker compose exec api php artisan migrate --seed
-    ```
-
-  - (Optional) Load example applications
-
-    ```sh
-    docker compose exec api php artisan db:seed --class=AppExampleSeeder
-    ```
-
-  - Initialize the search engine:
-
-    ```sh
-    php artisan app:refresh-all-indexes
-    ```
-
-#### 5. Finalization
-
-Well done, you have just finished installing the solution.
-You can now log in the interface.
-With the default configuration, the application will be accessible locally from the following url: http://localhost:8080
-
-<p align="right">(<a href="#top">back to top</a>)</p>
+Step-by-step installation instructions are available in [./doc/Setup.md](./doc/Setup.md).
 
 <!-- USAGE EXAMPLES -->
 
@@ -234,19 +142,19 @@ With the default configuration, the application will be accessible locally from 
 
 Examples of uses
 
-### Visualization of application dependencies
+### Visualizing application dependencies
 
-<img src="doc/images/Screenshot_2.png" alt="Visualization of application dependencies" width="500px">
+<img src="doc/images/Screenshot_2.png" alt="Visualization of application dependencies" width="500px" />
 
 ### Viewing service dependencies by application
 
-<img src="doc/images/Screenshot.png" alt="Viewing service dependencies by application" width="500px">
+<img src="doc/images/Screenshot.png" alt="Viewing service dependencies by application" width="500px" />
 
 ### Visualization of service dependencies by hosting solution
 
-<img src="doc/images/Screenshot.png" alt="Visualization of service dependencies by hosting solution" width="500px">
+<img src="doc/images/Screenshot.png" alt="Visualization of service dependencies by hosting solution" width="500px" />
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right" dir="">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 
@@ -263,15 +171,15 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right" dir="">(<a href="#top">back to top</a>)</p>
 
 <!-- LICENSE -->
 
 ## License
 
-Distributed under GNU AFFERO GENERAL PUBLIC LICENSE. See `LICENSE` for more information.
+Distributed under GNU AFFERO GENERAL PUBLIC LICENSE. See [`LICENSE`](./LICENSE) for more information.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right" dir="">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTACT -->
 
@@ -283,4 +191,4 @@ Distributed under GNU AFFERO GENERAL PUBLIC LICENSE. See `LICENSE` for more info
 
 Project Link: [https://gitlab.com/abolabs/constellation](https://gitlab.com/abolabs/constellation)
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+<p align="right" dir="">(<a href="#top">back to top</a>)</p>
