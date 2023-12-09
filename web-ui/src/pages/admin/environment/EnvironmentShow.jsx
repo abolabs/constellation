@@ -24,7 +24,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import AlertError from "@components/alerts/AlertError";
 import DefaultShowLayout from "@components/DefaultShowLayout";
 import WithPermission from "@components/WithPermission";
@@ -47,7 +47,7 @@ const EnvironmentShow = () => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography variant="h3">{t('resources.environments.name')}</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
         <DefaultShowLayout>

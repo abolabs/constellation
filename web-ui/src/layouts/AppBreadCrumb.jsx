@@ -22,7 +22,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import HomeIcon from "@mui/icons-material/Home";
 import { Link, useTranslate } from "react-admin";
 
-const AppBreadCrumd = (props) => {
+const AppBreadCrumb = (props) => {
   const routePrefix = "/";
   const t = useTranslate();
 
@@ -86,4 +86,4 @@ const AppBreadCrumd = (props) => {
   );
 };
 
-export default AppBreadCrumd;
+export default AppBreadCrumb;

@@ -42,7 +42,7 @@ import {
 } from "react-admin";
 import CytoscapeComponent from "react-cytoscapejs";
 
-import AppBreadCrumd from "@/layouts/AppBreadCrumd";
+import AppBreadCrumb from "@/layouts/AppBreadCrumb";
 import Tag from "@components/styled/Tag";
 import AlertError from "@components/alerts/AlertError";
 import { serviceInstanceDepLevel } from "@pages/service-instance/serviceInstanceDepLevel";
@@ -133,7 +133,7 @@ const AbstractMapping = ({
 
   return (
     <>
-      {!asWidget ? <AppBreadCrumd location={location} /> : null}
+      {!asWidget ? <AppBreadCrumb location={location} /> : null}
       <Typography variant="h3">{title}</Typography>
       <Box
         sx={{
@@ -220,8 +220,8 @@ const AbstractMapping = ({
           style={{ width: "100%", height: "100%" }}
         />
         {selectedNode?.id &&
-        selectedNode?.resource === "service_instances" &&
-        showFooter ? (
+          selectedNode?.resource === "service_instances" &&
+          showFooter ? (
           <Card
             sx={{
               background: theme.palette.background.paper,

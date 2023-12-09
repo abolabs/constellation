@@ -111,7 +111,7 @@ export default class Setup extends AbstractCommand {
           {
             name: 'TAG_NAME',
             type: 'text',
-            message: 'Please define the version you want to deploy',
+            message: 'Please define the version you want to deploy (ignored if Development mode)',
             initial: 'latest'
           },
           {
@@ -176,9 +176,9 @@ export default class Setup extends AbstractCommand {
           },
           {
             name: 'WEBUI_PORT',
-            type: 'text',
+            type: 'number',
             message: 'Please define the web ui port',
-            initial: 'localhost'
+            initial: 443
           },
           {
             name: 'API_HOSTNAME',
@@ -188,9 +188,9 @@ export default class Setup extends AbstractCommand {
           },
           {
             name: 'API_PORT',
-            type: 'text',
+            type: 'number',
             message: 'Please define the api port',
-            initial: 'localhost'
+            initial: 443
           }
         ], { onCancel });
 
@@ -225,7 +225,10 @@ export default class Setup extends AbstractCommand {
         for (const configKey in dockerComposeConfig) {
           await $`echo -e '${configKey}=${dockerComposeConfig[configKey]}' >> ${dockerComposeEnvFile}`;
         }
-        Console.confirm("Docker compose .env file generated");
+        Console.confirm("Docker compose .env file generated",
+          `WebUI: ${dockerComposeConfig.SCHEMA}://${dockerComposeConfig.WEBUI_HOSTNAME}:${dockerComposeConfig.WEBUI_PORT}`,
+          `API: ${dockerComposeConfig.SCHEMA}://${dockerComposeConfig.API_HOSTNAME}:${dockerComposeConfig.API_PORT}`
+        );
       }
 
       Console.info("Start stack");
@@ -241,11 +244,11 @@ export default class Setup extends AbstractCommand {
       await spinner('wait for mariadb is up.',
         async () => {
           $.verbose = false;
-          await retry(10, '1s', () => $`docker compose exec mariadb mariadb-admin ping -hlocalhost -uroot -p${dockerComposeConfig?.MARIADB_ROOT_PASSWORD}`);
+          await retry(10, '2s', () => $`docker compose exec mariadb mariadb-admin ping -hlocalhost -uroot -p${dockerComposeConfig?.MARIADB_ROOT_PASSWORD}`);
         }
       );
       if (!isProd()) {
-        await $`docker compose exec mariadb mariadb --user=root --password="${dockerComposeConfig?.MARIADB_ROOT_PASSWORD}" "${dockerComposeConfig?.MARIADB_DATABASE}" -e "CREATE DATABASE IF NOT EXISTS Constellation_test"`
+        await retry(3, '2s', () => $`docker compose exec mariadb mariadb --user=root --password="${dockerComposeConfig?.MARIADB_ROOT_PASSWORD}" "${dockerComposeConfig?.MARIADB_DATABASE}" -e "CREATE DATABASE IF NOT EXISTS Constellation_test"`);
       }
 
       await $`docker compose exec api cp .env.example .env`;

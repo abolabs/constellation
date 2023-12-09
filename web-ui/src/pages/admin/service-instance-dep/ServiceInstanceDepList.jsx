@@ -30,7 +30,7 @@ import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import DefaultList from "@components/styled/DefaultList";
 import LevelChip from "./LevelChip";
 import WithPermission from "@components/WithPermission";
@@ -46,7 +46,7 @@ const ServiceInstanceDepList = (props) => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography variant="h3">
         {t("resources.service_instance_dependencies.name")}
       </Typography>

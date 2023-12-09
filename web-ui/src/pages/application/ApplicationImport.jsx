@@ -32,7 +32,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import * as yup from "yup";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import WithPermission from "@components/WithPermission";
 import i18nProvider from "@providers/I18nProvider";
 import AlertError from "@components/alerts/AlertError";
@@ -101,7 +101,7 @@ const ApplicationImport = () => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography variant="h3">{t("resources.applications.name")}</Typography>
       <Create resource="applications/import">
         {lastError ? <AlertError {...lastError} /> : null}

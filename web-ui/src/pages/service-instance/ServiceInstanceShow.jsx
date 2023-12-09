@@ -56,7 +56,7 @@ import { blueGrey } from "@mui/material/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGitAlt } from "@fortawesome/free-brands-svg-icons";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import AlertError from "@components/alerts/AlertError";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 import Tag from "@components/styled/Tag";
@@ -91,7 +91,7 @@ const ServiceInstanceShow = () => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography
         variant="h3"
         sx={{

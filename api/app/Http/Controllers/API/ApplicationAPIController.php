@@ -58,6 +58,24 @@ class ApplicationAPIController extends AppBaseController
     }
 
     /**
+     * Get the map of resource methods to ability names.
+     *
+     * @return array
+     */
+    protected function resourceAbilityMap()
+    {
+        return [
+            ...parent::resourceAbilityMap(),
+            'import' => 'import'
+        ];
+    }
+
+    protected function resourceMethodsWithoutModels()
+    {
+        return [...parent::resourceMethodsWithoutModels(), 'import'];
+    }
+
+    /**
      * Index
      */
     #[OAT\Get(

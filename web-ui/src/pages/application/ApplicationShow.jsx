@@ -45,7 +45,7 @@ import {
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import { grey } from "@mui/material/colors";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import AlertError from "@components/alerts/AlertError";
 import CreateServiceInstanceModal from "@pages/service-instance/CreateServiceInstanceModal";
 import ServiceInstanceCard from "@pages/service-instance/ServiceInstanceCard";
@@ -75,7 +75,7 @@ const ApplicationShow = () => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography
         variant="h3"
         sx={{

@@ -47,6 +47,14 @@ class ApplicationPolicy
     }
 
     /**
+     * Determine whether the user can import models and service.
+     */
+    public function import(User $user): bool
+    {
+        return $user->can('create applications') && $user->can('create services');
+    }
+
+    /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, Application $application): bool

@@ -5,6 +5,7 @@ install/prod/api/oauth-public.key
 install/prod/api/oauth-private.key
 **/.vite
 install/prod/letsencrypt/acme.json
+install/dev/letsencrypt/acme.json
 install/dev/web-ui/env.js
 install/prod/web-ui/env.js
 web-ui/public/env.js

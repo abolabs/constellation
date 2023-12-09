@@ -31,7 +31,7 @@ import { Link, useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
 import DefaultList from "@components/styled/DefaultList";
 import WithPermission from "@components/WithPermission";
@@ -62,7 +62,7 @@ const ApplicationList = (props) => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography variant="h3">{t("resources.applications.name")}</Typography>
       <DefaultList
         {...props}
@@ -71,16 +71,20 @@ const ApplicationList = (props) => {
           <DefaultToolBar
             canCreate={permissions.includes("create applications")}
           >
-            <Link to="/applications/import">
-              <Button
-                startIcon={<UploadFileIcon />}
-                variant="text"
-                size="small"
-                sx={{ lineHeight: "inherit" }}
-              >
-                {t("ra.action.import")}
-              </Button>
-            </Link>
+            {permissions?.includes("create applications") && permissions?.includes("create services")
+              ?
+              <Link to="/applications/import">
+                <Button
+                  startIcon={<UploadFileIcon />}
+                  variant="text"
+                  size="small"
+                  sx={{ lineHeight: "inherit" }}
+                >
+                  {t("ra.action.import")}
+                </Button>
+              </Link>
+              : null
+            }
           </DefaultToolBar>
         }
       >

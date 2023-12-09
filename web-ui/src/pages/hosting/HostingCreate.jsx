@@ -26,7 +26,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import DefaultEditToolBar from "@/components/toolbar/DefaultEditToolBar";
 import HostingDefaultSchema from "./HostingDefaultSchema";
 import OptionalFieldTitle from "@components/form/OptionalFieldTitle";
@@ -39,7 +39,7 @@ const HostingCreate = () => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography variant="h3">{t("resources.hostings.name")}</Typography>
       <Create>
         <SimpleForm
