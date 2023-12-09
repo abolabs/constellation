@@ -93,6 +93,7 @@ const componentsOverride = (theme) => {
             },
             "& .MuiTableCell-root": {
               borderBottom: 0,
+              lineHeight: 2.5,
             },
           },
         },

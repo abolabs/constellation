@@ -71,16 +71,20 @@ const ApplicationList = (props) => {
           <DefaultToolBar
             canCreate={permissions.includes("create applications")}
           >
-            <Link to="/applications/import">
-              <Button
-                startIcon={<UploadFileIcon />}
-                variant="text"
-                size="small"
-                sx={{ lineHeight: "inherit" }}
-              >
-                {t("ra.action.import")}
-              </Button>
-            </Link>
+            {permissions?.includes("create applications") && permissions?.includes("create services")
+              ?
+              <Link to="/applications/import">
+                <Button
+                  startIcon={<UploadFileIcon />}
+                  variant="text"
+                  size="small"
+                  sx={{ lineHeight: "inherit" }}
+                >
+                  {t("ra.action.import")}
+                </Button>
+              </Link>
+              : null
+            }
           </DefaultToolBar>
         }
       >
