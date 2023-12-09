@@ -176,9 +176,9 @@ export default class Setup extends AbstractCommand {
           },
           {
             name: 'WEBUI_PORT',
-            type: 'text',
+            type: 'number',
             message: 'Please define the web ui port',
-            initial: 'localhost'
+            initial: '443'
           },
           {
             name: 'API_HOSTNAME',
@@ -188,9 +188,9 @@ export default class Setup extends AbstractCommand {
           },
           {
             name: 'API_PORT',
-            type: 'text',
+            type: 'number',
             message: 'Please define the api port',
-            initial: 'localhost'
+            initial: '443'
           }
         ], { onCancel });
 
