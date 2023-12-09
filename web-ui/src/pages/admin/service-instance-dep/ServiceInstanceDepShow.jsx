@@ -27,7 +27,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import AlertError from "@components/alerts/AlertError";
 import DefaultShowLayout from "@components/DefaultShowLayout";
 import LevelChip from "./LevelChip";
@@ -51,14 +51,14 @@ const ServiceInstanceDepShow = () => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography variant="h3">{t("resources.service_instance_dependencies.name")}</Typography>
       <Show actions={null} sx={{ mt: "1rem" }}>
         <DefaultShowLayout
           title={`${record?.instance_application_name} / ${record?.id} - ${record?.instance_service_name}`}
           canEdit={false}
         >
-          <TextField source="id"/>
+          <TextField source="id" />
           <WrapperField label={t("resources.service_instance_dependencies.fields.instance_application_name")}>
             <NumberField source="instance_application_id" />
             &nbsp;-&nbsp;

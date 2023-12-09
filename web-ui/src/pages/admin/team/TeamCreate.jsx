@@ -19,7 +19,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import DefaultEditToolBar from "@/components/toolbar/DefaultEditToolBar";
 import TeamDefaultSchema from "./TeamDefaultSchema";
 import WithPermission from "@components/WithPermission";
@@ -30,7 +30,7 @@ const TeamCreate = () => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography variant="h3">{t('resources.teams.name')}</Typography>
       <Create>
         <SimpleForm

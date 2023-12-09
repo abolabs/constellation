@@ -26,7 +26,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import DefaultEditToolBar from "@/components/toolbar/DefaultEditToolBar";
 import RoleDefaultSchema from "./RoleDefaultSchema";
 import WithPermission from "@components/WithPermission";
@@ -37,7 +37,7 @@ const RoleEdit = () => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography variant="h3">{t('resources.roles.name')}</Typography>
       <Edit>
         <SimpleForm

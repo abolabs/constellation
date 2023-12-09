@@ -33,7 +33,7 @@ import {
   useTranslate,
 } from "react-admin";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import AlertError from "@components/alerts/AlertError";
 import { FormProvider, useForm, useFormState } from "react-hook-form";
 import { useEffect } from "react";
@@ -122,7 +122,7 @@ const AccountEdit = () => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography variant="h3">{t("Profil")}</Typography>
       <FormProvider {...methods}>
         <Card sx={{ mt: 1 }}>

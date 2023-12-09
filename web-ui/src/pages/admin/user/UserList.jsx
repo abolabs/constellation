@@ -32,7 +32,7 @@ import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import DefaultList from "@components/styled/DefaultList";
 import WithPermission from "@components/WithPermission";
 import i18nProvider from "@providers/I18nProvider";
@@ -48,7 +48,7 @@ const UserList = (props) => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography variant="h3">{t('resources.users.name')}</Typography>
       <DefaultList
         {...props}

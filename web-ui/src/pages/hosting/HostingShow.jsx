@@ -39,7 +39,7 @@ import {
   useTranslate,
 } from "react-admin";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import AlertError from "@components/alerts/AlertError";
 import ServiceInstanceCard from "@pages/service-instance/ServiceInstanceCard";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
@@ -64,7 +64,7 @@ const HostingShow = () => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography
         variant="h3"
         sx={{

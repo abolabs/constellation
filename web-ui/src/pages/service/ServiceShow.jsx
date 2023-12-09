@@ -46,7 +46,7 @@ import {
 } from "react-admin";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
-import AppBreadCrumd from "@layouts/AppBreadCrumd";
+import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import AlertError from "@components/alerts/AlertError";
 import CreateVersionModal from "@pages/service-version/CreateVersionModal";
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
@@ -73,7 +73,7 @@ const ServiceShow = () => {
 
   return (
     <>
-      <AppBreadCrumd location={location} />
+      <AppBreadCrumb location={location} />
       <Typography
         variant="h3"
         sx={{
