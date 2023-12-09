@@ -22,22 +22,22 @@ import Console from '../utils/Console.mjs';
 export default class AbstractCommand {
 
   constructor(args) {
-    this.action = args?.additionnal?.[0];
+    this.action = args?.additional?.[0];
 
-    this.additionnal = args?.additionnal.splice(1);
+    this.additional = args?.additional.splice(1);
     this.cliEnv = args?.cliEnv;
   }
 
-  getAdditionnalArgsByCommand() {
+  getAdditionalArgsByCommand() {
     return {};
   }
 
-  async getAdditionnalArgs(multiple = true) {
-    if (this.getAdditionnalArgs.length > 0) {
+  async getAdditionalArgs(multiple = true) {
+    if (this.getAdditionalArgs.length > 0) {
       // option(s) provided inline, ignore asking for options
       return;
     }
-    const availableOptions = this.getAdditionnalArgsByCommand()?.[this.action];
+    const availableOptions = this.getAdditionalArgsByCommand()?.[this.action];
     if (availableOptions?.length === 0 || !availableOptions) {
       return [];
     }
@@ -52,9 +52,9 @@ export default class AbstractCommand {
       choices: availableOptions,
     }, { onCancel });
     if (multiple) {
-      this.additionnal = response.options;
+      this.additional = response.options;
     } else {
-      this.additionnal = [response.options];
+      this.additional = [response.options];
     }
 
   }
@@ -66,8 +66,8 @@ export default class AbstractCommand {
     }
     cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
     if (this.action) {
-      await this.getAdditionnalArgs();
-      this.actions()[this.action](this.additionnal);
+      await this.getAdditionalArgs();
+      this.actions()[this.action](this.additional);
     }
   }
 

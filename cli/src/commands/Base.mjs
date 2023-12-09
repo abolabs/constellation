@@ -61,7 +61,7 @@ export function getArgs() {
 
   return {
     main: args?.[0],
-    additionnal: args.slice(1),
+    additional: args.slice(1),
     cliEnv: {
       rootDir: getRootDir()
     }

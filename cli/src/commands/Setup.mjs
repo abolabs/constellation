@@ -68,7 +68,7 @@ export default class Setup extends AbstractCommand {
     Console.log(usageText);
   }
 
-  getAdditionnalArgsByCommand() {
+  getAdditionalArgsByCommand() {
     return {
       'install': [
         {
@@ -92,11 +92,11 @@ export default class Setup extends AbstractCommand {
       const dockerComposeEnvFile = path.join(installDir, '.env');
       let dockerComposeConfig;
       if (fs.existsSync(dockerComposeEnvFile)) {
-        if (this.additionnal.includes('--force-reinstall')) {
+        if (this.additional.includes('--force-reinstall')) {
           Console.info(`${dockerComposeEnvFile} already exists. Skip init.`);
           dockerComposeConfig = dotenv.parse(fs.readFileSync(dockerComposeEnvFile));
         } else {
-          Console.error(`${dockerComposeEnvFile} already exists. Abord install. To force reinstall use --force-reinstall option.`);
+          Console.error(`${dockerComposeEnvFile} already exists. Install aborted. To force reinstall use --force-reinstall option.`);
           process.exit(1);
         }
       } else {
@@ -175,9 +175,21 @@ export default class Setup extends AbstractCommand {
             initial: 'localhost'
           },
           {
+            name: 'WEBUI_PORT',
+            type: 'text',
+            message: 'Please define the web ui port',
+            initial: 'localhost'
+          },
+          {
             name: 'API_HOSTNAME',
             type: 'text',
             message: 'Please define the api domain',
+            initial: 'localhost'
+          },
+          {
+            name: 'API_PORT',
+            type: 'text',
+            message: 'Please define the api port',
             initial: 'localhost'
           }
         ], { onCancel });
@@ -190,6 +202,10 @@ export default class Setup extends AbstractCommand {
           ...response
         };
 
+        if (dockerComposeConfig.API_PORT === dockerComposeConfig.WEBUI_PORT && dockerComposeConfig.API_HOSTNAME === dockerComposeConfig.WEBUI_HOSTNAME) {
+          Console.error("Web UI and API cannot have the same domain+port. For localhost setup, choose a different port.");
+          process.exit(1);
+        }
 
         if (fs.existsSync(dockerComposeConfig.DATA_VOLUME)) {
           Console.warn(`${dockerComposeConfig.DATA_VOLUME} already exists.`);
@@ -318,7 +334,7 @@ export default class Setup extends AbstractCommand {
         );
       }
 
-      if (this.additionnal.includes('--fresh')) {
+      if (this.additional.includes('--fresh')) {
         await spinner('php artisan migrate:fresh',
           async () => {
             $.verbose = true;
@@ -327,7 +343,7 @@ export default class Setup extends AbstractCommand {
         );
       }
 
-      if (this.additionnal.includes('--seed')) {
+      if (this.additional.includes('--seed')) {
         await spinner('php artisan db:seed',
           async () => {
             $.verbose = true;
@@ -336,7 +352,7 @@ export default class Setup extends AbstractCommand {
         );
       }
 
-      if (this.additionnal.includes('--logs')) {
+      if (this.additional.includes('--logs')) {
         await $`docker compose logs -f -t 100 --no-log-prefix *`
       }
 

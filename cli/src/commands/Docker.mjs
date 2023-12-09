@@ -101,7 +101,7 @@ export default class Docker extends AbstractCommand {
     }
 
     cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
-    $`docker compose ${this.action} ${this.additionnal}`
+    $`docker compose ${this.action} ${this.additional}`
       .pipe(process.stdout)
       .catch((p) => {
         Console.printError(p);
