@@ -18,7 +18,7 @@
 
 import Console from '../utils/Console.mjs';
 import * as path from 'path';
-import {selectAction} from './Base.mjs';
+import { selectAction } from './Base.mjs';
 import AbstractCommand from './AbstractCommand.mjs';
 
 const actions = [
@@ -358,20 +358,21 @@ export default class Artisan extends AbstractCommand {
         Console.log(usageText);
     }
 
-    async run(){
-        if(!actions.includes(this.action)){
+    async run() {
+        if (!actions.includes(this.action)) {
             this.usage();
-            if(!(this.action = await selectAction(actions))){
+            if (!(this.action = await selectAction(actions))) {
                 Console.error('No action selected');
                 process.exit(1);
             }
         }
 
         cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
-        $`docker compose exec -it --user app_user api php artisan ${this.action} ${this.additionnal}`
+        $`docker compose exec -it --user constellation_user api php artisan ${this.action} ${this.additional}`
             .pipe(process.stdout)
             .catch((p) => {
                 Console.printError(p);
+                process.exit(1);
             });
     }
 }

@@ -330,13 +330,13 @@ const DependencyCard = (dep) => {
             overflow: "hidden",
             textOverflow: "ellipsis",
             maxWidth: "12vw",
-            color: theme?.palette?.secondary?.light,
+            color: theme?.palette?.secondary?.contrastText,
             fontSize: "0.8rem !important",
           },
         }}
         sx={{
           background: theme?.palette?.secondary?.dark,
-          color: theme?.palette?.secondary?.light,
+          color: theme?.palette?.secondary?.contrastText,
           pr: "2rem",
         }}
         action={
@@ -386,42 +386,37 @@ const DependencyCard = (dep) => {
           </ListItem>
           <ListItem sx={{ flexWrap: "wrap" }}>
             <Tag
-              label={`${t("resources.service_instances.fields.id")}: ${
-                depInfo?.id
-              }`}
+              label={`${t("resources.service_instances.fields.id")}: ${depInfo?.id
+                }`}
               color="primary"
               size="small"
             />
             &nbsp;
             <Tag
-              label={`${t("resources.service_instances.fields.statut")}: ${
-                depInfo?.statut ? "Active" : "Inactive"
-              }`}
+              label={`${t("resources.service_instances.fields.statut")}: ${depInfo?.statut ? "Active" : "Inactive"
+                }`}
               color={depInfo?.statut ? "success" : "warning"}
               size="small"
             />
             &nbsp;
             <Tag
-              label={`${t("resources.service_versions.fields.version")}: ${
-                depInfo?.service_version?.version
-              }`}
+              label={`${t("resources.service_versions.fields.version")}: ${depInfo?.service_version?.version
+                }`}
               color={"primary"}
               size="small"
             />
             &nbsp;
             <Tag
-              label={`${t("resources.hostings.fields.name")}: ${
-                depInfo?.hosting?.name
-              }`}
+              label={`${t("resources.hostings.fields.name")}: ${depInfo?.hosting?.name
+                }`}
               color={"info"}
               size="small"
             />
             &nbsp;
             {depInfo?.role ? (
               <Tag
-                label={`${t("resources.service_instances.fields.role")}: ${
-                  depInfo?.role
-                }`}
+                label={`${t("resources.service_instances.fields.role")}: ${depInfo?.role
+                  }`}
                 color="secondary"
                 size="small"
               />
@@ -450,9 +445,8 @@ const DependencyCard = (dep) => {
               secondary={
                 <>
                   <Tag
-                    label={`Level: ${
-                      serviceInstanceDepLevel[dep?.level].label
-                    }`}
+                    label={`Level: ${serviceInstanceDepLevel[dep?.level].label
+                      }`}
                     color={
                       serviceInstanceDepLevel[dep?.level]
                         ? serviceInstanceDepLevel[dep?.level]?.color

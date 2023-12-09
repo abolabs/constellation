@@ -13,12 +13,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import { grey } from "@mui/material/colors";
 import { styled } from "@mui/system";
 import { List } from "react-admin";
 
 const DefaultList = styled(List, {
   shouldForwardProp: () => true,
 })(({ theme }) => ({
+  "& .MuiButton-startIcon": {
+    color: grey[600],
+  },
+  "& .MuiButtonBase-root": {
+    color: grey[600],
+  },
   [theme.breakpoints.down("md")]: {
     "& .MuiToolbar-root": {
       background: "none",

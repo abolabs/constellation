@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:20
 
 LABEL maintainer="Alexandre BORDIN <bordin.alexandre@gmail.com>"
 

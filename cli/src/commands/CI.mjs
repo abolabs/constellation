@@ -20,14 +20,14 @@ import AbstractCommand from './AbstractCommand.mjs';
 
 export default class CI extends AbstractCommand {
 
-    actions() {
-        return {
-            prepare: () => this.prepare(),
-        };
-    }
+  actions() {
+    return {
+      prepare: () => this.prepare(),
+    };
+  }
 
-    usage() {
-        const usageText = `
+  usage() {
+    const usageText = `
         Constellation CLI utils.
 
         Usage: constellation-cli CI [OPTIONS] COMMAND
@@ -42,15 +42,16 @@ export default class CI extends AbstractCommand {
         prepare          prepare env for CI setup
 
         `
-        Console.log(usageText);
-    }
+    Console.log(usageText);
+  }
 
-    async prepare() {
-        try {
-            Console.info('Comming soon ...');
-        } catch (e) {
-            Console.printError(e);
-        }
-        Console.confirm('prepare done');
+  async prepare() {
+    try {
+      Console.info('Comming soon ...');
+    } catch (e) {
+      Console.printError(e);
+      process.exit(1);
     }
+    Console.confirm('prepare done');
+  }
 }

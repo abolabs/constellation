@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  mariadb-reset-password:
+    image: mariadb:11
+    #    entrypoint: mysqld_safe --skip-grant-tables --user=mysql
+    command: --skip-grant-tables --skip-networking
+    volumes:
+      - ${DATA_VOLUME}/mariadb:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10

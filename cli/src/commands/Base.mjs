@@ -21,8 +21,8 @@ import * as path from 'path';
 import Console from '../utils/Console.mjs';
 import Ajv from 'ajv';
 
-export function printTitle(){
-    const title = gradient(['#084C61','#177E89','#084C61']).multiline(`
+export function printTitle() {
+  const title = gradient(['#084C61', '#177E89', '#084C61']).multiline(`
 
 
             ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -53,56 +53,56 @@ export function printTitle(){
     \\__, \\__/ | \\| .__/  |  |___ |___ |___ /~~\\  |  | \\__/ | \\|
                 _________________________________
     `);
-    Console.log(title);
+  Console.log(title);
 }
 
-export function getArgs(){
-    const args = process.argv.slice(3);
+export function getArgs() {
+  const args = process.argv.slice(3);
 
-    return {
-        main: args?.[0],
-        additionnal: args.slice(1),
-        cliEnv: {
-            rootDir: getRootDir()
-        }
+  return {
+    main: args?.[0],
+    additional: args.slice(1),
+    cliEnv: {
+      rootDir: getRootDir()
     }
+  }
 }
 
-export function getRootDir(){
-    return path.resolve(__dirname, '..');
+export function getRootDir() {
+  return path.resolve(__dirname, '..');
 }
 
 export async function selectAction(actions) {
 
-    const response = await Console.prompts([
-        {
-            type: 'select',
-            name: 'action',
-            message: 'No action provided. Please choose one.',
-            choices: actions,
-            initial: 0
-        }
-    ]);
-    const action = actions?.[response.action];
-
-
-    const schema = {
-        type: 'object',
-        properties: {
-            action:{
-                type: 'string',
-                enum: actions
-            }
-        }
-    };
-
-    const ajv = new Ajv()
-    const validate = ajv.compile(schema);
-    const valid = validate({action: action});
-
-    if(!valid){
-        Console.error(validate.errors, action);
-        process.exit(1);
+  const response = await Console.prompts([
+    {
+      type: 'select',
+      name: 'action',
+      message: 'No action provided. Please choose one.',
+      choices: actions,
+      initial: 0
     }
-    return action;
+  ]);
+  const action = actions?.[response.action];
+
+
+  const schema = {
+    type: 'object',
+    properties: {
+      action: {
+        type: 'string',
+        enum: actions
+      }
+    }
+  };
+
+  const ajv = new Ajv()
+  const validate = ajv.compile(schema);
+  const valid = validate({ action: action });
+
+  if (!valid) {
+    Console.error(validate.errors, action);
+    process.exit(1);
+  }
+  return action;
 }

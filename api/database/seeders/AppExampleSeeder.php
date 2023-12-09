@@ -38,9 +38,9 @@ class AppExampleSeeder extends Seeder
         $application = Application::factory()->create();
 
         $envs = [
-            'Dev' => Environment::where('name', 'Dev')->first()->id,
-            'Staging' => Environment::where('name', 'Staging')->first()->id,
             'Production' => Environment::where('name', 'Production')->first()->id,
+            'Staging' => Environment::where('name', 'Staging')->first()->id,
+            'Dev' => Environment::where('name', 'Dev')->first()->id,
         ];
 
         // Mariadb

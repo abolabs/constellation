@@ -21,15 +21,15 @@ import AbstractCommand from './AbstractCommand.mjs';
 
 export default class WebUI extends AbstractCommand {
 
-    actions() {
-        return {
-            logs: () => this.logs(),
-            restart: () => this.restart(),
-        };
-    }
+  actions() {
+    return {
+      logs: () => this.logs(),
+      restart: () => this.restart(),
+    };
+  }
 
-    usage() {
-        const usageText = `
+  usage() {
+    const usageText = `
         Constellation CLI utils.
 
         Usage: constellation-cli web-ui [OPTIONS] COMMAND
@@ -45,26 +45,26 @@ export default class WebUI extends AbstractCommand {
         restart       restart service
 
         `
-        Console.log(usageText);
-    }
+    Console.log(usageText);
+  }
 
-    async logs() {
-        try{
-            await $`docker compose logs -f -n 300 --no-log-prefix web-ui`;
-        }catch(e){
-            Console.printError(e);
-            return;
-        }
-        Console.confirm('up done');
+  async logs() {
+    try {
+      await $`docker compose logs -f -n 300 --no-log-prefix web-ui`;
+    } catch (e) {
+      Console.printError(e);
+      return;
     }
+    Console.confirm('up done');
+  }
 
-    async restart() {
-        try{
-            await $`docker compose restart web-ui`;
-        }catch(e){
-            Console.printError(e);
-            return;
-        }
-        Console.confirm('restart done');
+  async restart() {
+    try {
+      await $`docker compose restart web-ui`;
+    } catch (e) {
+      Console.printError(e);
+      return;
     }
+    Console.confirm('restart done');
+  }
 }

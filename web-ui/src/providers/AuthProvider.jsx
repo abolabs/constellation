@@ -22,19 +22,19 @@ const AuthProvider = {
   login: async ({ email, password }) => {
     const response = await axios
       .post(
-        `${import.meta.env?.VITE_ISSUER}/oauth/token`,
+        `${window.env.APP_ISSUER}/oauth/token`,
         {
           grant_type: "password",
           username: email,
           password: password,
           scope: "*",
-          client_id: import.meta.env?.VITE_CLIENT_ID,
-          client_secret: import.meta.env?.VITE_CLIENT_SECRET,
+          client_id: window.env.APP_CLIENT_ID,
+          client_secret: window.env.APP_CLIENT_SECRET,
         },
         {
           headers: {
             "Access-Control-Allow-Origin":
-              import.meta.env?.CORS_ALLOWED_ORIGINS ?? "*",
+              window.env?.CORS_ALLOWED_ORIGINS ?? "*",
             "Content-Type": "application/json",
           },
         }

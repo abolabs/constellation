@@ -19,57 +19,62 @@
 import Ajv from 'ajv';
 import Console from './Console.mjs';
 
-export const DEV_ENV = 'dev';
-export const PROD_ENV = 'prod';
+const DEV_ENV = 'dev';
+const PROD_ENV = 'prod';
 
 const envSchemaValidation = {
-    type: 'object',
-    properties: {
-        env:{
-            type: 'string',
-            enum: ['dev','prod']
-        }
-    },
-    required: ["env"]
+  type: 'object',
+  properties: {
+    env: {
+      type: 'string',
+      enum: ['dev', 'prod']
+    }
+  },
+  required: ["env"]
 };
 
 export async function initEnv() {
 
-    const ajv = new Ajv()
-    const validate = ajv.compile(envSchemaValidation);
-    const valid = validate({env: process.env.APP_ENV});
+  const ajv = new Ajv()
+  const validate = ajv.compile(envSchemaValidation);
+  const valid = validate({ env: process.env.APP_ENV });
 
-    if(!valid){
-        await selectEnv();
-    }
-    Console.info(`Environment : ${process.env.APP_ENV}`);
+  if (!valid) {
+    await selectEnv();
+  }
+  Console.info(`Environment : ${process.env.APP_ENV}`);
 }
 
 async function selectEnv() {
-
-    const response = await Console.prompts([
-        {
-            type: 'select',
-            name: 'env',
-            message: 'No environment provided. Please choose one.',
-            choices: [
-                { title: 'Development', description: 'Only for local development purposes.', value: 'dev' },
-                { title: 'Production', value: 'prod' }
-            ],
-            initial: 0
-        }
-    ]);
-
-    const ajv = new Ajv()
-    const validate = ajv.compile(envSchemaValidation);
-    const valid = validate({env: response.env});
-
-    if(!valid){
-        Console.error('Cannot initialise environment', validate.errors, response.env);
-        process.exit(1);
+  console.log(typeof Console.prompts);
+  const response = await Console.prompts([
+    {
+      type: 'select',
+      name: 'env',
+      message: 'No environment provided. Please choose one.',
+      choices: [
+        { title: 'Development', description: 'Only for local development purposes.', value: 'dev' },
+        { title: 'Production', value: 'prod' }
+      ],
+      initial: 0
     }
-    process.env.APP_ENV = response.env;
-    return response.env;
+  ]);
+
+  const ajv = new Ajv()
+  const validate = ajv.compile(envSchemaValidation);
+  const valid = validate({ env: response.env });
+
+  if (!valid) {
+    Console.error('Cannot initialise environment', validate.errors, response.env);
+    process.exit(1);
+  }
+  process.env.APP_ENV = response.env;
+  return response.env;
 }
 
-export default {initEnv, DEV_ENV, PROD_ENV};
+export function isProd() {
+  return process.env.APP_ENV === PROD_ENV;
+}
+
+
+export default { initEnv, isProd };

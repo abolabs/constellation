@@ -39,7 +39,7 @@ variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
   MARIADB_ROOT_PASSWORD: root
-  MARIADB_DATABASE: Constellation
+  MARIADB_DATABASE: Constellation_test
   MARIADB_USER: homestead
   MARIADB_PASSWORD: secret
   DB_HOST: mariadb
@@ -79,6 +79,7 @@ stages:
   services:
   - mariadb:10.5
   - redis:3.0.6
+  interruptible: true
 
 # --------------------------
 #      Shared scripts
@@ -136,6 +137,7 @@ prebuild-api:
   image: docker:24
   services:
     - docker:24-dind
+  interruptible: true
   script:
     - *script-docker-registry-login
     # builds the project, using OCI labels
@@ -210,6 +212,7 @@ sonarcloud-check:
     name: sonarsource/sonar-scanner-cli:4.7
     pull_policy: always
     entrypoint: [""]
+  interruptible: true
   dependencies:
   - "phpunit"
   script:
@@ -228,6 +231,7 @@ build:
     - docker:24-dind
   variables:
     SERVICE_NAME: "api"
+  interruptible: true
   script:
     - *script-docker-registry-login
     - *script-docker-build
@@ -243,6 +247,7 @@ build_nginx_fpm:
     - build
   variables:
     SERVICE_NAME: "nginx-fpm"
+  interruptible: true
   script:
     - *script-docker-registry-login
     - *script-docker-build
@@ -256,6 +261,7 @@ build_web_ui:
     - docker:24-dind
   variables:
     SERVICE_NAME: "web-ui"
+  interruptible: true
   script:
     - *script-docker-registry-login
     - *script-docker-build
@@ -269,6 +275,7 @@ container_scanning:
   stage: security
   variables:
     CS_IMAGE: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
+  interruptible: true
   needs:
     - build
   rules:
@@ -300,6 +307,7 @@ push_latest:
   image: docker:24
   services:
     - docker:24-dind
+  interruptible: true
   script:
     - *script-docker-registry-login
     # Because we have no guarantee that this job will be picked up by the same runner
@@ -328,6 +336,7 @@ push_tag:
   image: docker:24
   services:
     - docker:24-dind
+  interruptible: true
   only:
     # We want this job to be run on tags only.
     - tags

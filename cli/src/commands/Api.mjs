@@ -19,17 +19,17 @@ import Console from "../utils/Console.mjs";
 import AbstractCommand from "./AbstractCommand.mjs";
 
 export default class Api extends AbstractCommand {
-    actions() {
-        return {
-            logs: () => this.logs(),
-            test: () => this.test(),
-            pint: () => this.pint(),
-            "show-unused-package": () => this.showUnusedPackages(),
-        };
-    }
+  actions() {
+    return {
+      logs: () => this.logs(),
+      test: () => this.test(),
+      pint: () => this.pint(),
+      "show-unused-package": () => this.showUnusedPackages(),
+    };
+  }
 
-    usage() {
-        const usageText = `
+  usage() {
+    const usageText = `
         Constellation CLI utils.
 
         Usage: constellation-cli api [OPTIONS] COMMAND
@@ -51,47 +51,51 @@ export default class Api extends AbstractCommand {
         show-unused-package     run vendor/bin/composer-unused
 
         `;
-        Console.log(usageText);
-    }
+    Console.log(usageText);
+  }
 
-    async logs() {
-        try {
-            if (this.additionnal.includes("--nginx")) {
-                await $`docker compose logs -f -n 100 --no-log-prefix nginx`;
-            } else {
-                await $`docker compose logs -f -n 100 --no-log-prefix api`;
-            }
-        } catch (e) {
-            Console.printError(e);
-            return;
-        }
-        Console.confirm("up done");
+  async logs() {
+    try {
+      if (this.additional.includes("--nginx")) {
+        await $`docker compose logs -f -n 100 --no-log-prefix nginx`;
+      } else {
+        await $`docker compose logs -f -n 100 --no-log-prefix api`;
+      }
+    } catch (e) {
+      Console.printError(e);
+      process.exit(1);
     }
+    Console.confirm("up done");
+  }
 
-    async test() {
-        cd(path.join(this.cliEnv?.rootDir, "install", process.env.APP_ENV));
-        await $`docker compose exec -it api ./vendor/bin/phpunit`
-            .pipe(process.stdout)
-            .catch((p) => {
-                Console.printError(p);
-            });
-    }
+  async test() {
+    cd(path.join(this.cliEnv?.rootDir, "install", process.env.APP_ENV));
+    await $`docker compose exec -it api php artisan migrate:fresh --seed --env=testing`;
+    await $`docker compose exec -it api ./vendor/bin/phpunit`
+      .pipe(process.stdout)
+      .catch((p) => {
+        Console.printError(p);
+        process.exit(1);
+      });
+  }
 
-    async pint() {
-        cd(path.join(this.cliEnv?.rootDir, "install", process.env.APP_ENV));
-        await $`docker compose exec -it api ./vendor/bin/pint`
-            .pipe(process.stdout)
-            .catch((p) => {
-                Console.printError(p);
-            });
-    }
+  async pint() {
+    cd(path.join(this.cliEnv?.rootDir, "install", process.env.APP_ENV));
+    await $`docker compose exec -it api ./vendor/bin/pint`
+      .pipe(process.stdout)
+      .catch((p) => {
+        Console.printError(p);
+        process.exit(1);
+      });
+  }
 
-    async showUnusedPackages() {
-        cd(path.join(this.cliEnv?.rootDir, "install", process.env.APP_ENV));
-        await $`docker compose exec -it api ./vendor/bin/composer-unused`
-            .pipe(process.stdout)
-            .catch((p) => {
-                Console.printError(p);
-            });
-    }
+  async showUnusedPackages() {
+    cd(path.join(this.cliEnv?.rootDir, "install", process.env.APP_ENV));
+    await $`docker compose exec -it api ./vendor/bin/composer-unused`
+      .pipe(process.stdout)
+      .catch((p) => {
+        Console.printError(p);
+        process.exit(1);
+      });
+  }
 }

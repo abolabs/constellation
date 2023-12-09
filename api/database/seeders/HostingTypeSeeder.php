@@ -29,16 +29,21 @@ class HostingTypeSeeder extends Seeder
      */
     public function run()
     {
-        $hosting_types = [[
-            'name' => 'Cloud',
-            'description' => 'Cloud hosting',
-        ], [
-            'name' => 'Dedicated server',
-            'description' => 'Dedicated server hosting',
-        ], [
-            'name' => 'VPS',
-            'description' => 'Virtual private server hosting',
-        ]];
+        $hosting_types = [
+            [
+                'name' => 'Cloud',
+                'description' => 'Cloud provider',
+            ], [
+                'name' => 'Dedicated server',
+                'description' => 'Dedicated server hosting',
+            ], [
+                'name' => 'VPS',
+                'description' => 'Virtual private server hosting',
+            ], [
+                'name' => 'Saas',
+                'description' => '"Software as a Service" solutions',
+            ]
+        ];
 
         foreach ($hosting_types as $hosting_type) {
             HostingType::create($hosting_type);

@@ -18,41 +18,41 @@
 
 import Console from '../utils/Console.mjs';
 import * as path from 'path';
-import {selectAction} from './Base.mjs';
+import { selectAction } from './Base.mjs';
 import AbstractCommand from './AbstractCommand.mjs';
 
 const actions = [
-    'build',
-    'convert',
-    'cp',
-    'create',
-    'down',
-    'events',
-    'exec',
-    'images',
-    'kill',
-    'logs',
-    'ls',
-    'pause',
-    'port',
-    'ps',
-    'pull',
-    'push',
-    'restart',
-    'rm',
-    'run',
-    'start',
-    'stop',
-    'top',
-    'unpause',
-    'up',
-    'version'
+  'build',
+  'convert',
+  'cp',
+  'create',
+  'down',
+  'events',
+  'exec',
+  'images',
+  'kill',
+  'logs',
+  'ls',
+  'pause',
+  'port',
+  'ps',
+  'pull',
+  'push',
+  'restart',
+  'rm',
+  'run',
+  'start',
+  'stop',
+  'top',
+  'unpause',
+  'up',
+  'version'
 ];
 
 export default class Docker extends AbstractCommand {
 
-    usage() {
-        const usageText = `
+  usage() {
+    const usageText = `
         Constellation CLI utils.
 
         Usage: constellation-cli docker [OPTIONS] COMMAND
@@ -91,21 +91,21 @@ export default class Docker extends AbstractCommand {
             version     Show the Docker Compose version information
 
         `
-        Console.log(usageText);
+    Console.log(usageText);
+  }
+
+  async run() {
+    if (!actions.includes(this.action)) {
+      this.usage();
+      this.action = await selectAction(actions);
     }
 
-    async run(){
-        if(!actions.includes(this.action)){
-            this.usage();
-            this.action = await selectAction(actions);
-        }
-
-        cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
-        $`docker compose ${this.action} ${this.additionnal}`
-            .pipe(process.stdout)
-            .catch((p) => {
-                Console.printError(p);
-            });
-    }
+    cd(path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV));
+    $`docker compose ${this.action} ${this.additional}`
+      .pipe(process.stdout)
+      .catch((p) => {
+        Console.printError(p);
+      });
+  }
 }
 

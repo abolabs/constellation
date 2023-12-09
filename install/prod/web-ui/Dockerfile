@@ -1,42 +1,39 @@
 # syntax = docker/dockerfile:1.2
+
+FROM node:20 AS builder
+
+ARG GIT_BRANCH=${GIT_BRANCH}
+
+RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRANCH /tmp/constellation
+# Copy Front
+RUN cd /tmp/constellation/web-ui && \
+    npm install && \
+    ./node_modules/.bin/vite build
+RUN mv /tmp/constellation/web-ui/build /var/www
+RUN rm -r /tmp/constellation
+
+
 FROM nginx:1.25
 
 LABEL maintainer="Alexandre BORDIN <bordin.alexandre@gmail.com>"
 
 # Get user arg
 ARG MYUSER=${MYUSER}
-ARG GIT_BRANCH=${GIT_BRANCH}
 ARG APP_PATH=/var/www/constellation
-
-RUN apt-get update -yqq \
-    && apt-get install -yqq git
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && apt-get -yqq install nodejs
 
 # Add user
 RUN useradd -ms /bin/bash -G www-data ${MYUSER} || echo "User already exists."
 
-# Clean
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
 # Copy sources
-RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRANCH /tmp/
-
-# Copy Front
-RUN cd /tmp/web-ui && \
-    mv .env.example .env && \
-    npm install && \
-    npm run build
-RUN mv /tmp/web-ui/build /var/www
+COPY --from=builder /var/www /var/www
 
 RUN chown -R ${MYUSER}:www-data /var/www
-RUN rm -r /tmp/*
 
 # Define workdir
 WORKDIR /var/www
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY default.conf /etc/nginx/conf.d/
+COPY ./default.conf /etc/nginx/conf.d/default.conf
 
 # Expose port
 EXPOSE 80 443
