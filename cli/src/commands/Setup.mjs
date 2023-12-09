@@ -111,7 +111,7 @@ export default class Setup extends AbstractCommand {
           {
             name: 'TAG_NAME',
             type: 'text',
-            message: 'Please define the version you want to deploy',
+            message: 'Please define the version you want to deploy (ignored if Development mode)',
             initial: 'latest'
           },
           {
