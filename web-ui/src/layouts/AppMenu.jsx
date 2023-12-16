@@ -37,26 +37,79 @@ import LanIcon from "@mui/icons-material/Lan";
 import WebAssetIcon from "@mui/icons-material/WebAsset";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-
-import { useTheme } from "@mui/material/styles";
-import { useMediaQuery, Collapse } from "@mui/material";
-import { useEffect, useState } from "react";
+import { alpha, useTheme } from "@mui/material/styles";
+import { useMediaQuery, Collapse, SwipeableDrawer, Box } from "@mui/material";
+import { Fragment, useEffect, useState } from "react";
 import { grey } from "@mui/material/colors";
+
 
 const AppMenu = () => {
   const theme = useTheme();
   const isMediumOrUpper = useMediaQuery((theme) => theme.breakpoints.up("md"));
   const [open, setOpen] = useSidebarState(isMediumOrUpper);
   const [adminOpen, setAdminOpen] = useState();
-  const { permissions } = usePermissions();
-  const t = useTranslate();
 
   useEffect(() => {
     setOpen(isMediumOrUpper);
   }, [isMediumOrUpper, setOpen]);
+
+  if (!isMediumOrUpper) {
+
+    return (
+      <Fragment>
+        <SwipeableDrawer
+          anchor={"left"}
+          open={open}
+          sx={{
+            backgroundColor: alpha(theme.palette.background.default, 0.90),
+            backgroundImage: "inherit",
+            h4: {
+              textAlign: "left",
+              ml: 1,
+              mt: 0.5,
+              mb: 0.5,
+              textTransform: "uppercase",
+              fontSize: "0.75rem",
+              color: grey[600],
+            },
+            "& .MuiButtonBase-root .MuiSvgIcon-root": {
+              background: theme.palette.background.paper,
+              color: theme.palette.secondary.main,
+              width: "2rem",
+              height: "2rem",
+              borderRadius: 1,
+              mr: "0.5rem",
+              p: 0.5,
+              boxShadow: 1,
+            },
+            "& .RaMenuItemLink-active": {
+              color: theme.palette.primary.main,
+              ".MuiSvgIcon-root": {
+                background: theme.palette.primary.main,
+                color: theme.palette.primary.contrastText,
+              },
+            },
+            "& .MuiMenuItem-root": {
+              borderRadius: 1,
+              m: "0.25rem 0",
+              fontSize: "0.85rem",
+              color: theme.palette.primary.main,
+            },
+          }}
+        >
+          <Box
+            sx={{ width: '30rem' }}
+            role="presentation"
+
+          >
+            <MenuItemList open={open} setAdminOpen={setAdminOpen} adminOpen={adminOpen} />
+          </Box>
+        </SwipeableDrawer>
+      </Fragment>
+    );
+  }
 
   return (
     <Menu
@@ -125,6 +178,16 @@ const AppMenu = () => {
         },
       }}
     >
+      <MenuItemList open={open} setAdminOpen={setAdminOpen} adminOpen={adminOpen} />
+    </Menu>
+  );
+};
+
+const MenuItemList = ({ open, setAdminOpen, adminOpen }) => {
+  const t = useTranslate();
+  const { permissions } = usePermissions();
+  return (
+    <Fragment>
       <Menu.DashboardItem primaryText={open ? "Dashboard" : ""} />
       {open ? (
         <Typography variant="h4" pt={1}>
@@ -251,9 +314,10 @@ const AppMenu = () => {
           permission="view audits"
         />
       </Collapse>
-    </Menu>
+    </Fragment>
+
   );
-};
+}
 
 const MenuItem = ({ permission, ...props }) => {
   const isMediumOrUpper = useMediaQuery((theme) => theme.breakpoints.up("md"));
