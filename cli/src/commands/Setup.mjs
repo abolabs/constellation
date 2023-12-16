@@ -272,10 +272,11 @@ export default class Setup extends AbstractCommand {
 
       Console.info("Generate Oauth2 keys");
       await $`docker compose exec api php artisan passport:keys --force`;
-      await $`docker compose exec api chmod 600 storage/oauth-private.key`;
-      await $`docker compose exec api chmod 600 storage/oauth-public.key`;
+      await $`docker compose exec api chmod 644 storage/oauth-private.key`;
+      await $`docker compose exec api chmod 644 storage/oauth-public.key`;
       await $`docker compose exec api chown www-data storage/oauth-private.key`;
       await $`docker compose exec api chown www-data storage/oauth-public.key`;
+      await $`docker compose exec api chgrp -R www-data storage/`;
 
       const clientKeys = await $`docker compose exec api php artisan passport:client --password`;
       const clientIdResult = new RegExp(/Client ID: (.*)/g).exec(clientKeys);
@@ -299,14 +300,14 @@ export default class Setup extends AbstractCommand {
         await $`docker compose exec api php artisan config:cache`;
       }
 
-      const confirRunSeeder = await Console.prompts({
+      const confirmRunSeeder = await Console.prompts({
         type: 'confirm',
         name: 'run_application_example_seeder',
         message: 'Would like to run the example application seeder ?',
         initial: false
       });
 
-      if (confirRunSeeder.run_application_example_seeder === true) {
+      if (confirmRunSeeder.run_application_example_seeder === true) {
         await $`docker compose exec api php artisan db:seed --force --class=AppExampleSeeder`;
       }
 
