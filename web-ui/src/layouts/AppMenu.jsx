@@ -64,7 +64,6 @@ const AppMenu = () => {
           open={open}
           sx={{
             backgroundColor: alpha(theme.palette.background.default, 0.90),
-            backgroundImage: "inherit",
             h4: {
               textAlign: "left",
               ml: 1,
@@ -73,6 +72,9 @@ const AppMenu = () => {
               textTransform: "uppercase",
               fontSize: "0.75rem",
               color: grey[600],
+            },
+            "& .MuiPaper-root": {
+              backgroundImage: "initial",
             },
             "& .MuiButtonBase-root .MuiSvgIcon-root": {
               background: theme.palette.background.paper,

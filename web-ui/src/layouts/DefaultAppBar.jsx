@@ -30,7 +30,7 @@ import {
 } from "react-admin";
 import { Link } from "react-router-dom";
 
-import { AppBar as MuiAppBar, Toolbar } from "@mui/material";
+import { AppBar as MuiAppBar, Toolbar, useMediaQuery } from "@mui/material";
 
 import { styled, useTheme } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
@@ -208,6 +208,7 @@ const AppBar = React.memo((props) => {
 
 const DefaultAppBar = (props) => {
   const theme = useTheme();
+  const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   return (
     <AppBar
       sx={{
@@ -221,13 +222,17 @@ const DefaultAppBar = (props) => {
       {...props}
       userMenu={<AppUserMenu />}
     >
+
       <Typography
         variant="h3"
         component="div"
         sx={{ flexGrow: 1, display: "flex", alignContent: "center" }}
       >
-        Constellation
+        {isSmall ? null :
+          "Constellation"
+        }
       </Typography>
+
       <ToggleThemeButton />
     </AppBar>
   );
