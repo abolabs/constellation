@@ -252,6 +252,9 @@ export default class Setup extends AbstractCommand {
       }
 
       await $`docker compose exec api cp .env.example .env`;
+      if (!isProd()) {
+        await $`docker compose exec api composer install`;
+      }
       await $`docker compose exec api php artisan key:generate`;
 
       Console.info("Prepare API");
