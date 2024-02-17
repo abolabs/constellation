@@ -63,6 +63,7 @@ const AppMenu = () => {
           anchor={"left"}
           open={open}
           onClose={() => { }}
+          onOpen={() => { }}
           sx={{
             backgroundColor: alpha(theme.palette.background.default, 0.90),
             h4: {
