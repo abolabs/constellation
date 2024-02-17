@@ -22,7 +22,6 @@ import {
   Grid,
   Fade,
   LinearProgress,
-  List,
   ListItem,
   ListItemText,
   Typography,
@@ -100,18 +99,18 @@ const HostingShow = () => {
               }}
             >
               <Grid container>
-                <Grid item xs={12} p={2}>
+                <Grid item xs={12} p={0}>
                   <Grid
                     container
                     direction="row"
                     justifyContent="flex-start"
                     alignItems="stretch"
-                    spacing={{ xs: 2, md: 4, lg: 4 }}
+                    spacing={{ xs: 2 }}
                     columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
                   >
                     {record?.meta?.serviceInstances?.map((instance) => (
                       <Fade key={instance?.id} in={true} timeout={500}>
-                        <Grid item xs={8} sm={8} md={4} lg={3}>
+                        <Grid item xs={8} sm={8} md={4} lg={4}>
                           <ServiceInstanceCard
                             key={instance?.id}
                             {...instance}
@@ -146,62 +145,71 @@ const HostingShowLayout = () => {
               canDelete={!record?.meta?.serviceInstances?.length}
             />
             <CardContent>
-              <List
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-
-                  "& .MuiTypography-body1": {
-                    fontWeight: "bold",
-                  },
-                }}
+              <Grid
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="stretch"
+                spacing={{ xs: 1 }}
+                columns={{ xs: 6, sm: 6, md: 8, lg: 12 }}
               >
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.hostings.fields.id")}
-                    secondary={<NumberField source="id" />}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.hostings.fields.name")}
-                    secondary={<TextField source="name" />}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.hostings.fields.hosting_type_id")}
-                    secondary={
-                      <ReferenceField
-                        source="hosting_type_id"
-                        reference="hosting_types"
-                        link="show"
-                      >
-                        <TextField source="name" />
-                      </ReferenceField>
-                    }
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.hostings.fields.localisation")}
-                    secondary={<TextField source="localisation" />}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.hostings.fields.created_at")}
-                    secondary={<DateField source="created_at" />}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.hostings.fields.updated_at")}
-                    secondary={<DateField source="updated_at" />}
-                  />
-                </ListItem>
-              </List>
+                <Grid item xs={6} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.hostings.fields.id")}
+                      secondary={<NumberField source="id" />}
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={6} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.hostings.fields.name")}
+                      secondary={<TextField source="name" />}
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={6} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.hostings.fields.hosting_type_id")}
+                      secondary={
+                        <ReferenceField
+                          source="hosting_type_id"
+                          reference="hosting_types"
+                          link="show"
+                        >
+                          <TextField source="name" />
+                        </ReferenceField>
+                      }
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={6} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.hostings.fields.localisation")}
+                      secondary={<TextField source="localisation" />}
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={6} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.hostings.fields.created_at")}
+                      secondary={<DateField source="created_at" />}
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={6} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.hostings.fields.updated_at")}
+                      secondary={<DateField source="updated_at" />}
+                    />
+                  </ListItem>
+                </Grid>
+              </Grid>
             </CardContent>
           </Card>
         </Grid>
