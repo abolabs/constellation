@@ -118,13 +118,13 @@ const ServiceShow = () => {
               }}
             >
               <Grid container>
-                <Grid item xs={12} p={2}>
+                <Grid item xs={12} p={0}>
                   <Grid
                     container
                     direction="row"
                     justifyContent="flex-start"
                     alignItems="stretch"
-                    spacing={{ xs: 2, md: 4, lg: 4 }}
+                    spacing={{ xs: 1, md: 2, lg: 2 }}
                     columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
                   >
                     {record?.meta?.serviceByApplication?.map((versionObj) => (
@@ -267,58 +267,65 @@ const ServiceShowLayout = () => {
               title={record?.name}
             />
             <CardContent>
-              <List
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-
-                  "& .MuiTypography-body1": {
-                    fontWeight: "bold",
-                  },
-                }}
+              <Grid
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="stretch"
+                spacing={{ xs: 1 }}
+                columns={{ xs: 6, sm: 6, md: 8, lg: 10 }}
               >
-                <ListItem>
-                  <ListItemText
-                    primary="id"
-                    secondary={<NumberField source="id" />}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.services.fields.team_id")}
-                    secondary={
-                      <ReferenceField
-                        source="team_id"
-                        reference="teams"
-                        link="show"
-                      >
-                        <TextField source="name" />
-                      </ReferenceField>
-                    }
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.services.fields.git_repo")}
-                    secondary={
-                      <Link href={record?.git_repo}>{record?.git_repo}</Link>
-                    }
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.services.fields.created_at")}
-                    secondary={<DateField source="created_at" />}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.services.fields.updated_at")}
-                    secondary={<DateField source="updated_at" />}
-                  />
-                </ListItem>
-              </List>
+                <Grid item xs={6} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary="id"
+                      secondary={<NumberField source="id" />}
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={6} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.services.fields.team_id")}
+                      secondary={
+                        <ReferenceField
+                          source="team_id"
+                          reference="teams"
+                          link="show"
+                        >
+                          <TextField source="name" />
+                        </ReferenceField>
+                      }
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={6} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.services.fields.git_repo")}
+                      secondary={
+                        <Link href={record?.git_repo}>{record?.git_repo}</Link>
+                      }
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={6} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.services.fields.created_at")}
+                      secondary={<DateField source="created_at" />}
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={6} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.services.fields.updated_at")}
+                      secondary={<DateField source="updated_at" />}
+                    />
+                  </ListItem>
+                </Grid>
+              </Grid>
             </CardContent>
           </Card>
         </Grid>
