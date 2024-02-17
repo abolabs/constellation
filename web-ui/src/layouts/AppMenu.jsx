@@ -62,6 +62,7 @@ const AppMenu = () => {
         <SwipeableDrawer
           anchor={"left"}
           open={open}
+          onClose={() => { }}
           sx={{
             backgroundColor: alpha(theme.palette.background.default, 0.90),
             h4: {
