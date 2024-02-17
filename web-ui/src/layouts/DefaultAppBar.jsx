@@ -217,6 +217,7 @@ const DefaultAppBar = (props) => {
         boxShadow: "none",
         ".RaAppBar-toolbar": {
           minHeight: 0,
+          background: theme.palette.background.default
         },
       }}
       {...props}

@@ -24,7 +24,7 @@ import {
 import DefaultCardHeader from "@components/styled/DefaultCardHeader";
 import AlertError from "@components/alerts/AlertError";
 
-const DefaultShowLayout = ({title=null, canDelete=true, canEdit=true, children}) => {
+const DefaultShowLayout = ({ title = null, canDelete = true, canEdit = true, children }) => {
   const { error, isLoading, record, resource } = useShowContext();
 
   if (isLoading) {
@@ -57,9 +57,9 @@ const DefaultShowLayout = ({title=null, canDelete=true, canEdit=true, children})
                 }
               }}
             >
-                <SimpleShowLayout>
-                  {children}
-                </SimpleShowLayout>
+              <SimpleShowLayout>
+                {children}
+              </SimpleShowLayout>
             </CardContent>
           </Card>
         </Grid>
