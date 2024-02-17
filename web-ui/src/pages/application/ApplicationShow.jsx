@@ -218,52 +218,57 @@ const ApplicationShowLayout = () => {
               title={record?.name}
             />
             <CardContent>
-              <List
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "row",
-
-                  "& .MuiTypography-body1": {
-                    fontWeight: "bold",
-                  },
-                }}
+              <Grid
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="stretch"
+                spacing={{ xs: 1 }}
+                columns={{ xs: 6, sm: 6, md: 8, lg: 12 }}
               >
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.applications.fields.id")}
-                    secondary={<NumberField source="id" />}
-                  />
-                </ListItem>
-                {permissions.includes("view teams") ? (
+                <Grid item xs={6} sm={6} md={4} lg={3}>
                   <ListItem>
                     <ListItemText
-                      primary={t("resources.applications.fields.team_id")}
-                      secondary={
-                        <ReferenceField
-                          source="team_id"
-                          reference="teams"
-                          link="show"
-                        >
-                          <TextField source="name" />
-                        </ReferenceField>
-                      }
+                      primary={t("resources.applications.fields.id")}
+                      secondary={<NumberField source="id" />}
                     />
                   </ListItem>
+                </Grid>
+                {permissions.includes("view teams") ? (
+                  <Grid item xs={6} sm={6} md={4} lg={3}>
+                    <ListItem>
+                      <ListItemText
+                        primary={t("resources.applications.fields.team_id")}
+                        secondary={
+                          <ReferenceField
+                            source="team_id"
+                            reference="teams"
+                            link="show"
+                          >
+                            <TextField source="name" />
+                          </ReferenceField>
+                        }
+                      />
+                    </ListItem>
+                  </Grid>
                 ) : null}
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.applications.fields.created_at")}
-                    secondary={<DateField source="created_at" />}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary={t("resources.applications.fields.updated_at")}
-                    secondary={<DateField source="updated_at" />}
-                  />
-                </ListItem>
-              </List>
+                <Grid item xs={6} sm={6} md={4} lg={3}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.applications.fields.created_at")}
+                      secondary={<DateField source="created_at" />}
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={6} sm={6} md={4} lg={3}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.applications.fields.updated_at")}
+                      secondary={<DateField source="updated_at" />}
+                    />
+                  </ListItem>
+                </Grid>
+              </Grid>
             </CardContent>
           </Card>
         </Grid>
