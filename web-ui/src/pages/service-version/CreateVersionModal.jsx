@@ -66,7 +66,11 @@ const CreateVersionModal = ({ serviceID, handleClose, open }) => {
   }
 
   return (
-    <Dialog open={open} fullWidth>
+    <Dialog open={open} fullWidth sx={{
+      "& .RaCreate-noActions": {
+        mt: 0
+      }
+    }}>
       <DialogTitle>
         {t("New version")}
         {handleClose ? (
