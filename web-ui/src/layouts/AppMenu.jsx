@@ -86,7 +86,7 @@ const AppMenu = () => {
               borderRadius: 1,
               mr: "0.5rem",
               p: 0.5,
-              boxShadow: 1,
+              boxShadow: 0,
             },
             "& .RaMenuItemLink-active": {
               color: theme.palette.primary.main,
@@ -152,14 +152,14 @@ const AppMenu = () => {
           },
         },
         "& .MuiButtonBase-root .MuiSvgIcon-root": {
-          background: theme.palette.background.paper,
+          background: theme.palette.background.contrastText,
           color: theme.palette.secondary.main,
           width: "2rem",
           height: "2rem",
           borderRadius: 1,
           mr: "0.5rem",
           p: 0.5,
-          boxShadow: 1,
+          boxShadow: 0,
         },
         "& .MuiMenuItem-root": {
           borderRadius: 1,
@@ -177,7 +177,7 @@ const AppMenu = () => {
           color: theme.palette.primary.main,
           ".MuiSvgIcon-root": {
             background: theme.palette.primary.main,
-            color: theme.palette.secondary.contrastText,
+            color: theme.palette.primary.contrastText,
           },
         },
       }}
