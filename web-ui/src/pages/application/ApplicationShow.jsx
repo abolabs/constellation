@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   Box,
@@ -24,12 +24,13 @@ import {
   Grid,
   Fade,
   LinearProgress,
-  List,
   ListItem,
-  ListItemButton,
   ListItemText,
   Typography,
   useTheme,
+  Tabs,
+  Tab,
+  tabsClasses,
 } from "@mui/material";
 import {
   DateField,
@@ -43,7 +44,6 @@ import {
   useTranslate,
 } from "react-admin";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import { grey } from "@mui/material/colors";
 
 import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import AlertError from "@components/alerts/AlertError";
@@ -116,53 +116,37 @@ const ApplicationShow = () => {
                   ) : null
                 }
               />
+              <EnvironmentSelector
+                record={record}
+                currentEnvId={currentEnvId}
+                setCurrentEnvId={setCurrentEnvId}
+              />
               <CardContent
                 sx={{
                   background: theme.palette.background.default,
                 }}
               >
-                <Grid container>
-                  <Grid item xs={4} md={3} lg={2}>
-                    <EnvironmentSelector
-                      record={record}
-                      currentEnvId={currentEnvId}
-                      setCurrentEnvId={setCurrentEnvId}
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    xs={8}
-                    md={9}
-                    lg={10}
-                    p={2}
-                    sx={{
-                      borderLeft: 1,
-                      borderColor: grey[300],
-                    }}
-                  >
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="flex-start"
-                      alignItems="stretch"
-                      spacing={{ xs: 2, md: 3 }}
-                      columns={{ xs: 8, sm: 8, md: 8, lg: 12 }}
-                    >
-                      {record?.meta?.serviceInstances?.map((instance) =>
-                        instance?.environment_id === currentEnvId ? (
-                          <Fade key={instance?.id} in={true} timeout={500}>
-                            <Grid item xs={8} sm={8} md={4} lg={3}>
-                              <ServiceInstanceCard
-                                key={instance?.id}
-                                {...instance}
-                                {...currentEnvId}
-                              />
-                            </Grid>
-                          </Fade>
-                        ) : null
-                      )}
-                    </Grid>
-                  </Grid>
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="flex-start"
+                  alignItems="stretch"
+                  spacing={{ xs: 2, md: 3 }}
+                  columns={{ xs: 8, sm: 8, md: 10, lg: 12 }}
+                >
+                  {record?.meta?.serviceInstances?.map((instance) =>
+                    instance?.environment_id === currentEnvId ? (
+                      <Fade key={instance?.id} in={true} timeout={500}>
+                        <Grid item xs={8} sm={8} md={4} lg={3}>
+                          <ServiceInstanceCard
+                            key={instance?.id}
+                            {...instance}
+                            {...currentEnvId}
+                          />
+                        </Grid>
+                      </Fade>
+                    ) : null
+                  )}
                 </Grid>
               </CardContent>
             </Card>
@@ -179,28 +163,54 @@ const ApplicationShow = () => {
   );
 };
 
-const EnvironmentSelector = ({ record, currentEnvId, setCurrentEnvId }) => (
-  <List>
-    {record?.meta?.countByEnv &&
-      record?.meta?.countByEnv.map((env) => (
-        <ListItem key={env?.id}>
-          <ListItemButton
-            onClick={() => setCurrentEnvId(env?.id)}
-            selected={currentEnvId === env?.id}
-          >
-            <ListItemText>
-              <Tag
+const EnvironmentSelector = ({ record, currentEnvId, setCurrentEnvId }) => {
+  const theme = useTheme();
+  const [windowWidth, setWindowWidth] = useState(useRef(window.innerWidth)?.current)
+  const handleChange = (_event, newValue) => {
+    setCurrentEnvId(newValue);
+  };
+
+  return (
+    <Box
+      sx={{
+        flexGrow: 1,
+        bgcolor: 'background.paper',
+        width: { xs: windowWidth - 10, sm: '100%' }
+      }}
+    >
+      <Tabs
+        value={currentEnvId}
+        onChange={handleChange}
+        variant="scrollable"
+        scrollButtons="auto"
+        allowScrollButtonsMobile={true}
+        textColor="secondary"
+        indicatorColor="secondary"
+        sx={{
+          [`& .${tabsClasses.scrollButtons}`]: {
+            '&.Mui-disabled': { opacity: 0.3 },
+          },
+        }}
+      >
+        {record?.meta?.countByEnv &&
+          record?.meta?.countByEnv.map((env) => (
+            <Tab
+              iconPosition="start"
+              icon={<Tag
                 label={env?.service_instances_count}
                 color="primary"
                 size="small"
-              />
-            </ListItemText>
-            <ListItemText primary={env?.name} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-  </List>
-);
+              />}
+              label={env?.name}
+              value={env?.id}
+              key={env?.id}
+            />
+          ))
+        }
+      </Tabs>
+    </Box>
+  );
+}
 
 const ApplicationShowLayout = () => {
   const { record } = useShowContext();
