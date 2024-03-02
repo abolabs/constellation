@@ -52,7 +52,7 @@ const DefaultCardHeader = ({
       action={
         <>
           {canDelete && permissions.includes(`delete ${object}`) ? (
-            <DeleteWithConfirmButton />
+            <DeleteWithConfirmButton label={isSmall ? null : t("ra.action.delete")} />
           ) : null}
           {canEdit && permissions.includes(`edit ${object}`) ? (
             <Button onClick={() => navigate(`/${object}/${record.id}/edit`)}>
