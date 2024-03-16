@@ -28,7 +28,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGitAlt } from "@fortawesome/free-brands-svg-icons";
 import LinkIcon from "@mui/icons-material/Link";
-
+import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Tag from "@components/styled/Tag";
 import ItemCardHeader from "@components/styled/ItemCardHeader";
@@ -82,15 +82,13 @@ const ServiceInstanceCard = (instance) => {
         >
           <ListItem sx={{ flexWrap: "wrap" }}>
             <Tag
-              label={`${t("resources.service_instances.fields.id")}: ${instance?.id
-                }`}
+              label={`${t("resources.service_instances.fields.id")}: ${instance?.id}`}
               color="primary"
               size="small"
             />
             &nbsp;
             <Tag
-              label={`${t("resources.service_instances.fields.statut")}: ${instance?.statut ? "Active" : "Inactive"
-                }`}
+              label={`${t("resources.service_instances.fields.statut")}: ${instance?.statut ? "Active" : "Inactive"}`}
               color={instance?.statut ? "success" : "warning"}
               size="small"
             />
@@ -123,10 +121,18 @@ const ServiceInstanceCard = (instance) => {
             &nbsp;
             {instance?.role ? (
               <Tag
-                label={`${t("resources.service_instances.fields.role")}: ${instance?.role
-                  }`}
+                label={`${t("resources.service_instances.fields.role")}: ${instance?.role}`}
                 color="secondary"
                 size="small"
+              />
+            ) : null}
+            &nbsp;
+            {instance?.environment_name ? (
+              <Tag
+                label={`${t("resources.environments.fields.name")}: ${instance.environment_name}`}
+                icon={<PermDataSettingIcon />}
+                size="small"
+                sx={{ cursor: "pointer" }}
               />
             ) : null}
           </ListItem>
