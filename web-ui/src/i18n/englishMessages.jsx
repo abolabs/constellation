@@ -146,7 +146,7 @@ const englishMessages = {
         id: "Id",
         service_id: "Service",
         service_name: "Service",
-        version: "v",
+        version: "version",
         created_at: "Created at",
         updated_at: "Updated at",
       },

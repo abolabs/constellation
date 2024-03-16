@@ -497,6 +497,8 @@ const ServiceInstanceShowLayout = () => {
                 direction="row"
                 justifyContent="flex-start"
                 alignItems="stretch"
+                spacing={{ xs: 1 }}
+                columns={{ xs: 6, sm: 6, md: 8, lg: 12 }}
                 sx={{
                   p: 1,
                   "& .MuiTypography-body1": {
@@ -504,13 +506,13 @@ const ServiceInstanceShowLayout = () => {
                   },
                 }}
               >
-                <Grid item xs={3}>
+                <Grid item xs={6} sm={6} md={4} lg={3}>
                   <ListItemText
                     primary="id"
                     secondary={<NumberField source="id" />}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} sm={6} md={4} lg={3}>
                   <ListItemText
                     primary={t("resources.services.fields.name")}
                     secondary={
@@ -532,7 +534,7 @@ const ServiceInstanceShowLayout = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} sm={6} md={4} lg={3}>
                   <ListItemText
                     primary={t(
                       "resources.service_instances.fields.environment_name"
@@ -549,7 +551,7 @@ const ServiceInstanceShowLayout = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} sm={6} md={4} lg={3}>
                   <ListItemText
                     primary={t(
                       "resources.service_instances.fields.hosting_name"
@@ -566,34 +568,34 @@ const ServiceInstanceShowLayout = () => {
                     }
                   />
                 </Grid>
-                <Grid item xs={3}>
-                  <ListItemText
-                    primary={t("resources.service_instances.fields.url")}
-                    secondary={<UrlField source="url" />}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <ListItemText
-                    primary={t("resources.service_instances.fields.role")}
-                    secondary={<TextField source="role" />}
-                  />
-                </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} sm={6} md={4} lg={3}>
                   <ListItemText
                     primary={t("resources.service_instances.fields.statut")}
                     secondary={<BooleanField source="statut" />}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} sm={6} md={4} lg={3}>
+                  <ListItemText
+                    primary={t("resources.service_instances.fields.role")}
+                    secondary={<TextField source="role" />}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={6} md={4} lg={3}>
                   <ListItemText
                     primary={t("resources.service_instances.fields.created_at")}
                     secondary={<DateField source="created_at" />}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6} sm={6} md={4} lg={3}>
                   <ListItemText
                     primary={t("resources.service_instances.fields.updated_at")}
                     secondary={<DateField source="updated_at" />}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <ListItemText
+                    primary={t("resources.service_instances.fields.url")}
+                    secondary={<UrlField source="url" />}
                   />
                 </Grid>
               </Grid>

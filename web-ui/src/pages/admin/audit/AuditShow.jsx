@@ -23,7 +23,6 @@ import {
   useShowController,
   useTranslate,
 } from "react-admin";
-import { JsonField } from "react-admin-json-view";
 import { useLocation } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 
@@ -31,6 +30,7 @@ import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import AlertError from "@components/alerts/AlertError";
 import DefaultShowLayout from "@components/DefaultShowLayout";
 import WithPermission from "@components/WithPermission";
+import ReactJson from "@microlink/react-json-view";
 
 const AuditShow = () => {
   const location = useLocation();
@@ -71,26 +71,8 @@ const AuditShow = () => {
           <TextField source="tags" />
           <DateField source="created_at" />
           <DateField source="updated_at" />
-          <JsonField
-            source="old_values"
-            reactJsonOptions={{
-              // Props passed to react-json-view
-              collapsed: true,
-              enableClipboard: false,
-              displayDataTypes: false,
-              theme: "ocean",
-            }}
-          />
-          <JsonField
-            source="new_values"
-            reactJsonOptions={{
-              // Props passed to react-json-view
-              collapsed: true,
-              enableClipboard: false,
-              displayDataTypes: false,
-              theme: "ocean",
-            }}
-          />
+          <ReactJson src={record.old_values} theme="ocean" collapsed={true} />
+          <ReactJson src={record.new_values} theme="ocean" collapsed={true} />
         </DefaultShowLayout>
       </Show>
     </>

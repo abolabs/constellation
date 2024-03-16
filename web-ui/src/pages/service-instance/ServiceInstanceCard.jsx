@@ -28,7 +28,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGitAlt } from "@fortawesome/free-brands-svg-icons";
 import LinkIcon from "@mui/icons-material/Link";
-
+import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Tag from "@components/styled/Tag";
 import ItemCardHeader from "@components/styled/ItemCardHeader";
@@ -58,9 +58,8 @@ const ServiceInstanceCard = (instance) => {
         }}
         action={
           <Tag
-            label={`${t("resources.service_versions.fields.version")} ${
-              instance?.service_version
-            }`}
+            label={`${t("resources.service_versions.fields.version")} ${instance?.service_version
+              }`}
             color="primary"
             size="small"
           />
@@ -83,24 +82,20 @@ const ServiceInstanceCard = (instance) => {
         >
           <ListItem sx={{ flexWrap: "wrap" }}>
             <Tag
-              label={`${t("resources.service_instances.fields.id")}: ${
-                instance?.id
-              }`}
+              label={`${t("resources.service_instances.fields.id")}: ${instance?.id}`}
               color="primary"
               size="small"
             />
             &nbsp;
             <Tag
-              label={`${t("resources.service_instances.fields.statut")}: ${
-                instance?.statut ? "Active" : "Inactive"
-              }`}
+              label={`${t("resources.service_instances.fields.statut")}: ${instance?.statut ? "Active" : "Inactive"}`}
               color={instance?.statut ? "success" : "warning"}
               size="small"
             />
             &nbsp;
             {instance?.service_git_repo ? (
               <Link
-                href={instance?.service_git_repo}
+                to={instance?.service_git_repo}
                 target="_blank"
                 rel="noopener"
               >
@@ -114,7 +109,7 @@ const ServiceInstanceCard = (instance) => {
             ) : null}
             &nbsp;
             {instance?.url ? (
-              <Link href={instance?.url} target="_blank" rel="noopener">
+              <Link to={instance?.url} target="_blank" rel="noopener">
                 <Tag
                   label={t("resources.service_instances.fields.url")}
                   icon={<LinkIcon />}
@@ -126,11 +121,18 @@ const ServiceInstanceCard = (instance) => {
             &nbsp;
             {instance?.role ? (
               <Tag
-                label={`${t("resources.service_instances.fields.role")}: ${
-                  instance?.role
-                }`}
+                label={`${t("resources.service_instances.fields.role")}: ${instance?.role}`}
                 color="secondary"
                 size="small"
+              />
+            ) : null}
+            &nbsp;
+            {instance?.environment_name ? (
+              <Tag
+                label={`${t("resources.environments.fields.name")}: ${instance.environment_name}`}
+                icon={<PermDataSettingIcon />}
+                size="small"
+                sx={{ cursor: "pointer" }}
               />
             ) : null}
           </ListItem>

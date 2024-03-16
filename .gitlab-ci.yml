@@ -209,7 +209,7 @@ phpunit:
 sonarcloud-check:
   stage: scan
   image:
-    name: sonarsource/sonar-scanner-cli:4.7
+    name: sonarsource/sonar-scanner-cli:5
     pull_policy: always
     entrypoint: [""]
   interruptible: true

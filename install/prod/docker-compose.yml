@@ -61,6 +61,8 @@ services:
         - GIT_BRANCH=${GIT_BRANCH}
     env_file:
       - .env
+    volumes:
+      - ${DATA_VOLUME}/api:/var/www/constellation/api/storage
     depends_on:
       - redis
       - mariadb

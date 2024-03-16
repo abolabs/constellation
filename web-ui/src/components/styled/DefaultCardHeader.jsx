@@ -19,7 +19,7 @@ import {
   useTranslate,
 } from "react-admin";
 import { useNavigate } from "react-router-dom";
-import { Button, CardHeader, useTheme } from "@mui/material";
+import { Button, CardHeader, useMediaQuery, useTheme } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -32,6 +32,7 @@ const DefaultCardHeader = ({
 }) => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const { permissions } = usePermissions();
   const t = useTranslate();
 
@@ -51,17 +52,17 @@ const DefaultCardHeader = ({
       action={
         <>
           {canDelete && permissions.includes(`delete ${object}`) ? (
-            <DeleteWithConfirmButton />
+            <DeleteWithConfirmButton label={isSmall ? null : t("ra.action.delete")} />
           ) : null}
           {canEdit && permissions.includes(`edit ${object}`) ? (
             <Button onClick={() => navigate(`/${object}/${record.id}/edit`)}>
               <EditIcon />
-              &nbsp;&nbsp;{t("ra.action.edit")}
+              &nbsp;{isSmall ? null : t("ra.action.edit")}
             </Button>
           ) : null}
           <Button onClick={() => navigate(-1)}>
             <ChevronLeftIcon />
-            &nbsp;&nbsp;{t("ra.action.back")}
+            &nbsp;{isSmall ? null : t("ra.action.back")}
           </Button>
         </>
       }

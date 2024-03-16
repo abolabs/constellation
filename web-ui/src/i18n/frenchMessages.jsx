@@ -146,7 +146,7 @@ const frenchMessages = {
         id: "Id",
         service_id: "Service",
         service_name: "Service",
-        version: "v",
+        version: "version",
         created_at: "Date de création",
         updated_at: "Date de mise à jour",
       },

@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import {
   AutocompleteInput,
   BooleanInput,
@@ -43,12 +43,14 @@ const CreateInstanceModal = ({
   open = false,
 }) => {
   const [create, { isLoading }] = useCreate();
+  const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const notify = useNotify();
   const refresh = useRefresh();
   const [defaultValues, setDefaultValues] = useState({});
   const [lastError, setLastError] = useState();
   const { permissions } = usePermissions();
   const t = useTranslate();
+  const theme = useTheme();
 
   if (!permissions.includes("create service_instances")) {
     return null;
@@ -105,7 +107,7 @@ const CreateInstanceModal = ({
   }
 
   return (
-    <Dialog open={open} fullWidth>
+    <Dialog open={open} fullWidth fullScreen={isSmall}>
       <DialogTitle>
         {t("Add a new service instance")}
         {handleClose ? (
@@ -127,7 +129,7 @@ const CreateInstanceModal = ({
           </IconButton>
         ) : null}
       </DialogTitle>
-      <DialogContent sx={{ padding: 0 }}>
+      <DialogContent sx={{ padding: 0, backgroundColor: theme?.palette?.background?.default }}>
         {lastError ? <AlertError {...lastError} /> : null}
         <Create
           resource="service_instances"

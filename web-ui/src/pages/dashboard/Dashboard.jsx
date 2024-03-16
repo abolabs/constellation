@@ -77,10 +77,11 @@ const Dashboard = () => {
       <Divider sx={{ mb: 2, color: theme.palette.divider }} />
       <Grid
         container
-        spacing={{ xs: 3, md: 3 }}
+        justifyContent="space-between"
+        spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 6, sm: 6, md: 8, lg: 12 }}
       >
-        <Grid item xs={4}>
+        <Grid item xs={6} sm={4}>
           <StatisticCard
             title={t("resources.applications.name")}
             value={stats?.nbApp}
@@ -102,7 +103,7 @@ const Dashboard = () => {
             graphId="graph-nodes-app-map"
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} sm={4}>
           <StatisticCard
             title={t("Service instances / Service")}
             value={`${stats?.nbInstances} / ${stats?.nbServices}`}
@@ -124,7 +125,7 @@ const Dashboard = () => {
             graphId="graph-nodes-by-app"
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} sm={4}>
           <StatisticCard
             title={t("resources.hostings.name")}
             value={stats?.nbHostings}
