@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTitle, IconButton, useMediaQuery } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import {
   AutocompleteInput,
   BooleanInput,
@@ -50,6 +50,7 @@ const CreateInstanceModal = ({
   const [lastError, setLastError] = useState();
   const { permissions } = usePermissions();
   const t = useTranslate();
+  const theme = useTheme();
 
   if (!permissions.includes("create service_instances")) {
     return null;
@@ -128,7 +129,7 @@ const CreateInstanceModal = ({
           </IconButton>
         ) : null}
       </DialogTitle>
-      <DialogContent sx={{ padding: 0 }}>
+      <DialogContent sx={{ padding: 0, backgroundColor: theme?.palette?.background?.default }}>
         {lastError ? <AlertError {...lastError} /> : null}
         <Create
           resource="service_instances"

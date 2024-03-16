@@ -23,6 +23,8 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import {
   AutocompleteInput,
@@ -62,9 +64,11 @@ const CreateServiceInstanceDepBaseModal = ({
   const [create, { isLoading }] = useCreate();
   const notify = useNotify();
   const [defaultValues, setDefaultValues] = useState({});
+  const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const [lastError, setLastError] = useState();
   const refresh = useRefresh();
   const t = useTranslate();
+  const theme = useTheme();
 
   if (isLoading) {
     return null;
@@ -140,7 +144,7 @@ const CreateServiceInstanceDepBaseModal = ({
     .required();
 
   return (
-    <Dialog open={open} fullWidth>
+    <Dialog open={open} fullWidth fullScreen={isSmall} >
       <DialogTitle>
         {t('Add a service dependency')}
         {handleClose ? (
@@ -162,7 +166,7 @@ const CreateServiceInstanceDepBaseModal = ({
           </IconButton>
         ) : null}
       </DialogTitle>
-      <DialogContent sx={{ padding: 0 }}>
+      <DialogContent sx={{ padding: 0, backgroundColor: theme?.palette?.background?.default }}>
         {lastError ? <AlertError {...lastError} /> : null}
         <Create
           resource="service_instance_dependencies"

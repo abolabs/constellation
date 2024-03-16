@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import {
   Create,
   SimpleForm,
@@ -35,6 +35,8 @@ const CreateVersionModal = ({ serviceID, handleClose, open }) => {
   const [defaultValues, setDefaultValues] = useState({});
   const [lastError, setLastError] = useState();
   const t = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   const onSuccess = () => {
     notify("Version added", { type: "success" });
@@ -66,11 +68,14 @@ const CreateVersionModal = ({ serviceID, handleClose, open }) => {
   }
 
   return (
-    <Dialog open={open} fullWidth sx={{
-      "& .RaCreate-noActions": {
-        mt: 0
-      }
-    }}>
+    <Dialog open={open} fullWidth
+      fullScreen={isSmall}
+      sx={{
+        "& .RaCreate-noActions": {
+          mt: 0
+        }
+      }}
+    >
       <DialogTitle>
         {t("New version")}
         {handleClose ? (
@@ -92,7 +97,7 @@ const CreateVersionModal = ({ serviceID, handleClose, open }) => {
           </IconButton>
         ) : null}
       </DialogTitle>
-      <DialogContent sx={{ padding: 0 }}>
+      <DialogContent sx={{ padding: 0, backgroundColor: theme?.palette?.background?.default }}>
         {lastError ? <AlertError {...lastError} /> : null}
         <Create resource="service_versions">
           <SimpleForm
