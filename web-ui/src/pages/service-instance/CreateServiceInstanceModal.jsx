@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton, useMediaQuery } from "@mui/material";
 import {
   AutocompleteInput,
   BooleanInput,
@@ -43,6 +43,7 @@ const CreateInstanceModal = ({
   open = false,
 }) => {
   const [create, { isLoading }] = useCreate();
+  const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const notify = useNotify();
   const refresh = useRefresh();
   const [defaultValues, setDefaultValues] = useState({});
@@ -105,7 +106,7 @@ const CreateInstanceModal = ({
   }
 
   return (
-    <Dialog open={open} fullWidth>
+    <Dialog open={open} fullWidth fullScreen={isSmall}>
       <DialogTitle>
         {t("Add a new service instance")}
         {handleClose ? (

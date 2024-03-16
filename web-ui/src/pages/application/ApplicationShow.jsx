@@ -164,8 +164,7 @@ const ApplicationShow = () => {
 };
 
 const EnvironmentSelector = ({ record, currentEnvId, setCurrentEnvId }) => {
-  const theme = useTheme();
-  const [windowWidth, setWindowWidth] = useState(useRef(window.innerWidth)?.current)
+  const [windowWidth] = useState(useRef(window.innerWidth)?.current)
   const handleChange = (_event, newValue) => {
     setCurrentEnvId(newValue);
   };
