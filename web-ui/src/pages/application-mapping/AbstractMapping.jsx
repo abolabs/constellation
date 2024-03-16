@@ -16,18 +16,23 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
+  Button,
   Card,
   CardActions,
   CardContent,
-  Divider,
+  Collapse,
   Grid,
   IconButton,
   LinearProgress,
+  Stack,
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
+import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 import CloseIcon from "@mui/icons-material/Close";
 import { useLocation } from "react-router-dom";
 import {
@@ -166,7 +171,7 @@ const AbstractMapping = ({
             top: 0,
             left: 0,
             zIndex: 1,
-            opacity: 0.85,
+            opacity: 0.96,
           }}
         >
           <CardContent
@@ -182,7 +187,7 @@ const AbstractMapping = ({
           >
             <SimpleForm
               toolbar={null}
-              sx={{ p: asWidget ? 0 : "0.5rem 0", width: "75%" }}
+              sx={{ p: asWidget ? 0 : "0.5rem 0", width: "100%" }}
             >
               <MappingFilters
                 mappingUrl={mappingUrl}
@@ -267,6 +272,8 @@ const MappingFilters = ({
   useFormContext();
   const watchFields = useWatch([...filterList]);
   const t = useTranslate();
+  const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  const [showFilters, setShowFilters] = useState(!isSmall);
 
   const refreshGraph = useCallback(
     (filterParams) => {
@@ -313,46 +320,56 @@ const MappingFilters = ({
 
   return (
     <>
-      <ReferenceInput source="environment_id" reference="environments">
-        <SelectInput
-          isRequired={true}
-          optionText="name"
-          defaultValue={defaultFilter?.environment_id}
-        />
-      </ReferenceInput>
-      {filterList.includes("application_id") ? (
-        <ReferenceArrayInput source="application_id" reference="applications">
-          <SelectArrayInput optionText="name" />
-        </ReferenceArrayInput>
-      ) : null}
-      {filterList.includes("team_id") ? (
-        <ReferenceArrayInput source="team_id" reference="teams">
-          <SelectArrayInput optionText="name" />
-        </ReferenceArrayInput>
-      ) : null}
-      {filterList.includes("hosting_id") ? (
-        <ReferenceArrayInput source="hosting_id" reference="hostings">
-          <SelectArrayInput optionText="name" />
-        </ReferenceArrayInput>
-      ) : null}
-      <Divider />
-      <Typography variant="h6">{t("Dependency level")}</Typography>
-      {Object.values(serviceInstanceDepLevel).map((level, index) => (
-        <Tooltip key={index} title={level?.description}>
-          <Tag
-            label={level.label}
-            color={level?.color}
-            size="small"
-            component="span"
-            sx={{
-              p: 0,
-              height: "100%",
-              cursor: "inherit",
-              width: "8rem",
-            }}
+      <Stack direction="row" alignItems="center" justifyContent="center" spacing={2} sx={{ width: '100%' }}>
+        <Button
+          variant="outlined"
+          startIcon={showFilters ? <FilterListIcon /> : <FilterListOffIcon />}
+          onClick={() => { setShowFilters(!showFilters) }}
+        >
+          Filters
+        </Button>
+      </Stack>
+      <Collapse in={showFilters}>
+        <ReferenceInput source="environment_id" reference="environments">
+          <SelectInput
+            isRequired={true}
+            optionText="name"
+            defaultValue={defaultFilter?.environment_id}
           />
-        </Tooltip>
-      ))}
+        </ReferenceInput>
+        {filterList.includes("application_id") ? (
+          <ReferenceArrayInput source="application_id" reference="applications">
+            <SelectArrayInput optionText="name" />
+          </ReferenceArrayInput>
+        ) : null}
+        {filterList.includes("team_id") ? (
+          <ReferenceArrayInput source="team_id" reference="teams">
+            <SelectArrayInput optionText="name" />
+          </ReferenceArrayInput>
+        ) : null}
+        {filterList.includes("hosting_id") ? (
+          <ReferenceArrayInput source="hosting_id" reference="hostings">
+            <SelectArrayInput optionText="name" />
+          </ReferenceArrayInput>
+        ) : null}
+        <Typography variant="h6">{t("Dependency level")}</Typography>
+        {Object.values(serviceInstanceDepLevel).map((level, index) => (
+          <Tooltip key={index} title={level?.description}>
+            <Tag
+              label={level.label}
+              color={level?.color}
+              size="small"
+              component="span"
+              sx={{
+                p: 0,
+                //height: "100%",
+                cursor: "inherit",
+                width: "8rem",
+              }}
+            />
+          </Tooltip>
+        ))}
+      </Collapse>
     </>
   );
 };
