@@ -29,7 +29,7 @@ const AppLayout = (props) => {
           transition: "background-color 1s",
           "& .RaLayout-content": {
             transition: "background-color 1s",
-            padding: isSmall ? "0 0.5rem" : "0 3rem",
+            padding: isSmall ? "0 0.25rem" : "0 3rem",
           },
           ".RaLayout-appFrame": {
             marginTop: 4,
