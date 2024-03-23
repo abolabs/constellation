@@ -317,6 +317,7 @@ const englishMessages = {
   "New version": "New version",
   "Version added": "Version added",
   "Application imported": "Application imported",
+  "Filter": "Filter",
 };
 
 export default englishMessages;

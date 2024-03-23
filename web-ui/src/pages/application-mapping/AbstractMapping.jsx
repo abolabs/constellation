@@ -18,7 +18,6 @@ import {
   Box,
   Button,
   Card,
-  CardActions,
   CardContent,
   Collapse,
   Grid,
@@ -140,6 +139,20 @@ const AbstractMapping = ({
     <>
       {!asWidget ? <AppBreadCrumb location={location} /> : null}
       <Typography variant="h3">{title}</Typography>
+      {!asWidget ? (
+        <Box>
+          <Typography variant="caption"
+            sx={{
+              fontStyle: "italic",
+            }}
+          >
+            {t(
+              "Use the contextual menu to access to the detail of each node."
+            )}
+            <br />({t("Left click 2s or right click")})
+          </Typography>
+        </Box>
+      ) : null}
       <Box
         sx={{
           background: theme.palette.background.default,
@@ -183,11 +196,20 @@ const AbstractMapping = ({
                 maxWidth: "100%",
               },
               height: asWidget ? "3.5rem" : "auto",
+              "&:last-child": {
+                p: 0,
+              }
             }}
           >
             <SimpleForm
               toolbar={null}
-              sx={{ p: asWidget ? 0 : "0.5rem 0", width: "100%" }}
+              sx={{
+                p: asWidget ? 0 : "0.5rem 0",
+                width: "100%",
+                "&:last-child": {
+                  p: "0.5rem 0",
+                }
+              }}
             >
               <MappingFilters
                 mappingUrl={mappingUrl}
@@ -200,20 +222,6 @@ const AbstractMapping = ({
               />
             </SimpleForm>
           </CardContent>
-          {!asWidget ? (
-            <CardActions
-              sx={{
-                fontStyle: "italic",
-              }}
-            >
-              <Typography variant="caption">
-                {t(
-                  "Use the contextual menu to access to the detail of each node."
-                )}
-                <br />({t("Left click 2s or right click")})
-              </Typography>
-            </CardActions>
-          ) : null}
         </Card>
         <CytoscapeComponent
           id={graphId}
@@ -246,7 +254,7 @@ const AbstractMapping = ({
           >
             <CardContent
               sx={{
-                p: 1,
+                p: 0.5,
                 m: 0,
                 color: theme.palette.primary.contrastText,
               }}
@@ -326,7 +334,7 @@ const MappingFilters = ({
           startIcon={showFilters ? <FilterListIcon /> : <FilterListOffIcon />}
           onClick={() => { setShowFilters(!showFilters) }}
         >
-          Filters
+          {t('Filter')}
         </Button>
       </Stack>
       <Collapse in={showFilters}>
@@ -362,7 +370,6 @@ const MappingFilters = ({
               component="span"
               sx={{
                 p: 0,
-                //height: "100%",
                 cursor: "inherit",
                 width: "8rem",
               }}

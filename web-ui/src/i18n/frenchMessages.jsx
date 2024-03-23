@@ -321,6 +321,7 @@ const frenchMessages = {
   "New version": "Nouvelle version",
   "Version added": "Version ajoutée",
   "Application imported": "Application importée",
+  "Filter": "Filtrer",
 };
 
 export default frenchMessages;

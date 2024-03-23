@@ -40,9 +40,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { alpha, useTheme } from "@mui/material/styles";
-import { useMediaQuery, Collapse, SwipeableDrawer, Box } from "@mui/material";
+import { useMediaQuery, Collapse, SwipeableDrawer, Box, Button } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import { grey } from "@mui/material/colors";
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const AppMenu = () => {
@@ -104,10 +105,13 @@ const AppMenu = () => {
           }}
         >
           <Box
-            sx={{ width: '30rem' }}
+            sx={{ width: '100%' }}
             role="presentation"
 
           >
+            <Box sx={{ display: 'grid', justifyItems: 'end' }}>
+              <Button endIcon={<CloseIcon />} onClick={() => setOpen(false)}></Button>
+            </Box>
             <MenuItemList open={open} setAdminOpen={setAdminOpen} adminOpen={adminOpen} />
           </Box>
         </SwipeableDrawer>
@@ -265,9 +269,7 @@ const MenuItemList = ({ open, setAdminOpen, adminOpen }) => {
           {t("Admin")}{" "}
           {adminOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
         </Typography>
-      ) : (
-        <Divider />
-      )}
+      ) : null}
       <Collapse in={adminOpen || !open}>
         <MenuItem
           to="/service_instance_dependencies"

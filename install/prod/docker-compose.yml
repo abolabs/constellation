@@ -13,6 +13,10 @@ services:
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       - "--certificatesresolvers.myresolver.acme.email=contact@abolabs.fr"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - --accesslog=true
+      - --accesslog.filepath=/traefik/logs/access.log
+      - --accesslog.bufferingsize=100
+      - --accesslog.format=json
     ports:
       - "80:80"
       - "443:443"
@@ -20,6 +24,7 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - ./letsencrypt:/letsencrypt
+      - ${DATA_VOLUME}/traefik/:/traefik/logs/
 
   maildev:
     image: djfarrelly/maildev
@@ -53,8 +58,7 @@ services:
   api:
     image: registry.gitlab.com/abolabs/constellation/api:${TAG_NAME}
     build:
-      context: .
-      dockerfile: api/Dockerfile
+      context: api
       args:
         - MYUSER=${MYUSER}
         - TAG_NAME=${TAG_NAME}
@@ -78,8 +82,7 @@ services:
   nginx-fpm:
     image: registry.gitlab.com/abolabs/constellation/nginx-fpm:${TAG_NAME}
     build:
-      context: .
-      dockerfile: nginx-fpm/Dockerfile
+      context: nginx-fpm
       args:
         - TAG_NAME=${TAG_NAME}
     volumes:
@@ -96,8 +99,7 @@ services:
   web-ui:
     image: registry.gitlab.com/abolabs/constellation/web-ui:${TAG_NAME}
     build:
-      context: .
-      dockerfile: web-ui/Dockerfile
+      context: web-ui
       args:
         - MYUSER=${MYUSER}
         - TAG_NAME=${TAG_NAME}
