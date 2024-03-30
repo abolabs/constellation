@@ -15,11 +15,13 @@
 
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import {
+  Alert,
   Box,
   Button,
   Card,
   CardContent,
   Collapse,
+  Dialog,
   Grid,
   IconButton,
   LinearProgress,
@@ -33,6 +35,7 @@ import {
 import FilterListIcon from '@mui/icons-material/FilterList';
 import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 import CloseIcon from "@mui/icons-material/Close";
+import InfoIcon from '@mui/icons-material/Info';
 import { useLocation } from "react-router-dom";
 import {
   ReferenceArrayInput,
@@ -68,6 +71,7 @@ const AbstractMapping = ({
   const dataProvider = useDataProvider();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
+  const [showHelpInfo, setShowHelpInfo] = useState(false);
   const [selectedNode, setSelectedNode] = useState({
     resource: null,
     id: null,
@@ -138,20 +142,22 @@ const AbstractMapping = ({
   return (
     <>
       {!asWidget ? <AppBreadCrumb location={location} /> : null}
-      <Typography variant="h3">{title}</Typography>
+      <Typography variant="h3">{title}
+        {!asWidget ? (
+          <IconButton aria-label="info" onClick={() => setShowHelpInfo(true)}>
+            <InfoIcon />
+          </IconButton>
+        ) : null}
+      </Typography>
       {!asWidget ? (
-        <Box>
-          <Typography variant="caption"
-            sx={{
-              fontStyle: "italic",
-            }}
-          >
+        <Dialog onClose={() => setShowHelpInfo(false)} open={showHelpInfo}>
+          <Alert severity="info">
             {t(
               "Use the contextual menu to access to the detail of each node."
             )}
             <br />({t("Left click 2s or right click")})
-          </Typography>
-        </Box>
+          </Alert>
+        </Dialog>
       ) : null}
       <Box
         sx={{
