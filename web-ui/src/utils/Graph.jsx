@@ -268,7 +268,7 @@ class Graph {
         this.layout(initLayoutConfig).run();
       },
       zoom: 0.7,
-      minZoom: 0.25,
+      minZoom: 0.10,
       maxZoom: 1.0,
       wheelSensitivity: 0.12,
       refresh: 50,
