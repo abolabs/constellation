@@ -34,7 +34,8 @@ class PermissionTableSeeder extends Seeder
             'service-mapping-per-app',  // Allow to view mapping per app <-> service
             'service-mapping-per-host', // Allow to view mapping per host <-> service
             'admin',                    // Allow to access to admin menu
-            'view audits',               // Allow to access to audit logs
+            'view audits',              // Allow to access to audit logs
+            'edit profile',             // Allow users to edit their name, e-mail and password
         ];
 
         foreach ($permissions as $permission) {

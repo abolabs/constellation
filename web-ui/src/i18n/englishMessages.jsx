@@ -271,7 +271,8 @@ const englishMessages = {
   "Application mapping": "Application mapping",
   Inventory: "Inventory",
   Admin: "Admin",
-  Profile: "Profil",
+  Profile: "Profile",
+  "Profile edition is disabled": "Profile edition is disabled",
   needs: "needs",
   "Internal error": "Internal error",
   Error: "Error",
@@ -285,7 +286,6 @@ const englishMessages = {
     "Please enter your current password to confirm",
   "Confirm e-mail change by entering your current password":
     "Confirm e-mail change by entering your current password",
-  Profil: "Profil",
   "Confirm your password": "Confirm your password",
   "Reset the password": "Reset the password",
   "Please define an environment name": "Please define an environment name",

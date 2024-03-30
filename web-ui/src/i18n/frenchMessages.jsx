@@ -274,6 +274,7 @@ const frenchMessages = {
   Inventory: "Inventaire",
   Admin: "Admin",
   Profile: "Profile",
+  "Profile edition is disabled": "L'édition de profil est désactivée",
   needs: "requière",
   "Internal error": "Erreur interne",
   Error: "Erreur",
@@ -288,7 +289,6 @@ const frenchMessages = {
     "Merci de saisir votre mot de passe actuel afin de confirmer le changement.",
   "Confirm e-mail change by entering your current password":
     "Saisissez votre mot de passe actuel afin de confirmer le changement",
-  Profil: "Profile",
   "Confirm your password": "Confirmer votre mot de passe",
   "Reset the password": "Réinitialiser le mot de passe",
   "Please define an environment name":

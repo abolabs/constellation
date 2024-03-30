@@ -21,6 +21,7 @@ import {
   CardContent,
   Toolbar,
   Button,
+  Alert,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import * as yup from "yup";
@@ -30,6 +31,7 @@ import {
   LinearProgress,
   useDataProvider,
   useGetIdentity,
+  usePermissions,
   useTranslate,
 } from "react-admin";
 
@@ -48,6 +50,7 @@ const AccountEdit = () => {
   } = useGetIdentity();
   const dataProvider = useDataProvider();
   const t = useTranslate();
+  const { permissions } = usePermissions();
 
   const AccountEditSchema = yup
     .object()
@@ -123,16 +126,21 @@ const AccountEdit = () => {
   return (
     <>
       <AppBreadCrumb location={location} />
-      <Typography variant="h3">{t("Profil")}</Typography>
+      <Typography variant="h3">{t("Profile")}</Typography>
       <FormProvider {...methods}>
         <Card sx={{ mt: 1 }}>
           <CardContent>
             <form action="/account/edit" method="put">
+              {!permissions?.includes('edit profile')
+                ? <Alert sx={{ mb: 1 }} severity="info" variant="outlined">{t('Profile edition is disabled')}.</Alert>
+                : null
+              }
               <TextField
                 label={t("resources.account.fields.name")}
                 error={!!errors?.name}
                 helperText={errors?.name?.message}
                 fullWidth
+                inputProps={{ readOnly: !permissions?.includes('edit profile') }}
                 {...methods.register("name")}
               />
               <TextField
@@ -140,6 +148,7 @@ const AccountEdit = () => {
                 error={!!errors?.email}
                 helperText={errors?.email?.message}
                 fullWidth
+                inputProps={{ readOnly: !permissions?.includes('edit profile') }}
                 {...methods.register("email")}
               />
               {dirtyFields?.email ? (
@@ -147,6 +156,7 @@ const AccountEdit = () => {
                   label={t("Confirm your password")}
                   type="password"
                   fullWidth
+                  inputProps={{ readOnly: !permissions?.includes('edit profile') }}
                   error={!!errors?.["current-password"]}
                   helperText={
                     errors?.["current-password"]?.message ??
@@ -155,20 +165,26 @@ const AccountEdit = () => {
                   {...methods.register("current-password")}
                 />
               ) : null}
-              <Link to="/public/password-reset-request">
-                <Button>{t("Reset the password")}</Button>
-              </Link>
+              {permissions?.includes('edit profile') ?
+                <Link to="/public/password-reset-request">
+                  <Button sx={{ mt: 1 }}>{t("Reset the password")}</Button>
+                </Link>
+                : null
+              }
             </form>
           </CardContent>
         </Card>
         <Toolbar variant="dense">
-          <Button
-            startIcon={<SaveIcon />}
-            disabled={!isDirty}
-            onClick={methods.handleSubmit(onSubmit)}
-          >
-            {t("ra.action.save")}
-          </Button>
+          {permissions?.includes('edit profile') ?
+            <Button
+              startIcon={<SaveIcon />}
+              disabled={!isDirty}
+              onClick={methods.handleSubmit(onSubmit)}
+            >
+              {t("ra.action.save")}
+            </Button>
+            : null
+          }
         </Toolbar>
       </FormProvider>
     </>

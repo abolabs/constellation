@@ -170,7 +170,6 @@ class UserAPIController extends AppBaseController
         );
     }
 
-
     /**
      * Update
      */
@@ -261,6 +260,9 @@ class UserAPIController extends AppBaseController
 
     public function profileUpdate(ProfileUpdateRequest $request)
     {
+        if (!$request->user()->hasPermissionTo('edit profile')) {
+            return $this->sendError("insufficient permission", 403);
+        }
         $input = $request->all();
         $user = \Auth::user();
         $user->update($input);
