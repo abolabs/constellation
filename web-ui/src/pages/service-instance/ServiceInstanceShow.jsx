@@ -162,6 +162,10 @@ const ServiceInstanceShow = () => {
                     </Grid>
                   </Fade>
                 ))}
+                {record?.meta?.instanceDependencies?.length === 0
+                  ? <Typography sx={{ p: 2, fontStyle: "italic" }}>{t('This instance has no dependencies.')}</Typography>
+                  : null
+                }
               </Grid>
             </CardContent>
           </Card>
@@ -225,6 +229,10 @@ const ServiceInstanceShow = () => {
                     </Grid>
                   </Fade>
                 ))}
+                {record?.meta?.instanceDependenciesSource?.length === 0
+                  ? <Typography sx={{ p: 2, fontStyle: "italic" }}>{t('This instance is not required by any other instance.')}</Typography>
+                  : null
+                }
               </Grid>
             </CardContent>
           </Card>
@@ -329,7 +337,7 @@ const DependencyCard = (dep) => {
           sx: {
             overflow: "hidden",
             textOverflow: "ellipsis",
-            maxWidth: "12vw",
+            maxWidth: "10rem",
             color: theme?.palette?.secondary?.contrastText,
             fontSize: "0.8rem !important",
           },
@@ -497,8 +505,8 @@ const ServiceInstanceShowLayout = () => {
                 direction="row"
                 justifyContent="flex-start"
                 alignItems="stretch"
-                spacing={{ xs: 1 }}
-                columns={{ xs: 6, sm: 6, md: 8, lg: 12 }}
+                spacing={{ xs: 0, md: 1 }}
+                columns={{ xs: 12, sm: 12, md: 8, lg: 12 }}
                 sx={{
                   p: 1,
                   "& .MuiTypography-body1": {
@@ -592,7 +600,7 @@ const ServiceInstanceShowLayout = () => {
                     secondary={<DateField source="updated_at" />}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6}>
                   <ListItemText
                     primary={t("resources.service_instances.fields.url")}
                     secondary={<UrlField source="url" />}

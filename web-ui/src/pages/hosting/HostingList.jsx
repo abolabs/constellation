@@ -38,12 +38,14 @@ import i18nProvider from "@providers/I18nProvider";
 
 const hostingFilters = [
   <TextInput
+    key="search-filter"
     label={i18nProvider.translate("ra.action.search")}
     source="q"
     alwaysOn
     variant="outlined"
   />,
   <ReferenceInput
+    key="hosting-type-filter"
     source="hosting_type_id"
     reference="hosting_types"
     sort={{ field: "name", order: "ASC" }}

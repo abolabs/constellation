@@ -146,7 +146,7 @@ const englishMessages = {
         id: "Id",
         service_id: "Service",
         service_name: "Service",
-        version: "version",
+        version: "Version",
         created_at: "Created at",
         updated_at: "Updated at",
       },
@@ -271,7 +271,8 @@ const englishMessages = {
   "Application mapping": "Application mapping",
   Inventory: "Inventory",
   Admin: "Admin",
-  Profile: "Profil",
+  Profile: "Profile",
+  "Profile edition is disabled": "Profile edition is disabled",
   needs: "needs",
   "Internal error": "Internal error",
   Error: "Error",
@@ -285,7 +286,6 @@ const englishMessages = {
     "Please enter your current password to confirm",
   "Confirm e-mail change by entering your current password":
     "Confirm e-mail change by entering your current password",
-  Profil: "Profil",
   "Confirm your password": "Confirm your password",
   "Reset the password": "Reset the password",
   "Please define an environment name": "Please define an environment name",
@@ -317,6 +317,8 @@ const englishMessages = {
   "New version": "New version",
   "Version added": "Version added",
   "Application imported": "Application imported",
+  "This instance has no dependencies.": "This instance has no dependencies.",
+  "This instance is not required by any other instance.": "This instance is not required by any other instance.",
 };
 
 export default englishMessages;

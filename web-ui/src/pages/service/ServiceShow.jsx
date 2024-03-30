@@ -228,10 +228,10 @@ const VersionCard = (versionObj) => {
                               sx={{
                                 width: "100%",
                                 "& .MuiBadge-badge": {
-                                  top: "0.5rem",
-                                  right: "0.5rem",
+                                  top: "100%",
+                                  right: "0.25rem",
                                   border: `2px solid ${theme.palette.background.paper}`,
-                                  padding: "0 1rem",
+                                  padding: "0.75rem",
                                 },
                               }}
                             >
@@ -272,8 +272,8 @@ const ServiceShowLayout = () => {
                 direction="row"
                 justifyContent="flex-start"
                 alignItems="stretch"
-                spacing={{ xs: 1 }}
-                columns={{ xs: 6, sm: 6, md: 8, lg: 10 }}
+                spacing={{ xs: 0, md: 1 }}
+                columns={{ xs: 12, sm: 12, md: 8, lg: 10 }}
               >
                 <Grid item xs={6} sm={6} md={4} lg={2}>
                   <ListItem>
@@ -302,16 +302,6 @@ const ServiceShowLayout = () => {
                 <Grid item xs={6} sm={6} md={4} lg={2}>
                   <ListItem>
                     <ListItemText
-                      primary={t("resources.services.fields.git_repo")}
-                      secondary={
-                        <Link href={record?.git_repo}>{record?.git_repo}</Link>
-                      }
-                    />
-                  </ListItem>
-                </Grid>
-                <Grid item xs={6} sm={6} md={4} lg={2}>
-                  <ListItem>
-                    <ListItemText
                       primary={t("resources.services.fields.created_at")}
                       secondary={<DateField source="created_at" />}
                     />
@@ -322,6 +312,16 @@ const ServiceShowLayout = () => {
                     <ListItemText
                       primary={t("resources.services.fields.updated_at")}
                       secondary={<DateField source="updated_at" />}
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={2}>
+                  <ListItem>
+                    <ListItemText
+                      primary={t("resources.services.fields.git_repo")}
+                      secondary={
+                        <Link href={record?.git_repo}>{record?.git_repo}</Link>
+                      }
                     />
                   </ListItem>
                 </Grid>

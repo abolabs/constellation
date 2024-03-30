@@ -37,13 +37,14 @@ import i18nProvider from "@providers/I18nProvider";
 
 const servicesInstancesFilters = [
   <TextInput
+    key="search-filter"
     label={i18nProvider.translate("ra.action.search")}
     source="q"
     alwaysOn
     variant="outlined"
   />,
   <ReferenceInput
-    key="hosting_filter"
+    key="hosting-filter"
     source="hosting_id"
     reference="hostings"
     sort={{ field: "name", order: "ASC" }}
@@ -51,7 +52,7 @@ const servicesInstancesFilters = [
     <SelectInput optionText="name" variant="outlined" />
   </ReferenceInput>,
   <ReferenceInput
-    key="env_filter"
+    key="env-filter"
     source="environment_id"
     reference="environments"
     sort={{ field: "name", order: "ASC" }}

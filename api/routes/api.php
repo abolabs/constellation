@@ -1,10 +1,22 @@
 <?php
 
 use App\Http\Controllers\API\ApplicationAPIController;
+use App\Http\Controllers\API\AuditAPIController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\PasswordResetAPIController;
+use App\Http\Controllers\API\EnvironmentAPIController;
+use App\Http\Controllers\API\HostingAPIController;
+use App\Http\Controllers\API\HostingTypeAPIController;
 use App\Http\Controllers\API\InfraAPIController;
+use App\Http\Controllers\API\PermissionAPIController;
+use App\Http\Controllers\API\RoleAPIController;
+use App\Http\Controllers\API\ServiceAPIController;
+use App\Http\Controllers\API\ServiceInstanceAPIController;
+use App\Http\Controllers\API\ServiceInstanceDependenciesAPIController;
+use App\Http\Controllers\API\ServiceVersionAPIController;
+use App\Http\Controllers\API\TeamAPIController;
 use App\Http\Controllers\API\UserAPIController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +74,6 @@ Route::group([
     /**
      * Password reset
      */
-    Route::post('/password-reset/send-link', [PasswordResetAPIController::class, 'sendResetLink'])->name('v1.password-reset.send-link');
-    Route::post('/password-reset', [PasswordResetAPIController::class, 'resetPassword'])->name('v1.password-reset.reset-password');
+    Route::post('/password-reset/send-link', [PasswordResetAPIController::class, 'sendResetLink'])->name('v1.password-reset.send-link')->can('edit profile', [User::class]);
+    Route::post('/password-reset', [PasswordResetAPIController::class, 'resetPassword'])->name('v1.password-reset.reset-password')->can('edit profile', [User::class]);
 });

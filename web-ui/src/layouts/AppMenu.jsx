@@ -40,9 +40,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { alpha, useTheme } from "@mui/material/styles";
-import { useMediaQuery, Collapse, SwipeableDrawer, Box } from "@mui/material";
+import { useMediaQuery, Collapse, SwipeableDrawer, Box, Button } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import { grey } from "@mui/material/colors";
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const AppMenu = () => {
@@ -58,60 +59,62 @@ const AppMenu = () => {
   if (!isMediumOrUpper) {
 
     return (
-      <Fragment>
-        <SwipeableDrawer
-          anchor={"left"}
-          open={open}
-          onClose={() => { }}
-          onOpen={() => { }}
-          sx={{
-            backgroundColor: alpha(theme.palette.background.default, 0.90),
-            h4: {
-              textAlign: "left",
-              ml: 1,
-              mt: 0.5,
-              mb: 0.5,
-              textTransform: "uppercase",
-              fontSize: "0.75rem",
-              color: grey[600],
+      <SwipeableDrawer
+        anchor={"left"}
+        open={open}
+        disableDiscovery={true}
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        sx={{
+          backgroundColor: alpha(theme.palette.background.default, 0.90),
+          h4: {
+            textAlign: "left",
+            ml: 1,
+            mt: 0.5,
+            mb: 0.5,
+            textTransform: "uppercase",
+            fontSize: "0.75rem",
+            color: grey[600],
+          },
+          "& .MuiPaper-root": {
+            backgroundImage: "initial",
+          },
+          "& .MuiButtonBase-root .MuiSvgIcon-root": {
+            background: theme.palette.background.paper,
+            color: theme.palette.secondary.main,
+            width: "2rem",
+            height: "2rem",
+            borderRadius: 1,
+            mr: "0.5rem",
+            p: 0.5,
+            boxShadow: 0,
+          },
+          "& .RaMenuItemLink-active": {
+            color: theme.palette.primary.main,
+            ".MuiSvgIcon-root": {
+              background: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
             },
-            "& .MuiPaper-root": {
-              backgroundImage: "initial",
-            },
-            "& .MuiButtonBase-root .MuiSvgIcon-root": {
-              background: theme.palette.background.paper,
-              color: theme.palette.secondary.main,
-              width: "2rem",
-              height: "2rem",
-              borderRadius: 1,
-              mr: "0.5rem",
-              p: 0.5,
-              boxShadow: 0,
-            },
-            "& .RaMenuItemLink-active": {
-              color: theme.palette.primary.main,
-              ".MuiSvgIcon-root": {
-                background: theme.palette.primary.main,
-                color: theme.palette.primary.contrastText,
-              },
-            },
-            "& .MuiMenuItem-root": {
-              borderRadius: 1,
-              m: "0.25rem 0",
-              fontSize: "0.85rem",
-              color: theme.palette.primary.main,
-            },
-          }}
-        >
-          <Box
-            sx={{ width: '30rem' }}
-            role="presentation"
+          },
+          "& .MuiMenuItem-root": {
+            borderRadius: 1,
+            m: "0.25rem 0",
+            fontSize: "0.85rem",
+            color: theme.palette.primary.main,
+          },
+        }}
+      >
+        <Box
+          sx={{ width: '100%' }}
+          role="presentation"
 
-          >
-            <MenuItemList open={open} setAdminOpen={setAdminOpen} adminOpen={adminOpen} />
+        >
+          <Box sx={{ display: 'grid', justifyItems: 'end' }}>
+            <Button endIcon={<CloseIcon />} onClick={() => setOpen(false)}></Button>
           </Box>
-        </SwipeableDrawer>
-      </Fragment>
+          <MenuItemList open={open} setAdminOpen={setAdminOpen} adminOpen={adminOpen} />
+        </Box>
+      </SwipeableDrawer>
     );
   }
 
@@ -265,9 +268,7 @@ const MenuItemList = ({ open, setAdminOpen, adminOpen }) => {
           {t("Admin")}{" "}
           {adminOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
         </Typography>
-      ) : (
-        <Divider />
-      )}
+      ) : null}
       <Collapse in={adminOpen || !open}>
         <MenuItem
           to="/service_instance_dependencies"

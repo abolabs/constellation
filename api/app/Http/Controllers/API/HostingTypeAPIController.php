@@ -85,7 +85,11 @@ class HostingTypeAPIController extends AppBaseController
             $request->sort
         );
 
-        return $this->sendResponse(HostingTypeResource::collection($hostingTypes), Lang::get('hosting_type.index_confirm'), $hostingTypes->total());
+        return $this->sendResponse(
+            HostingTypeResource::collection($hostingTypes),
+            Lang::get('hosting_type.index_confirm'),
+            $hostingTypes->total()
+        );
     }
 
     /**

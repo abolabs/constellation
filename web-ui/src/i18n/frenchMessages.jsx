@@ -146,7 +146,7 @@ const frenchMessages = {
         id: "Id",
         service_id: "Service",
         service_name: "Service",
-        version: "version",
+        version: "Version",
         created_at: "Date de création",
         updated_at: "Date de mise à jour",
       },
@@ -274,6 +274,7 @@ const frenchMessages = {
   Inventory: "Inventaire",
   Admin: "Admin",
   Profile: "Profile",
+  "Profile edition is disabled": "L'édition de profil est désactivée",
   needs: "requière",
   "Internal error": "Erreur interne",
   Error: "Erreur",
@@ -288,7 +289,6 @@ const frenchMessages = {
     "Merci de saisir votre mot de passe actuel afin de confirmer le changement.",
   "Confirm e-mail change by entering your current password":
     "Saisissez votre mot de passe actuel afin de confirmer le changement",
-  Profil: "Profile",
   "Confirm your password": "Confirmer votre mot de passe",
   "Reset the password": "Réinitialiser le mot de passe",
   "Please define an environment name":
@@ -298,7 +298,7 @@ const frenchMessages = {
   "Left click 2s or right click": "Clic gauche 2s ou clic droit",
   Legend: "Legende",
   "Dependency level": "Niveau de dépendance",
-  Filter: "Filtre",
+  Filter: "Filtrer",
   "Mapping by app": "Cartographie par application",
   "Mapping by hosting": "Cartographie par hébergement",
   "Mapping by service": "Cartographie par service",
@@ -321,6 +321,8 @@ const frenchMessages = {
   "New version": "Nouvelle version",
   "Version added": "Version ajoutée",
   "Application imported": "Application importée",
+  "This instance has no dependencies.": "Cette instance n'a aucune dépendance.",
+  "This instance is not required by any other instance.": "Cette instance n'est requise par aucune autre instance.",
 };
 
 export default frenchMessages;

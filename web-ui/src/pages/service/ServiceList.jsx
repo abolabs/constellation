@@ -38,12 +38,14 @@ import i18nProvider from "@providers/I18nProvider";
 
 const servicesFilters = [
   <TextInput
+    key="search-filter"
     label={i18nProvider.translate("ra.action.search")}
     source="q"
     alwaysOn
     variant="outlined"
   />,
   <ReferenceInput
+    key="team-filter"
     source="team_id"
     reference="teams"
     sort={{ field: "name", order: "ASC" }}

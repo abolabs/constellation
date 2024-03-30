@@ -76,4 +76,12 @@ class UserPolicy
     {
         return $user->can('delete users');
     }
+
+    /**
+     * Determine whether the user can permanently delete his own profile.
+     */
+    public function updateProfile(User $user, User $model): bool
+    {
+        return $user->can('edit profile');
+    }
 }

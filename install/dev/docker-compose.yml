@@ -53,8 +53,7 @@ services:
 
   web-ui:
     build:
-      context: .
-      dockerfile: web-ui/Dockerfile
+      context: web-ui
       args:
         - MYUSER=${MYUSER}
     env_file:
@@ -85,8 +84,7 @@ services:
       - "traefik.http.routers.nginx-fpm.tls.certresolver=myresolver"
   api:
     build:
-      context: .
-      dockerfile: api/Dockerfile
+      context: api
       args:
         - MYUSER=${MYUSER}
     env_file:

@@ -80,7 +80,11 @@ class AuditAPIController extends AppBaseController
             $request->sort
         );
 
-        return $this->sendResponse(AuditResource::collection($audits), 'Audits retrieved successfully', $audits->total());
+        return $this->sendResponse(
+            AuditResource::collection($audits),
+            'Audits retrieved successfully',
+            $audits->total()
+        );
     }
 
     public function store()
