@@ -1,17 +1,16 @@
-FROM php:8.2-fpm
+FROM php:8.2-fpm as base-api
 
 LABEL maintainer="Alexandre BORDIN <bordin.alexandre@gmail.com>"
 
 # Get user arg
 ARG MYUSER=${MYUSER}
 
-# Update packages
-RUN apt-get update -yqq
-
-RUN apt-get install -yqq gnupg software-properties-common
+# Add user
+RUN useradd -ms /bin/bash -G www-data ${MYUSER} || echo "User already exists."
 
 # Install libs
-RUN apt-get install -yqq git \
+RUN apt-get update -yqq && apt-get install --no-install-recommends -yqq \
+    git \
     zip unzip libzip-dev \
     libonig-dev \
     libcurl4-gnutls-dev \
@@ -37,15 +36,18 @@ RUN apt-get install -yqq git \
     libtidy-dev \
     libfontconfig \
     libxrender1 \
-    libyaml-dev
+    libyaml-dev \
+    # Dev tools
+    nano \
+    mariadb-client \
+    && apt-get clean
 
 # Install PHP EXTENSIONS
 RUN docker-php-ext-install ldap mbstring pdo_mysql curl intl gd xml zip bz2 opcache
 
 RUN pecl install yaml && docker-php-ext-enable yaml
 
-# Install dev tools
-RUN apt-get install -yqq nano mariadb-client
+FROM base-api
 
 # XDEBUG
 #RUN pecl install xdebug
@@ -55,7 +57,6 @@ RUN apt-get install -yqq nano mariadb-client
 RUN curl --silent --show-error https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
-
 # Add user
 RUN useradd -ms /bin/bash -G www-data ${MYUSER} || echo "User already exists."
 
@@ -64,6 +65,7 @@ EXPOSE 80 443
 
 # Define workdir
 WORKDIR /var/www
+
 
 
 

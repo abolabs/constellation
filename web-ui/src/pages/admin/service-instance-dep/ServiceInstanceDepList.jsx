@@ -36,7 +36,7 @@ import LevelChip from "./LevelChip";
 import WithPermission from "@components/WithPermission";
 
 const serviceInstanceDepListFilters = [
-  <TextInput label="Search" source="q" alwaysOn variant="outlined" />,
+  <TextInput key="search-filter" label="Search" source="q" alwaysOn variant="outlined" />,
 ];
 
 const ServiceInstanceDepList = (props) => {

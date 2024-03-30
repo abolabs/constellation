@@ -5,7 +5,7 @@ const getQueryFromParams = (params) => {
   const { page, perPage } = params.pagination;
 
   let currPage = page;
-  if (offsetPageNum !== null || offsetPageNum !== undefined) {
+  if (offsetPageNum) {
     currPage += offsetPageNum;
   }
 
@@ -21,7 +21,7 @@ const getQueryFromParams = (params) => {
   });
 
   // Add sort parameter
-  if (params.sort && params.sort.field) {
+  if (params?.sort?.field) {
     const prefix = params.sort.order === "ASC" ? "" : "-";
     query.sort = `${prefix}${params.sort.field}`;
   }

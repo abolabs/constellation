@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
   Box,
@@ -57,10 +57,16 @@ const ApplicationShow = () => {
   const location = useLocation();
   const theme = useTheme();
   const { error, isLoading, record } = useShowController();
-  const [currentEnvId, setCurrentEnvId] = useState(1);
+  const [currentEnvId, setCurrentEnvId] = useState(record?.meta?.countByEnv?.[0].id ?? null);
   const [openModal, setOpenModal] = useState(false);
   const { permissions } = usePermissions();
   const t = useTranslate();
+
+  useEffect(() => {
+    if (!currentEnvId) {
+      setCurrentEnvId(record?.meta?.countByEnv?.[0].id)
+    }
+  }, [record]);
 
   if (isLoading) {
     return (
@@ -178,7 +184,7 @@ const EnvironmentSelector = ({ record, currentEnvId, setCurrentEnvId }) => {
       }}
     >
       <Tabs
-        value={currentEnvId}
+        value={currentEnvId ?? record?.meta?.countByEnv?.[0].id}
         onChange={handleChange}
         variant="scrollable"
         scrollButtons="auto"

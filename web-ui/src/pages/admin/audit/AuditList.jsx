@@ -37,8 +37,9 @@ import WithPermission from "@components/WithPermission";
 import i18nProvider from "@providers/I18nProvider";
 
 const auditFilters = [
-  <TextInput label={i18nProvider.translate("ra.action.search")} source="q" alwaysOn variant="outlined" />,
+  <TextInput key="search-filter" label={i18nProvider.translate("ra.action.search")} source="q" alwaysOn variant="outlined" />,
   <ReferenceInput
+    key="user-filter"
     source="user_id"
     reference="users"
     sort={{ field: "name", order: "ASC" }}

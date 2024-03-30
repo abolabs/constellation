@@ -38,8 +38,8 @@ const AppBreadCrumb = (props) => {
 
   try {
     const paths = props.location.pathname.split("/");
-    var i = 1,
-      len = paths.length;
+    let i = 1;
+    const len = paths.length;
     while (i < len) {
       if (i < len - 1) {
         if (isNaN(paths[i])) {

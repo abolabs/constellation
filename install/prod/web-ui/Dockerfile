@@ -4,14 +4,15 @@ FROM node:20 AS builder
 
 ARG GIT_BRANCH=${GIT_BRANCH}
 
-RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRANCH /tmp/constellation
+RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b "$GIT_BRANCH" /tmp/constellation
 # Copy Front
-RUN cd /tmp/constellation/web-ui && \
-    npm install && \
+WORKDIR /tmp/constellation/web-ui
+RUN npm install --ignore-scripts && \
     ./node_modules/.bin/vite build
 RUN mv /tmp/constellation/web-ui/build /var/www
-RUN rm -r /tmp/constellation
 
+WORKDIR /var/www
+RUN rm -r /tmp/constellation
 
 FROM nginx:1.25
 

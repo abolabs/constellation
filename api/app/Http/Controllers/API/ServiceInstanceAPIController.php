@@ -109,7 +109,11 @@ class ServiceInstanceAPIController extends AppBaseController
             $request->sort
         );
 
-        return $this->sendResponse(ServiceInstanceResource::collection($serviceInstances), 'Service Instances retrieved successfully', $serviceInstances->total());
+        return $this->sendResponse(
+            ServiceInstanceResource::collection($serviceInstances),
+            'Service Instances retrieved successfully',
+            $serviceInstances->total()
+        );
     }
 
     /**
@@ -140,7 +144,10 @@ class ServiceInstanceAPIController extends AppBaseController
 
         $serviceInstance = $this->serviceInstanceRepository->create($input);
 
-        return $this->sendResponse(new ServiceInstanceResource($serviceInstance), 'Service Instance saved successfully');
+        return $this->sendResponse(
+            new ServiceInstanceResource($serviceInstance),
+            'Service Instance saved successfully'
+        );
     }
 
     /**
@@ -246,7 +253,10 @@ class ServiceInstanceAPIController extends AppBaseController
 
         $serviceInstance = $this->serviceInstanceRepository->update($input, $serviceInstance->id);
 
-        return $this->sendResponse(new ServiceInstanceResource($serviceInstance), 'ServiceInstance updated successfully');
+        return $this->sendResponse(
+            new ServiceInstanceResource($serviceInstance),
+            'ServiceInstance updated successfully'
+        );
     }
 
     /**

@@ -214,7 +214,11 @@ class InfraAPIController extends AppBaseController
             ];
         }
 
-        $depByApp = ServiceInstanceDependencies::select(['source.application_id as source_app_id', 'target.application_id as target_app_id', 'level'])
+        $depByApp = ServiceInstanceDependencies::select([
+            'source.application_id as source_app_id',
+            'target.application_id as target_app_id',
+            'level'
+        ])
             ->join('service_instance as source', function ($query) use ($request) {
                 $query->on('source.id', '=', 'service_instance_dep.instance_id');
 
@@ -542,8 +546,11 @@ class InfraAPIController extends AppBaseController
      *
      * @param  ServiceInstance  $serviceInstance
      */
-    private function generateEdges(array &$nodesData, iterable $appDependencies, ServiceInstance|Builder $serviceInstance): void
-    {
+    private function generateEdges(
+        array &$nodesData,
+        iterable $appDependencies,
+        ServiceInstance|Builder $serviceInstance
+    ): void {
         foreach ($appDependencies as $appDep) {
             // add dependencies
             $nodesData[] = (object) [

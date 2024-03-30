@@ -112,7 +112,11 @@ class PermissionAPIController extends AppBaseController
             $request->sort ?? 'name'
         );
 
-        return $this->sendResponse(PermissionResource::collection($permissions), 'Permissions retrieved successfully', $permissions->total());
+        return $this->sendResponse(
+            PermissionResource::collection($permissions),
+            'Permissions retrieved successfully',
+            $permissions->total()
+        );
     }
 
     /**

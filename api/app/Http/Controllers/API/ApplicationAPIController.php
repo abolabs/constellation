@@ -124,7 +124,11 @@ class ApplicationAPIController extends AppBaseController
             $request->sort
         );
 
-        return $this->sendResponse(ApplicationResource::collection($applications), Lang::get('application.show_confirm'), $applications->total());
+        return $this->sendResponse(
+            ApplicationResource::collection($applications),
+            Lang::get('application.show_confirm'),
+            $applications->total()
+        );
     }
 
     /**
@@ -155,7 +159,10 @@ class ApplicationAPIController extends AppBaseController
 
         $application = $this->applicationRepository->create($input);
 
-        return $this->sendResponse(new ApplicationResource($application), Lang::get('application.saved_confirm'));
+        return $this->sendResponse(
+            new ApplicationResource($application),
+            Lang::get('application.saved_confirm')
+        );
     }
 
     /**
@@ -254,7 +261,10 @@ class ApplicationAPIController extends AppBaseController
                     }
                 }
 
-                return $this->sendResponse(new ApplicationResource($application), Lang::get('application.saved_confirm'));
+                return $this->sendResponse(
+                    new ApplicationResource($application),
+                    Lang::get('application.saved_confirm')
+                );
             });
         } catch (\Exception $e) {
             \Log::error("Error during import application " . $e);

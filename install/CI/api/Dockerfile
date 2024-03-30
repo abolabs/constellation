@@ -5,11 +5,8 @@ LABEL maintainer="Alexandre BORDIN <bordin.alexandre@gmail.com>"
 # Get user arg
 ARG MYUSER=constellation_user
 
-# Update packages
-RUN apt-get update -yqq && apt-get install -yqq gnupg software-properties-common
-
 # Install libs
-RUN apt-get install -yqq git \
+RUN apt-get update -yqq  && apt-get install --no-install-recommends -yqq git \
     zip unzip libzip-dev \
     libonig-dev \
     libcurl4-gnutls-dev \
@@ -48,6 +45,7 @@ RUN docker-php-ext-enable xdebug
 
 # Install dev tools
 RUN apt-get install -yqq nano mariadb-client
+RUN apt-get clean
 
 # XDEBUG
 #RUN pecl install xdebugdock

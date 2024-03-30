@@ -90,7 +90,11 @@ class ServiceAPIController extends AppBaseController
             $request->sort
         );
 
-        return $this->sendResponse(ServiceResource::collection($services), 'Services retrieved successfully', $services->total());
+        return $this->sendResponse(
+            ServiceResource::collection($services),
+            'Services retrieved successfully',
+            $services->total()
+        );
     }
 
     /**

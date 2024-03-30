@@ -258,7 +258,10 @@ class HostingAPIController extends AppBaseController
         }
         $hosting->load('serviceInstances');
         if (count($hosting->serviceInstances) > 0) {
-            return $this->sendError('Hosting is currently used, please delete associated instances before.', HttpCode::HTTP_PRECONDITION_FAILED);
+            return $this->sendError(
+                'Hosting is currently used, please delete associated instances before.',
+                HttpCode::HTTP_PRECONDITION_FAILED
+            );
         }
 
         $hosting->delete();

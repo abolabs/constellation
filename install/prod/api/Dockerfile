@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.2
 
-FROM php:8.2-fpm
+FROM php:8.2-fpm as base-api
 
 LABEL maintainer="Alexandre BORDIN <bordin.alexandre@gmail.com>"
 
@@ -11,7 +11,7 @@ ARG APP_PATH=/var/www/constellation
 
 # Install packages
 RUN apt-get update -yqq && \
-    apt-get install -yqq git \
+    apt-get install --no-install-recommends -yqq git \
     zip unzip libzip-dev \
     libonig-dev \
     libcurl4-gnutls-dev \
@@ -36,7 +36,9 @@ RUN apt-get update -yqq && \
     libtidy-dev \
     libfontconfig \
     libxrender1 \
-    libyaml-dev
+    libyaml-dev \
+    && apt-get clean
+
 # Add user
 RUN useradd -ms /bin/bash -G www-data ${MYUSER} || echo "User already exists."
 
@@ -47,6 +49,8 @@ RUN pecl install yaml && docker-php-ext-enable yaml
 
 # COMPOSER
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+FROM base-api
 
 # COPY SOURCE
 RUN git clone --depth=1 https://gitlab.com/abolabs/constellation.git -b $GIT_BRANCH $APP_PATH
@@ -71,7 +75,3 @@ EXPOSE 80 443
 # Clear cache
 RUN apt-get remove git -yqq
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-
-
-
