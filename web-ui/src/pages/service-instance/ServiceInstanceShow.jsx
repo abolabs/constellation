@@ -162,6 +162,10 @@ const ServiceInstanceShow = () => {
                     </Grid>
                   </Fade>
                 ))}
+                {record?.meta?.instanceDependencies.length === 0
+                  ? <Typography m={1} sx={{ fontStyle: "italic" }}>{t('This instance has no dependencies.')}</Typography>
+                  : null
+                }
               </Grid>
             </CardContent>
           </Card>
@@ -225,6 +229,10 @@ const ServiceInstanceShow = () => {
                     </Grid>
                   </Fade>
                 ))}
+                {record?.meta?.instanceDependenciesSource.length === 0
+                  ? <Typography m={1} sx={{ fontStyle: "italic" }}>{t('This instance is not required by any other instance.')}</Typography>
+                  : null
+                }
               </Grid>
             </CardContent>
           </Card>

@@ -317,7 +317,8 @@ const englishMessages = {
   "New version": "New version",
   "Version added": "Version added",
   "Application imported": "Application imported",
-  "Filter": "Filter",
+  "This instance has no dependencies.": "This instance has no dependencies.",
+  "This instance is not required by any other instance.": "This instance is not required by any other instance.",
 };
 
 export default englishMessages;

@@ -298,7 +298,7 @@ const frenchMessages = {
   "Left click 2s or right click": "Clic gauche 2s ou clic droit",
   Legend: "Legende",
   "Dependency level": "Niveau de dépendance",
-  Filter: "Filtre",
+  Filter: "Filtrer",
   "Mapping by app": "Cartographie par application",
   "Mapping by hosting": "Cartographie par hébergement",
   "Mapping by service": "Cartographie par service",
@@ -321,7 +321,8 @@ const frenchMessages = {
   "New version": "Nouvelle version",
   "Version added": "Version ajoutée",
   "Application imported": "Application importée",
-  "Filter": "Filtrer",
+  "This instance has no dependencies.": "Cette instance n'a aucune dépendance.",
+  "This instance is not required by any other instance.": "Cette instance n'est requise par aucune autre instance.",
 };
 
 export default frenchMessages;
