@@ -24,10 +24,12 @@ import {
   BulkExportButton,
   BooleanField,
   useTranslate,
+  downloadCSV,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import { unparse as convertToCSV } from 'papaparse/papaparse.min';
 
 import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
@@ -61,6 +63,28 @@ const servicesInstancesFilters = [
   </ReferenceInput>,
 ];
 
+const serviceInstanceExporter = (data) => {
+  const exportData = data.map((instance) => {
+    const { statut, url, ...otherData } = instance;
+    const exportRow = {
+      status: statut, // typo to be fixed
+      instance_url: url,
+      ...otherData
+    };
+    return exportRow;
+  });
+
+  const csv = convertToCSV({
+    data: exportData,
+    fields: [
+      'id', 'application_id', 'application_name', 'service_id', 'service_name',
+      'service_version', 'environment_id', 'environment_name', 'hosting_id',
+      'hosting_name', 'service_git_repo', 'instance_url', 'role', 'status', 'created_at', 'updated_at'
+    ],
+  });
+  downloadCSV(csv, `service_instances_${Date.now()}`);
+};
+
 const ServiceInstanceList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
@@ -74,6 +98,7 @@ const ServiceInstanceList = (props) => {
       </Typography>
       <DefaultList
         {...props}
+        exporter={serviceInstanceExporter}
         filters={servicesInstancesFilters}
         actions={<DefaultToolBar canCreate={false} />}
       >

@@ -25,10 +25,12 @@ import {
   BulkExportButton,
   usePermissions,
   useTranslate,
+  downloadCSV,
 } from "react-admin";
 import { useMediaQuery } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import { unparse as convertToCSV } from 'papaparse/papaparse.min';
 
 import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
@@ -54,6 +56,23 @@ const servicesFilters = [
   </ReferenceInput>,
 ];
 
+const serviceExporter = (records, fetchRelatedRecords) => {
+  fetchRelatedRecords(records, 'team_id', 'teams').then((teams) => {
+    const data = records.map(record => {
+      return {
+        ...record,
+        team_name: teams[record.team_id].name,
+      }
+    });
+    const csv = convertToCSV({
+      data,
+      fields: ['id', 'name', 'team_name', 'git_repo', 'created_at', 'updated_at'],
+    });
+    downloadCSV(csv, `service_${Date.now()}`);
+  });
+};
+
+
 const ServiceList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
@@ -66,6 +85,7 @@ const ServiceList = (props) => {
       <Typography variant="h3">{t("resources.services.name")}</Typography>
       <DefaultList
         {...props}
+        exporter={serviceExporter}
         filters={servicesFilters}
         actions={
           <DefaultToolBar canCreate={permissions.includes("create services")} />

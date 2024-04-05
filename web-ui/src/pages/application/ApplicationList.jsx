@@ -25,11 +25,13 @@ import {
   BulkExportButton,
   usePermissions,
   useTranslate,
+  downloadCSV,
 } from "react-admin";
 import { Button, useMediaQuery } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { unparse as convertToCSV } from 'papaparse/papaparse.min';
 
 import AppBreadCrumb from "@layouts/AppBreadCrumb";
 import DefaultToolBar from "@components/toolbar/DefaultToolBar";
@@ -54,6 +56,22 @@ const applicationFilters = [
   </ReferenceInput>,
 ];
 
+const applicationExporter = (records, fetchRelatedRecords) => {
+  fetchRelatedRecords(records, 'team_id', 'teams').then((teams) => {
+    const data = records.map(record => {
+      return {
+        ...record,
+        team_name: teams[record.team_id].name,
+      }
+    });
+    const csv = convertToCSV({
+      data,
+      fields: ['id', 'name', 'team_name', 'created_at', 'updated_at'],
+    });
+    downloadCSV(csv, `applications_${Date.now()}`);
+  });
+};
+
 const ApplicationList = (props) => {
   const isSmall = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const location = useLocation();
@@ -66,6 +84,7 @@ const ApplicationList = (props) => {
       <Typography variant="h3">{t("resources.applications.name")}</Typography>
       <DefaultList
         {...props}
+        exporter={applicationExporter}
         filters={applicationFilters}
         actions={
           <DefaultToolBar
