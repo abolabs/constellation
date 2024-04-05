@@ -46,7 +46,7 @@ class HostingTypeSeeder extends Seeder
         ];
 
         foreach ($hosting_types as $hosting_type) {
-            HostingType::create($hosting_type);
+            HostingType::firstOrCreate($hosting_type);
         }
     }
 }

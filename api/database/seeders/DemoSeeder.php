@@ -20,6 +20,7 @@ namespace Database\Seeders;
 use App\Models\Application;
 use App\Models\Environment;
 use App\Models\Hosting;
+use App\Models\HostingType;
 use App\Models\Service;
 use App\Models\ServiceInstance;
 use App\Models\ServiceInstanceDependencies;
@@ -44,7 +45,6 @@ class DemoSeeder extends Seeder
         $envs = [
             'Production' => Environment::where('name', 'Production')->first()->id,
             'Staging' => Environment::where('name', 'Staging')->first()->id,
-            'Dev' => Environment::where('name', 'Dev')->first()->id,
         ];
 
         // Application - Microsoft 365
@@ -55,7 +55,7 @@ class DemoSeeder extends Seeder
 
         $microsoftSaasHosting = Hosting::factory()->create([
             'name' => 'Microsoft365 saas',
-            'hosting_type_id' => 4,
+            'hosting_type_id' => HostingType::where('name', 'Saas')->first()->id,
         ]);
 
         // Microsoft Entra Connect V2
@@ -199,7 +199,7 @@ class DemoSeeder extends Seeder
 
         $odooOnlineSaasHosting = Hosting::factory()->create([
             'name' => 'Odoo Online saas',
-            'hosting_type_id' => 4,
+            'hosting_type_id' => HostingType::where('name', 'Saas')->first()->id,
         ]);
 
         // Odoo Email Marketing
@@ -298,7 +298,7 @@ class DemoSeeder extends Seeder
 
         $jiraSaasHosting = Hosting::factory()->create([
             'name' => 'Jira saas',
-            'hosting_type_id' => 4,
+            'hosting_type_id' => HostingType::where('name', 'Saas')->first()->id,
         ]);
 
         // Jira IT Support
@@ -361,28 +361,31 @@ class DemoSeeder extends Seeder
 
         $extranetFront1Hosting = Hosting::factory()->create([
             'name' => 'extranet-front-1',
-            'hosting_type_id' => 2,
+            'hosting_type_id' => HostingType::where('name', 'Dedicated server')->first()->id,
         ]);
         $extranetFront2Hosting = Hosting::factory()->create([
             'name' => 'extranet-front-2',
-            'hosting_type_id' => 2,
+            'hosting_type_id' => HostingType::where('name', 'Dedicated server')->first()->id,
         ]);
         $extranetAPI1Hosting = Hosting::factory()->create([
             'name' => 'extranet-api-1',
-            'hosting_type_id' => 2,
+            'hosting_type_id' => HostingType::where('name', 'Dedicated server')->first()->id,
         ]);
         $extranetAPI2Hosting = Hosting::factory()->create([
             'name' => 'extranet-api-1',
-            'hosting_type_id' => 2,
+            'hosting_type_id' => HostingType::where('name', 'Dedicated server')->first()->id,
         ]);
         $extranetDB1Hosting = Hosting::factory()->create([
             'name' => 'extranet-db-1',
-            'hosting_type_id' => 2,
+            'hosting_type_id' => HostingType::where('name', 'Dedicated server')->first()->id,
         ]);
         $extranetDB2Hosting = Hosting::factory()->create([
             'name' => 'extranet-db-2',
-            'hosting_type_id' => 2,
+            'hosting_type_id' => HostingType::where('name', 'Dedicated server')->first()->id,
         ]);
+
+
+        // Production
 
         // Extranet - Proxy
         $HAProxy = Service::create([
@@ -497,14 +500,14 @@ class DemoSeeder extends Seeder
             'service_id' => $postgresql->id,
             'version' => '16.1',
         ]);
-        $extraneDBMasterInstance = ServiceInstance::factory()->create([
+        $extranetDBMasterInstance = ServiceInstance::factory()->create([
             'application_id' => $extranet->id,
             'service_version_id' => $postgresqlVersion->id,
             'environment_id' => $envs['Production'],
             'statut' => 1,
             'hosting_id' => $extranetDB1Hosting->id,
         ]);
-        $extraneDBSlaveInstance = ServiceInstance::factory()->create([
+        $extranetDBSlaveInstance = ServiceInstance::factory()->create([
             'application_id' => $extranet->id,
             'service_version_id' => $postgresqlVersion->id,
             'environment_id' => $envs['Production'],
@@ -512,16 +515,125 @@ class DemoSeeder extends Seeder
             'hosting_id' => $extranetDB2Hosting->id,
         ]);
         ServiceInstanceDependencies::create([
-            'instance_id' => $extraneDBMasterInstance->id,
-            'instance_dep_id' => $extraneDBSlaveInstance->id,
+            'instance_id' => $extranetDBMasterInstance->id,
+            'instance_dep_id' => $extranetDBSlaveInstance->id,
         ]);
         ServiceInstanceDependencies::create([
             'instance_id' => $extranetAPIInstance1->id,
-            'instance_dep_id' => $extraneDBMasterInstance->id,
+            'instance_dep_id' => $extranetDBMasterInstance->id,
         ]);
         ServiceInstanceDependencies::create([
             'instance_id' => $extranetAPIInstance2->id,
-            'instance_dep_id' => $extraneDBMasterInstance->id,
+            'instance_dep_id' => $extranetDBMasterInstance->id,
+        ]);
+
+        // ---------------------------------------------
+        // Staging
+        $extranetStaging = Hosting::factory()->create([
+            'name' => 'extranet-staging-1',
+            'hosting_type_id' => HostingType::where('name', 'Dedicated server')->first()->id,
+        ]);
+        $extranetStagingDBHosting = Hosting::factory()->create([
+            'name' => 'extranet-staging-db-1',
+            'hosting_type_id' => HostingType::where('name', 'Dedicated server')->first()->id,
+        ]);
+
+        // MailDev
+        $mailDev = Service::create([
+            'team_id' => Team::first()->id,
+            'name' => 'MailDev',
+        ]);
+        $mailDevStagingVersion = ServiceVersion::create([
+            'service_id' => $mailDev->id,
+            'version' => 'staging',
+        ]);
+        $mailDevStagingInstance1 = ServiceInstance::factory()->create([
+            'application_id' => $extranet->id,
+            'service_version_id' => $mailDevStagingVersion->id,
+            'environment_id' => $envs['Staging'],
+            'statut' => 1,
+            'hosting_id' => $extranetStaging->id,
+        ]);
+
+        // Extranet - Proxy
+        $HAProxyStagingVersion = ServiceVersion::create([
+            'service_id' => $HAProxy->id,
+            'version' => 'staging',
+        ]);
+        // Extranet - Front Proxy
+        $extranetStagingFrontProxyInstance1 = ServiceInstance::factory()->create([
+            'application_id' => $extranet->id,
+            'service_version_id' => $HAProxyStagingVersion->id,
+            'environment_id' => $envs['Staging'],
+            'statut' => 1,
+            'hosting_id' => $extranetStaging->id,
+        ]);
+
+        // Extranet - Front
+        $extranetStagingFrontVersion = ServiceVersion::create([
+            'service_id' => $extranetFront->id,
+            'version' => 'staging',
+        ]);
+        $extranetStagingFrontInstance1 = ServiceInstance::factory()->create([
+            'application_id' => $extranet->id,
+            'service_version_id' => $extranetStagingFrontVersion->id,
+            'environment_id' => $envs['Staging'],
+            'statut' => 1,
+            'hosting_id' => $extranetStaging->id,
+        ]);
+
+        ServiceInstanceDependencies::create([
+            'instance_id' => $extranetStagingFrontInstance1->id,
+            'instance_dep_id' => $extranetStagingFrontProxyInstance1->id,
+        ]);
+
+        // Extranet - API Proxy
+        $extranetAPIProxyStagingInstance1 = ServiceInstance::factory()->create([
+            'application_id' => $extranet->id,
+            'service_version_id' => $HAProxyStagingVersion->id,
+            'environment_id' => $envs['Staging'],
+            'statut' => 1,
+            'hosting_id' => $extranetStaging->id,
+        ]);
+        ServiceInstanceDependencies::create([
+            'instance_id' => $extranetStagingFrontInstance1->id,
+            'instance_dep_id' => $extranetAPIProxyStagingInstance1->id,
+        ]);
+
+        // Extranet - API
+        $extranetAPIVersionStaging = ServiceVersion::create([
+            'service_id' => $extranetAPI->id,
+            'version' => 'staging',
+        ]);
+        $extranetAPIInstance1Staging = ServiceInstance::factory()->create([
+            'application_id' => $extranet->id,
+            'service_version_id' => $extranetAPIVersionStaging->id,
+            'environment_id' => $envs['Staging'],
+            'statut' => 1,
+            'hosting_id' => $extranetStaging->id,
+        ]);
+
+        ServiceInstanceDependencies::create([
+            'instance_id' => $extranetAPIInstance1Staging->id,
+            'instance_dep_id' => $extranetAPIProxyStagingInstance1->id,
+        ]);
+        ServiceInstanceDependencies::create([
+            'instance_id' => $extranetAPIInstance1Staging->id,
+            'instance_dep_id' => $mailDevStagingInstance1->id,
+        ]);
+
+        // Extranet - Database
+        $extranetDBStagingInstance = ServiceInstance::factory()->create([
+            'application_id' => $extranet->id,
+            'service_version_id' => $postgresqlVersion->id,
+            'environment_id' => $envs['Staging'],
+            'statut' => 1,
+            'hosting_id' => $extranetStagingDBHosting->id,
+        ]);
+
+        ServiceInstanceDependencies::create([
+            'instance_id' => $extranetAPIInstance1Staging->id,
+            'instance_dep_id' => $extranetDBStagingInstance->id,
         ]);
     }
 }
