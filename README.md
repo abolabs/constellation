@@ -51,7 +51,7 @@
         <li><a href="#main-features">Main features</a></li>
       </ul>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#hammer-built-with">Built With</a></li>
       </ul>
     </li>
     <li>
@@ -74,6 +74,8 @@
 
 Constellation is an IT service mapping interface, enabling any IT organization to visualize and control its dependencies by application.
 
+- Online demo: https://constellation.abolabs.fr/ (login: `demo@abolabs.fr`/ password: `demo`)
+
 ### Main features
 
 - Modeling of applications and application services.
@@ -89,6 +91,7 @@ Constellation is an IT service mapping interface, enabling any IT organization t
 <img src="doc/images/Screenshot.png" alt="Screenshot" width="500px" />
 
 - **3 types of visualization possible**
+
   - Dependencies between applications
   - Service dependencies by application
   - Service dependencies by hosting solutions
