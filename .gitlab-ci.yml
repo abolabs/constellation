@@ -353,4 +353,4 @@ push_tag:
     # web-ui
     - docker pull $CI_REGISTRY_IMAGE/web-ui:latest
     - docker tag $CI_REGISTRY_IMAGE/web-ui:latest $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_REF_NAME
-    - docker push $CI_REGISTRY_IMAGE/web-ui$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_REF_NAME
