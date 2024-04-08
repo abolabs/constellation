@@ -40,10 +40,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { alpha, useTheme } from "@mui/material/styles";
-import { useMediaQuery, Collapse, SwipeableDrawer, Box, Button } from "@mui/material";
+import { useMediaQuery, Collapse, SwipeableDrawer, Box } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import { grey } from "@mui/material/colors";
-import CloseIcon from '@mui/icons-material/Close';
+import { DrawerLogo } from "@components/Logo";
 
 
 const AppMenu = () => {
@@ -109,8 +109,15 @@ const AppMenu = () => {
           role="presentation"
 
         >
-          <Box sx={{ display: 'grid', justifyItems: 'end' }}>
-            <Button endIcon={<CloseIcon />} onClick={() => setOpen(false)}></Button>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              fontSize: "1rem",
+              bgcolor: theme.palette.background.paper
+            }}
+          >
+            <DrawerLogo />
           </Box>
           <MenuItemList open={open} setAdminOpen={setAdminOpen} adminOpen={adminOpen} />
         </Box>
@@ -269,7 +276,7 @@ const MenuItemList = ({ open, setAdminOpen, adminOpen }) => {
           {adminOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowUpIcon />}
         </Typography>
       ) : null}
-      <Collapse in={adminOpen || !open}>
+      <Collapse in={adminOpen || !open} >
         <MenuItem
           to="/service_instance_dependencies"
           primaryText={t("resources.service_instance_dependencies.name")}
@@ -319,7 +326,7 @@ const MenuItemList = ({ open, setAdminOpen, adminOpen }) => {
           permission="view audits"
         />
       </Collapse>
-    </Fragment>
+    </Fragment >
 
   );
 }

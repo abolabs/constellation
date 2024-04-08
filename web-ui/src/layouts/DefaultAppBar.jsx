@@ -41,19 +41,20 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import IconButton from "@mui/material/IconButton";
+import MenuIcon from '@mui/icons-material/Menu';
 // local
 import ColorModeContext from "@contexts/ColorModeContext";
 import { Avatar, SvgIcon } from "@mui/material";
 import { ReactComponent as LogoSvg } from "@/logo50.svg";
+import { GitlabLogo } from "@components/Logo";
 
-// It's important to pass the ref to allow MUI to manage the keyboard navigation
 const ConfigurationMenu = React.forwardRef((props, ref) => {
   const t = useTranslate();
   return (
     <MenuItem
+      // It's important to pass the props to allow MUI to manage the keyboard navigation
       ref={ref}
       component={Link}
-      // It's important to pass the props to allow MUI to manage the keyboard navigation
       {...props}
       to="/account/edit"
     >
@@ -65,12 +66,30 @@ const ConfigurationMenu = React.forwardRef((props, ref) => {
   );
 });
 
-const AppUserMenu = (props) => (
-  <UserMenu {...props} icon={<SettingsIcon />}>
-    <ConfigurationMenu />
-    <Logout />
-  </UserMenu>
-);
+const AppUserMenu = (props) => {
+  const t = useTranslate();
+
+  return (
+    <UserMenu {...props} icon={<SettingsIcon />}>
+      <ConfigurationMenu />
+      <MenuItem
+        component={Link}
+        // It's important to pass the props to allow MUI to manage the keyboard navigation
+        {...props}
+        to="https://gitlab.com/abolabs/constellation/-/issues/new"
+        referrer="origin"
+        rel="noopener"
+        target="_blank"
+      >
+        <ListItemIcon>
+          <GitlabLogo />
+        </ListItemIcon>
+        <ListItemText>{t("Report a bug")}</ListItemText>
+      </MenuItem>
+      <Logout />
+    </UserMenu>
+  )
+};
 
 const ToggleThemeButton = (props) => {
   const theme = useTheme();
@@ -133,6 +152,7 @@ const AppBar = React.memo((props) => {
     color = "secondary",
     open,
     title,
+    isSmall,
     toolbar = defaultToolbarElement,
     userMenu = DefaultUserMenu,
     container: Container = alwaysOn ? "div" : HideOnScroll,
@@ -151,42 +171,45 @@ const AppBar = React.memo((props) => {
           variant={"dense"}
           className={AppBarClasses.toolbar}
         >
-          <Avatar
-            onClick={() => setOpenSideBar(!open)}
-            sx={{
-              m: 1,
-              bgcolor: "primary.main",
-              height: "2rem",
-              width: "2rem",
-              p: 0,
-              margin: "0.5rem 0.5rem 0.5rem 0rem",
-              display: "inline-flex",
-              "&:hover": {
-                cursor: "pointer",
-              },
-              "&:active": {
-                transition: theme.transitions.create(["transform"], {
-                  easing: theme.transitions.easing.sharp,
-                  duration: theme.transitions.duration.complex,
-                }),
-                transform: "rotate(-1turn)",
-              },
-            }}
-          >
-            <SvgIcon
-              component={LogoSvg}
-              inheritViewBox
-              shapeRendering="path"
-              color="primary"
+          {isSmall
+            ? <MenuIcon onClick={() => setOpenSideBar(!open)} />
+            : <Avatar
+              onClick={() => setOpenSideBar(!open)}
               sx={{
-                path: {
-                  fill: `${theme.palette.primary.contrastText} !important`,
+                m: 1,
+                bgcolor: "primary.main",
+                height: "2rem",
+                width: "2rem",
+                p: 0,
+                margin: "0.5rem 0.5rem 0.5rem 0rem",
+                display: "inline-flex",
+                "&:hover": {
+                  cursor: "pointer",
                 },
-                height: "80%",
-                width: "80%",
+                "&:active": {
+                  transition: theme.transitions.create(["transform"], {
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.complex,
+                  }),
+                  transform: "rotate(-1turn)",
+                },
               }}
-            />
-          </Avatar>
+            >
+              <SvgIcon
+                component={LogoSvg}
+                inheritViewBox
+                shapeRendering="path"
+                color="primary"
+                sx={{
+                  path: {
+                    fill: `${theme.palette.primary.contrastText} !important`,
+                  },
+                  height: "80%",
+                  width: "80%",
+                }}
+              />
+            </Avatar>
+          }
           {React.Children.count(children) === 0 ? (
             <TitlePortal className={AppBarClasses.title} />
           ) : (
@@ -221,9 +244,9 @@ const DefaultAppBar = (props) => {
         },
       }}
       {...props}
+      isSmall={isSmall}
       userMenu={<AppUserMenu />}
     >
-
       <Typography
         variant="h3"
         component="div"
