@@ -38,8 +38,8 @@ import Copyright from "@components/Copyright";
 import Logo from "@components/Logo";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(window?.env?.IS_DEMO ? "demo@abolabs.fr" : "");
+  const [password, setPassword] = useState(window?.env?.IS_DEMO ? "demo" : "");
   const login = useLogin();
   const notify = useNotify();
   const location = useLocation();
@@ -111,6 +111,7 @@ const LoginPage = () => {
               autoComplete="email"
               autoFocus
               onChange={(e) => setEmail(e.target.value)}
+              defaultValue={email}
             />
             <TextField
               margin="normal"
@@ -122,6 +123,7 @@ const LoginPage = () => {
               id="password"
               autoComplete="current-password"
               onChange={(e) => setPassword(e.target.value)}
+              defaultValue={password}
             />
             {/*
           <FormControlLabel
