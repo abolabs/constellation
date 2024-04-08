@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 # --------------------------
 #     Templates includes
 
@@ -24,20 +23,19 @@
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 include:
-- template: Security/Secret-Detection.gitlab-ci.yml
-- template: Security/Dependency-Scanning.gitlab-ci.yml
-- template: Jobs/Build.gitlab-ci.yml
-- template: Security/Container-Scanning.gitlab-ci.yml
-- template: Security/SAST-IaC.latest.gitlab-ci.yml
-- template: Security/SAST.gitlab-ci.yml
-
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+  - template: Jobs/Build.gitlab-ci.yml
+  - template: Security/Container-Scanning.gitlab-ci.yml
+  - template: Security/SAST-IaC.latest.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
 
 # --------------------------
 #         CI Init
 
 variables:
-  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
+  GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
   MARIADB_ROOT_PASSWORD: root
   MARIADB_DATABASE: Constellation_test
   MARIADB_USER: homestead
@@ -53,14 +51,14 @@ variables:
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-  - api/vendor/
-  - api/.env
-  - api/composer.lock
-  - api/bootstrap/
-  - web-ui/.env
-  - web-ui/node_modules/
-  - web-ui/package-lock.json
-  - .sonar/cache
+    - api/vendor/
+    - api/.env
+    - api/composer.lock
+    - api/bootstrap/
+    - web-ui/.env
+    - web-ui/node_modules/
+    - web-ui/package-lock.json
+    - .sonar/cache
 
 stages:
   - prebuild
@@ -77,8 +75,8 @@ stages:
 .base:
   image: registry.gitlab.com/abolabs/constellation/api:ci
   services:
-  - mariadb:10.5
-  - redis:3.0.6
+    - mariadb:10.5
+    - redis:3.0.6
   interruptible: true
 
 # --------------------------
@@ -90,8 +88,8 @@ stages:
   # https://docs.gitlab.com/ce/ci/variables/predefined_variables.html
   - echo -n $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
 
-.script-docker-build: &script-docker-build
-  # fetches the latest image (not failing if image is not found)
+.script-docker-build:
+  &script-docker-build # fetches the latest image (not failing if image is not found)
   - docker pull $CI_REGISTRY_IMAGE/${SERVICE_NAME}:latest || true
   # builds the project, using OCI labels
   # notice the cache-from, which is going to use the image we just pulled locally
@@ -166,8 +164,8 @@ pint:
   rules:
     - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
   script:
-  - *script-prepare-api
-  - ./vendor/bin/pint --test
+    - *script-prepare-api
+    - ./vendor/bin/pint --test
 
 # --------------------------
 #           Test
@@ -176,24 +174,24 @@ phpunit:
   stage: test
   extends: .base
   script:
-  - *script-prepare-api
-  - mysql --user=root --password="$MARIADB_ROOT_PASSWORD" --host=mariadb "$MARIADB_DATABASE" -e "grant all on *.* to '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';flush privileges;"
-  # Run database migrations.
-  - php artisan migrate --force
-  # Run database seed
-  - php artisan db:seed --force
+    - *script-prepare-api
+    - mysql --user=root --password="$MARIADB_ROOT_PASSWORD" --host=mariadb "$MARIADB_DATABASE" -e "grant all on *.* to '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';flush privileges;"
+    # Run database migrations.
+    - php artisan migrate --force
+    # Run database seed
+    - php artisan db:seed --force
 
-  # Generate Laravel passport keys
-  - php artisan passport:keys
-  - chmod 600 storage/oauth-private.key
-  - chmod 600 storage/oauth-public.key
-  - php artisan passport:client --password --no-interaction
-  - php artisan config:clear
-  - php artisan config:cache
+    # Generate Laravel passport keys
+    - php artisan passport:keys
+    - chmod 600 storage/oauth-private.key
+    - chmod 600 storage/oauth-public.key
+    - php artisan passport:client --password --no-interaction
+    - php artisan config:clear
+    - php artisan config:cache
 
-  # run laravel tests
-  - mkdir -p reports/
-  - XDEBUG_MODE=coverage ./vendor/bin/phpunit  --coverage-text --colors=never --coverage-clover reports/coverage.xml --log-junit reports/logfile.xml
+    # run laravel tests
+    - mkdir -p reports/
+    - XDEBUG_MODE=coverage ./vendor/bin/phpunit  --coverage-text --colors=never --coverage-clover reports/coverage.xml --log-junit reports/logfile.xml
   artifacts:
     name: "$CI_COMMIT_REF_SLUG"
     untracked: true
@@ -214,7 +212,7 @@ sonarcloud-check:
     entrypoint: [""]
   interruptible: true
   dependencies:
-  - "phpunit"
+    - "phpunit"
   script:
     - sonar-scanner
   only:
@@ -353,4 +351,4 @@ push_tag:
     # web-ui
     - docker pull $CI_REGISTRY_IMAGE/web-ui:latest
     - docker tag $CI_REGISTRY_IMAGE/web-ui:latest $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_REF_NAME
-    - docker push $CI_REGISTRY_IMAGE/web-ui$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_REF_NAME
