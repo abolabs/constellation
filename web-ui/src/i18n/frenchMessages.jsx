@@ -323,6 +323,7 @@ const frenchMessages = {
   "Application imported": "Application importée",
   "This instance has no dependencies.": "Cette instance n'a aucune dépendance.",
   "This instance is not required by any other instance.": "Cette instance n'est requise par aucune autre instance.",
+  "Report a bug": "Signaler un problème",
 };
 
 export default frenchMessages;

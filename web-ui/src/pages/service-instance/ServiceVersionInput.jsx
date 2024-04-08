@@ -21,7 +21,7 @@ import {
   useTranslate,
 } from "react-admin";
 import { useFormContext, useWatch } from "react-hook-form";
-import { List, ListItem, ListItemText, ListItemAvatar } from "@mui/material";
+import { List, ListItemText } from "@mui/material";
 
 import Tag from "@components/styled/Tag";
 
@@ -35,6 +35,7 @@ const ServiceVersionInput = () => {
 
   const serviceVersionInputText = (choice) =>
     `${choice.service_name} / Version ${choice.version}`;
+
   const serviceVersionMatchSuggestion = (_filter, _choice) => true;
 
   return (
@@ -58,23 +59,28 @@ const OptionRenderer = () => {
   const record = useRecordContext();
   const t = useTranslate();
   return (
-    <ListItem>
-      <ListItemAvatar>
-        <Tag
-          label={`${t("resources.service_versions.fields.id")}: ${record.id}`}
-          component="span"
-          color="primary"
-          size="small"
-          variant="outlined"
-        />
-      </ListItemAvatar>
-      <ListItemText
-        primary={record.service_name}
-        secondary={`${t("resources.service_versions.fields.version")}: ${
-          record.version
-        }`}
-      />
-    </ListItem>
+    <ListItemText
+      primary={record.service_name}
+      secondary={
+        <>
+          <Tag
+            label={`${t("resources.service_versions.fields.id")}: ${record.id}`}
+            component="span"
+            color="primary"
+            size="small"
+            variant="outlined"
+          />
+          &nbsp;
+          <Tag
+            label={`${t("resources.service_versions.fields.version")}: ${record.version}`}
+            component="span"
+            color="primary"
+            size="small"
+            variant="outlined"
+          />
+        </>
+      }
+    />
   );
 };
 

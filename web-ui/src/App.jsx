@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-// Librairies
+// Libraries
 import * as React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Admin, Authenticated, CustomRoutes, Resource } from "react-admin";

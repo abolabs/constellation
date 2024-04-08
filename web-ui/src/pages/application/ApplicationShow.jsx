@@ -66,7 +66,7 @@ const ApplicationShow = () => {
     if (!currentEnvId) {
       setCurrentEnvId(record?.meta?.countByEnv?.[0].id)
     }
-  }, [record]);
+  }, [record, currentEnvId]);
 
   if (isLoading) {
     return (

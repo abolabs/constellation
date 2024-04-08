@@ -319,6 +319,7 @@ const englishMessages = {
   "Application imported": "Application imported",
   "This instance has no dependencies.": "This instance has no dependencies.",
   "This instance is not required by any other instance.": "This instance is not required by any other instance.",
+  "Report a bug": "Report a bug",
 };
 
 export default englishMessages;
