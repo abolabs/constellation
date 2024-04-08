@@ -1,0 +1,3099 @@
+openapi: 3.1.0
+info:
+  title: 'Constellation APIs'
+  license:
+    name: 'GNU AFFERO GENERAL PUBLIC LICENSE'
+    url: 'https://www.gnu.org/licenses/agpl-3.0.en.html'
+  version: '2.0'
+servers:
+  -
+    url: 'http://localhost:8080/api'
+    description: 'The local environment.'
+paths:
+  /v1/applications:
+    get:
+      tags:
+        - Application
+      summary: 'Get a listing of the applications.'
+      description: 'Get all Applications'
+      operationId: getApplications
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by id.'
+          schema:
+            type: string
+        -
+          name: 'filter[name]'
+          in: query
+          description: 'Filter by name.'
+          schema:
+            type: string
+        -
+          name: 'filter[team_id]'
+          in: query
+          description: 'Filter by team id.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Applications list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-application' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+    post:
+      tags:
+        - Application
+      summary: 'Store an application.'
+      description: 'Store an application.'
+      operationId: storeApplication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-application'
+      responses:
+        '200':
+          description: 'Created application data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-application' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  /v1/applications/import:
+    post:
+      tags:
+        - Application
+      summary: 'Import an application.'
+      description: 'Import an application from a docker-compose.yml file (base64 encoded).'
+      operationId: importApplication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-import-application'
+      responses:
+        '200':
+          description: 'Created application data.'
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  '/v1/applications/{id}':
+    get:
+      tags:
+        - Application
+      summary: 'Display the specified Application.'
+      description: 'Get Application'
+      operationId: showApplication
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the application'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Application detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-application' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    put:
+      tags:
+        - Application
+      summary: 'Update an application.'
+      description: 'Update an application.'
+      operationId: updateApplication
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the application'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-application'
+      responses:
+        '200':
+          description: 'Updated application data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-application' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    delete:
+      tags:
+        - Application
+      summary: 'Delete an application.'
+      description: 'Delete an application and all the associated service instances.'
+      operationId: deleteApplication
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the application'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Application deleted.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Application not found.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+  /v1/audits:
+    get:
+      tags:
+        - Audit
+      summary: 'Get a listing of the audits.'
+      description: 'Get all audits'
+      operationId: getAudits
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[user_id]'
+          in: query
+          description: 'Filter by user id.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Audits list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-audit' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+  '/v1/audits/{id}':
+    get:
+      tags:
+        - Audit
+      summary: 'Display the specified audit.'
+      description: 'Get audit'
+      operationId: showAudit
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the audit'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Audit detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-audit' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+  /v1/environments:
+    get:
+      tags:
+        - Environment
+      summary: 'Get a listing of the environments'
+      description: 'Get all environments.'
+      operationId: getEnvironments
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by environment id.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Environments list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-environment' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+    post:
+      tags:
+        - Environment
+      summary: 'Store an environment'
+      description: 'Store an environment.'
+      operationId: storeEnvironment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-environment'
+      responses:
+        '200':
+          description: 'Created environment data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-environment' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  '/v1/environments/{id}':
+    get:
+      tags:
+        - Environment
+      summary: 'Display the specified environment'
+      description: 'Get an environment.'
+      operationId: showEnvironment
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the environment'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Environment detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-environment' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    put:
+      tags:
+        - Environment
+      summary: 'Update an environment'
+      description: 'Update an environment.'
+      operationId: updateEnvironment
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the environment'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-environment'
+      responses:
+        '200':
+          description: 'Updated environment data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-environment' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    delete:
+      tags:
+        - Environment
+      summary: 'Delete an environment'
+      description: 'Remove the specified Environment from storage.'
+      operationId: deleteEnvironment
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the environment'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Environment deleted.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Environment not found.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+  /v1/hostings:
+    get:
+      tags:
+        - Hosting
+      summary: 'Get a listing of the hostings'
+      description: 'Get all hostings.'
+      operationId: getHostings
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by hosting id.'
+          schema:
+            type: integer
+        -
+          name: 'filter[hosting_type_id]'
+          in: query
+          description: 'Filter by hosting type id.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Hostings list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-hosting' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+    post:
+      tags:
+        - Hosting
+      summary: 'Store an hosting'
+      description: 'Store an hosting.'
+      operationId: storeHosting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-hosting'
+      responses:
+        '200':
+          description: 'Created hosting data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-hosting' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  '/v1/hostings/{id}':
+    get:
+      tags:
+        - Hosting
+      summary: 'Display the specified hosting'
+      description: 'Get an hosting.'
+      operationId: showHosting
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the hosting'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Hosting detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-hosting' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    put:
+      tags:
+        - Hosting
+      summary: 'Update an hosting'
+      description: 'Update an hosting.'
+      operationId: updateHosting
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the hosting'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-hosting'
+      responses:
+        '200':
+          description: 'Updated hosting data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-hosting' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    delete:
+      tags:
+        - Hosting
+      summary: 'Delete an hosting'
+      description: 'Remove the specified Hosting from storage.'
+      operationId: deleteHosting
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the hosting'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Hosting deleted.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Hosting not found.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+  /v1/hosting_types:
+    get:
+      tags:
+        - 'Hosting type'
+      summary: 'Get a listing of the hosting types'
+      description: 'Get all hosting types.'
+      operationId: getHostingTypes
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by hosting type id.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Hosting types list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-hosting-type' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+    post:
+      tags:
+        - 'Hosting type'
+      summary: 'Store an hosting type'
+      description: 'Store an hosting type.'
+      operationId: storeHostingType
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-hosting-type'
+      responses:
+        '200':
+          description: 'Created hosting type data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-hosting-type' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  '/v1/hosting_types/{id}':
+    get:
+      tags:
+        - 'Hosting type'
+      summary: 'Display the specified hosting type'
+      description: 'Get an hosting type.'
+      operationId: showHostingType
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the hosting type'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Hosting type detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-hosting-type' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    put:
+      tags:
+        - 'Hosting type'
+      summary: 'Update an hostingType'
+      description: 'Update an hosting type.'
+      operationId: updateHostingType
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the hosting type'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-hosting-type'
+      responses:
+        '200':
+          description: 'Updated hosting type data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-hosting-type' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    delete:
+      tags:
+        - 'Hosting type'
+      summary: 'Delete an hosting type'
+      description: 'Remove the specified hosting type from storage.'
+      operationId: deleteHostingType
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the hosting type'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Hosting type deleted.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Hosting type not found.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+  /v1/application-mapping/dashboard:
+    get:
+      tags:
+        - Mapping
+      summary: 'Display the main data and metrics.'
+      description: 'Get the main environment, the number of: hostings, services, instances, applications.'
+      operationId: getMainMetrics
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { properties: { mainEnvironment: { properties: { environment_id: { type: integer }, total: { type: integer }, environment: { $ref: '#/components/schemas/resource-environment' } }, type: object }, nbHostings: { type: integer }, nbServices: { type: integer }, nbInstances: { type: integer }, nbApp: { type: integer } }, type: object }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+  /v1/application-mapping/by-app:
+    get:
+      tags:
+        - Mapping
+      summary: 'Retrieve the application dependencies mapping.'
+      description: 'Used to build the application mapping view.'
+      operationId: getMappingByApp
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { properties: { environment_id: { type: integer }, total: { type: integer }, environment: { $ref: '#/components/schemas/resource-environment' } }, type: object }
+                  message: { type: string }
+                type: object
+  /v1/application-mapping/graph-nodes-app-map:
+    get:
+      tags:
+        - Mapping
+      summary: 'Retrieve the application dependencies mapping.'
+      description: 'Used to build the application mapping view.'
+      operationId: getAppMapping
+      parameters:
+        -
+          name: environment_id
+          in: query
+          description: 'Filter by environment id.'
+          schema:
+            type: integer
+        -
+          name: application_id
+          in: query
+          description: 'Filter by application id.'
+          schema:
+            type: array
+            items:
+              type: integer
+        -
+          name: team_id
+          in: query
+          description: 'Filter by team id.'
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { properties: { group: { type: string, enum: [nodes, edges] }, classes: { type: string }, data: { oneOf: [{ title: 'data if group=nodes', properties: { id: { type: string }, name: { type: string } }, type: object }, { title: 'data if group=edges', properties: { id: { type: string }, source: { type: string }, target: { type: string } }, type: object }] } }, type: object }
+                  message: { type: string }
+                type: object
+  /v1/application-mapping/graph-nodes-by-app:
+    get:
+      tags:
+        - Mapping
+      summary: 'Retrieve the service instance dependencies mapping per application.'
+      description: 'Used to build the service mapping view.'
+      operationId: getMappingNodesByApp
+      parameters:
+        -
+          name: environment_id
+          in: query
+          description: 'Filter by environment id.'
+          schema:
+            type: integer
+        -
+          name: application_id
+          in: query
+          description: 'Filter by application id.'
+          schema:
+            type: array
+            items:
+              type: integer
+        -
+          name: team_id
+          in: query
+          description: 'Filter by team id.'
+          schema:
+            type: array
+            items:
+              type: integer
+        -
+          name: hosting_id
+          in: query
+          description: 'Filter by hosting id.'
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { properties: { group: { type: string, enum: [nodes, edges] }, classes: { type: string }, data: { oneOf: [{ title: 'Parent node', properties: { id: { type: string }, name: { type: string } }, type: object }, { title: 'Child node', properties: { id: { type: string }, name: { type: string }, tag: { type: string }, parent: { type: string } }, type: object }, { title: Edge, properties: { id: { type: string }, source: { type: string }, target: { type: string } }, type: object }] } }, type: object }
+                  message: { type: string }
+                type: object
+  /v1/application-mapping/graph-nodes-by-hosting:
+    get:
+      tags:
+        - Mapping
+      summary: 'Retrieve the service instances dependencies mapping per hosting.'
+      description: 'Used to build the hosting mapping view.'
+      operationId: getMappingNodesByHosting
+      parameters:
+        -
+          name: environment_id
+          in: query
+          description: 'Filter by environment id.'
+          schema:
+            type: integer
+        -
+          name: application_id
+          in: query
+          description: 'Filter by application id.'
+          schema:
+            type: array
+            items:
+              type: integer
+        -
+          name: team_id
+          in: query
+          description: 'Filter by team id.'
+          schema:
+            type: array
+            items:
+              type: integer
+        -
+          name: hosting_id
+          in: query
+          description: 'Filter by hosting id.'
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { properties: { group: { type: string, enum: [nodes, edges] }, classes: { type: string }, data: { oneOf: [{ title: 'Parent node', properties: { id: { type: string }, name: { type: string } }, type: object }, { title: 'Child node', properties: { id: { type: string }, name: { type: string }, tag: { type: string }, parent: { type: string } }, type: object }, { title: Edge, properties: { id: { type: string }, source: { type: string }, target: { type: string } }, type: object }] } }, type: object }
+                  message: { type: string }
+                type: object
+  /v1/permissions:
+    get:
+      tags:
+        - Permission
+      summary: 'Get a listing of the permissions'
+      description: 'Get all permissions.'
+      operationId: getPermissions
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by permission id.'
+          schema:
+            type: integer
+        -
+          name: 'filter[name]'
+          in: query
+          description: 'Filter by permission name.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Permissions list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-permission' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+  /v1/roles:
+    get:
+      tags:
+        - Role
+      summary: 'Get a listing of the roles'
+      description: 'Get all roles.'
+      operationId: getRoles
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by role id.'
+          schema:
+            type: integer
+        -
+          name: 'filter[name]'
+          in: query
+          description: 'Filter by role name.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Roles list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-role' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+    post:
+      tags:
+        - Role
+      summary: 'Store an role'
+      description: 'Store an role.'
+      operationId: storeRole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-role'
+      responses:
+        '200':
+          description: 'Created role data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-role' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  '/v1/roles/{id}':
+    get:
+      tags:
+        - Role
+      summary: 'Display the specified role'
+      description: 'Get an role.'
+      operationId: showRole
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the role'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Role detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-role' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    put:
+      tags:
+        - Role
+      summary: 'Update an role'
+      description: 'Update an role.'
+      operationId: updateRole
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the role'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-role'
+      responses:
+        '200':
+          description: 'Updated role data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-role' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    delete:
+      tags:
+        - Role
+      summary: 'Delete an role'
+      description: 'Remove the specified role from storage.'
+      operationId: deleteRole
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the role'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Role deleted.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Role not found.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+  /v1/services:
+    get:
+      tags:
+        - Service
+      summary: 'Get a listing of the services'
+      description: 'Get all services.'
+      operationId: getServices
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by service id.'
+          schema:
+            type: integer
+        -
+          name: 'filter[team_id]'
+          in: query
+          description: 'Filter by team id.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Services list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-service' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+    post:
+      tags:
+        - Service
+      summary: 'Store an service'
+      description: 'Store an service.'
+      operationId: storeService
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-service'
+      responses:
+        '200':
+          description: 'Created service data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-service' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  '/v1/services/{id}':
+    get:
+      tags:
+        - Service
+      summary: 'Display the specified service'
+      description: 'Get an service.'
+      operationId: showService
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Service detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-service' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    put:
+      tags:
+        - Service
+      summary: 'Update an service'
+      description: 'Update an service.'
+      operationId: updateService
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-service'
+      responses:
+        '200':
+          description: 'Updated service data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-service' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    delete:
+      tags:
+        - Service
+      summary: 'Delete an service'
+      description: 'Remove the specified Service from storage.'
+      operationId: deleteService
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Service deleted.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Service not found.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+  /v1/service_instances:
+    get:
+      tags:
+        - 'Service instance'
+      summary: 'Get a listing of the service instances'
+      description: 'Get all service instances.'
+      operationId: getServiceInstances
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by service instance id.'
+          schema:
+            type: integer
+        -
+          name: 'filter[environment_id]'
+          in: query
+          description: 'Filter by service environment id.'
+          schema:
+            type: integer
+        -
+          name: 'filter[hosting_name]'
+          in: query
+          description: 'Filter by service hosting name.'
+          schema:
+            type: string
+        -
+          name: 'filter[hosting_id]'
+          in: query
+          description: 'Filter by service hosting id.'
+          schema:
+            type: integer
+        -
+          name: 'filter[application_name]'
+          in: query
+          description: 'Filter by service application name.'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Service instances list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-service-instance' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+    post:
+      tags:
+        - 'Service instance'
+      summary: 'Store an service instance'
+      description: 'Store an service instance.'
+      operationId: storeServiceInstance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-service-instance'
+      responses:
+        '200':
+          description: 'Created serviceinstance data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-service-instance' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  '/v1/service_instances/{id}':
+    get:
+      tags:
+        - 'Service instance'
+      summary: 'Display the specified service instance'
+      description: 'Get an service instance.'
+      operationId: showServiceInstance
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service instance'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'ServiceInstance detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-service-instance' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    put:
+      tags:
+        - 'Service instance'
+      summary: 'Update an service instance'
+      description: 'Update an service instance.'
+      operationId: updateServiceInstance
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service instance'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-service-instance'
+      responses:
+        '200':
+          description: 'Updated serviceinstance data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-service-instance' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    delete:
+      tags:
+        - 'Service instance'
+      summary: 'Delete an service instance'
+      description: 'Remove the specified service instance from storage.'
+      operationId: deleteServiceInstance
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service instance'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Service instance deleted.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Service instance not found.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+  /v1/service_instance_dependencies:
+    get:
+      tags:
+        - 'Service instance dependencies'
+      summary: 'Get a listing of the service instance dependencies'
+      description: 'Get all service instance dependenciess.'
+      operationId: getServiceInstanceDependenciess
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by service instance dependency id.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Service instance dependenciess list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-service-instance-dependencies' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+    post:
+      tags:
+        - 'Service instance dependencies'
+      summary: 'Store an service instance dependency'
+      description: 'Store an service instance dependency.'
+      operationId: storeServiceInstanceDependency
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-service-instance-dependency'
+      responses:
+        '200':
+          description: 'Created serviceinstancedependencies data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-service-instance-dependencies' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  '/v1/service_instance_dependencies/{id}':
+    get:
+      tags:
+        - 'Service instance dependencies'
+      summary: 'Display the specified service instance dependency'
+      description: 'Get an service instance dependency.'
+      operationId: showServiceInstanceDependency
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service instance dependency'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Service instance dependency detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-service-instance-dependencies' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    put:
+      tags:
+        - 'Service instance dependencies'
+      summary: 'Update a service instance dependency'
+      description: 'Update a service instance dependency.'
+      operationId: updateServiceInstanceDependency
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service instance dependency'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-service-instance-dependency'
+      responses:
+        '200':
+          description: 'Updated serviceinstancedependencies data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-service-instance-dependencies' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    delete:
+      tags:
+        - 'Service instance dependencies'
+      summary: 'Delete a service instance dependency'
+      description: 'Remove the specified service instance dependency from storage.'
+      operationId: deleteServiceInstanceDependency
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service instance dependency'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Service instance dependency deleted.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Service instance dependency not found.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+  /v1/service_versions:
+    get:
+      tags:
+        - 'Service version'
+      summary: 'Get a listing of the service versions'
+      description: 'Get all service versions.'
+      operationId: getServiceVersions
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by service version id.'
+          schema:
+            type: integer
+        -
+          name: 'filter[service_id]'
+          in: query
+          description: 'Filter by service id.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Service versions list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-service-version' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+    post:
+      tags:
+        - 'Service version'
+      summary: 'Store a service version'
+      description: 'Store a service version.'
+      operationId: storeServiceVersion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-service-version'
+      responses:
+        '200':
+          description: 'Created service version data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-service-version' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  '/v1/service_versions/{id}':
+    get:
+      tags:
+        - 'Service version'
+      summary: 'Display the specified service version'
+      description: 'Get a service version.'
+      operationId: showServiceVersion
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service version'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Service version detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-service-version' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    put:
+      tags:
+        - 'Service version'
+      summary: 'Update an service version'
+      description: 'Update an service version.'
+      operationId: updateServiceVersion
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service version'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-service-version'
+      responses:
+        '200':
+          description: 'Updated service version data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-service-version' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    delete:
+      tags:
+        - 'Service version'
+      summary: 'Delete an service version'
+      description: 'Remove the specified service version from storage.'
+      operationId: deleteServiceVersion
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the service version'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Service version deleted.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Service version not found.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+  /v1/teams:
+    get:
+      tags:
+        - Team
+      summary: 'Get a listing of the teams'
+      description: 'Get all teams.'
+      operationId: getTeams
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by team id.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Teams list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-team' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+    post:
+      tags:
+        - Team
+      summary: 'Store an team'
+      description: 'Store an team.'
+      operationId: storeTeam
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-team'
+      responses:
+        '200':
+          description: 'Created team data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-team' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  '/v1/teams/{id}':
+    get:
+      tags:
+        - Team
+      summary: 'Display the specified team'
+      description: 'Get an team.'
+      operationId: showTeam
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the team'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Team detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-team' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    put:
+      tags:
+        - Team
+      summary: 'Update a team'
+      description: 'Update a team.'
+      operationId: updateTeam
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the team'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-team'
+      responses:
+        '200':
+          description: 'Updated team data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-team' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    delete:
+      tags:
+        - Team
+      summary: 'Delete an team'
+      description: 'Remove the specified Team from storage.'
+      operationId: deleteTeam
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the team'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Team deleted.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Team not found.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+  /v1/users:
+    get:
+      tags:
+        - User
+      summary: 'Get a listing of the users'
+      description: 'Get all users.'
+      operationId: getUsers
+      parameters:
+        -
+          $ref: '#/components/parameters/base-filter-per-page'
+        -
+          $ref: '#/components/parameters/base-filter-page'
+        -
+          $ref: '#/components/parameters/base-filter-sort'
+        -
+          $ref: '#/components/parameters/base-filter-q'
+        -
+          name: 'filter[id]'
+          in: query
+          description: 'Filter by user id.'
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Users list'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-user' } }
+                  message: { type: string }
+                  total: { type: integer }
+                type: object
+    post:
+      tags:
+        - User
+      summary: 'Store an user'
+      description: 'Store an user.'
+      operationId: storeUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-user'
+      responses:
+        '200':
+          description: 'Created user data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-user' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+  '/v1/users/{id}':
+    get:
+      tags:
+        - User
+      summary: 'Display the specified user'
+      description: 'Get an user.'
+      operationId: showUser
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the user'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'User detail'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { type: array, items: { $ref: '#/components/schemas/resource-user' } }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    put:
+      tags:
+        - User
+      summary: 'Update an user'
+      description: 'Update an user.'
+      operationId: updateUser
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the user'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/request-create-user'
+      responses:
+        '200':
+          description: 'Updated user data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  data: { $ref: '#/components/schemas/resource-user' }
+                  message: { type: string }
+                type: object
+        '422':
+          description: 'Invalid inputs.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { properties: { '{name-of-invalid-field}': { type: array, items: { description: 'Error message', type: string } } }, type: object }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Resource not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  exception: { type: string }
+                  file: { type: string }
+                  line: { type: integer }
+                  trace: { type: array, items: { properties: { file: { type: string }, line: { type: integer }, function: { type: string }, class: { type: string }, type: { type: string } }, type: object } }
+                type: object
+    delete:
+      tags:
+        - User
+      summary: 'Delete an user'
+      description: 'Remove the specified user from storage.'
+      operationId: deleteUser
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id of the user'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'User deleted.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'User not found.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean }
+                  message: { type: string }
+                type: object
+components:
+  schemas:
+    request-create-application:
+      title: 'Create application'
+      description: 'Create application request'
+      required:
+        - name
+        - team_id
+      properties:
+        name:
+          description: Name
+          type: string
+        team_id:
+          description: 'Team id'
+          type: integer
+      type: object
+    request-create-environment:
+      title: 'Create environment'
+      description: 'Create environment request'
+      required:
+        - name
+      properties:
+        name:
+          description: Name
+          type: string
+      type: object
+    request-create-hosting:
+      title: 'Create hosting'
+      description: 'Create hosting request'
+      required:
+        - name
+        - hosting_type_id
+      properties:
+        name:
+          description: Name
+          type: string
+        hosting_type_id:
+          description: 'Hosting type id'
+          type: integer
+      type: object
+    request-create-hosting-type:
+      title: 'Create hosting-type'
+      description: 'Create hosting type request'
+      required:
+        - name
+      properties:
+        name:
+          description: Name
+          type: string
+        description:
+          description: Description
+          type: string
+      type: object
+    request-create-role:
+      title: 'Create role'
+      description: 'Create role request'
+      required:
+        - name
+        - permissions
+      properties:
+        name:
+          description: Name
+          type: string
+        team_id:
+          description: 'Team id'
+          type: array
+          items:
+            type: integer
+      type: object
+    request-create-service:
+      title: 'Create service'
+      description: 'Create service request'
+      required:
+        - name
+        - team_id
+      properties:
+        name:
+          description: Name
+          type: string
+        team_id:
+          description: 'Team id'
+          type: integer
+        git_repo:
+          description: 'Git repository url'
+          type: string
+      type: object
+    request-create-service-instance:
+      title: 'Create service instance'
+      description: 'Create service instance request'
+      required:
+        - application_id
+        - service_version_id
+        - environment_id
+        - hosting_id
+      properties:
+        application_id:
+          description: 'Application id'
+          type: integer
+        service_version_id:
+          description: 'Service version id'
+          type: integer
+        environment_id:
+          description: 'Environment id'
+          type: integer
+        hosting_id:
+          description: 'Hosting id'
+          type: integer
+        url:
+          description: Url
+          type: string
+        role:
+          description: Role
+          type: string
+        statut:
+          description: Status
+          type: boolean
+      type: object
+    request-create-service-instance-dependency:
+      title: 'Create service instance dependency'
+      description: 'Create service instance dependency request'
+      required:
+        - instance_id
+        - instance_dep_id
+      properties:
+        instance_id:
+          description: 'Instance id'
+          type: integer
+        instance_dep_id:
+          description: 'Instance dependency id'
+          type: integer
+        level:
+          description: 'Dependency level (1: minor, 2: major, 3: critical)'
+          type: integer
+          enum:
+            - 1
+            - 2
+            - 3
+        description:
+          description: 'Dependency description'
+          type: string
+      type: object
+    request-create-service-version:
+      title: 'Create service version'
+      description: 'Create service version request'
+      required:
+        - version
+        - service_id
+      properties:
+        version:
+          description: Version
+          type: string
+        service_id:
+          description: 'Service id'
+          type: integer
+      type: object
+    request-create-team:
+      title: 'Create team'
+      description: 'Create team request'
+      required:
+        - name
+        - manager
+      properties:
+        name:
+          description: Name
+          type: string
+        manager:
+          description: 'Manager name'
+          type: string
+      type: object
+    request-create-user:
+      title: 'Create user'
+      description: 'Create user request'
+      required:
+        - name
+        - email
+        - password
+        - confirm-password
+        - roles
+      properties:
+        name:
+          description: Name
+          type: string
+        email:
+          description: Email
+          type: string
+        password:
+          description: Password
+          type: string
+        confirm-password:
+          description: 'Confirmation password'
+          type: string
+        roles:
+          description: 'Role ids'
+          type: array
+          items:
+            description: 'Role id'
+            type: string
+      type: object
+    request-import-application:
+      title: 'Import application'
+      description: 'Import an application request'
+      required:
+        - name
+        - team_id
+        - environment_id
+        - hosting_id
+        - default_service_status
+        - stack_file
+      properties:
+        name:
+          description: Name
+          type: string
+        team_id:
+          description: 'Team id'
+          type: integer
+        environment_id:
+          description: 'Environment id'
+          type: integer
+        hosting_id:
+          description: 'Hosting id'
+          type: integer
+        default_service_status:
+          description: 'Default service status'
+          type: boolean
+        stack_file:
+          description: 'Stack file, base64 encoded'
+          type: string
+          example: 'data:application/octet-stream;base64,dmVyc2lvbjogJzMuOCcKCnNlcnZpY2VzOgogIG1haWxkZXY6CiAgICBpbWFnZTogZGpmYXJyZWxseS9tYWlsZGV2CiAgICBwb3J0czoKICAgICAgLSAiJHtTTVRQfToyNSIKICAgICAgLSAiJHtXRUJVSX06ODAiCgogIG1hcmlhZGI6CiAgICBpbWFnZTogbWFyaWFkYjoxMC41CiAgICBlbnZpcm9ubWVudDoKICAgICAgTUFSSUFEQl9ST09UX1BBU1NXT1JEOiAke01BUklBREJfUk9PVF9QQVNTV09SRH0KICAgICAgTUFSSUFEQl9VU0VSOiAke01BUklBREJfVVNFUn0KICAgICAgTUFSSUFEQl9QQVNTV09SRDogJHtNQVJJQURCX1BBU1NXT1JEfQogICAgICBNQVJJQURCX0RBVEFCQVNFOiAke01BUklBREJfREFUQUJBU0V9CiAgICBwb3J0czoKICAgICAgLSAiJHtNQVJJQURCX1BPUlQtMzMwNn06MzMwNiIKICAgIHZvbHVtZXM6CiAgICAgIC0gJHtEQVRBX1ZPTFVNRX0vbWFyaWFkYjovdmFyL2xpYi9teXNxbAoKICB3ZWItdWk6CiAgICAgIGJ1aWxkOgogICAgICAgIGNvbnRleHQ6IC4KICAgICAgICBkb2NrZXJmaWxlOiB3ZWItdWkvRG9ja2VyZmlsZQogICAgICAgIGFyZ3M6CiAgICAgICAgLSBNWVVTRVI9JHtNWVVTRVJ9CiAgICAgIHBvcnRzOgogICAgICAgIC0gIiR7SFRUUC0zMDAwfTozMDAwIgogICAgICB2b2x1bWVzOgogICAgICAgIC0gICR7RlJPTlRfU09VUkNFX1ZPTFVNRX06L3Zhci93d3cKICAgICAgZGVwZW5kc19vbjoKICAgICAgICAtIGFwaQoKICBuZ2lueDoKICAgICAgaW1hZ2U6IG5naW54OmxhdGVzdAogICAgICBwb3J0czoKICAgICAgICAtICIke0FQSV9QT1JULTgwODB9OjgwIgogICAgICB2b2x1bWVzOgogICAgICAgIC0gICR7QVBJX1NPVVJDRV9WT0xVTUV9Oi92YXIvd3d3CiAgICAgICAgLSAke0RBVEFfVk9MVU1FfS9uZ2lueDovdmFyL2xvZy9uZ2lueAogICAgICAgIC0gLi9uZ2lueC9kZWZhdWx0LmNvbmY6L2V0Yy9uZ2lueC9jb25mLmQvZGVmYXVsdC5jb25mCiAgYXBpOgogICAgICBidWlsZDoKICAgICAgICBjb250ZXh0OiAuCiAgICAgICAgZG9ja2VyZmlsZTogYXBpL0RvY2tlcmZpbGUKICAgICAgICBhcmdzOgogICAgICAgIC0gTVlVU0VSPSR7TVlVU0VSfQogICAgICB2b2x1bWVzOgogICAgICAgIC0gICR7QVBJX1NPVVJDRV9WT0xVTUV9Oi92YXIvd3d3CiAgICAgIGRlcGVuZHNfb246CiAgICAgICAgLSBuZ2lueAogICAgICAgIC0gcmVkaXMKICAgICAgICAtIG1hcmlhZGIKICAgICAgICAtIG1laWxpc2VhcmNoCgogIHJlZGlzOgogICAgaW1hZ2U6IHJlZGlzCiAgICBwb3J0czoKICAgICAgLSAiJHtSRURJU19QT1JULTYzNzl9OjYzNzkiCiAgICB2b2x1bWVzOgogICAgICAtICR7REFUQV9WT0xVTUV9L3JlZGlzOi9kYXRhCgogIG1laWxpc2VhcmNoOgogICAgaW1hZ2U6IGdldG1laWxpL21laWxpc2VhcmNoOnYxLjEKICAgIGVudmlyb25tZW50OgogICAgICAtIE1FSUxJX01BU1RFUl9LRVk9JHtNRUlMSV9NQVNURVJfS0VZfQogICAgdm9sdW1lczoKICAgICAgLSAke0RBVEFfVk9MVU1FfS9tZWlsaV9kYXRhOi9tZWlsaV9kYXRhCiAgICBwb3J0czoKICAgICAtICIke01FSUxJX01BU1RFUl9QT1JULTc3MDB9Ojc3MDAiCiAgICBkZXBlbmRzX29uOgogICAgICAtIG1hcmlhZGIKCg=='
+      type: object
+    resource-application:
+      title: Application
+      description: 'Application resource'
+      properties:
+        id:
+          description: Id
+          type: integer
+        name:
+          description: Name
+          type: string
+        team_id:
+          description: 'Team id'
+          type: integer
+        created_at:
+          description: 'Creation date'
+          type: string
+          format: date-time
+        updated_at:
+          description: 'Last update date'
+          type: string
+          format: date-time
+        meta:
+          description: meta
+          type: array
+          items:
+            type: string
+      type: object
+    resource-audit:
+      title: Audit
+      description: 'Audit resource'
+      properties:
+        id:
+          description: Id
+          type: integer
+        user_type:
+          description: 'User type'
+          type: string
+        user_id:
+          description: 'User id'
+          type: integer
+        user_name:
+          description: 'User name'
+          type: string
+        event:
+          description: Event
+          type: string
+        auditable_type:
+          description: 'Auditable type'
+          type: string
+        auditable_id:
+          description: 'Auditable id'
+          type: integer
+        old_values:
+          description: 'Old values'
+          type: string
+        new_values:
+          description: 'New values'
+          type: string
+        url:
+          description: Url
+          type: string
+        ip_address:
+          description: 'Ip address'
+          type: string
+        user_agent:
+          description: User-agent
+          type: string
+        tags:
+          description: Tags
+          type: string
+        created_at:
+          description: 'Creation date'
+          type: string
+          format: date-time
+        updated_at:
+          description: 'Last update date'
+          type: string
+          format: date-time
+      type: object
+    resource-environment:
+      title: Environment
+      description: 'Environment resource'
+      properties:
+        id:
+          description: id
+          type: integer
+        name:
+          description: name
+          type: string
+        created_at:
+          description: created_at
+          type: string
+          format: date-time
+        updated_at:
+          description: updated_at
+          type: string
+          format: date-time
+      type: object
+    resource-hosting:
+      title: Hosting
+      description: 'Hosting resource'
+      properties:
+        id:
+          description: id
+          type: integer
+        name:
+          description: name
+          type: string
+        hosting_type_id:
+          description: hosting_type_id
+          type: integer
+        localisation:
+          description: localisation
+          type: string
+        created_at:
+          description: created_at
+          type: string
+          format: date-time
+        updated_at:
+          description: updated_at
+          type: string
+          format: date-time
+      type: object
+    resource-hosting-type:
+      title: HostingType
+      description: 'HostingType resource'
+      properties:
+        id:
+          description: id
+          type: integer
+        name:
+          description: name
+          type: string
+        description:
+          description: description
+          type: string
+        created_at:
+          description: created_at
+          type: string
+          format: date-time
+        updated_at:
+          description: updated_at
+          type: string
+          format: date-time
+      type: object
+    resource-permission:
+      title: Permission
+      description: 'Permission resource'
+      properties:
+        id:
+          description: Id
+          type: integer
+        name:
+          description: Name
+          type: string
+        created_at:
+          description: 'Creation date'
+          type: string
+          format: date-time
+        updated_at:
+          description: 'Last update date'
+          type: string
+          format: date-time
+      type: object
+    resource-role:
+      title: Role
+      description: 'Role resource'
+      properties:
+        id:
+          description: Id
+          type: integer
+        name:
+          description: Name
+          type: string
+        permissions:
+          description: permissions
+          type: array
+          items:
+            type: integer
+        created_at:
+          description: 'Creation date'
+          type: string
+          format: date-time
+        updated_at:
+          description: 'Last update date'
+          type: string
+          format: date-time
+      type: object
+    resource-service-instance-dependencies:
+      title: ServiceInstanceDependencies
+      description: 'Service instance dependencies resource'
+      properties:
+        id:
+          description: Id
+          type: integer
+        instance_application_id:
+          description: 'Instance application id'
+          type: integer
+        instance_application_name:
+          description: 'Instance application name'
+          type: string
+        instance_id:
+          description: 'Instance id'
+          type: integer
+        instance_service_name:
+          description: 'Instance service name'
+          type: string
+        instance_dep_application_id:
+          description: 'Application id of the instance dependency'
+          type: integer
+        instance_dep_application_name:
+          description: 'Application name of the instance dependency'
+          type: string
+        instance_dep_id:
+          description: 'Instance dependency id'
+          type: integer
+        instance_dep_service_name:
+          description: 'Service name of the instance dependency'
+          type: string
+        level:
+          description: 'Dependency level (1: minor, 2: major, 3: critical)'
+          type: integer
+          enum:
+            - 1
+            - 2
+            - 3
+        description:
+          description: 'Dependency description'
+          type: string
+        created_at:
+          description: created_at
+          type: string
+          format: date-time
+        updated_at:
+          description: updated_at
+          type: string
+          format: date-time
+      type: object
+    resource-service-instance:
+      title: 'Service instance'
+      description: 'Service -nstance resource'
+      properties:
+        id:
+          description: id
+          type: integer
+        application_id:
+          description: application_id
+          type: integer
+        service_version_id:
+          description: service_version_id
+          type: integer
+        environment_id:
+          description: environment_id
+          type: integer
+        url:
+          description: url
+          type: string
+        statut:
+          description: statut
+          type: string
+        created_at:
+          description: created_at
+          type: string
+          format: date-time
+        updated_at:
+          description: updated_at
+          type: string
+          format: date-time
+        meta:
+          description: meta
+          type: array
+          items:
+            type: string
+      type: object
+    resource-service:
+      title: Service
+      description: 'Service resource'
+      properties:
+        id:
+          description: Id
+          type: integer
+        name:
+          description: Name
+          type: string
+        team_id:
+          description: 'Team id'
+          type: integer
+        git_repo:
+          description: 'Git repository url'
+          type: string
+        created_at:
+          description: 'Creation date'
+          type: string
+          format: date-time
+        updated_at:
+          description: 'Last update date'
+          type: string
+          format: date-time
+        meta:
+          description: meta
+          type: array
+          items:
+            type: string
+      type: object
+    resource-service-version:
+      title: ServiceVersion
+      description: 'Service version resource'
+      properties:
+        id:
+          description: Id
+          type: integer
+        service_name:
+          description: 'Service name'
+          type: string
+        service_id:
+          description: 'Service id'
+          type: integer
+        version:
+          description: Version
+          type: string
+        created_at:
+          description: 'Creation date'
+          type: string
+          format: date-time
+        updated_at:
+          description: 'Last update date'
+          type: string
+          format: date-time
+        meta:
+          description: meta
+          type: array
+          items:
+            type: string
+      type: object
+    resource-team:
+      title: Team
+      description: 'Team resource'
+      properties:
+        id:
+          description: id
+          type: integer
+        name:
+          description: name
+          type: string
+        manager:
+          description: manager
+          type: string
+        created_at:
+          description: created_at
+          type: string
+          format: date-time
+        updated_at:
+          description: updated_at
+          type: string
+          format: date-time
+      type: object
+    resource-user:
+      title: User
+      description: 'User resource'
+      properties:
+        id:
+          description: Id
+          type: integer
+        name:
+          description: Name
+          type: string
+        email:
+          description: Email
+          type: string
+        roles:
+          description: 'Role ids'
+          type: array
+          items:
+            description: 'Role id'
+            type: string
+        created_at:
+          description: 'Creation date'
+          type: string
+          format: date-time
+        updated_at:
+          description: 'Last update date'
+          type: string
+          format: date-time
+      type: object
+  parameters:
+    base-filter-per-page:
+      name: perPage
+      in: query
+      description: 'Number of items displayed by page.'
+      schema:
+        type: integer
+        default: 100
+        enum:
+          - 5
+          - 10
+          - 25
+          - 100
+          - 1000
+    base-filter-page:
+      name: page
+      in: query
+      description: 'Current page.'
+      schema:
+        type: integer
+    base-filter-sort:
+      name: sort
+      in: query
+      description: 'Field used to sort the result.'
+      schema:
+        type: string
+      examples:
+        string:
+          summary: '-id'
+          value: '-id'
+    base-filter-q:
+      name: q
+      in: query
+      description: 'Query string'
+      required: false
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      description: 'Basic Auth'
+      scheme: bearer
+security:
+  -
+    bearerAuth: []

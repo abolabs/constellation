@@ -1,3 +1,22 @@
+# Copyright (C) 2022 Abolabs (https://gitlab.com/abolabs/)
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+# --------------------------
+#     Templates includes
+
 # You can override the included template(s) by including variable overrides
 # SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
 # Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
@@ -6,18 +25,21 @@
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 include:
 - template: Security/Secret-Detection.gitlab-ci.yml
-- template: Security/License-Scanning.gitlab-ci.yml
 - template: Security/Dependency-Scanning.gitlab-ci.yml
 - template: Jobs/Build.gitlab-ci.yml
 - template: Security/Container-Scanning.gitlab-ci.yml
 - template: Security/SAST-IaC.latest.gitlab-ci.yml
 - template: Security/SAST.gitlab-ci.yml
 
+
+# --------------------------
+#         CI Init
+
 variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
   MARIADB_ROOT_PASSWORD: root
-  MARIADB_DATABASE: Constellation
+  MARIADB_DATABASE: Constellation_test
   MARIADB_USER: homestead
   MARIADB_PASSWORD: secret
   DB_HOST: mariadb
@@ -25,40 +47,48 @@ variables:
   Host: redis
   REDIS_PORT: 6379
   SECRET_DETECTION_EXCLUDED_PATHS: vendor/**,node_modules/**
-  CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/fpm
-  DOCKER_IMAGE: $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA
+  CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/api
   SAST_EXCLUDED_PATHS: vendor/**,node_modules/**,public/**
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-  - vendor/
-  - node_modules/
-  - .env
-  - composer.lock
-  - package-lock.json
-  - bootstrap/
+  - api/vendor/
+  - api/.env
+  - api/composer.lock
+  - api/bootstrap/
+  - web-ui/.env
+  - web-ui/node_modules/
+  - web-ui/package-lock.json
   - .sonar/cache
 
 stages:
+  - prebuild
+  - lint
   - test
-  - scan
   - build
+  - scan
   - security
   - push
 
+# --------------------------
+# Base api service defintion
+
 .base:
-  image: registry.gitlab.com/abolabs/constellation/fpm:ci
+  image: registry.gitlab.com/abolabs/constellation/api:ci
   services:
   - mariadb:10.5
   - redis:3.0.6
+  interruptible: true
+
+# --------------------------
+#      Shared scripts
 
 .script-docker-registry-login: &script-docker-registry-login
   # docker login asks for the password to be passed through stdin for security
   # we use $CI_REGISTRY_PASSWORD here which is a special variable provided by GitLab
   # https://docs.gitlab.com/ce/ci/variables/predefined_variables.html
   - echo -n $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
-
 
 .script-docker-build: &script-docker-build
   # fetches the latest image (not failing if image is not found)
@@ -76,6 +106,7 @@ stages:
     --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
     --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
     --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
+    --label "org.opencontainers.image.vendor=https://gitlab.com/abolabs/"
     --tag $CI_REGISTRY_IMAGE/${SERVICE_NAME}:$CI_COMMIT_SHA
     --build-arg GIT_BRANCH="${CI_COMMIT_REF_NAME}"
     --build-arg MYUSER="constellation_user"
@@ -83,42 +114,82 @@ stages:
     ./install/prod/${SERVICE_NAME}
   - docker push $CI_REGISTRY_IMAGE/${SERVICE_NAME}:$CI_COMMIT_SHA
 
-
-.script-prepare: &script-prepare
+.script-prepare-api: &script-prepare-api
   # Copy over testing configuration.
   # Don't forget to set the database config in .env.testing correctly
+  - cd ./api
   - cp .env.testing .env
 
   # Install Composer and project dependencies.
   - composer install
 
-  # Generate an application key. Re-cache.
+  # Generate an application key and Re-cache.
+  - php artisan key:generate
   - php artisan cache:clear
   - php artisan config:clear
-  - php artisan key:generate
   - php artisan config:cache
   - php artisan route:cache
 
-  # Install Node dependencies.
-  # comment this out if you don't have a node dependency
-  - npm install
+# --------------------------
+#         Pre-Build
+prebuild-api:
+  stage: prebuild
+  image: docker:24
+  services:
+    - docker:24-dind
+  interruptible: true
+  script:
+    - *script-docker-registry-login
+    # builds the project, using OCI labels
+    # notice the cache-from, which is going to use the image we just pulled locally
+    # the built image is tagged locally with the commit SHA, and then pushed to
+    # the GitLab registry
+    - >
+      docker build
+      --pull
+      --cache-from $CI_REGISTRY_IMAGE/api:ci
+      --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
+      --label "org.opencontainers.image.url=$CI_PROJECT_URL"
+      --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
+      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
+      --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
+      --label "org.opencontainers.image.vendor=https://gitlab.com/abolabs/"
+      --tag $CI_REGISTRY_IMAGE/api:ci
+      ./install/CI/api
+    - docker push $CI_REGISTRY_IMAGE/api:ci
 
-  # Run npm build
-  # comment this out if you don't have a frontend build
-  # you can change this to to your frontend building script like
-  # npm run build
-  - npm run development
+# --------------------------
+#           Lint
+pint:
+  stage: lint
+  extends: .base
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
+  script:
+  - *script-prepare-api
+  - ./vendor/bin/pint --test
+
+# --------------------------
+#           Test
 
 phpunit:
   stage: test
   extends: .base
   script:
-  - *script-prepare
+  - *script-prepare-api
   - mysql --user=root --password="$MARIADB_ROOT_PASSWORD" --host=mariadb "$MARIADB_DATABASE" -e "grant all on *.* to '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';flush privileges;"
   # Run database migrations.
   - php artisan migrate --force
   # Run database seed
   - php artisan db:seed --force
+
+  # Generate Laravel passport keys
+  - php artisan passport:keys
+  - chmod 600 storage/oauth-private.key
+  - chmod 600 storage/oauth-public.key
+  - php artisan passport:client --password --no-interaction
+  - php artisan config:clear
+  - php artisan config:cache
 
   # run laravel tests
   - mkdir -p reports/
@@ -128,15 +199,20 @@ phpunit:
     untracked: true
     expire_in: 1 day
     reports:
-      junit: reports/logfile.xml
+      junit: api/reports/logfile.xml
     paths:
-      - reports/
+      - api/reports/
+
+# --------------------------
+#           Scan
 
 sonarcloud-check:
   stage: scan
   image:
-    name: sonarsource/sonar-scanner-cli:latest
+    name: sonarsource/sonar-scanner-cli:5
+    pull_policy: always
     entrypoint: [""]
+  interruptible: true
   dependencies:
   - "phpunit"
   script:
@@ -146,63 +222,107 @@ sonarcloud-check:
     - master
     - develop
 
+# --------------------------
+#           Build
 build:
   stage: build
-  image: docker:20
+  image: docker:24
   services:
-    - docker:20-dind
+    - docker:24-dind
   variables:
-    SERVICE_NAME: "fpm"
+    SERVICE_NAME: "api"
+  interruptible: true
   script:
     - *script-docker-registry-login
     - *script-docker-build
   rules:
     - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
 
-container_scanning:
-  stage: security
-  needs:
-    - build
-
-build_nginx:
+build_nginx_fpm:
   stage: build
-  image: docker:20
+  image: docker:24
   services:
-    - docker:20-dind
+    - docker:24-dind
   needs:
     - build
   variables:
-    SERVICE_NAME: "nginx"
+    SERVICE_NAME: "nginx-fpm"
+  interruptible: true
   script:
     - *script-docker-registry-login
     - *script-docker-build
-  only:
-    - merge_requests
-    - master
-    - develop
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
 
-# Here, the goal is to tag the "master" branch as "latest"
+build_web_ui:
+  stage: build
+  image: docker:24
+  services:
+    - docker:24-dind
+  variables:
+    SERVICE_NAME: "web-ui"
+  interruptible: true
+  script:
+    - *script-docker-registry-login
+    - *script-docker-build
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
+
+# --------------------------
+#  Containers security scan
+
+container_scanning:
+  stage: security
+  variables:
+    CS_IMAGE: $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
+  interruptible: true
+  needs:
+    - build
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop") || $CI_PIPELINE_SOURCE == "merge_request_event"
+
+container_scanning_nginx_fpm:
+  extends: container_scanning
+  variables:
+    CS_IMAGE: $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_SHA
+  needs:
+    - build_nginx_fpm
+
+container_scanning_web_ui:
+  extends: container_scanning
+  variables:
+    CS_IMAGE: $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_SHA
+  needs:
+    - build_web_ui
+
+# --------------------------
+#        Push images
+
 push_latest:
   variables:
     # We are just playing with Docker here.
     # We do not need GitLab to clone the source code.
     GIT_STRATEGY: none
   stage: push
-  image: docker:20
+  image: docker:24
   services:
-    - docker:20-dind
+    - docker:24-dind
+  interruptible: true
   script:
     - *script-docker-registry-login
     # Because we have no guarantee that this job will be picked up by the same runner
     # that built the image in the previous step, we pull it again locally
-    - docker pull $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA
-    - docker pull $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA
+    - docker pull $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
+    - docker pull $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_SHA
+    - docker pull $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_SHA
     # Then we tag it "latest"
-    - docker tag $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/fpm:latest
-    - docker tag $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/nginx:latest
-    # Annnd we push it.
-    - docker push $CI_REGISTRY_IMAGE/fpm:latest
-    - docker push $CI_REGISTRY_IMAGE/nginx:latest
+    - docker tag $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/api:latest
+    - docker tag $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/nginx-fpm:latest
+    - docker tag $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/web-ui:latest
+    # And we push it.
+    - docker push $CI_REGISTRY_IMAGE/api:latest
+    - docker push $CI_REGISTRY_IMAGE/nginx-fpm:latest
+    - docker push $CI_REGISTRY_IMAGE/web-ui:latest
   only:
     # Only "master" should be tagged "latest"
     - master
@@ -213,17 +333,24 @@ push_tag:
     # Again, we do not need the source code here. Just playing with Docker.
     GIT_STRATEGY: none
   stage: push
-  image: docker:20
+  image: docker:24
   services:
-    - docker:20-dind
+    - docker:24-dind
+  interruptible: true
   only:
     # We want this job to be run on tags only.
     - tags
   script:
     - *script-docker-registry-login
-    - docker pull $CI_REGISTRY_IMAGE/fpm:latest
-    - docker tag $CI_REGISTRY_IMAGE/fpm:latest $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_REF_NAME
-    - docker push $CI_REGISTRY_IMAGE/fpm:$CI_COMMIT_REF_NAME
-    - docker pull $CI_REGISTRY_IMAGE/nginx:latest
-    - docker tag $CI_REGISTRY_IMAGE/nginx:latest $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME
-    - docker push $CI_REGISTRY_IMAGE/nginx:$CI_COMMIT_REF_NAME
+    # api
+    - docker pull $CI_REGISTRY_IMAGE/api:latest
+    - docker tag $CI_REGISTRY_IMAGE/api:latest $CI_REGISTRY_IMAGE/api:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/api:$CI_COMMIT_REF_NAME
+    # nginx fpm
+    - docker pull $CI_REGISTRY_IMAGE/nginx-fpm:latest
+    - docker tag $CI_REGISTRY_IMAGE/nginx-fpm:latest $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/nginx-fpm:$CI_COMMIT_REF_NAME
+    # web-ui
+    - docker pull $CI_REGISTRY_IMAGE/web-ui:latest
+    - docker tag $CI_REGISTRY_IMAGE/web-ui:latest $CI_REGISTRY_IMAGE/web-ui:$CI_COMMIT_REF_NAME
+    - docker push $CI_REGISTRY_IMAGE/web-ui$CI_COMMIT_REF_NAME

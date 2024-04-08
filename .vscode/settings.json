@@ -1,0 +1,11 @@
+{
+    "prettier.prettierPath": "./web-ui/node_modules/prettier",
+    "cSpell.words": [
+        "Abolabs",
+        "Cytoscape",
+        "Laravel",
+        "Meilisearch",
+        "Traefik",
+        "WEBUI"
+    ]
+}
