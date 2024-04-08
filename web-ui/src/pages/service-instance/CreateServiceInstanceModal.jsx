@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTitle, IconButton, useMediaQuery, useTheme } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, IconButton, useMediaQuery, useTheme, ListItemText } from "@mui/material";
 import {
   AutocompleteInput,
   BooleanInput,
@@ -25,6 +25,7 @@ import {
   useCreate,
   useNotify,
   usePermissions,
+  useRecordContext,
   useRefresh,
   useTranslate,
 } from "react-admin";
@@ -35,6 +36,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import AlertError from "@components/alerts/AlertError";
 import OptionalFieldTitle from "@components/form/OptionalFieldTitle";
 import ServiceVersionInput from "./ServiceVersionInput";
+import Tag from "@components/styled/Tag";
 
 const CreateInstanceModal = ({
   applicationData,
@@ -80,7 +82,43 @@ const CreateInstanceModal = ({
     }
   };
 
-  const hostingOptionText = (data) => `#${data.id} - ${data.name}`;
+  const HostingOptionText = () => {
+    const t = useTranslate();
+    const record = useRecordContext();
+
+    return (
+      <ListItemText
+        primary={record.name}
+        secondary={
+          <>
+            <Tag
+              label={`${t("resources.hostings.fields.id")}: ${record.id}`}
+              component="span"
+              color="primary"
+              size="small"
+              variant="outlined"
+            />
+            &nbsp;
+            <Tag
+              label={`${record.hosting_type_name}`}
+              component="span"
+              color="primary"
+              size="small"
+              variant="outlined"
+            />
+            &nbsp;
+            <Tag
+              label={`${record.localisation}`}
+              component="span"
+              color="primary"
+              size="small"
+              variant="outlined"
+            />
+          </>
+        }
+      />
+    )
+  };
 
   const schema = yup
     .object()
@@ -161,7 +199,11 @@ const CreateInstanceModal = ({
               reference="hostings"
               sort={{ field: "name", order: "ASC" }}
             >
-              <AutocompleteInput optionText={hostingOptionText} fullWidth />
+              <AutocompleteInput
+                optionText={<HostingOptionText />}
+                inputText={(choice) => `#${choice.id} - ${choice.name}`}
+                fullWidth
+              />
             </ReferenceInput>
 
             <TextInput
