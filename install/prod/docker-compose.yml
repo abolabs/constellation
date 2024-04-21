@@ -3,6 +3,7 @@ version: "3.8"
 services:
   traefik:
     image: "traefik:v3.0"
+    restart: unless-stopped
     command:
       #- "--log.level=DEBUG"
       - "--api.insecure=false" # set to true to enable traefik dashboard
@@ -35,6 +36,7 @@ services:
 
   mariadb:
     image: mariadb:10.5
+    restart: unless-stopped
     environment:
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       MARIADB_USER: ${MARIADB_USER}
@@ -57,6 +59,7 @@ services:
 
   api:
     image: registry.gitlab.com/abolabs/constellation/api:${TAG_NAME}
+    restart: unless-stopped
     build:
       context: api
       args:
@@ -81,6 +84,7 @@ services:
 
   nginx-fpm:
     image: registry.gitlab.com/abolabs/constellation/nginx-fpm:${TAG_NAME}
+    restart: unless-stopped
     build:
       context: nginx-fpm
       args:
@@ -98,6 +102,7 @@ services:
 
   web-ui:
     image: registry.gitlab.com/abolabs/constellation/web-ui:${TAG_NAME}
+    restart: unless-stopped
     build:
       context: web-ui
       args:
@@ -117,11 +122,13 @@ services:
 
   redis:
     image: redis
+    restart: unless-stopped
     volumes:
       - ${DATA_VOLUME}/redis:/data
 
   meilisearch:
     image: getmeili/meilisearch:v1.4
+    restart: unless-stopped
     environment:
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
       - MEILI_NO_ANALYTICS=false
