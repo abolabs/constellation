@@ -17,9 +17,6 @@
 
 namespace App\Http\Requests\API;
 
-use App\Models\User;
-use InfyOm\Generator\Request\APIRequest;
-
 class UpdateUserAPIRequest extends APIRequest
 {
     /**
@@ -41,7 +38,7 @@ class UpdateUserAPIRequest extends APIRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$this->user->id,
+            'email' => 'required|email|unique:users,email,' . $this->user->id,
             'password' => 'same:confirm-password',
             'roles' => 'required|array',
         ];

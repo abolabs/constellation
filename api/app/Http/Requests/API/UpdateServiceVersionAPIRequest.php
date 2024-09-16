@@ -18,7 +18,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\ServiceVersion;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateServiceVersionAPIRequest extends APIRequest
 {
@@ -44,7 +43,7 @@ class UpdateServiceVersionAPIRequest extends APIRequest
                 ...ServiceVersion::$rules['service_id'],
             ],
             'version' => [
-                'unique:service_version,version,'.$this->route('serviceVersion').',id,service_id,'.$this->service_id,
+                'unique:service_version,version,' . $this->route('serviceVersion') . ',id,service_id,' . $this->service_id,
                 ...ServiceVersion::$rules['version'],
             ],
         ];

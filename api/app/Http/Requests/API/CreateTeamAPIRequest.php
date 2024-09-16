@@ -18,7 +18,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Team;
-use InfyOm\Generator\Request\APIRequest;
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(

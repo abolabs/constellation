@@ -18,6 +18,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,12 +39,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Passport::enablePasswordGrant();
         if (env('APP_DEBUG') && env('DEBUG_SQL_QUERY')) {
             // Add in boot function
             \DB::listen(function ($query) {
                 \Log::debug(json_encode([$query->sql, $query->bindings, $query->time]));
             });
         }
-        $this->loadViewsFrom(__DIR__.'/../resources/views/vendor/coreui-templates', 'coreui-templates');
     }
 }

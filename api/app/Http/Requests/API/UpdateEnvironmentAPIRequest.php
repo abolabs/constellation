@@ -18,7 +18,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Environment;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateEnvironmentAPIRequest extends APIRequest
 {

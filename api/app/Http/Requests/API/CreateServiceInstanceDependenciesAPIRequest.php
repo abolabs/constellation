@@ -19,7 +19,6 @@ namespace App\Http\Requests\API;
 
 use App\Models\ServiceInstanceDependencies;
 use App\Rules\ServiceInstancesDep\ServiceInstancesHasSameEnv;
-use InfyOm\Generator\Request\APIRequest;
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(

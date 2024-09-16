@@ -18,7 +18,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\ServiceInstance;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateServiceInstanceAPIRequest extends APIRequest
 {

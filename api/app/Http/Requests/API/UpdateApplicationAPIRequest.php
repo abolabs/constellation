@@ -18,7 +18,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\Application;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateApplicationAPIRequest extends APIRequest
 {

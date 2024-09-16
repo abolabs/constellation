@@ -18,7 +18,6 @@
 namespace App\Http\Requests\API;
 
 use App\Models\HostingType;
-use InfyOm\Generator\Request\APIRequest;
 
 class UpdateHostingTypeAPIRequest extends APIRequest
 {
