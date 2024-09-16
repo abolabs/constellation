@@ -45,7 +45,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 // local
 import ColorModeContext from "@contexts/ColorModeContext";
 import { Avatar, SvgIcon } from "@mui/material";
-import { ReactComponent as LogoSvg } from "@/logo50.svg";
+import LogoSvg from "@/logo50.svg?react";
 import { GitlabLogo } from "@components/Logo";
 
 const ConfigurationMenu = React.forwardRef((props, ref) => {

@@ -15,11 +15,13 @@
 import { defineConfig } from "vite";
 import path from "path";
 import react from "@vitejs/plugin-react";
-import eslint from "vite-plugin-eslint";
 import svgr from "vite-plugin-svgr";
 
 export default defineConfig(() => {
   return {
+    define: {
+      __APP_VERSION__: JSON.stringify('1.0.0'),
+    },
     server: {
       host: "0.0.0.0",
       port: 3000,
@@ -40,6 +42,11 @@ export default defineConfig(() => {
     build: {
       outDir: "build",
     },
+    hmr: {
+      overlay: false,
+      host: "constellation.local",
+      protocol: "ws",
+    },
     plugins: [
       react({
         jsxImportSource: "@emotion/react",
@@ -47,7 +54,6 @@ export default defineConfig(() => {
           plugins: ["@emotion/babel-plugin"],
         },
       }),
-      eslint(),
       svgr({ svgrOptions: { icon: true } }),
     ],
   };

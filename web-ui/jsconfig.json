@@ -1,6 +1,10 @@
 {
     "compilerOptions": {
       "baseUrl": "./",
+      // Set true if you use decorators
+      "experimentalDecorators": true,
+      // Set true if you see parsing errors in your browser
+      "useDefineForClassFields": true,
       "paths": {
         "@*": ["./src/*"],
         "@i18n/*": ["./src/i18n/*"],

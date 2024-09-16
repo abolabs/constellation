@@ -29,6 +29,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useLocation } from "react-router-dom";
 import {
   LinearProgress,
+  SimpleForm,
   useDataProvider,
   useGetIdentity,
   usePermissions,
@@ -45,6 +46,7 @@ const AccountEdit = () => {
   const {
     data,
     isLoading: isLoadingIdentity,
+    isPending: isPendingIdentity,
     error: getIdentityError,
     refetch,
   } = useGetIdentity();
@@ -78,6 +80,7 @@ const AccountEdit = () => {
     })
     .required();
 
+  console.log('data', data, isPendingIdentity)
   const methods = useForm({
     defaultValues: {
       name: data?.fullName,
@@ -140,8 +143,9 @@ const AccountEdit = () => {
                 error={!!errors?.name}
                 helperText={errors?.name?.message}
                 fullWidth
-                inputProps={{ readOnly: !permissions?.includes('edit profile') }}
+                readOnly={!permissions?.includes('edit profile')}
                 {...methods.register("name")}
+                sx={{ pb: 1 }}
               />
               <TextField
                 label={t("resources.account.fields.email")}
@@ -150,6 +154,7 @@ const AccountEdit = () => {
                 fullWidth
                 inputProps={{ readOnly: !permissions?.includes('edit profile') }}
                 {...methods.register("email")}
+                sx={{ pb: 1 }}
               />
               {dirtyFields?.email ? (
                 <TextField
@@ -163,6 +168,7 @@ const AccountEdit = () => {
                     t("Confirm e-mail change by entering your current password")
                   }
                   {...methods.register("current-password")}
+                  sx={{ pb: 1 }}
                 />
               ) : null}
               {permissions?.includes('edit profile') ?

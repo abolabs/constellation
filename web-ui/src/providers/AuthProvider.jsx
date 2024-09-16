@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { AUTH_CHECK } from "react-admin";
 import dataProvider from "./DataProvider";
 
@@ -104,7 +104,7 @@ const AuthProvider = {
   getIdentity: () => {
     try {
       const token = AuthProvider.getToken();
-      const jwt = jwt_decode(JSON.parse(token)?.access_token);
+      const jwt = jwtDecode(JSON.parse(token)?.access_token);
       const identity = {
         id: "my-profile",
         fullName: jwt.name,

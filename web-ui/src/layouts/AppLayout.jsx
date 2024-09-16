@@ -17,7 +17,6 @@ import * as React from "react";
 import { Layout } from "react-admin";
 import DefaultAppBar from "@layouts/DefaultAppBar";
 import AppMenu from "@layouts/AppMenu";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { useMediaQuery } from "@mui/material";
 
 const AppLayout = (props) => {
@@ -46,7 +45,6 @@ const AppLayout = (props) => {
         appBar={DefaultAppBar}
         sidebar={AppMenu}
       />
-      {process.env.NODE_ENV === "development" ? <ReactQueryDevtools /> : null}
     </>
   )
 };

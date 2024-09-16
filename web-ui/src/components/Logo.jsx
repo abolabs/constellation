@@ -13,9 +13,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Avatar, SvgIcon, Typography, useTheme, Box } from "@mui/material";
-import { ReactComponent as LogoSvg } from "@/logo50.svg";
-import { ReactComponent as GitlabSvg } from "@/gitlab-logo-500.svg";
+import { Avatar, SvgIcon, Typography, useTheme, Box, createSvgIcon } from "@mui/material";
+import LogoSvg from "@/logo50.svg?react";
+import GitlabSvg from "@/gitlab-logo-500.svg?react";
+
 
 const Logo = ({ withTitle = true, ...props }) => {
   const theme = useTheme();
