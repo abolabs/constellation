@@ -280,8 +280,8 @@ export default class Setup extends AbstractCommand {
 
       await $`docker compose exec api php artisan passport:client --personal`;
       const clientKeys = await $`docker compose exec api php artisan passport:client --password`;
-      const clientIdResult = new RegExp(/Client ID: (.*)/g).exec(clientKeys);
-      const clientSecretResult = new RegExp(/Client secret: (.*)/g).exec(clientKeys);
+      const clientIdResult = new RegExp(/Client ID\s*\.{3,}\s*(.*)/).exec(clientKeys);
+      const clientSecretResult = new RegExp(/Client secret\s*\.{3,}\s*(.*)/).exec(clientKeys);
 
       const webUIEnvVars = JSON.stringify({
         APP_ISSUER: `${dockerComposeConfig.SCHEMA}://${dockerComposeConfig.API_HOSTNAME}:${dockerComposeConfig.API_PORT}`,
