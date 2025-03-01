@@ -29,7 +29,7 @@ class EnvironmentSeeder extends Seeder
      */
     public function run()
     {
-        $envs = ['Staging', 'Production'];
+        $envs = ['Dev', 'Staging', 'Production'];
         foreach ($envs as $env) {
             Environment::create([
                 'name' => $env,
