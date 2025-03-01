@@ -277,6 +277,7 @@ export default class Setup extends AbstractCommand {
       await $`docker compose exec api chown www-data storage/oauth-private.key`;
       await $`docker compose exec api chown www-data storage/oauth-public.key`;
       await $`docker compose exec api chgrp -R www-data storage/`;
+      await $`docker compose exec api chmod 775 storage/`;
 
       await $`docker compose exec api php artisan passport:client --personal`;
       const clientKeys = await $`docker compose exec api php artisan passport:client --password`;
