@@ -65,8 +65,8 @@ RUN rm -rf !$/.git
 
 # INIT APP
 RUN cp .env.example .env
-RUN composer  install --no-progress --no-interaction --no-cache --optimize-autoloader
-RUN php artisan key:generate
+RUN APP_URL=http://localhost composer  install --no-progress --no-interaction --no-cache --optimize-autoloader
+RUN APP_URL=http://localhost php artisan key:generate
 
 # Expose port
 EXPOSE 80 443
