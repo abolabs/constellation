@@ -1,4 +1,4 @@
-#!/usr/bin/npx zx
+#!/usr/bin/env zx
 
 // Copyright (C) 2022 Abolabs (https://gitlab.com/abolabs/)
 //
