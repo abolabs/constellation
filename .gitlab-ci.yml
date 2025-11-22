@@ -119,7 +119,7 @@ stages:
   - cp .env.testing .env
 
   # Install Composer and project dependencies.
-  - composer install
+  - composer install --no-progress
 
   # Generate an application key and Re-cache.
   - php artisan key:generate
