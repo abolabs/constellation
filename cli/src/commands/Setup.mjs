@@ -189,7 +189,7 @@ export default class Setup extends AbstractCommand {
           {
             name: 'API_PORT',
             type: 'number',
-            message: 'Please define the api port',
+            message: 'Please define the api port (if using a single domain, must different from web ui port)',
             initial: 443
           }
         ], { onCancel });
