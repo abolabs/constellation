@@ -86,6 +86,7 @@ export default class Setup extends AbstractCommand {
   }
 
   async install() {
+    process.env.BUILDKIT_PROGRESS = 'plain';
     try {
       const installDir = path.join(this.cliEnv?.rootDir, 'install', process.env.APP_ENV);
       cd(installDir);

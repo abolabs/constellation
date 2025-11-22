@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.4-fpm
 
 LABEL maintainer="Alexandre BORDIN <bordin.alexandre@gmail.com>"
 
@@ -28,7 +28,7 @@ RUN apt-get update -yqq  && apt-get install --no-install-recommends -yqq git \
     libsqlite3-dev \
     libaspell-dev \
     libsnmp-dev \
-    libpcre3-dev \
+    libpcre2-dev \
     libtidy-dev \
     libfontconfig \
     libxrender1 \
