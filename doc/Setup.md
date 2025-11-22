@@ -5,7 +5,9 @@ The instructions below show how to setup the application with Docker and the Con
 ## 1. Initialize CLI tool
 
 ```sh
+npm i -g zx
 cd ./cli
+npm i
 chmod 755 constellation-cli.mjs
 ```
 

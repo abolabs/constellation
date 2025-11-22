@@ -128,12 +128,9 @@ The instructions below show the various steps involved in initializing the appli
 
 The app has been developed using the versions below:
 
-- Docker version `21.0.6`, build `ed223bc`.
-- Docker compose v2:
-  - That means all commands with be executed with `docker compose ...` instead of `docker-compose ...`.
-  - See [migration guide](https://docs.docker.com/compose/migrate/) to upgrade to v2.
+- Docker version `29`.
 
-Each service version is declared in the file `./install/dev/docker-compose.yml`.
+Each service version is declared in the file `./install/prod/docker-compose.yml`.
 
 ### Setup
 
