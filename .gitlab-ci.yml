@@ -175,7 +175,7 @@ phpunit:
   extends: .base
   script:
     - *script-prepare-api
-    - mysql --user=root --password="$MARIADB_ROOT_PASSWORD" --host=mariadb "$MARIADB_DATABASE" -e "grant all on *.* to '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';flush privileges;"
+    - mysql --skip-ssl --user=root --password="$MARIADB_ROOT_PASSWORD" --host=mariadb "$MARIADB_DATABASE" -e "grant all on *.* to '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD';flush privileges;"
     # Run database migrations.
     - php artisan migrate --force
     # Run database seed
